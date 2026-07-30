@@ -191,14 +191,21 @@ This is the fleshed-out spec for the homepage "tonight's sky snapshot" reference
 
 Everything above is the full vision. This roadmap sequences it so PAS gets a real, modern-looking site live quickly, then layers on the bigger features over time rather than waiting on a single big-bang launch.
 
-### Phase 1 — Quick Launch / MVP (aim: days, not weeks)
-Goal: replace the dated legacy site with something that already looks glamorous and modern, even before any dynamic features exist.
-- Astro + Tailwind, deployed on Netlify/Vercel free tier (from the earlier stack discussion)
-- Apply the full Design System (Part 2.5) immediately — dark palette, real astrophotography hero, typography — so the *first impression* is upgraded from day one
-- Pages only: **Home**, **About/History**, **Observe With Us** (static info: meeting schedule, star party dates, dark-sky site), **Join**, **Contact**
-- Content ported directly from current pasaz.org (meeting info, officer contacts, history) — no new content creation required to launch
-- No dynamic dashboard, no accounts, no gamification yet — just a fast, good-looking static site
-- This alone is a dramatic upgrade over the legacy `index.php?pageid=` site and de-risks everything else by getting something live immediately
+### Phase 1 — Foundation Launch (target: days, not weeks)
+Goal: replace the legacy site with a fast, responsive, modern site that establishes the club's new visual identity and information architecture — a durable foundation, not a throwaway placeholder. ("MVP" was dropped as the phase name since it implies something temporary; this phase is meant to be the stable base every later phase builds on, not replaced.)
+
+**Deliverables:**
+- Astro + Tailwind CSS, deployed on Netlify/Vercel free tier (from the earlier stack discussion)
+- **Full implementation of the design system from day one** — colors, typography, spacing/elevation/border tokens, iconography, responsive components — not a placeholder look with "polish later." These are far harder to retrofit once pages exist than to build in from the start, and none of it requires a backend.
+- Real member astrophotography featured throughout (hero images, section imagery), per the design system's photo/image-quality standards
+- **Public pages: Home, About, Events, Join, Contact** — Events is promoted to its own top-level nav item rather than buried inside "Observe With Us," since "when is the next observing session?" is the single most common reason someone visits an astronomy club site
+- Existing content **migrated and reorganized, not copied verbatim** — same underlying information (meeting time, location, what to bring), rebuilt into a modern layout (large hero photo, clear meeting/location info, an interactive map, a short FAQ) rather than a plain heading-and-bullet-list structure inherited from the legacy CMS
+- A small **"Coming Soon" section** (on the homepage or About) listing planned member features not yet built — astrophotography gallery, Observing Awards, Tonight's Sky dashboard, member dashboard, event registration — so visitors see the site as actively evolving rather than assuming what's live is all there will ever be
+- Accessible, mobile-friendly, performance-optimized
+
+**Explicitly deferred to later phases:** member accounts, dashboards, Observing Awards, astrophotography galleries, event registration, gamification, live astronomy widgets — all called out in the Coming Soon section so nothing feels hidden, just sequenced.
+
+**Why ship this fast, even before anything dynamic exists:** users judge a site in seconds on layout, typography, mobile-friendliness, load speed, and photography — not on whether achievements or dashboards exist yet. Deploying early also lets old URLs start redirecting and search engines start indexing the new site sooner, surfaces real bugs early, and gives members visible proof of progress — all before any of the harder, later-phase features need to be built.
 
 ### Phase 2 — Core Content Expansion
 Goal: fill out the full adult-facing information architecture from Part 2.
