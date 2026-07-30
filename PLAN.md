@@ -108,13 +108,19 @@ Violet + teal mirror the actual color signature of real astrophotography (ionize
 **Iconography guidelines** — one consistent icon language across the site: thin 2px outlined strokes, rounded corners, minimal fills, a custom set of astronomical symbols (telescope, moon phases, galaxy, satellite, constellation glyphs) rather than a generic mixed icon pack.
 
 **Graphics direction**
-1. Hero imagery is always real member astrophotography, credited — never stock space clip-art or generic starfield PNGs. This is the single biggest differentiator between "glamorous" and "dated."
+1. Hero imagery is always real member astrophotography, credited — never stock space clip-art or generic starfield PNGs. Authentic member astrophotography is the site's defining visual signature, distinguishing it from generic space-themed designs built around stock imagery or decorative graphics.
 2. A subtle animated star layer (CSS/canvas-generated twinkling points, optionally a slow-drifting Milky Way band) behind hero text — low-opacity, and must respect `prefers-reduced-motion`.
 3. One consistent line-icon set (not mixed emoji/icon styles): moon phases, telescope, binoculars, constellation glyphs, badge/medal shapes for Observing Awards. Custom constellation line art works well as section dividers/watermarks.
-4. Data-driven graphics over decorative ones: the "tonight's sky" widget, moon-phase icon, and Observing Awards progress bars should be real SVG/canvas visualizations generated from live data — function and glamour at once.
+4. Data-driven graphics over decorative ones: the "tonight's sky" widget, moon-phase icon, and Observing Awards progress bars should be real SVG/canvas visualizations generated from live data — function and glamour at once. Extend this pattern to: meteor shower activity charts, ISS visibility timelines, planet rise/set timelines, seasonal constellation charts, and light-pollution overlays on the dark-sky-site map.
 5. Consistent photo treatment (crop ratios, subtle shared color grade) across all submitted member photos, so the gallery/contest reads as curated rather than a mismatched dump.
-6. Typography as a graphic element: a distinctive display face (wide letterspacing at large sizes) for headlines, paired with a clean UI sans — evokes planetarium-show title cards.
+6. Typography as a graphic element: a distinctive display face (wide letterspacing at large sizes) for headlines, paired with a clean UI sans — evokes planetarium-show title cards. Headlines establish hierarchy through size and spacing rather than excessive font variation; display typography is reserved for major titles and key promotional moments, while interface text stays highly legible at all sizes.
 7. Observing Awards badges/certificates should be real designed graphic assets (like mission patches), not plain checkboxes — collectible badge design drives engagement for both kids and hobbyists.
+
+**Lighting philosophy:** use subtle glows, rim lighting, and soft gradients to evoke the illumination of celestial objects, not artificial UI effects. Avoid harsh bloom or oversized neon glows — light should feel like it's coming from a star or nebula, not a screen.
+
+**Image quality standards** for member astrophotography submissions (gallery/contest/hero use): high resolution, minimal compression artifacts, accurate color balance, appropriate (not excessive) sharpening, no intrusive watermarks, and metadata retained where possible. This is what keeps a user-submitted gallery feeling curated rather than a mismatched dump, independent of the shared crop/color-grade treatment in point 5.
+
+**Depth guidelines** (beyond the elevation color scale above): create dimension through soft shadows, frosted panels, layered gradients, gentle parallax, and thin borders — not through color alone. Keeps the interface feeling dimensional while staying refined rather than busy.
 
 **Refinements for restraint and polish**
 1. **Give the site a sense of scale.** Space should feel vast, not busy: generous negative space, oversized hero headlines, slow transitions (2–4s, not flashy), layered backgrounds with subtle depth. This produces a calm, immersive feel rather than a cluttered one.
