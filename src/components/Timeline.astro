@@ -18,7 +18,7 @@ const { entries } = Astro.props;
     entries.map((entry) => (
       <li class="mb-10 last:mb-0">
         <span class="absolute -left-[7px] mt-1.5 h-3 w-3 rounded-full bg-nebula-teal shadow-glow-teal" />
-        <p class="font-display text-xl text-nebula-amber">{entry.date}</p>
+        <p class="font-mono text-lg font-medium tracking-wide text-nebula-amber">{entry.date}</p>
         {(entry.organization || entry.location) && (
           <p class="mt-1 text-sm text-ink-muted">
             {entry.organization}
