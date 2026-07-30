@@ -1,29 +1,34 @@
 @import 'tailwindcss';
 
+/*
+  Palette grounded in the Sonoran night: a warm-neutral near-black sky
+  (not violet-tinted like a generic "dark mode"), one desert-dusk amber
+  for action/emphasis, one instrument-teal reserved for data readouts
+  (moon phase, coordinates, sky conditions) so color carries meaning
+  instead of decorating at random. Dusk plum is a rare tertiary only.
+*/
 @theme {
-  --color-space-base: #0a0e17;
-  --color-space-card: #12182b;
-  --color-space-modal: #18233d;
-  --color-space-overlay: #1e2947;
+  --color-space-base: #0b0e13;
+  --color-space-rail: #0e1218;
+  --color-space-card: #131922;
+  --color-space-modal: #1a212b;
 
-  --color-nebula-violet: #8b5cf6;
-  --color-nebula-teal: #2dd4bf;
-  --color-nebula-amber: #f5b942;
-  --color-nebula-green: #4ade80;
-  --color-nebula-red: #f26d6d;
+  --color-nebula-amber: #e2a13d;
+  --color-nebula-teal: #4fb3a8;
+  --color-nebula-violet: #7a7196;
 
-  --color-ink-primary: #f1f3f8;
-  --color-ink-muted: #9ba3b7;
+  --color-ink-primary: #eef1ee;
+  --color-ink-muted: #8d96a3;
 
-  --color-subtle: rgba(255, 255, 255, 0.06);
-  --color-strong: rgba(255, 255, 255, 0.12);
+  --color-subtle: rgba(255, 255, 255, 0.07);
+  --color-strong: rgba(255, 255, 255, 0.14);
 
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;
+  --font-data: 'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
 
-  --shadow-glow-violet: 0 0 24px 0 rgba(139, 92, 246, 0.35);
-  --shadow-glow-teal: 0 0 24px 0 rgba(45, 212, 191, 0.35);
-  --shadow-glow-amber: 0 0 24px 0 rgba(245, 185, 66, 0.35);
+  --shadow-glow-amber: 0 0 20px 0 rgba(226, 161, 61, 0.28);
+  --shadow-glow-teal: 0 0 20px 0 rgba(79, 179, 168, 0.28);
 }
 
 @layer base {
@@ -43,50 +48,37 @@
 }
 
 @layer components {
+  /* One surface, one job: a flat instrument panel, not a glossy glass pane. */
   .card {
-    @apply relative rounded-2xl border border-subtle p-6 backdrop-blur-xl transition duration-300;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
-    box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
-      0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    @apply relative rounded-md border border-subtle bg-space-card p-6 transition duration-300;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
   }
 
   .card:hover {
-    @apply -translate-y-0.5 border-white/20;
-    box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
-      0 12px 40px -12px rgba(139, 92, 246, 0.35);
+    @apply border-strong;
+    transform: translateY(-2px);
   }
 
-  .glass-panel {
-    @apply rounded-2xl border border-subtle backdrop-blur-xl;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
-  }
-
+  /* Eyebrow / label, set like a plate caption on a star atlas — small caps in the data face. */
   .glass-badge {
-    @apply inline-flex items-center gap-2 rounded-full border border-strong px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-ink-muted backdrop-blur-xl;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+    @apply inline-flex items-center gap-2 rounded-sm border border-subtle px-3 py-1.5 font-data text-[0.6875rem] tracking-[0.18em] text-ink-muted uppercase;
+    background: var(--color-space-rail);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-nebula-amber px-7 py-3.5 font-semibold text-space-base transition duration-300 hover:-translate-y-0.5 hover:shadow-glow-amber;
+    @apply inline-flex items-center justify-center rounded-sm bg-nebula-amber px-6 py-3 font-semibold text-space-base transition duration-300 hover:-translate-y-0.5 hover:shadow-glow-amber;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-strong px-7 py-3.5 font-semibold text-ink-primary backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-nebula-teal hover:text-nebula-teal hover:shadow-glow-teal;
+    @apply inline-flex items-center justify-center rounded-sm border border-strong px-6 py-3 font-semibold text-ink-primary transition duration-300 hover:-translate-y-0.5 hover:border-nebula-teal hover:text-nebula-teal;
   }
 
   .section-heading {
-    @apply font-display text-3xl tracking-tight text-ink-primary sm:text-4xl;
-  }
-
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(120deg, #f1f3f8 15%, #8b5cf6 55%, #2dd4bf 90%);
+    @apply font-display text-3xl font-semibold tracking-tight text-ink-primary sm:text-4xl;
   }
 
   .placeholder-note {
-    @apply rounded-lg border border-dashed px-4 py-3 text-sm;
+    @apply rounded-sm border border-dashed px-4 py-3 font-data text-xs;
     border-color: color-mix(in srgb, var(--color-nebula-amber) 60%, transparent);
     background-color: color-mix(in srgb, var(--color-nebula-amber) 10%, transparent);
     color: var(--color-nebula-amber);

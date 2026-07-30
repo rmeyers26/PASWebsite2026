@@ -1,0 +1,59 @@
+---
+// The site's one signature element: a persistent data rail, set like the
+// header of an observing log. Everything on it is real, computed at build
+// time — no invented "live" sky data. Moon phase uses a standard synodic-
+// month calculation (accurate to within about a day), not a placeholder.
+const SYNODIC_MONTH = 29.530588853;
+const KNOWN_NEW_MOON_UTC = Date.UTC(2000, 0, 6, 18, 14); // Jan 6, 2000, 18:14 UTC
+
+function getMoonPhase(date: Date) {
+  const diffDays = (date.getTime() - KNOWN_NEW_MOON_UTC) / 86400000;
+  const age = ((diffDays % SYNODIC_MONTH) + SYNODIC_MONTH) % SYNODIC_MONTH;
+  const fraction = age / SYNODIC_MONTH;
+  const illumination = Math.round((1 - Math.cos(fraction * 2 * Math.PI)) * 50);
+
+  const stages: [number, string, string][] = [
+    [0.03, 'New Moon', '\u{1F311}'],
+    [0.22, 'Waxing Crescent', '\u{1F312}'],
+    [0.28, 'First Quarter', '\u{1F313}'],
+    [0.47, 'Waxing Gibbous', '\u{1F314}'],
+    [0.53, 'Full Moon', '\u{1F315}'],
+    [0.72, 'Waning Gibbous', '\u{1F316}'],
+    [0.78, 'Last Quarter', '\u{1F317}'],
+    [0.97, 'Waning Crescent', '\u{1F318}'],
+    [1.01, 'New Moon', '\u{1F311}'],
+  ];
+  const [, name, glyph] = stages.find(([threshold]) => fraction <= threshold)!;
+  return { name, glyph, illumination };
+}
+
+const today = new Date();
+const moon = getMoonPhase(today);
+const yearsSinceFounding = today.getFullYear() - 1948;
+const logDate = today
+  .toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'America/Phoenix',
+  })
+  .toUpperCase();
+---
+
+<div class="border-b border-subtle bg-space-rail" role="note" aria-label="Tonight's sky over Phoenix">
+  <div
+    class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-6 py-2 font-data text-[0.6875rem] tracking-[0.08em] text-ink-muted uppercase"
+  >
+    <span class="text-nebula-teal">{logDate} &middot; PHOENIX, AZ</span>
+    <span aria-hidden="true" class="hidden text-subtle sm:inline">/</span>
+    <span>
+      <span aria-hidden="true">{moon.glyph}</span>
+      {moon.name} &middot; {moon.illumination}% illuminated
+    </span>
+    <span aria-hidden="true" class="hidden text-subtle sm:inline">/</span>
+    <span class="hidden text-ink-muted/70 sm:inline"
+      >Est. 1948 &middot; {yearsSinceFounding} years under Arizona skies</span
+    >
+  </div>
+</div>

@@ -27,11 +27,13 @@ const {
   <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
     {eyebrow && (
       <span class="glass-badge mb-6">
-        <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+        <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal" />
         {eyebrow}
       </span>
     )}
-    <h1 class="text-gradient font-display text-4xl leading-[1.05] tracking-tight sm:text-7xl">{title}</h1>
+    <h1 class="font-display text-4xl leading-[1.05] font-semibold tracking-tight text-ink-primary sm:text-7xl">
+      {title}
+    </h1>
     {subtitle && <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">{subtitle}</p>}
     <slot />
   </div>

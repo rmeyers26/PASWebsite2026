@@ -2,6 +2,7 @@
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
+import EphemerisStrip from '../components/EphemerisStrip.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -27,6 +28,13 @@ const imageURL = new URL(image, Astro.site);
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -42,6 +50,7 @@ const imageURL = new URL(image, Astro.site);
   <body>
     <Starfield />
     <NavBar />
+    <EphemerisStrip />
     <main>
       <slot />
     </main>

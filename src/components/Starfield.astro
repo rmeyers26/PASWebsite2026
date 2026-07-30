@@ -18,12 +18,12 @@ const twinkleStars = makeLayer(18, 1);
 ---
 
 <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-space-base" aria-hidden="true">
-  <div class="ambient-orb ambient-orb-violet absolute -left-[10%] -top-[15%] h-[50vw] w-[50vw] max-w-[720px] rounded-full bg-nebula-violet/20 blur-[120px]"></div>
-  <div class="ambient-orb ambient-orb-blue absolute -right-[15%] top-[20%] h-[45vw] w-[45vw] max-w-[640px] rounded-full bg-sky-500/15 blur-[120px]"></div>
+  <div class="ambient-orb ambient-orb-amber absolute -left-[10%] -top-[15%] h-[50vw] w-[50vw] max-w-[720px] rounded-full bg-nebula-amber/10 blur-[120px]"></div>
+  <div class="ambient-orb ambient-orb-teal absolute -right-[15%] top-[20%] h-[45vw] w-[45vw] max-w-[640px] rounded-full bg-nebula-teal/10 blur-[120px]"></div>
   <div class="starfield-layer absolute h-px w-px rounded-full" style={`box-shadow: ${farStars};`}></div>
   <div class="starfield-layer absolute h-[1.5px] w-[1.5px] rounded-full" style={`box-shadow: ${nearStars};`}></div>
   <div class="starfield-twinkle absolute h-[2px] w-[2px] rounded-full" style={`box-shadow: ${twinkleStars};`}></div>
-  <div class="starfield-drift absolute inset-x-0 top-1/3 h-1/3 bg-gradient-to-r from-transparent via-nebula-violet/5 to-transparent blur-3xl"></div>
+  <div class="starfield-drift absolute inset-x-0 top-1/3 h-1/3 bg-gradient-to-r from-transparent via-nebula-teal/5 to-transparent blur-3xl"></div>
 </div>
 
 <style>
@@ -39,7 +39,7 @@ const twinkleStars = makeLayer(18, 1);
     animation: ambient-drift 40s ease-in-out infinite;
   }
 
-  .ambient-orb-blue {
+  .ambient-orb-teal {
     animation-duration: 50s;
     animation-direction: reverse;
   }
