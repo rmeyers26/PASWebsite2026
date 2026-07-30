@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
+import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
+import newsFeature from '../assets/images/about-12news-feature.jpg';
 ---
 
 <BaseLayout
@@ -48,9 +51,10 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
     </p>
     <div class="mt-8 grid gap-6 sm:grid-cols-2">
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
-          src="/images/about-officer-award-telescope.jpg"
+        <Image
+          src={officerAwardTelescope}
           alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
+          width={800}
           loading="lazy"
           class="h-56 w-full object-cover"
         />
@@ -59,9 +63,10 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
         </figcaption>
       </figure>
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
-          src="/images/about-12news-feature.jpg"
+        <Image
+          src={newsFeature}
           alt="PAS members Mark J. and Stu B. featured on 12 News 'Today in AZ,' demonstrating a telescope"
+          width={800}
           loading="lazy"
           class="h-56 w-full object-cover"
         />

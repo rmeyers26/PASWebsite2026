@@ -1,7 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
+import fireworksTelescope from '../assets/images/events-fireworks-telescope.jpg';
+import lectureMeeting from '../assets/images/events-lecture-meeting.jpg';
+import lowellObservatoryTour from '../assets/images/events-lowell-observatory-tour.jpg';
 ---
 
 <BaseLayout
@@ -9,7 +13,7 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
   description="Upcoming PAS meetings, public star parties, and observing nights in the Phoenix area."
 >
   <Hero
-    image="/images/events-fireworks-telescope.jpg"
+    image={fireworksTelescope}
     alt="A PAS telescope set up beside a fireworks display at a public event"
     eyebrow="Events"
     title="When Is the Next Observing Session?"
@@ -25,9 +29,10 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
         open the calendar in a new tab</a>.
     </p>
     <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
-      <img
-        src="/images/events-lecture-meeting.jpg"
+      <Image
+        src={lectureMeeting}
         alt="PAS members sharing a meal before the monthly Lecture Series meeting, screens showing the meeting agenda"
+        width={1000}
         class="w-full object-cover"
         loading="lazy"
       />
@@ -76,9 +81,10 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
       Flagstaff.
     </p>
     <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
-      <img
-        src="/images/events-lowell-observatory-tour.jpg"
+      <Image
+        src={lowellObservatoryTour}
         alt="PAS members on a private tour of Lowell Observatory's Richard F. Caris Dark Sky Planetarium rooftop deck"
+        width={1000}
         loading="lazy"
         class="w-full object-cover"
       />

@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Photo {
-  src: string;
+  src: ImageMetadata;
   alt: string;
   caption: string;
   color?: boolean;
@@ -17,9 +19,10 @@ const { photos } = Astro.props;
   {
     photos.map((photo) => (
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
+        <Image
           src={photo.src}
           alt={photo.alt}
+          width={800}
           loading="lazy"
           class:list={['h-56 w-full object-cover', !photo.color && 'grayscale']}
         />
