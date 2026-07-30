@@ -1,0 +1,77 @@
+---
+// NASA Astronomy Picture of the Day: https://apod.nasa.gov/apod/astropix.html
+// Fetched at build time. Set NASA_API_KEY in the environment for a higher rate
+// limit than the shared DEMO_KEY (get one free at https://api.nasa.gov).
+const apiKey = import.meta.env.NASA_API_KEY || 'DEMO_KEY';
+
+interface Apod {
+  title: string;
+  explanation: string;
+  url: string;
+  hdurl?: string;
+  media_type: 'image' | 'video';
+  date: string;
+  copyright?: string;
+}
+
+let apod: Apod | null = null;
+try {
+  const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
+  if (res.ok) {
+    apod = await res.json();
+  }
+} catch {
+  apod = null;
+}
+---
+
+{
+  apod && (
+    <section class="border-t border-subtle bg-space-card/40">
+      <div class="mx-auto max-w-6xl px-6 py-20">
+        <h2 class="section-heading">Astronomy Picture of the Day</h2>
+        <p class="mt-3 max-w-2xl text-ink-muted">
+          Courtesy of NASA's{' '}
+          <a
+            href="https://apod.nasa.gov/apod/astropix.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-nebula-teal hover:underline"
+          >
+            Astronomy Picture of the Day
+          </a>
+          .
+        </p>
+        <div class="card mt-8 grid gap-8 md:grid-cols-2 md:items-center">
+          {apod.media_type === 'image' ? (
+            <a href={apod.hdurl ?? apod.url} target="_blank" rel="noopener noreferrer">
+              <img
+                src={apod.url}
+                alt={apod.title}
+                class="w-full rounded-lg border border-subtle"
+                loading="lazy"
+              />
+            </a>
+          ) : (
+            <div class="aspect-video w-full overflow-hidden rounded-lg border border-subtle">
+              <iframe
+                src={apod.url}
+                title={apod.title}
+                class="h-full w-full"
+                allowfullscreen
+              />
+            </div>
+          )}
+          <div>
+            <p class="text-sm text-ink-muted">{apod.date}</p>
+            <h3 class="font-display mt-1 text-xl text-nebula-teal">{apod.title}</h3>
+            <p class="mt-3 text-ink-muted">{apod.explanation}</p>
+            {apod.copyright && (
+              <p class="mt-4 text-sm text-ink-muted">© {apod.copyright.trim()}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
