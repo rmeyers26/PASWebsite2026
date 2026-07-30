@@ -97,6 +97,23 @@ Violet + teal mirror the actual color signature of real astrophotography (ionize
 6. Typography as a graphic element: a distinctive display face (wide letterspacing at large sizes) for headlines, paired with a clean UI sans — evokes planetarium-show title cards.
 7. Observing Awards badges/certificates should be real designed graphic assets (like mission patches), not plain checkboxes — collectible badge design drives engagement for both kids and hobbyists.
 
+**Refinements for restraint and polish**
+1. **Give the site a sense of scale.** Space should feel vast, not busy: generous negative space, oversized hero headlines, slow transitions (2–4s, not flashy), layered backgrounds with subtle depth. This produces a calm, immersive feel rather than a cluttered one.
+2. **Use color as an accent, not everywhere.** Default to mostly black/near-black backgrounds and white text; let nebula violet/teal/amber appear selectively on interactive elements and key moments only, not as gradients washing across every section. Restraint reads as luxurious; overuse reads as a theme-park website.
+3. **Make the star field physically believable**, not a random dot generator: vary star size and brightness, twinkle only a small percentage at a time, and reserve an occasional faint shooting star as a rare treat rather than a constant effect.
+4. **Use glassmorphism sparingly and only on key UI**, not everywhere: a frosted nav bar, a semi-transparent card, soft blur behind floating UI elements. Applying it site-wide cheapens the effect.
+5. **Let astrophotography be the actual hero, museum-gallery style**: minimal borders, edge-to-edge images, elegant captions, generous whitespace around photos — closer to a photography magazine spread than a blog layout.
+
+**Explicitly avoid** (these read as dated/gimmicky rather than premium):
+- Cartoon planets/clip-art scattered throughout
+- Constant particle explosions or fast-moving animated backgrounds
+- Lens flares on every image
+- Neon gradients covering entire sections
+- Low-contrast tiny white text on black backgrounds
+- Auto-playing music/audio
+
+**Reference points for the aesthetic:** NASA's editorial photography, Apple-style minimalist product pages, a modern science museum/planetarium, and a high-end photography magazine — contemporary, elegant, and built to age well rather than trend-chase.
+
 ## Part 2.7 — Youth Program: "PAS Academy" (Dedicated Top-Level Section)
 
 This is not a single page — it's a full section of its own in primary nav, on equal footing with Observe/Learn/Gallery. It's the direct expansion of the Observing Awards / Youth Astronomer idea (Astronomical League precedent) into a complete program with its own identity, branding, and sub-navigation.
