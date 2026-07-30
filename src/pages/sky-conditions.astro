@@ -71,28 +71,84 @@ const binocularTargets = [
 ];
 
 const observingSites = [
-  { bortle: '1.0', name: '18 miles south of Jacob Lake, 22 miles north of the North Rim of the Grand Canyon' },
-  { bortle: '1.5', name: 'Kaibab Lodge, 18 miles north of the North Rim of the Grand Canyon' },
-  { bortle: '1.5', name: 'Wupatki / Doney Mountain Lunch & View Area, about 45 minutes north of Flagstaff off Route 89' },
-  { bortle: '1.5', name: 'Southwestern Research Station, Portal, AZ' },
-  { bortle: '1.9', name: 'Moran Point, South Rim of the Grand Canyon' },
-  { bortle: '2.0', name: 'Pinewood Trailhead, eastern limits of Munds Park, about 20 miles south of Flagstaff' },
-  { bortle: '2.0', name: "Hovatter Rd. Antennas site, about 100 miles west of Central Phoenix" },
-  { bortle: '2.0', name: 'Tonto National Monument' },
-  { bortle: '2.6', name: 'Arcosanti, about 60 miles north of Phoenix' },
-  { bortle: '3.4', name: 'Pickett Post trailhead, about 60 miles SE of Phoenix off Highway 60' },
-  { bortle: '3.9', name: 'Four Peaks cookout area, 18 miles north of Fort McDowell on the Beeline Highway turnoff (~33.678, -111.502)' },
-  { bortle: '4.0', name: 'Apache Wash Trailhead, North Phoenix' },
-  { bortle: '4.0', name: 'Buffalo Park, North Flagstaff' },
-  { bortle: '4.1', name: 'Needle Rock Recreation Area near Rio Verde (~33.768, -111.670)' },
-  { bortle: '4.2', name: 'Town of Tusayan, 5 miles south of the Grand Canyon' },
-  { bortle: '4.3', name: 'Cow Track Ranch, Carefree' },
-  { bortle: '4.3', name: 'Spur Cross Ranch Park, Cave Creek' },
-  { bortle: '4.3', name: 'New River' },
-  { bortle: '4.3', name: 'Robbins Butte, east of Buckeye, about 40 miles SW of Phoenix' },
-  { bortle: '4.6', name: 'McDowell Mountain Park' },
-  { bortle: '5.0', name: 'Paradise Valley Community College, Black Mountain Campus, North Valley' },
-  { bortle: '5.7', name: 'South Mountain Park, Phoenix' },
+  {
+    bortle: '1.0',
+    name: '18 miles south of Jacob Lake, 22 miles north of the North Rim of the Grand Canyon',
+    map: 'https://goo.gl/maps/mEueApUHSBngjVD79',
+  },
+  {
+    bortle: '1.5',
+    name: 'Kaibab Lodge, 18 miles north of the North Rim of the Grand Canyon',
+    map: 'https://www.google.com/maps/place/Kaibab+Lodge/@36.3751654,-112.4968502,10.09z',
+  },
+  {
+    bortle: '1.5',
+    name: 'Wupatki / Doney Mountain Lunch & View Area, about 45 minutes north of Flagstaff off Route 89',
+    map: 'https://goo.gl/maps/BGPfWx732xc6Vk6x6',
+  },
+  {
+    bortle: '1.5',
+    name: 'Southwestern Research Station, Portal, AZ',
+    map: 'https://www.google.com/maps/place/Southwestern+Research+Station/@31.8690854,-109.8007418,9.33z',
+  },
+  {
+    bortle: '1.9',
+    name: 'Moran Point, South Rim of the Grand Canyon',
+    map: 'https://goo.gl/maps/WC6jNcx9kxEgcmGK6',
+  },
+  {
+    bortle: '2.0',
+    name: 'Pinewood Trailhead, eastern limits of Munds Park, about 20 miles south of Flagstaff',
+    map: 'https://www.google.com/maps/place/Pinewood+Trailhead/@35.0180166,-111.8635961,9.63z',
+  },
+  {
+    bortle: '2.0',
+    name: 'Hovatter Rd. Antennas site, about 100 miles west of Central Phoenix',
+    map: 'https://goo.gl/maps/ExigYzfoffeMFmfLA',
+  },
+  {
+    bortle: '2.0',
+    name: 'Tonto National Monument',
+    map: 'https://www.google.com/maps/place/Tonto+National+Monument/@33.6658504,-111.4770201,9.81z',
+  },
+  {
+    bortle: '2.6',
+    name: 'Arcosanti, about 60 miles north of Phoenix',
+    map: 'https://www.google.com/maps/place/Arcosanti,+AZ+86333/@34.3637874,-112.5410779,9.55z',
+  },
+  {
+    bortle: '3.4',
+    name: 'Pickett Post trailhead, about 60 miles SE of Phoenix off Highway 60',
+    map: 'https://goo.gl/maps/Uopixr2yRxzsDAsDA',
+  },
+  {
+    bortle: '3.9',
+    name: 'Four Peaks cookout area, 18 miles north of Fort McDowell on the Beeline Highway turnoff (~33.678, -111.502)',
+    map: 'https://www.google.com/maps/search/?api=1&query=33.67803,-111.50200',
+  },
+  { bortle: '4.0', name: 'Apache Wash Trailhead, North Phoenix', map: null },
+  { bortle: '4.0', name: 'Buffalo Park, North Flagstaff', map: null },
+  {
+    bortle: '4.1',
+    name: 'Needle Rock Recreation Area near Rio Verde (~33.768, -111.670)',
+    map: 'https://www.google.com/maps/search/?api=1&query=33.76764,-111.67004',
+  },
+  { bortle: '4.2', name: 'Town of Tusayan, 5 miles south of the Grand Canyon', map: null },
+  { bortle: '4.3', name: 'Cow Track Ranch, Carefree', map: null },
+  {
+    bortle: '4.3',
+    name: 'Spur Cross Ranch Park, Cave Creek',
+    map: 'https://www.maricopacountyparks.net/park-locator/spur-cross-ranch-conservation-area',
+  },
+  { bortle: '4.3', name: 'New River', map: null },
+  { bortle: '4.3', name: 'Robbins Butte, east of Buckeye, about 40 miles SW of Phoenix', map: null },
+  {
+    bortle: '4.6',
+    name: 'McDowell Mountain Park',
+    map: 'https://www.maricopacountyparks.net/mcdowell-mountain-regional-park',
+  },
+  { bortle: '5.0', name: 'Paradise Valley Community College, Black Mountain Campus, North Valley', map: null },
+  { bortle: '5.7', name: 'South Mountain Park, Phoenix', map: null },
 ];
 ---
 
@@ -156,11 +212,23 @@ const observingSites = [
     <ul class="mt-8 space-y-3">
       {
         observingSites.map((site) => (
-          <li class="flex gap-3 border-b border-subtle pb-3 text-ink-muted">
+          <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-subtle pb-3 text-ink-muted">
             <span class="flex-none rounded-full bg-space-card px-2.5 py-0.5 text-sm font-semibold text-nebula-amber">
               Bortle {site.bortle}
             </span>
             <span>{site.name}</span>
+            {
+              site.map && (
+                <a
+                  href={site.map}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-semibold text-nebula-teal hover:underline"
+                >
+                  Map →
+                </a>
+              )
+            }
           </li>
         ))
       }
