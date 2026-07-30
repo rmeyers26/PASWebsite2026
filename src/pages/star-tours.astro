@@ -2,23 +2,25 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const visualPoints = [
-  'The operator is responsible for setup, target acquisition, focus, and target tracking during the event.',
-  'The operator instructs guests in the instrument’s operation and answers questions about the equipment and what is being observed.',
+  'A telescope fitted with an eyepiece, letting each guest observe the target individually.',
+  'The operator sets up an hour early, then acquires, focuses, and tracks targets throughout the event.',
+  'The operator educates guests on what they’re looking at, and answers astronomy questions in the queue.',
   'Popular targets include the moon, planets in our solar system, star clusters, asterisms, bright reflection and emission nebulae, and large galaxies.',
-  'Each visual telescope may handle up to 30 guests per hour.',
-  'Typical events include views of one to three different astronomical targets.',
+  'Each visual telescope can entertain and educate up to 30 guests with limited wait times.',
+  'Typical events view 5–6 targets depending on guest count, light pollution, clouds, and time of year — smaller groups may see up to 15.',
 ];
 
 const eaaPoints = [
-  'The operator is responsible for setup, target acquisition, focus, and target tracking during the event.',
-  'The operator converses with guests about the equipment, observed target(s), and answers questions.',
-  'Popular targets include the moon, planets in our solar system, star clusters, asterisms, galaxies, and nebulae.',
-  'Each EAA telescope may handle up to 30 guests seated or standing with a view of the large monitor.',
-  'Typical events may include views of up to six targets.',
+  'A high-resolution astronomy camera presents the telescope’s live view on a large monitor, so a whole group can watch together.',
+  'The operator sets up an hour early, then acquires, focuses, and tracks targets throughout the event.',
+  'The operator educates viewers on what they’re looking at, and answers astronomy questions.',
+  'Popular targets include the moon, planets in our solar system, star clusters, colorful nebulae, and galaxies — with visible detail like spiral arms.',
+  'Each EAA telescope may handle up to 40 guests, seated or standing in front of the monitor.',
+  'Typical events include views of 12–15 targets.',
 ];
 
 const presentations = [
-  'Meteorite collections',
+  'Meteorite collection presentation',
   'Traveling the universe by telescope',
   'How to understand the night sky',
   'The mathematics of cosmological distances',
@@ -36,11 +38,17 @@ const bookingInfo = [
   'Additional presenters (e.g. meteorites) desired',
   "Contact's name, email, and telephone",
 ];
+
+const samplePhotos = [
+  { src: '/images/star-tours-sample-helix-nebula.jpg', alt: 'The Helix Nebula, a colorful planetary nebula', caption: 'The Helix Nebula' },
+  { src: '/images/star-tours-sample-whirlpool-galaxy.jpg', alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
+  { src: '/images/star-tours-sample-comet.jpg', alt: 'A green comet with a long tail against a starfield', caption: 'A comet, tail streaming' },
+];
 ---
 
 <BaseLayout
   title="Star Tours"
-  description="Book a PAS Star Tours event: telescopes, presenters, and hands-on astronomy for schools, scout troops, and community groups."
+  description="Book a PAS Star Tours event: telescopes, presenters, and hands-on astronomy for schools, scout troops, businesses, and celebrations."
 >
   <section class="relative overflow-hidden border-b border-subtle">
     <img
@@ -52,11 +60,12 @@ const bookingInfo = [
     <div class="relative mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
       <p class="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-nebula-teal">Star Tours</p>
       <h1 class="font-display text-4xl leading-tight tracking-wide text-ink-primary sm:text-6xl">
-        Bring the Night Sky to Your Group
+        What Can Star Tours Do for You?
       </h1>
       <p class="mx-auto mt-6 max-w-2xl text-lg text-ink-muted">
-        The Phoenix Astronomical Society performs community outreach in the form of star parties and other
-        educational events — for schools, scout troops, businesses, and community organizations.
+        PAS performs community outreach for public and private groups alike — star parties, educational events,
+        celebrations, and corporate events — brought to you by amateur astronomers with excellent telescope
+        operation and presentation skills.
       </p>
       <a href="mailto:startours@pasaz.org" class="btn-primary mt-10 inline-flex">Book an Event</a>
     </div>
@@ -64,10 +73,23 @@ const bookingInfo = [
 
   <section class="mx-auto max-w-4xl px-6 py-20">
     <p class="text-ink-muted">
-      We provide operators/presenters, telescopes, additional equipment, hands-on guidance, and printed materials.
-      Events are fee-based depending on the number of operators/presenters and the duration of the event. A normal
-      Star Tours event is two hours, but longer sessions may be arranged.
+      These events are offered for a fee based on the type of event, the number of operators/presenters, and the
+      duration of the event. A standardized Star Tours event is two hours, but longer events are welcomed. Our
+      team provides their own telescopes, observing equipment, and materials; larger groups may occasionally
+      require some power or A/V support at the venue.
     </p>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+      {
+        samplePhotos.map((photo) => (
+          <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+            <img src={photo.src} alt={photo.alt} class="h-40 w-full object-cover" />
+            <figcaption class="px-3 py-2 text-xs text-ink-muted">{photo.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <p class="mt-3 text-sm text-ink-muted">A few examples of what guests may see through the eyepiece or on-screen.</p>
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">
@@ -75,19 +97,20 @@ const bookingInfo = [
       <h2 class="section-heading">Program Offerings</h2>
       <div class="mt-10 grid gap-8 sm:grid-cols-2">
         <div class="card">
-          <h3 class="font-display text-xl text-nebula-teal">Visual Telescopes</h3>
+          <h3 class="font-display text-xl text-nebula-teal">A Visual Telescope Operator</h3>
           <p class="mt-2 text-sm text-ink-muted">
-            Fitted with eyepieces for direct observation by one guest at a time.
+            The personal connection of viewing one-on-one through the eyepiece — an inky black sky covered in
+            shimmering stars, like diamonds on velvet.
           </p>
           <ul class="mt-4 space-y-3 text-sm text-ink-muted">
             {visualPoints.map((point) => <li>• {point}</li>)}
           </ul>
         </div>
         <div class="card">
-          <h3 class="font-display text-xl text-nebula-violet">EAA Telescopes</h3>
+          <h3 class="font-display text-xl text-nebula-violet">An Electronically Assisted (EAA) Operator</h3>
           <p class="mt-2 text-sm text-ink-muted">
-            Electronically Assisted Astrophotography — a high-resolution astronomy camera presents the
-            telescope's live view on a large monitor so small groups can view the target together.
+            Everyone views at once, easy for young and old alike — with more color and more detail on fainter
+            objects than the eye alone can see.
           </p>
           <ul class="mt-4 space-y-3 text-sm text-ink-muted">
             {eaaPoints.map((point) => <li>• {point}</li>)}
@@ -95,22 +118,47 @@ const bookingInfo = [
         </div>
       </div>
 
-      <figure class="mt-10 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+        <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+          <img
+            src="/images/star-tours-visual-child.jpg"
+            alt="A young child looking through a visual telescope eyepiece in daylight"
+            class="h-56 w-full object-cover"
+          />
+          <figcaption class="px-4 py-3 text-sm text-ink-muted">
+            A visual telescope makes for a personal, one-on-one view — for any age.
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+          <img
+            src="/images/star-tours-eaa-orion-monitor.jpg"
+            alt="An EAA telescope live-stacking the Orion Nebula onto a monitor at night"
+            class="h-56 w-full object-cover"
+          />
+          <figcaption class="px-4 py-3 text-sm text-ink-muted">
+            An EAA telescope live-stacking the Orion Nebula for the whole group to see at once.
+          </figcaption>
+        </figure>
+      </div>
+
+      <figure class="mt-6 overflow-hidden rounded-xl border border-subtle bg-space-card">
         <img
-          src="/images/star-tours-eaa-day.jpg"
-          alt="A PAS member with an EAA telescope setup during the day, monitor displaying a nebula image, Camelback Mountain in the background"
+          src="/images/star-tours-event-crowd.jpg"
+          alt="A large crowd gathered at dusk among lit cacti for a PAS Star Tours event"
           class="w-full object-cover"
         />
         <figcaption class="px-4 py-3 text-sm text-ink-muted">
-          A PAS Star Tours EAA setup — telescope, live monitor, and presenter ready for guests.
+          Star Tours events scale from a single family's backyard to large public and corporate gatherings.
         </figcaption>
       </figure>
     </div>
   </section>
 
   <section class="mx-auto max-w-4xl px-6 py-20">
-    <h2 class="section-heading">Additional Presentations</h2>
-    <p class="mt-4 text-ink-muted">Beyond telescope time, PAS presenters can offer talks such as:</p>
+    <h2 class="section-heading">Astronomy Topic Presentations</h2>
+    <p class="mt-4 text-ink-muted">
+      Various astronomy-related presentations are available that may not require a telescope operator.
+    </p>
     <ul class="mt-6 grid gap-3 sm:grid-cols-2">
       {
         presentations.map((item) => (
@@ -118,13 +166,31 @@ const bookingInfo = [
         ))
       }
     </ul>
+    <p class="mt-6 text-ink-muted">
+      Have you ever held a rock that floated through the solar system for billions of years? In addition to
+      superb telescope viewing, PAS also brings large, stunning photos of deep sky objects from the Hubble and
+      James Webb telescopes, along with a collection of meteorites found from locations around the globe. We
+      encourage questions and conversation on any astronomical topic — come find out why the North Star never
+      changes position, why the Moon is covered in impact craters while Earth has so few, and how new stars are
+      born from the remnants of supernovae, leaving us all made of stardust. There's something for any age group.
+    </p>
+    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <img
+        src="/images/star-tours-presentation-night.jpg"
+        alt="A crowd gathered around a lit presentation table at a night Star Tours event"
+        class="w-full object-cover"
+      />
+      <figcaption class="px-4 py-3 text-sm text-ink-muted">
+        Guests of all ages gather around a presentation table at a night event.
+      </figcaption>
+    </figure>
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Book an Event</h2>
       <p class="mt-4 text-ink-muted">
-        If your business, organization, school, or scout troop is interested in scheduling a Star Tour event,
+        If your organization, business, school, or scout troop is interested in scheduling a private event,
         contact us at <a href="mailto:startours@pasaz.org" class="text-nebula-teal hover:underline">startours@pasaz.org</a> and
         include the following:
       </p>
