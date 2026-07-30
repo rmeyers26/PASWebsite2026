@@ -1,0 +1,46 @@
+---
+const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
+
+const conditions = [
+  { label: 'Cloud Cover', icon: '☁️' },
+  { label: 'Seeing & Transparency', icon: '🔭' },
+  { label: 'Wind', icon: '💨' },
+  { label: 'Temperature & Dew Point', icon: '🌡️' },
+];
+---
+
+<section class="border-t border-subtle bg-space-card/40">
+  <div class="mx-auto max-w-6xl px-6 py-20">
+    <h2 class="section-heading">Tonight's Sky Conditions</h2>
+    <p class="mt-3 max-w-2xl text-ink-muted">
+      Check the astronomical forecast for the Phoenix area before you head out — cloud cover, seeing,
+      transparency, and more, courtesy of Astrospheric.
+    </p>
+    <div class="card mt-8 grid gap-8 md:grid-cols-2 md:items-center">
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {
+          conditions.map((item) => (
+            <li class="flex items-center gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
+              <span aria-hidden="true">{item.icon}</span>
+              {item.label}
+            </li>
+          ))
+        }
+      </ul>
+      <div class="text-center md:text-left">
+        <p class="text-ink-muted">
+          View the full hour-by-hour astronomical forecast for Phoenix, Arizona on Astrospheric — a free
+          forecasting tool built for astronomers.
+        </p>
+        <a
+          href={astrosphericUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary mt-6 inline-flex"
+        >
+          View Phoenix Sky Forecast
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
