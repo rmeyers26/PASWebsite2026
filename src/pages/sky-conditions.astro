@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+
+const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
+---
+
+<BaseLayout
+  title="Sky Conditions"
+  description="Check tonight's astronomical forecast for the Phoenix area — cloud cover, seeing, transparency, and more, from Astrospheric."
+>
+  <Hero
+    image="/images/placeholder-hero-events.svg"
+    eyebrow="Sky Conditions"
+    title="Tonight's Sky Conditions"
+    subtitle="The astronomical forecast for the Phoenix area — cloud cover, seeing, transparency, wind, and temperature — courtesy of Astrospheric."
+  />
+
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <p class="text-ink-muted">
+      If the forecast below doesn't load,
+      <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
+        open it directly on Astrospheric</a>.
+    </p>
+    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
+      <iframe
+        src={astrosphericUrl}
+        title="Astrospheric forecast for Phoenix, Arizona"
+        style="display:block;border:none;width:100%;height:900px;"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+</BaseLayout>
