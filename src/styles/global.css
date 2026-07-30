@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-space-base: #0a0e17;
+  --color-space-card: #12182b;
+  --color-space-modal: #18233d;
+  --color-space-overlay: #1e2947;
+
+  --color-nebula-violet: #8b5cf6;
+  --color-nebula-teal: #2dd4bf;
+  --color-nebula-amber: #f5b942;
+  --color-nebula-green: #4ade80;
+  --color-nebula-red: #f26d6d;
+
+  --color-ink-primary: #f1f3f8;
+  --color-ink-muted: #9ba3b7;
+
+  --color-subtle: rgba(255, 255, 255, 0.06);
+  --color-strong: rgba(255, 255, 255, 0.12);
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --shadow-glow-violet: 0 0 24px 0 rgba(139, 92, 246, 0.35);
+  --shadow-glow-teal: 0 0 24px 0 rgba(45, 212, 191, 0.35);
+  --shadow-glow-amber: 0 0 24px 0 rgba(245, 185, 66, 0.35);
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-space-base text-ink-primary font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-subtle bg-space-card p-6;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-nebula-amber px-6 py-3 font-semibold text-space-base transition hover:shadow-glow-amber;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-strong px-6 py-3 font-semibold text-ink-primary transition hover:border-nebula-teal hover:text-nebula-teal;
+  }
+
+  .section-heading {
+    @apply font-display text-3xl tracking-wide text-ink-primary sm:text-4xl;
+  }
+
+  .placeholder-note {
+    @apply rounded-lg border border-dashed px-4 py-3 text-sm;
+    border-color: color-mix(in srgb, var(--color-nebula-amber) 60%, transparent);
+    background-color: color-mix(in srgb, var(--color-nebula-amber) 10%, transparent);
+    color: var(--color-nebula-amber);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield-layer,
+  .starfield-drift,
+  .starfield-twinkle {
+    animation: none !important;
+  }
+}

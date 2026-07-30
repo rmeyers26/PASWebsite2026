@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+---
+
+<BaseLayout
+  title="Events"
+  description="Upcoming PAS meetings, public star parties, and observing nights in the Phoenix area."
+>
+  <Hero
+    image="/images/placeholder-hero-events.svg"
+    eyebrow="Events"
+    title="When Is the Next Observing Session?"
+    subtitle="Public star parties, monthly meetings, and special events — all in one place."
+  />
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Upcoming Events</h2>
+    <div class="mt-6">
+      <PlaceholderNote label="A real, filterable events calendar (public / members-only / admin) is planned for Phase 2. For now, this page needs the club's current meeting schedule and next star party date/location to publish." />
+    </div>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      <div class="card">
+        <h3 class="font-display text-lg text-nebula-teal">Monthly Club Meeting</h3>
+        <p class="mt-2 text-ink-muted">[Meeting day/time — to be confirmed]</p>
+        <p class="text-ink-muted">[Location — to be confirmed]</p>
+      </div>
+      <div class="card">
+        <h3 class="font-display text-lg text-nebula-amber">Public Star Party</h3>
+        <p class="mt-2 text-ink-muted">[Next date — to be confirmed]</p>
+        <p class="text-ink-muted">[Observing site — to be confirmed]</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">What to Bring</h2>
+      <ul class="mt-6 space-y-3 text-ink-muted">
+        <li>• A red flashlight (preserves night vision — white light is discouraged at star parties)</li>
+        <li>• Warm layers — desert nights get cold, even in summer</li>
+        <li>• A folding chair for comfortable viewing</li>
+        <li>• Your own telescope or binoculars, if you have them — not required, PAS members bring plenty</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">School & Scout Group Visits</h2>
+    <p class="mt-4 text-ink-muted">
+      PAS brings telescopes and presenters to schools, scout troops, and community organizations for hands-on
+      astronomy outreach.
+    </p>
+    <div class="mt-6">
+      <PlaceholderNote label="A self-serve outreach request form is planned for Phase 2. Until then, please reach out via the Contact page." />
+    </div>
+    <a href="/contact" class="btn-secondary mt-6">Request a Visit</a>
+  </section>
+</BaseLayout>
