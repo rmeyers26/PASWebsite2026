@@ -29,6 +29,11 @@ const contacts = [
               <a href={`mailto:${contact.email}`} class="mt-2 inline-block text-ink-muted hover:text-nebula-teal">
                 {contact.email}
               </a>
+              {contact.label === 'School & Scout Star Tours' && (
+                <a href="/star-tours" class="mt-2 block text-sm text-nebula-amber hover:underline">
+                  See full Star Tours details →
+                </a>
+              )}
             </div>
           ))
         }
