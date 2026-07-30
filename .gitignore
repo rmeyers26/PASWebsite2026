@@ -4,6 +4,11 @@ dist/
 .astro/
 npm-debug.log*
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Compiled class file
 *.class
 
