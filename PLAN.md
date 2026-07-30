@@ -86,7 +86,26 @@ Direct fetches of all peer sites were blocked by bot protection; findings are fr
 | Success/live indicator | Comet green | `#4ADE80` |
 | Error/alert | Muted red-orange | `#F26D6D` |
 
-Violet + teal mirror the actual color signature of real astrophotography (ionized-gas nebula emission lines), so the palette reads as authentic rather than decorative. Amber is reserved for high-value moments only — award badges, "live tonight" indicators, primary buttons — so it stays special instead of overused. Avoid pure black/white; the near-black/soft-white pair above holds contrast without looking cheap against space photography. Dark mode is the default (not just an option) — it's on-brand and genuinely better for night-time/star-party use since it doesn't ruin dark adaptation. A light mode (soft off-white `#F7F7FA` background, same accents) should still exist for accessibility/print.
+Violet + teal mirror the actual color signature of real astrophotography (ionized-gas nebula emission lines), so the palette reads as authentic rather than decorative. Amber is reserved for high-value moments only — award badges, "live tonight" indicators, primary buttons — so it stays special instead of overused. Avoid pure black/white; the near-black/soft-white pair above holds contrast without looking cheap against space photography. Dark mode is the default (not just an option) — it's on-brand and helps preserve users' dark adaptation during nighttime observing. A light mode (soft off-white `#F7F7FA` background, same accents) should still exist for accessibility/print.
+
+**Elevation system** — define depth by layer, not just by color name, so UI stacking stays consistent:
+
+| Elevation | Use | Color |
+|---|---|---|
+| 0 | Background | `#0A0E17` |
+| 1 | Cards | `#12182B` |
+| 2 | Modal windows | `#18233D` |
+| 3 | Navigation overlays | `#1E2947` |
+
+**Spacing tokens** — a standard scale (in px) used everywhere instead of ad-hoc margins/padding: `4, 8, 12, 16, 24, 32, 48, 64, 96`.
+
+**Border tokens** — dark themes rely on subtle borders for structure more than shadows:
+- Border, subtle: `rgba(255,255,255,.06)`
+- Border, strong: `rgba(255,255,255,.12)`
+
+**Glow rules** — restrained, soft glows (not bright halos) tied to state, not decoration: violet glow on hover states, teal glow on active/selected elements, amber glow on primary buttons/CTAs only.
+
+**Iconography guidelines** — one consistent icon language across the site: thin 2px outlined strokes, rounded corners, minimal fills, a custom set of astronomical symbols (telescope, moon phases, galaxy, satellite, constellation glyphs) rather than a generic mixed icon pack.
 
 **Graphics direction**
 1. Hero imagery is always real member astrophotography, credited — never stock space clip-art or generic starfield PNGs. This is the single biggest differentiator between "glamorous" and "dated."
