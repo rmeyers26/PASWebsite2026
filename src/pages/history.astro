@@ -1,10 +1,33 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Timeline from '../components/Timeline.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+const timeline = [
+  { date: '1948', organization: 'Phoenix Observatory Association', location: 'Phoenix College', notes: 'Founded by Amos Hoff, Prof. of Physics — Phoenix College faculty since 1937.' },
+  { date: '1968', notes: 'Club-funded and ground 24" f7 telescope installed on the Phoenix College campus.' },
+  { date: '1973', notes: 'Telescope de-commissioned.' },
+  { date: '1974', organization: 'Phoenix Astronomical Society', notes: 'Incorporated as a 501(c)(3) non-profit. Newsletter: Sky-Lines.' },
+  { date: '1975', notes: 'Observatory proposed for Paradise Valley Park (near Paradise Valley Community College). Proposal denied; 24" mirror sold and installed in a private observatory near Alpine, AZ.' },
+  { date: '1984', notes: 'New logo adopted.' },
+  { date: '1985', notes: 'Newsletter renamed PAStimes.' },
+  { date: '1986', location: 'Brophy Prep', notes: 'Meeting location changed.' },
+  { date: '1999', location: 'Valley Academy', notes: 'Meeting location changed.' },
+  { date: '2001', notes: 'pasaz.org domain registered for email.' },
+  { date: '2002', notes: 'Website hosting at pasaz.org / geocities.com. Became a member of the Astronomical League.' },
+  { date: '2004', location: 'Foothills Academy', notes: 'Meeting location changed.' },
+  { date: '2006', location: 'Paradise Valley Community College', notes: 'Meeting location changed.' },
+  { date: '2020', notes: 'pasaz.org website redesigned on Google Sites.' },
+];
 
 const eras = [
   {
     title: 'Our Founder',
     body: `Amos Hoff joined the faculty of Phoenix College (PC) in 1937. PC was a junior college at the time, located at 1202 West Thomas Road. In that year he taught physics, mathematics, and engineering shop, and sponsored their astronomy and radio clubs. During his 30 year tenure at PC he served in many positions, including chair of the physics and engineering departments. He earned his B.A. at Manchester College and his M.S. at Northwestern, and was working towards his doctorate at U. of A. at the time of his retirement in 1967. Hoff passed away in 1987 in California. His lifelong enthusiasm for science, and his love of astronomy, carried over into all his endeavors. During his first ten years at PC he developed a vision for public education in astronomy that ultimately led to the creation of PAS.
+
+As early as November 1943, Hoff was teaching a Phoenix College astronomy class that doubled as training in celestial navigation for students headed into aviation. "The astronomy class has been emphasizing aerial navigation as well as astronomy, since most of the class is interested in aviation training," Hoff told the campus yearbook staff, after his students used the school's 5-inch refractor to locate Venus in the middle of the afternoon. "We are studying astronomy, meteorology, and celestial navigation."
+
+By 1946-47 Hoff had founded and was moderating the college's Astronomy Club, built around that same Clark Brothers 5-inch refractor — by yearbook accounts, "one of the finest telescopes in the west" available to Phoenix at the time, and one of its most active and successful years. That early class and club were the seed from which the Phoenix Observatory Association, and later PAS, grew.
 
 Under the leadership of Keith Parizek, PAS Treasurer at the time of Hoff's passing, it was decided that a special lecture event should be held in his honor — the Amos Hoff Memorial Lecture.`,
   },
@@ -100,6 +123,15 @@ const honorRoll = [
     </p>
   </section>
 
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <h2 class="section-heading">Timeline at a Glance</h2>
+      <div class="mt-10">
+        <Timeline entries={timeline} />
+      </div>
+    </div>
+  </section>
+
   {
     eras.map((era, i) => (
       <section class:list={['border-t border-subtle', i % 2 === 1 && 'bg-space-card/40']}>
@@ -110,6 +142,11 @@ const honorRoll = [
               <p>{paragraph}</p>
             ))}
           </div>
+          {era.title === 'Our Founder' && (
+            <div class="mt-6">
+              <PlaceholderNote label="Archival photos of Hoff and the Phoenix College astronomy class/observatory (from PC yearbooks) are available and planned for this page — not yet added pending real image files." />
+            </div>
+          )}
         </div>
       </section>
     ))
