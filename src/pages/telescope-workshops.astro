@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseLayout
+  title="Telescope Workshops"
+  description="Free, public telescope workshops from the Phoenix Astronomical Society — get help finding objects in the sky or choosing a telescope to buy."
+>
+  <Hero
+    image="/images/workshops/desert-eyepiece-sunset.jpg"
+    eyebrow="Telescope Workshops"
+    title="Get the Most Out of Your Telescope"
+    subtitle="Free, hands-on help for beginners — held throughout the year and open to the public."
+  />
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Can't Find Anything in Your Telescope?</h2>
+    <p class="mt-6 text-ink-muted">
+      Do you have a telescope that you want to use, but can't seem to find any night sky objects in it? Our
+      telescope workshops are open to the public and available throughout the year. Knowledgeable PAS members
+      are on hand to help with setup, alignment, and finding your way around the sky.
+    </p>
+    <p class="mt-4 text-ink-muted">
+      Need help selecting a telescope to buy? Knowledgeable members are also available at our telescope
+      workshops to answer your questions before you spend a dime.
+    </p>
+    <a
+      href="https://bookwhen.com/pas-event-calendar"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-primary mt-8"
+    >
+      View Dates & Register
+    </a>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">What Members Help With</h2>
+      <ul class="mt-6 space-y-3 text-ink-muted">
+        <li>• Telescope setup, collimation, and mount alignment</li>
+        <li>• Learning to star-hop and use a finderscope</li>
+        <li>• Choosing eyepieces, filters, and accessories</li>
+        <li>• Advice on buying your first (or next) telescope</li>
+        <li>• Troubleshooting GoTo mounts and computerized telescopes</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Workshops in Action</h2>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <img
+          src="/images/workshops/workshop-indoor-scopes.jpg"
+          alt="PAS members helping attendees set up and align telescopes at an indoor workshop"
+          class="h-56 w-full object-cover"
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">
+          PAS members walk attendees through setup and alignment at an indoor telescope workshop.
+        </figcaption>
+      </figure>
+      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <img
+          src="/images/workshops/desert-eyepiece-sunset.jpg"
+          alt="An attendee looking through a refractor telescope at sunset in the desert"
+          class="h-56 w-full object-cover"
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">
+          Evening workshops often continue into a live observing session as the sky darkens.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-3xl px-6 py-16 text-center">
+      <p class="text-ink-muted">
+        Sign up for the next workshop on the
+        <a
+          href="https://bookwhen.com/pas-event-calendar"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-nebula-teal hover:underline"
+        >
+          PAS Event Calendar and Registration Site
+        </a>.
+      </p>
+      <a href="/events" class="btn-secondary mt-8">← Back to Events</a>
+    </div>
+  </section>
+</BaseLayout>
