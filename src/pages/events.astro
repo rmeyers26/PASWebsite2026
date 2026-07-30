@@ -17,21 +17,18 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
 
   <section class="mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Upcoming Events</h2>
-    <div class="mt-6">
-      <PlaceholderNote label="A real, filterable events calendar (public / members-only / admin) is planned for Phase 2. For now, this page needs the club's current meeting schedule and next star party date/location to publish." />
-    </div>
-
-    <div class="mt-10 grid gap-6 sm:grid-cols-2">
-      <div class="card">
-        <h3 class="font-display text-lg text-nebula-teal">Monthly Club Meeting</h3>
-        <p class="mt-2 text-ink-muted">[Meeting day/time — to be confirmed]</p>
-        <p class="text-ink-muted">[Location — to be confirmed]</p>
-      </div>
-      <div class="card">
-        <h3 class="font-display text-lg text-nebula-amber">Public Star Party</h3>
-        <p class="mt-2 text-ink-muted">[Next date — to be confirmed]</p>
-        <p class="text-ink-muted">[Observing site — to be confirmed]</p>
-      </div>
+    <p class="mt-4 text-ink-muted">
+      Our full events calendar — meetings, public star parties, and observing nights — is kept up to date on
+      Bookwhen. Browse and reserve a spot below, or
+      <a href="https://bookwhen.com/pas-event-calendar#focus=ev-s4pyi-20260701000000" target="_blank" rel="noopener noreferrer" class="underline decoration-nebula-teal underline-offset-4">
+        open the calendar in a new tab</a>.
+    </p>
+    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
+      <iframe
+        src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
+        title="PAS Events Calendar"
+        style="display:block;border:none;width:100%;height:900px;"
+      ></iframe>
     </div>
   </section>
 
@@ -44,6 +41,17 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
         <li>• A folding chair for comfortable viewing</li>
         <li>• Your own telescope or binoculars, if you have them — not required, PAS members bring plenty</li>
       </ul>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Telescope Workshops</h2>
+      <p class="mt-4 text-ink-muted">
+        Can't find anything in your telescope, or need help picking one out? PAS members run free, public
+        telescope workshops throughout the year.
+      </p>
+      <a href="/telescope-workshops" class="btn-secondary mt-6">Learn More</a>
     </div>
   </section>
 
