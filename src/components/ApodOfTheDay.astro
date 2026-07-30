@@ -42,7 +42,7 @@ try {
           </a>
           .
         </p>
-        <div class="card mt-8 grid gap-8 md:grid-cols-2 md:items-center">
+        <div class="card mt-8 grid gap-8 md:grid-cols-2 md:items-center" data-animate="fade-up">
           {apod.media_type === 'image' ? (
             <a href={apod.hdurl ?? apod.url} target="_blank" rel="noopener noreferrer">
               <img

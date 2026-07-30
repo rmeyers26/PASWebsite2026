@@ -18,7 +18,11 @@ const { photos } = Astro.props;
 <div class="grid gap-6 sm:grid-cols-2">
   {
     photos.map((photo) => (
-      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <figure
+        class="overflow-hidden rounded-xl border border-subtle bg-space-card"
+        data-animate="fade-scale"
+        data-animate-group="photogrid"
+      >
         <Image
           src={photo.src}
           alt={photo.alt}

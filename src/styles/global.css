@@ -93,6 +93,16 @@
   }
 }
 
+@layer components {
+  [data-navbar] {
+    transition: padding-block 0.3s ease;
+  }
+
+  [data-navbar].nav-scrolled {
+    @apply py-2.5;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield-layer,
   .starfield-drift,

@@ -16,7 +16,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 border-b border-subtle bg-space-base/60 backdrop-blur-2xl">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Primary">
+  <nav data-navbar class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Primary">
     <a href="/" class="flex items-center gap-2.5 font-display text-lg tracking-tight text-ink-primary">
       <Image src={pasLogo} alt="Phoenix Astronomical Society logo" width={72} height={72} loading="eager" fetchpriority="high" class="h-9 w-9 flex-none" />
       <span class="hidden sm:inline">Phoenix Astronomical Society</span>
