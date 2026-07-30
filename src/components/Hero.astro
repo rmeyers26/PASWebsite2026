@@ -20,14 +20,19 @@ const {
   <img
     src={image}
     alt={alt}
-    class="absolute inset-0 h-full w-full object-cover opacity-70"
+    class="absolute inset-0 h-full w-full object-cover opacity-60"
     loading="eager"
   />
-  <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/60 to-transparent"></div>
-  <div class="relative mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
-    {eyebrow && <p class="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-nebula-teal">{eyebrow}</p>}
-    <h1 class="font-display text-4xl leading-tight tracking-wide text-ink-primary sm:text-6xl">{title}</h1>
-    {subtitle && <p class="mx-auto mt-6 max-w-2xl text-lg text-ink-muted">{subtitle}</p>}
+  <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20"></div>
+  <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
+    {eyebrow && (
+      <span class="glass-badge mb-6">
+        <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+        {eyebrow}
+      </span>
+    )}
+    <h1 class="text-gradient font-display text-4xl leading-[1.05] tracking-tight sm:text-7xl">{title}</h1>
+    {subtitle && <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">{subtitle}</p>}
     <slot />
   </div>
 </section>

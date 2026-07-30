@@ -44,19 +44,45 @@
 
 @layer components {
   .card {
-    @apply rounded-xl border border-subtle bg-space-card p-6;
+    @apply relative rounded-2xl border border-subtle p-6 backdrop-blur-xl transition duration-300;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+      0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .card:hover {
+    @apply -translate-y-0.5 border-white/20;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+      0 12px 40px -12px rgba(139, 92, 246, 0.35);
+  }
+
+  .glass-panel {
+    @apply rounded-2xl border border-subtle backdrop-blur-xl;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  }
+
+  .glass-badge {
+    @apply inline-flex items-center gap-2 rounded-full border border-strong px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-ink-muted backdrop-blur-xl;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-nebula-amber px-6 py-3 font-semibold text-space-base transition hover:shadow-glow-amber;
+    @apply inline-flex items-center justify-center rounded-full bg-nebula-amber px-7 py-3.5 font-semibold text-space-base transition duration-300 hover:-translate-y-0.5 hover:shadow-glow-amber;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-strong px-6 py-3 font-semibold text-ink-primary transition hover:border-nebula-teal hover:text-nebula-teal;
+    @apply inline-flex items-center justify-center rounded-full border border-strong px-7 py-3.5 font-semibold text-ink-primary backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-nebula-teal hover:text-nebula-teal hover:shadow-glow-teal;
   }
 
   .section-heading {
-    @apply font-display text-3xl tracking-wide text-ink-primary sm:text-4xl;
+    @apply font-display text-3xl tracking-tight text-ink-primary sm:text-4xl;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(120deg, #f1f3f8 15%, #8b5cf6 55%, #2dd4bf 90%);
   }
 
   .placeholder-note {
@@ -70,7 +96,8 @@
 @media (prefers-reduced-motion: reduce) {
   .starfield-layer,
   .starfield-drift,
-  .starfield-twinkle {
+  .starfield-twinkle,
+  .ambient-orb {
     animation: none !important;
   }
 }
