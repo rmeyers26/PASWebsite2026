@@ -64,6 +64,8 @@ As early as November 1943, Hoff was teaching a Phoenix College astronomy class t
 By 1946-47 Hoff had founded and was moderating the college's Astronomy Club, built around that same Clark Brothers 5-inch refractor — by yearbook accounts, "one of the finest telescopes in the west" available to Phoenix at the time, and one of its most active and successful years. That early class and club were the seed from which the Phoenix Observatory Association, and later PAS, grew.
 
 Under the leadership of Keith Parizek, PAS Treasurer at the time of Hoff's passing, it was decided that a special lecture event should be held in his honor — the Amos Hoff Memorial Lecture.`,
+    photos: founderPhotos,
+    photoCredit: 'Photos courtesy of the Phoenix College Office of Alumni and Development, from PC yearbook archives.',
   },
   {
     title: 'The Phoenix College Years',
@@ -90,6 +92,25 @@ In 1984, PAS ran a design contest among its members to come up with an official 
 Some of our most well-known speakers appeared at this venue, including Clyde Tombaugh (recruited by Keith Parizek for the Amos Hoff Memorial Lecture), Frs. Martin McCarthy and George Coyne of the Vatican Observatory, Tucson space artist Kim Poor, and comet hunter David Levy. As an interesting side note, Levy brought his first photographs of Comet Shoemaker-Levy to a meeting in early 1994, allowing PAS members the first look at this historic comet several months before it crashed into Jupiter.
 
 During the last part of the 90's, PAS membership declined due to some bad management and a less-than-stellar speaker series. In 1998, PAS revised its By-Laws to form a new Constitution that reflected the organizational changes required by lower membership, providing more flexibility and adaptability. One of these changes was the creation of Directorships, appointed by the President, to fulfill specific society functions such as Facilities, Multimedia, and Photographer. In 1999, Heim, now acting as PAS Facilities Director, left BCP and negotiated a similar meeting arrangement with Valley Academy, a small charter school in north Phoenix.`,
+  },
+  {
+    title: 'The Clyde Tombaugh Lecture',
+    body: `When PAS founder Amos Hoff passed away in 1987, Keith Parizek, PAS Treasurer at the time, suggested a fitting tribute: an Amos Hoff Memorial Lecture, hosted jointly with the Saguaro Astronomy Club — both societies being progeny of the original Phoenix Observatory Association. The lecture never became an annual series, but the one-time event was a resounding success.
+
+Clyde Tombaugh, discoverer of Pluto, was living in Las Cruces, New Mexico at the time, working with New Mexico State University in support of his Tombaugh Scholars Fund. Parizek — who years earlier had actually corresponded with Tombaugh about construction details for a blink comparator he was building — reached out and invited him to be PAS's premiere speaker. Tombaugh graciously accepted, and the lecture was set for Friday, March 25, 1988, in the gym at Brophy Prep, with seating for hundreds and publicity driven jointly by PAS, SAC, and local media. Clyde and his wife Patsy stayed with the Parizeks in Paradise Valley for the visit, giving PAS and SAC members a chance to spend an informal evening with the discoverer of a planet before the lecture itself.
+
+Prior to the visit, Parizek had scanned the original Pluto discovery plates and printed them on acetate sized for his now-completed blink comparator. After the Tombaughs arrived, Keith asked Clyde if he remembered their old phone conversation about the comparator — which, even decades later, Clyde recalled as "one of the more interesting phone calls he received while at NMSU." Keith invited him to try the apparatus, telling him only that it held some "old plates" related to an asteroid — without mentioning he'd secretly loaded the copied discovery plates. Clyde sat down, peered into the eyepieces, and began toggling between the images. After a few passes, recognition spread across his face. He stood up, still smiling, and said: "Thanks! I just discovered Pluto for the second time."
+
+On the night of the lecture, hundreds of astronomy enthusiasts from around the valley filled Brophy Prep. At 7:45 pm, following a brief introduction from Parizek and then-PAS President Richard Wasson, Tombaugh took the podium and spoke for roughly two hours on his discovery and career, illustrated with a 35mm slide show of highlights from his astronomical life. A question-and-answer period followed, and the evening closed with the chance to purchase an autographed poster commemorating his discovery of Pluto — all proceeds benefiting the Tombaugh Scholar Fund for astronomy majors at NMSU. It remains one of the major events in PAS history, and a fitting tribute to both Hoff and Tombaugh alike.`,
+    photos: [
+      {
+        src: '/images/history/tombaugh-autographed-poster-1988.jpg',
+        alt: 'Autographed Clyde Tombaugh commemorative poster, inscribed March 25, 1988',
+        caption: 'Clyde W. Tombaugh’s autographed commemorative poster from the March 25, 1988 lecture at Brophy Prep.',
+        color: true,
+      },
+    ],
+    photoCredit: 'Poster image via the Phoenix Astronomical Society archives.',
   },
   {
     title: 'The Valley Academy Years',
@@ -176,12 +197,10 @@ const honorRoll = [
               <p>{paragraph}</p>
             ))}
           </div>
-          {era.title === 'Our Founder' && (
+          {era.photos && (
             <div class="mt-8">
-              <PhotoGrid photos={founderPhotos} />
-              <p class="mt-4 text-sm text-ink-muted">
-                Photos courtesy of the Phoenix College Office of Alumni and Development, from PC yearbook archives.
-              </p>
+              <PhotoGrid photos={era.photos} />
+              <p class="mt-4 text-sm text-ink-muted">{era.photoCredit}</p>
             </div>
           )}
         </div>
