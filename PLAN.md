@@ -183,9 +183,24 @@ This is the fleshed-out spec for the homepage "tonight's sky snapshot" reference
 
 **Implementation notes:**
 - Feature a **"Cloud Cover Tonight" callout** as the most prominent element pulled from NWS — higher practical value than the ISS pass list for the "should I go observe tonight" decision
-- Regenerate via a scheduled job once or twice daily (not live-fetched per page load) — keeps the page fast, avoids rate limits, still feels "live" to visitors
+- Regenerate via a scheduled job once or twice daily (not live-fetched per page load) — keeps the page fast, avoids rate limits, still feels "live" to visitors; implemented as a **Cloudflare Worker on a Cron Trigger**, writing to **Cloudflare KV** (see Part 2.9)
 - **Volunteer involvement:** roughly monthly, to curate/feature special PAS observing events layered on top of the automated feed — the automation replaces what would otherwise be a manual "clear skies this weekend" post
 - **Maintenance burden:** very low — this is the intended outcome of choosing keyless/library-based sources over ones that require ongoing account/key management
+
+## Part 2.9 — Technical Stack & Hosting
+
+**Hosting: Cloudflare Pages** (not Netlify/Vercel as originally discussed) — free tier, auto-deploys the Astro site straight from the GitHub repo on push, global CDN by default, and generous bandwidth limits well beyond what a ~100-member club site will ever need.
+
+**Why Cloudflare over Netlify/Vercel for this project specifically:** Cloudflare's ecosystem covers nearly every later-phase need under one account instead of stitching together separate vendors:
+- **Cloudflare Pages Functions** (edge functions) — handles the self-serve Star Tours request form and contact form submissions without standing up a separate backend
+- **Cloudflare Workers + Cron Triggers** — runs the scheduled 1–2x/day regeneration job for the "Tonight in Arizona" dashboard (Part 2.8), pulling NWS/NOAA/ISS data and caching the result, exactly the "not live-fetched per page load" pattern already specified
+- **Cloudflare KV** — lightweight key-value cache for the dashboard's regenerated daily data
+- **Cloudflare D1** (edge SQLite) — fits the Phase 5 need for a lightweight participant account system (Observing Awards progress, leaderboards) without a separate hosted database
+- **Cloudflare R2** — S3-compatible object storage with no egress fees, a good fit for member astrophotography submissions (Gallery/Contest) since photo hosting can otherwise get expensive at scale
+- **Cloudflare Turnstile** — free, privacy-friendly CAPTCHA alternative for the request/contact forms, avoiding a Google reCAPTCHA dependency
+- If PAS ever moves its domain's DNS to Cloudflare too, free SSL and basic DDoS protection come along with it, though this is optional and separate from just hosting the site
+
+**Net effect on the roadmap:** no phase needs to change scope — this is a hosting-provider substitution, not a re-architecture. Phase 1 deploys to Cloudflare Pages instead of Netlify/Vercel; Phase 3's scheduled dashboard job becomes a Cloudflare Worker on a Cron Trigger; Phase 5's account/leaderboard needs lean on D1 instead of a separate hosted database; Gallery/Contest photo storage (Phase 2/6) uses R2.
 
 ## Part 3 — Phased Priority Roadmap
 
@@ -195,7 +210,7 @@ Everything above is the full vision. This roadmap sequences it so PAS gets a rea
 Goal: replace the legacy site with a fast, responsive, modern site that establishes the club's new visual identity and information architecture — a durable foundation, not a throwaway placeholder. ("MVP" was dropped as the phase name since it implies something temporary; this phase is meant to be the stable base every later phase builds on, not replaced.)
 
 **Deliverables:**
-- Astro + Tailwind CSS, deployed on Netlify/Vercel free tier (from the earlier stack discussion)
+- Astro + Tailwind CSS, deployed on **Cloudflare Pages** free tier (see Part 2.9 for full stack/hosting rationale)
 - **Full implementation of the design system from day one** — colors, typography, spacing/elevation/border tokens, iconography, responsive components — not a placeholder look with "polish later." These are far harder to retrofit once pages exist than to build in from the start, and none of it requires a backend.
 - Real member astrophotography featured throughout (hero images, section imagery), per the design system's photo/image-quality standards
 - **Public pages: Home, About, Events, Join, Contact** — Events is promoted to its own top-level nav item rather than buried inside "Observe With Us," since "when is the next observing session?" is the single most common reason someone visits an astronomy club site
