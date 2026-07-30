@@ -1,0 +1,55 @@
+---
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/events', label: 'Events' },
+  { href: '/join', label: 'Join' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-subtle bg-space-base/70 backdrop-blur-md">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Primary">
+    <a href="/" class="font-display text-lg tracking-wide text-ink-primary">
+      Phoenix Astronomical Society
+    </a>
+    <ul class="hidden gap-8 sm:flex">
+      {
+        navItems.map((item) => {
+          const isActive = currentPath === item.href;
+          return (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'text-sm font-medium transition hover:text-nebula-teal',
+                  isActive ? 'text-nebula-teal' : 'text-ink-primary',
+                ]}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <a href="/join" class="btn-primary hidden text-sm sm:inline-flex">Join PAS</a>
+    <details class="sm:hidden">
+      <summary class="cursor-pointer list-none text-ink-primary" aria-label="Open menu">☰</summary>
+      <ul class="absolute left-0 right-0 top-full flex flex-col gap-4 border-b border-subtle bg-space-base px-6 py-4">
+        {
+          navItems.map((item) => (
+            <li>
+              <a href={item.href} class="text-ink-primary">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+  </nav>
+</header>

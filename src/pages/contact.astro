@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+const contacts = [
+  { label: 'General Inquiries', email: 'info@pasaz.org' },
+  { label: 'Astronomy Questions', email: 'astronomy-questions@pasaz.org' },
+  { label: 'School & Scout Star Tours', email: 'startours@pasaz.org' },
+  { label: 'Website Issues', email: 'webmaster@pasaz.org' },
+];
+---
+
+<BaseLayout title="Contact" description="Get in touch with the Phoenix Astronomical Society.">
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <p class="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-nebula-teal">Contact</p>
+    <h1 class="font-display text-4xl tracking-wide text-ink-primary sm:text-5xl">Get in Touch</h1>
+    <p class="mx-auto mt-6 max-w-xl text-ink-muted">
+      Questions about membership, events, or bringing PAS to your school or scout troop? Reach out below.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <div class="grid gap-6 sm:grid-cols-2">
+        {
+          contacts.map((contact) => (
+            <div class="card">
+              <h2 class="font-display text-lg text-nebula-teal">{contact.label}</h2>
+              <a href={`mailto:${contact.email}`} class="mt-2 inline-block text-ink-muted hover:text-nebula-teal">
+                {contact.email}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-8">
+        <PlaceholderNote label="Contact addresses above were found via web research and should be verified as current before launch. A self-serve contact/outreach-request form is planned for Phase 2." />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

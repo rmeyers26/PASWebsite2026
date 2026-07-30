@@ -1,0 +1,28 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-subtle bg-space-base/80">
+  <div class="mx-auto max-w-6xl px-6 py-10 text-sm text-ink-muted">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <p class="font-display text-ink-primary">Phoenix Astronomical Society</p>
+        <p class="mt-1">A 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona.</p>
+      </div>
+      <div class="flex flex-col gap-1">
+        <a href="/about" class="hover:text-nebula-teal">About</a>
+        <a href="/events" class="hover:text-nebula-teal">Events</a>
+        <a href="/join" class="hover:text-nebula-teal">Join</a>
+        <a href="/contact" class="hover:text-nebula-teal">Contact</a>
+      </div>
+      <div class="flex flex-col gap-1">
+        <a href="mailto:info@pasaz.org" class="hover:text-nebula-teal">info@pasaz.org</a>
+        <a href="mailto:astronomy-questions@pasaz.org" class="hover:text-nebula-teal">
+          astronomy-questions@pasaz.org
+        </a>
+        <a href="mailto:webmaster@pasaz.org" class="hover:text-nebula-teal">webmaster@pasaz.org</a>
+      </div>
+    </div>
+    <p class="mt-8 border-t border-subtle pt-6">© {year} Phoenix Astronomical Society. All rights reserved.</p>
+  </div>
+</footer>

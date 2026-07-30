@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+const benefits = [
+  'Access to public and members-only star parties',
+  'Monthly meetings with guest speakers',
+  'A community of mentors for new astronomers, from beginners to experts',
+  'Opportunities to volunteer at school and community outreach events',
+];
+---
+
+<BaseLayout
+  title="Join"
+  description="Become a member of the Phoenix Astronomical Society."
+>
+  <Hero
+    image="/images/placeholder-hero-join.svg"
+    eyebrow="Membership"
+    title="Become Part of the PAS Community"
+    subtitle="Open to everyone curious about astronomy — no telescope or experience required."
+  />
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Member Benefits</h2>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      {
+        benefits.map((benefit) => (
+          <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
+            <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
+            {benefit}
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-8">
+      <PlaceholderNote label="A concrete list of tangible benefits (newsletter, loaner-scope access, dark-sky site access) — plus membership tiers and dues — is planned once confirmed with the club." />
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20 text-center">
+      <h2 class="section-heading">Ready to Join?</h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-muted">
+        Online membership signup is coming in a future phase of this site. For now, reach out and a PAS officer
+        will help you get started.
+      </p>
+      <a href="/contact" class="btn-primary mt-8">Contact Us to Join</a>
+    </div>
+  </section>
+</BaseLayout>

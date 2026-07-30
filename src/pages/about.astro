@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="The history, mission, and people behind the Phoenix Astronomical Society."
+>
+  <Hero
+    image="/images/placeholder-hero-about.svg"
+    eyebrow="About PAS"
+    title="A Community of Stargazers Since 1948"
+    subtitle="Amateur and professional astronomers, teachers and learners, oldsters and youngsters — all inquiring minds."
+  />
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Our Mission</h2>
+    <p class="mt-4 text-ink-muted">
+      The Phoenix Astronomical Society is a 501(c)(3) nonprofit organization dedicated to sharing the night sky
+      with the Phoenix community — through public star parties, school and scout outreach, and a welcoming home
+      for anyone curious about the universe, from lifelong amateur astronomers to first-time stargazers.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Our History</h2>
+      <p class="mt-4 text-ink-muted">
+        Founded in 1948, PAS has spent nearly eight decades bringing telescopes, expertise, and a sense of wonder
+        to the Phoenix area — through generations of members united by an interest in telescopes, astrophotography,
+        space exploration, and the sky above Arizona.
+      </p>
+      <div class="mt-6">
+        <PlaceholderNote label="A full illustrated timeline of PAS history (founding story, milestones, notable members) is planned here — needs source material from the club archives." />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Club Leadership</h2>
+    <p class="mt-4 text-ink-muted">
+      PAS is run entirely by volunteer members, including officers overseeing membership, events, and community
+      outreach.
+    </p>
+    <div class="mt-6">
+      <PlaceholderNote label="Current officer names, roles, and bios go here — placeholder until confirmed by the club (officer info found during research may be outdated)." />
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Our Observing Site</h2>
+      <p class="mt-4 text-ink-muted">
+        PAS members observe from dark-sky sites around the Phoenix area, away from city light pollution.
+      </p>
+      <div class="mt-6">
+        <PlaceholderNote label="Specific site name, directions, and facility details (this is a strong candidate for its own page, per the full site plan) go here once confirmed." />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

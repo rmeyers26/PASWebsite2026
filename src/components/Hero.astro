@@ -1,0 +1,26 @@
+---
+interface Props {
+  image: string;
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}
+
+const { image, eyebrow, title, subtitle } = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-subtle">
+  <img
+    src={image}
+    alt="Placeholder — real member astrophotography will replace this image"
+    class="absolute inset-0 h-full w-full object-cover opacity-70"
+    loading="eager"
+  />
+  <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/60 to-transparent"></div>
+  <div class="relative mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
+    {eyebrow && <p class="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-nebula-teal">{eyebrow}</p>}
+    <h1 class="font-display text-4xl leading-tight tracking-wide text-ink-primary sm:text-6xl">{title}</h1>
+    {subtitle && <p class="mx-auto mt-6 max-w-2xl text-lg text-ink-muted">{subtitle}</p>}
+    <slot />
+  </div>
+</section>
