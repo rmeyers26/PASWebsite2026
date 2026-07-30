@@ -1,7 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Timeline from '../components/Timeline.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
+
+const founderPhotos = [
+  {
+    src: '/images/history/hoff-portrait-1963.jpg',
+    alt: 'Amos H. Hoff, autographed 1963 Phoenix College yearbook portrait',
+    caption: 'Amos H. Hoff — the only known color photo of our founder, from an autographed 1963 PC yearbook.',
+    color: true,
+  },
+  {
+    src: '/images/history/pc-astronomy-class-1943.jpg',
+    alt: 'Phoenix College astronomy class, November 12, 1943',
+    caption: 'The Phoenix College astronomy class, November 12, 1943 — five years before the founding of the Phoenix Observatory Association.',
+  },
+  {
+    src: '/images/history/pc-astronomy-club-1947.jpg',
+    alt: 'Phoenix College Astronomy Club, 1947, with the Clark Brothers 5-inch refractor',
+    caption: 'The PC Astronomy Club, 1947, gathered around the Clark Brothers 5" refractor Hoff and his students used to locate Venus in daylight.',
+  },
+  {
+    src: '/images/history/hoff-eyepiece-1947.jpg',
+    alt: 'Amos Hoff holding a favorite eyepiece, 1947',
+    caption: 'Hoff with a favorite eyepiece, 1947.',
+  },
+  {
+    src: '/images/history/hoff-24in-telescope-1957.jpg',
+    alt: 'Amos Hoff and students with the 24-inch telescope, 1957',
+    caption: 'Hoff and students with the 24" telescope, 1957.',
+  },
+  {
+    src: '/images/history/hoff-portrait-1967.jpg',
+    alt: 'Amos Hoff in 1967, the year of his retirement',
+    caption: 'Amos Hoff in 1967, the year of his retirement from Phoenix College.',
+  },
+];
 
 const timeline = [
   { date: '1948', organization: 'Phoenix Observatory Association', location: 'Phoenix College', notes: 'Founded by Amos Hoff, Prof. of Physics — Phoenix College faculty since 1937.' },
@@ -143,8 +177,11 @@ const honorRoll = [
             ))}
           </div>
           {era.title === 'Our Founder' && (
-            <div class="mt-6">
-              <PlaceholderNote label="Archival photos of Hoff and the Phoenix College astronomy class/observatory (from PC yearbooks) are available and planned for this page — not yet added pending real image files." />
+            <div class="mt-8">
+              <PhotoGrid photos={founderPhotos} />
+              <p class="mt-4 text-sm text-ink-muted">
+                Photos courtesy of the Phoenix College Office of Alumni and Development, from PC yearbook archives.
+              </p>
             </div>
           )}
         </div>
