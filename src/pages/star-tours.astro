@@ -83,7 +83,7 @@ const samplePhotos = [
       {
         samplePhotos.map((photo) => (
           <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-            <img src={photo.src} alt={photo.alt} class="h-40 w-full object-cover" />
+            <img src={photo.src} alt={photo.alt} loading="lazy" class="h-40 w-full object-cover" />
             <figcaption class="px-3 py-2 text-xs text-ink-muted">{photo.caption}</figcaption>
           </figure>
         ))
@@ -123,6 +123,7 @@ const samplePhotos = [
           <img
             src="/images/star-tours-visual-child.jpg"
             alt="A young child looking through a visual telescope eyepiece in daylight"
+            loading="lazy"
             class="h-56 w-full object-cover"
           />
           <figcaption class="px-4 py-3 text-sm text-ink-muted">
@@ -133,6 +134,7 @@ const samplePhotos = [
           <img
             src="/images/star-tours-eaa-orion-monitor.jpg"
             alt="An EAA telescope live-stacking the Orion Nebula onto a monitor at night"
+            loading="lazy"
             class="h-56 w-full object-cover"
           />
           <figcaption class="px-4 py-3 text-sm text-ink-muted">
@@ -145,6 +147,7 @@ const samplePhotos = [
         <img
           src="/images/star-tours-event-crowd.jpg"
           alt="A large crowd gathered at dusk among lit cacti for a PAS Star Tours event"
+          loading="lazy"
           class="w-full object-cover"
         />
         <figcaption class="px-4 py-3 text-sm text-ink-muted">
@@ -178,6 +181,7 @@ const samplePhotos = [
       <img
         src="/images/star-tours-presentation-night.jpg"
         alt="A crowd gathered around a lit presentation table at a night Star Tours event"
+        loading="lazy"
         class="w-full object-cover"
       />
       <figcaption class="px-4 py-3 text-sm text-ink-muted">

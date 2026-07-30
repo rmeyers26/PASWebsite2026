@@ -1,0 +1,256 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+
+const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
+const telescopeTargets = [
+  {
+    scope: '5" Refractor',
+    seasons: [
+      { season: 'Anytime', text: 'The Moon and the five naked-eye planets — Mercury, Venus, Mars, Jupiter (and its moons), and Saturn (and its moons)' },
+      { season: 'Fall', text: 'NGC 7009 Saturn Nebula, outskirts of the Valley (Bortle 4–5)' },
+      { season: 'Winter', text: 'NGC 7662 Blue Snowball Nebula; NGC 2169 "37" star cluster, outskirts of the Valley (Bortle 4–5)' },
+      { season: 'Spring', text: 'Stargate asterism (two nested triangles), outskirts of the Valley (Bortle 4–5); NGC 3242 Ghost of Jupiter Nebula, dark sky like the Antennas area (Bortle 2)' },
+      { season: 'Summer', text: 'Deep red carbon star 1 Lyrae; Collinder 399 Coat Hanger asterism, outskirts of the Valley (Bortle 4–5)' },
+    ],
+  },
+  {
+    scope: '6" Dobsonian Reflector',
+    seasons: [
+      { season: 'Fall', text: 'Double Cluster in Perseus; Andromeda Galaxy M31, outskirts of the Valley (Bortle 4–5)' },
+      { season: 'Winter', text: 'Pleiades Open Cluster M45; Orion Nebula M42, in Phoenix (Bortle 6–8)' },
+      { season: 'Spring', text: 'Beehive Open Cluster M44; Hercules Globular Cluster M13 (Bortle 4–5)' },
+      { season: 'Summer', text: "Ptolemy's Open Cluster M7 in Scorpius (Bortle 4–5); Lagoon Nebula M8, dark sky (Bortle 2)" },
+    ],
+  },
+  {
+    scope: '8" Newtonian Reflector',
+    seasons: [
+      { season: 'Fall', text: 'Gamma Andromedae blue-and-gold double star, in Phoenix (Bortle 6–8)' },
+      { season: 'Winter', text: 'Orion Nebula M42, outskirts of the Valley (Bortle 4–5)' },
+      { season: 'Spring', text: 'M81 and M82 galaxies, dark sky like the Antennas location (Bortle 2)' },
+      { season: 'Summer', text: 'M13 Globular Cluster, outskirts of the Valley (Bortle 4–5)' },
+    ],
+  },
+  {
+    scope: '9¼" Schmidt-Cassegrain',
+    seasons: [
+      { season: 'Fall', text: "Albireo and Gamma Andromedae blue-and-gold double stars, in Phoenix (Bortle 6–8); Stephan's Quintet of galaxies (Hickson 92 / NGC 7317, 7318a, 7318b, 7319, 7320), dark sky area (Bortle 2)" },
+      { season: 'Winter', text: 'Orion and Running Man Nebulae M42 & M43, in Phoenix (Bortle 6–8); M35 Open Cluster, in Phoenix (Bortle 6–8)' },
+      { season: 'Spring', text: 'Omega Centauri Globular Cluster, southern outskirts of Phoenix (Bortle 4–5); M35 Open Cluster, in Phoenix (Bortle 6–8)' },
+      { season: 'Summer', text: 'Swan Nebula M17 (use an OIII filter) and Lagoon Nebula M8, if south of the Valley (Bortle 4–5)' },
+    ],
+  },
+  {
+    scope: '14" Dobsonian Reflector',
+    seasons: [
+      { season: 'Fall', text: 'Perseus Double Cluster, in Phoenix (Bortle 6–8); M37 Open Cluster, outskirts of the Valley (Bortle 4–5); M17 & M20 Nebulae and Open Clusters NGC 7789 and M11 Wild Duck, dark sky area like the Antennas (Bortle 2)' },
+      { season: 'Winter', text: 'Orion Nebula M42, in Phoenix (Bortle 6–8); Andromeda Galaxy M31, outskirts of the Valley (Bortle 4–5); Open Clusters M41 and M50, dark area (Bortle 2)' },
+      { season: 'Spring', text: 'M81 and M82 galaxies, outskirts of the Valley (Bortle 4–5); M51 Whirlpool Galaxy, M5 & M13 globular clusters, and Virgo region galaxies (M86 and surrounding area), all in a dark area (Bortle 2)' },
+      { season: 'Summer', text: 'M57 Ring Nebula, outskirts of the Valley (Bortle 4–5); NGC 6826 Blinking Planetary Nebula, Helix Nebula NGC 7293, Veil Nebula Caldwell 33/34, Sculptor Galaxy NGC 253, M27 Dumbbell Nebula, dark area (Bortle 2)' },
+    ],
+  },
+];
+
+const binocularTargets = [
+  {
+    season: 'Fall',
+    text: 'Andromeda Galaxy M31; Milky Way Galaxy; M15 Globular Cluster in Pegasus; Perseus Double Open Star Clusters',
+  },
+  {
+    season: 'Winter',
+    text: 'Pleiades Open Star Cluster M45 in Taurus; Orion Nebula M42; Open Star Cluster M35 in Gemini; M36, M37, and M38 open star clusters in Auriga; Betelgeuse in Orion (red-orange star); Rigel in Orion (blue-white star); Aldebaran in Taurus (red giant star)',
+  },
+  {
+    season: 'Spring',
+    text: 'Beehive Open Star Cluster M44 in Cancer; M50 Open Star Cluster in Monoceros; M41 Open Star Cluster in Canis Major; Mizar double star in Ursa Major',
+  },
+  {
+    season: 'Summer',
+    text: 'Lagoon Nebula M8 and Trifid Nebula M20 in Sagittarius; Hercules Globular Cluster M13; M25 Open Cluster and M22 Globular Cluster in Sagittarius; Delta Lyrae (red/blue double star); Epsilon Lyrae (wide components of the "double double" star); "False Albireo" (Alpha and 8 Vulpeculae double star); Omicron 1 and 2 (blue/orange double star); 31 Cygni (wide triple star); Deneb in Cygnus (blue-white star); the Summer Triangle (Deneb in Cygnus, Vega in Lyra, Altair in Aquila); Collinder 399 "Coat Hanger" asterism in Vulpecula',
+  },
+];
+
+const observingSites = [
+  {
+    bortle: '1.0',
+    name: '18 miles south of Jacob Lake, 22 miles north of the North Rim of the Grand Canyon',
+    map: 'https://goo.gl/maps/mEueApUHSBngjVD79',
+  },
+  {
+    bortle: '1.5',
+    name: 'Kaibab Lodge, 18 miles north of the North Rim of the Grand Canyon',
+    map: 'https://www.google.com/maps/place/Kaibab+Lodge/@36.3751654,-112.4968502,10.09z',
+  },
+  {
+    bortle: '1.5',
+    name: 'Wupatki / Doney Mountain Lunch & View Area, about 45 minutes north of Flagstaff off Route 89',
+    map: 'https://goo.gl/maps/BGPfWx732xc6Vk6x6',
+  },
+  {
+    bortle: '1.5',
+    name: 'Southwestern Research Station, Portal, AZ',
+    map: 'https://www.google.com/maps/place/Southwestern+Research+Station/@31.8690854,-109.8007418,9.33z',
+  },
+  {
+    bortle: '1.9',
+    name: 'Moran Point, South Rim of the Grand Canyon',
+    map: 'https://goo.gl/maps/WC6jNcx9kxEgcmGK6',
+  },
+  {
+    bortle: '2.0',
+    name: 'Pinewood Trailhead, eastern limits of Munds Park, about 20 miles south of Flagstaff',
+    map: 'https://www.google.com/maps/place/Pinewood+Trailhead/@35.0180166,-111.8635961,9.63z',
+  },
+  {
+    bortle: '2.0',
+    name: 'Hovatter Rd. Antennas site, about 100 miles west of Central Phoenix',
+    map: 'https://goo.gl/maps/ExigYzfoffeMFmfLA',
+  },
+  {
+    bortle: '2.0',
+    name: 'Tonto National Monument',
+    map: 'https://www.google.com/maps/place/Tonto+National+Monument/@33.6658504,-111.4770201,9.81z',
+  },
+  {
+    bortle: '2.6',
+    name: 'Arcosanti, about 60 miles north of Phoenix',
+    map: 'https://www.google.com/maps/place/Arcosanti,+AZ+86333/@34.3637874,-112.5410779,9.55z',
+  },
+  {
+    bortle: '3.4',
+    name: 'Pickett Post trailhead, about 60 miles SE of Phoenix off Highway 60',
+    map: 'https://goo.gl/maps/Uopixr2yRxzsDAsDA',
+  },
+  {
+    bortle: '3.9',
+    name: 'Four Peaks cookout area, 18 miles north of Fort McDowell on the Beeline Highway turnoff (~33.678, -111.502)',
+    map: 'https://www.google.com/maps/search/?api=1&query=33.67803,-111.50200',
+  },
+  { bortle: '4.0', name: 'Apache Wash Trailhead, North Phoenix', map: null },
+  { bortle: '4.0', name: 'Buffalo Park, North Flagstaff', map: null },
+  {
+    bortle: '4.1',
+    name: 'Needle Rock Recreation Area near Rio Verde (~33.768, -111.670)',
+    map: 'https://www.google.com/maps/search/?api=1&query=33.76764,-111.67004',
+  },
+  { bortle: '4.2', name: 'Town of Tusayan, 5 miles south of the Grand Canyon', map: null },
+  { bortle: '4.3', name: 'Cow Track Ranch, Carefree', map: null },
+  {
+    bortle: '4.3',
+    name: 'Spur Cross Ranch Park, Cave Creek',
+    map: 'https://www.maricopacountyparks.net/park-locator/spur-cross-ranch-conservation-area',
+  },
+  { bortle: '4.3', name: 'New River', map: null },
+  { bortle: '4.3', name: 'Robbins Butte, east of Buckeye, about 40 miles SW of Phoenix', map: null },
+  {
+    bortle: '4.6',
+    name: 'McDowell Mountain Park',
+    map: 'https://www.maricopacountyparks.net/mcdowell-mountain-regional-park',
+  },
+  { bortle: '5.0', name: 'Paradise Valley Community College, Black Mountain Campus, North Valley', map: null },
+  { bortle: '5.7', name: 'South Mountain Park, Phoenix', map: null },
+];
+---
+
+<BaseLayout
+  title="Sky Conditions & Observing Sites"
+  description="Check tonight's astronomical forecast for the Phoenix area, plus Bortle-rated dark-sky observing sites and seasonal targets for telescopes and binoculars from the Phoenix Astronomical Society."
+>
+  <Hero
+    image="/images/placeholder-hero-events.svg"
+    alt="Placeholder — real member astrophotography will replace this image"
+    eyebrow="Sky Conditions"
+    title="Sky Conditions & Observing Sites"
+    subtitle="Tonight's astronomical forecast for the Phoenix area, plus where PAS members go for dark skies and what's worth looking at once you're there."
+  />
+
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <h2 class="section-heading">Tonight's Forecast</h2>
+    <p class="mt-4 text-ink-muted">
+      If the forecast below doesn't load,{' '}
+      <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
+        open it directly on Astrospheric</a>.
+    </p>
+    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
+      <iframe
+        src={astrosphericUrl}
+        title="Astrospheric forecast for Phoenix, Arizona"
+        class="block h-[900px] w-full border-0"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Viewing With Telescopes</h2>
+    <p class="mt-4 text-ink-muted">
+      Suggested targets by aperture and season, from in-town Phoenix skies (Bortle 6–8) out to dark-sky sites
+      like the Antennas area (Bortle 2).
+    </p>
+    <div class="mt-10 space-y-10">
+      {
+        telescopeTargets.map((group) => (
+          <div>
+            <h3 class="font-display text-xl tracking-wide text-ink-primary">{group.scope}</h3>
+            <dl class="mt-4 space-y-3">
+              {group.seasons.map((s) => (
+                <div class="sm:flex sm:gap-3">
+                  <dt class="flex-none font-semibold text-nebula-teal sm:w-20">{s.season}</dt>
+                  <dd class="text-ink-muted">{s.text}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Viewable With Binoculars</h2>
+      <dl class="mt-8 space-y-5">
+        {
+          binocularTargets.map((b) => (
+            <div class="sm:flex sm:gap-3">
+              <dt class="flex-none font-semibold text-nebula-teal sm:w-20">{b.season}</dt>
+              <dd class="text-ink-muted">{b.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Dark-Sky Observing Sites</h2>
+    <p class="mt-4 text-ink-muted">
+      Sites are rated on the Bortle scale, from 1 (darkest) to 9 (brightest inner-city skies).
+    </p>
+    <ul class="mt-8 space-y-3">
+      {
+        observingSites.map((site) => (
+          <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-subtle pb-3 text-ink-muted">
+            <span class="flex-none rounded-full bg-space-card px-2.5 py-0.5 text-sm font-semibold text-nebula-amber">
+              Bortle {site.bortle}
+            </span>
+            <span>{site.name}</span>
+            {
+              site.map && (
+                <a
+                  href={site.map}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-semibold text-nebula-teal hover:underline"
+                >
+                  Map →
+                </a>
+              )
+            }
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
