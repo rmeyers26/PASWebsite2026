@@ -1,0 +1,1146 @@
+---
+const pageTitle = 'Nova — The AI Astronomy Club Assistant';
+const pageDescription =
+  'Nova is the AI assistant built for astronomy clubs — real-time sky intelligence, session planning, and member engagement in one premium platform.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=50 cy=50 r=42 fill=%22black%22/><circle cx=50 cy=50 r=42 fill=%22none%22 stroke=%22%238b5cf6%22 stroke-width=6/><circle cx=50 cy=50 r=16 fill=%22%233b82f6%22/></svg>" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="glow glow-a" aria-hidden="true"></div>
+    <div class="glow glow-b" aria-hidden="true"></div>
+    <div class="glow glow-c" aria-hidden="true"></div>
+
+    <header class="nav-wrap">
+      <nav class="nav" aria-label="Primary">
+        <a href="/nova" class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          NOVA
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#features">Product</a></li>
+          <li><a href="#capabilities">Platform</a></li>
+          <li><a href="#trust">Clubs</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+
+        <a href="/join" class="btn btn-primary btn-sm">Get Started</a>
+
+        <details class="nav-mobile">
+          <summary aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </summary>
+          <ul>
+            <li><a href="#features">Product</a></li>
+            <li><a href="#capabilities">Platform</a></li>
+            <li><a href="#trust">Clubs</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/join" class="btn btn-primary btn-sm">Get Started</a></li>
+          </ul>
+        </details>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">AI ASTRONOMY ASSISTANT</p>
+            <h1 class="hero-title">
+              An AI co-pilot<br />
+              for the <em>infinite</em> sky.
+            </h1>
+            <p class="hero-sub">
+              Nova plans your club's sessions, reads the sky in real time, and guides every
+              member — from first-timers to seasoned astrophotographers — to the perfect view,
+              every clear night.
+            </p>
+            <div class="hero-ctas">
+              <a href="/join" class="btn btn-primary">Launch Nova</a>
+              <a href="#features" class="btn btn-ghost">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9.25" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M10 8.5L15 12L10 15.5V8.5Z" fill="currentColor" />
+                </svg>
+                Watch Demo
+              </a>
+            </div>
+
+            <div class="hero-stats">
+              <div><strong>40+</strong><span>clubs onboard</span></div>
+              <div><strong>12ms</strong><span>avg. sky-data latency</span></div>
+              <div><strong>99.9%</strong><span>uptime</span></div>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal" aria-hidden="true">
+            <div class="platform"></div>
+            <div class="orb-wrap">
+              <div class="orb-ring ring-1"></div>
+              <div class="orb-ring ring-2"></div>
+              <div class="orb-core">
+                <svg viewBox="0 0 120 120" width="72" height="72">
+                  <defs>
+                    <radialGradient id="coreGrad" cx="35%" cy="30%" r="75%">
+                      <stop offset="0%" stop-color="#e9d9ff" />
+                      <stop offset="45%" stop-color="#a78bfa" />
+                      <stop offset="100%" stop-color="#4f46e5" />
+                    </radialGradient>
+                  </defs>
+                  <circle cx="60" cy="60" r="52" fill="url(#coreGrad)" />
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="status-card card-1">
+              <span class="dot dot-green"></span>
+              CORE_ONLINE
+            </div>
+            <div class="status-card card-2">
+              <span class="dot dot-blue"></span>
+              LATENCY: 12ms
+            </div>
+            <div class="status-card card-3">
+              <span class="dot dot-purple"></span>
+              AI ACTIVE
+            </div>
+            <div class="status-card card-4">
+              <span class="dot dot-teal"></span>
+              LIVE SYNC
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="section">
+        <div class="section-head reveal">
+          <p class="eyebrow">CAPABILITIES</p>
+          <h2 class="section-title">Everything your club needs, one intelligence.</h2>
+          <p class="section-sub">
+            Nova unifies planning, sky data, and member coordination into a single, effortless
+            experience.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="glass-card reveal">
+            <div class="feature-icon icon-violet">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path
+                  d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                />
+                <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+            </div>
+            <h3>Adaptive Sky Planning</h3>
+            <p>
+              Nova cross-references moon phase, cloud cover, and object visibility to recommend
+              the ideal night — and the ideal target list — for every session.
+            </p>
+          </article>
+
+          <article class="glass-card reveal">
+            <div class="feature-icon icon-blue">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path d="M4 18V9M10 18V4M16 18v-7M22 18H2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3>Real-Time Conditions Engine</h3>
+            <p>
+              Live seeing, transparency, and light-pollution data stream directly into your
+              dashboard — no more guessing if tonight is a go.
+            </p>
+          </article>
+
+          <article class="glass-card reveal">
+            <div class="feature-icon icon-teal">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path
+                  d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z"
+                  stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <h3>Guided Astrophotography</h3>
+            <p>
+              Step-by-step capture guidance tuned to each member's gear and skill level, from
+              first-light beginners to seasoned imagers.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- PLATFORM / CAPABILITIES -->
+      <section id="capabilities" class="section section-alt">
+        <div class="capabilities-grid">
+          <div class="reveal">
+            <p class="eyebrow">THE PLATFORM</p>
+            <h2 class="section-title">Built to run an entire club.</h2>
+            <p class="section-sub">
+              Beyond the sky, Nova is the operating system for your astronomy club — scheduling,
+              membership, and community, handled automatically.
+            </p>
+            <ul class="check-list">
+              <li>Automated session scheduling &amp; RSVPs</li>
+              <li>Member directory, roles &amp; equipment tracking</li>
+              <li>Observing logs, achievements &amp; leaderboards</li>
+              <li>Smart notifications for weather &amp; rare events</li>
+              <li>Outreach &amp; school star-tour booking</li>
+            </ul>
+            <a href="/join" class="btn btn-primary" style="margin-top: 2rem;">Explore the Platform</a>
+          </div>
+
+          <div class="platform-preview glass-card reveal">
+            <div class="preview-row">
+              <span>Session Scheduling</span>
+              <span class="pill pill-green">Active</span>
+            </div>
+            <div class="preview-row">
+              <span>Member Directory</span>
+              <span class="pill pill-blue">312 synced</span>
+            </div>
+            <div class="preview-row">
+              <span>Equipment Tracking</span>
+              <span class="pill pill-purple">18 assets</span>
+            </div>
+            <div class="preview-row">
+              <span>Sky Conditions Feed</span>
+              <span class="pill pill-green">Live</span>
+            </div>
+            <div class="preview-row">
+              <span>Outreach Requests</span>
+              <span class="pill pill-amber">4 pending</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TRUST / TESTIMONIALS -->
+      <section id="trust" class="section">
+        <div class="section-head reveal">
+          <p class="eyebrow">TRUSTED BY CLUBS</p>
+          <h2 class="section-title">Loved by observers, built for community.</h2>
+        </div>
+
+        <div class="testimonial-grid">
+          <article class="glass-card testimonial reveal">
+            <p>"Nova cut our planning time to minutes. Our club nights are more consistent — and
+              way better attended — than ever."</p>
+            <div class="testimonial-person">
+              <span class="avatar">RM</span>
+              <div><strong>Rachel M.</strong><span>Events Manager, Peak Ridge Observers</span></div>
+            </div>
+          </article>
+          <article class="glass-card testimonial reveal">
+            <p>"The live sky data is uncannily accurate. We stopped guessing whether tonight was
+              worth setting up — Nova just tells us."</p>
+            <div class="testimonial-person">
+              <span class="avatar">DK</span>
+              <div><strong>David K.</strong><span>President, Meridian Astronomical Society</span></div>
+            </div>
+          </article>
+          <article class="glass-card testimonial reveal">
+            <p>"Our newest members finally feel like they belong. The guided capture flow took
+              them from zero to their first nebula shot in one night."</p>
+            <div class="testimonial-person">
+              <span class="avatar">JT</span>
+              <div><strong>Jasmine T.</strong><span>Outreach Lead, Starline Club</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section class="section">
+        <div class="cta-panel reveal">
+          <h2>Ready to bring your club into the future?</h2>
+          <p>Join the clubs already observing smarter, together, with Nova.</p>
+          <div class="hero-ctas" style="justify-content: center;">
+            <a href="/join" class="btn btn-primary">Launch Nova</a>
+            <a href="/contact" class="btn btn-ghost">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.5" />
+                <path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.5" />
+              </svg>
+              Talk to Us
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="/nova" class="brand">
+            <span class="brand-mark" aria-hidden="true"></span>
+            NOVA
+          </a>
+          <p>The AI astronomy club assistant — sky intelligence and community, unified.</p>
+          <div class="social-row">
+            <a href="#" aria-label="Twitter / X">𝕏</a>
+            <a href="#" aria-label="Instagram">◎</a>
+            <a href="#" aria-label="GitHub">⌘</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#capabilities">Platform</a>
+          <a href="#trust">Clubs</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/join">Join</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="/sky-conditions">Sky Conditions</a>
+          <a href="/events">Events</a>
+          <a href="/telescope-workshops">Workshops</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© {new Date().getFullYear()} Nova. All rights reserved.</span>
+        <div class="footer-legal">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const revealEls = document.querySelectorAll('.reveal');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReduced) {
+        revealEls.forEach((el) => el.classList.add('in-view'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        revealEls.forEach((el) => observer.observe(el));
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import 'tailwindcss';
+
+  :root {
+    --bg: #05050a;
+    --bg-elev: rgba(255, 255, 255, 0.045);
+    --border-subtle: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --text: #f5f5f8;
+    --text-muted: #9a9aab;
+    --violet: #8b5cf6;
+    --blue: #3b82f6;
+    --teal: #2dd4bf;
+    --amber: #f5b942;
+    --green: #4ade80;
+  }
+
+  body:has(.nav-wrap) {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .glow {
+    position: fixed;
+    border-radius: 999px;
+    filter: blur(110px);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .glow-a {
+    top: -12rem;
+    left: -8rem;
+    width: 42rem;
+    height: 42rem;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%);
+  }
+  .glow-b {
+    top: 10rem;
+    right: -14rem;
+    width: 40rem;
+    height: 40rem;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.28), transparent 70%);
+  }
+  .glow-c {
+    bottom: -10rem;
+    left: 20%;
+    width: 46rem;
+    height: 46rem;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.18), transparent 70%);
+  }
+
+  main,
+  header,
+  footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NAV */
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding: 1.25rem 1.25rem 0;
+  }
+  .nav {
+    width: 100%;
+    max-width: 76rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.65rem 0.85rem 0.65rem 1.35rem;
+    border-radius: 999px;
+    background: rgba(10, 10, 16, 0.55);
+    border: 1px solid var(--border-subtle);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    flex: none;
+  }
+  .brand-mark {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 30%, #e9d9ff, var(--violet) 55%, var(--blue) 100%);
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.7);
+    flex: none;
+  }
+  .nav-links {
+    display: none;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+  }
+  .nav-mobile {
+    display: block;
+  }
+  .nav-mobile summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+  .nav-mobile summary span {
+    width: 1.15rem;
+    height: 1.5px;
+    background: var(--text);
+    border-radius: 1px;
+  }
+  .nav-mobile ul {
+    position: absolute;
+    right: 1.25rem;
+    top: 4.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: rgba(10, 10, 16, 0.9);
+    border: 1px solid var(--border-subtle);
+    border-radius: 1rem;
+    backdrop-filter: blur(18px);
+    min-width: 12rem;
+  }
+  .nav-mobile ul a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: 900px) {
+    .nav-links {
+      display: flex;
+    }
+    .nav-mobile {
+      display: none;
+    }
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    padding: 0.85rem 1.6rem;
+    color: #05050a;
+    background: linear-gradient(135deg, #cfc0ff, var(--violet) 45%, var(--blue));
+    box-shadow: 0 0 0 rgba(139, 92, 246, 0);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 32px rgba(139, 92, 246, 0.55);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    padding: 0.85rem 1.5rem;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border-strong);
+  }
+  .btn-ghost:hover {
+    border-color: var(--violet);
+    color: #cbb8ff;
+    background: rgba(139, 92, 246, 0.08);
+  }
+  .btn-sm {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.85rem;
+  }
+
+  /* HERO */
+  .hero {
+    max-width: 76rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 8vw, 7rem) 1.5rem 5rem;
+  }
+  .hero-grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+    }
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #b9a6ff;
+    margin: 0 0 1.1rem;
+  }
+  .hero-title {
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .hero-title em {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    background: linear-gradient(90deg, #d8c8ff, #8b9dff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    margin: 1.6rem 0 0;
+    max-width: 34rem;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.25rem;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2.25rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .hero-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .hero-stats strong {
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+  .hero-stats span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* HERO VISUAL */
+  .hero-visual {
+    position: relative;
+    height: 30rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .platform {
+    position: absolute;
+    bottom: 3rem;
+    width: 16rem;
+    height: 3.5rem;
+    border-radius: 999px;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.55), transparent 75%);
+    filter: blur(6px);
+  }
+  .orb-wrap {
+    position: relative;
+    width: 13rem;
+    height: 13rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .orb-ring {
+    position: absolute;
+    border-radius: 999px;
+    border: 1px solid rgba(139, 92, 246, 0.35);
+  }
+  .ring-1 {
+    inset: 0;
+    animation: spin 18s linear infinite;
+    border-top-color: rgba(139, 92, 246, 0.9);
+  }
+  .ring-2 {
+    inset: 1.6rem;
+    border-color: rgba(59, 130, 246, 0.3);
+    animation: spin 12s linear infinite reverse;
+    border-right-color: rgba(59, 130, 246, 0.85);
+  }
+  .orb-core {
+    position: relative;
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.25), transparent 60%);
+    box-shadow: 0 0 60px rgba(139, 92, 246, 0.65), 0 0 120px rgba(59, 130, 246, 0.35);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .status-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 0.55rem 0.9rem;
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    animation: float 6s ease-in-out infinite;
+  }
+  .card-1 {
+    top: 6%;
+    left: -2%;
+    animation-delay: 0s;
+  }
+  .card-2 {
+    top: 20%;
+    right: -6%;
+    animation-delay: 1.2s;
+  }
+  .card-3 {
+    bottom: 24%;
+    left: -8%;
+    animation-delay: 2.1s;
+  }
+  .card-4 {
+    bottom: 8%;
+    right: -2%;
+    animation-delay: 0.6s;
+  }
+  @media (max-width: 640px) {
+    .status-card {
+      font-size: 0.62rem;
+      padding: 0.4rem 0.65rem;
+    }
+    .card-1 {
+      left: 0;
+    }
+    .card-2 {
+      right: 0;
+    }
+    .card-3 {
+      left: 0;
+    }
+    .card-4 {
+      right: 0;
+    }
+  }
+  .dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    flex: none;
+  }
+  .dot-green {
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
+  .dot-blue {
+    background: var(--blue);
+    box-shadow: 0 0 8px var(--blue);
+  }
+  .dot-purple {
+    background: var(--violet);
+    box-shadow: 0 0 8px var(--violet);
+  }
+  .dot-teal {
+    background: var(--teal);
+    box-shadow: 0 0 8px var(--teal);
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 76rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 6vw, 6rem) 1.5rem;
+  }
+  .section-alt {
+    background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.05), transparent);
+  }
+  .section-head {
+    max-width: 40rem;
+    margin-bottom: 3rem;
+  }
+  .section-title {
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 1rem;
+  }
+  .section-sub {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .glass-card {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
+    border: 1px solid var(--border-subtle);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    backdrop-filter: blur(16px);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  .feature-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 800px) {
+    .feature-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .feature-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .icon-violet {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+  }
+  .icon-blue {
+    background: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+  }
+  .icon-teal {
+    background: rgba(45, 212, 191, 0.15);
+    color: #5eead4;
+  }
+  .glass-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.65rem;
+  }
+  .glass-card p {
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  /* CAPABILITIES */
+  .capabilities-grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .capabilities-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .check-list {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .check-list li {
+    position: relative;
+    padding-left: 1.75rem;
+    color: var(--text-muted);
+    font-size: 0.98rem;
+  }
+  .check-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 999px;
+    background: rgba(45, 212, 191, 0.15);
+    border: 1px solid rgba(45, 212, 191, 0.5);
+  }
+  .check-list li::after {
+    content: '✓';
+    position: absolute;
+    left: 0.2rem;
+    top: 0.1rem;
+    font-size: 0.7rem;
+    color: var(--teal);
+  }
+
+  .platform-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .preview-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    font-size: 0.88rem;
+  }
+  .pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+  }
+  .pill-green {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--green);
+  }
+  .pill-blue {
+    background: rgba(59, 130, 246, 0.15);
+    color: #93c5fd;
+  }
+  .pill-purple {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+  }
+  .pill-amber {
+    background: rgba(245, 185, 66, 0.15);
+    color: var(--amber);
+  }
+
+  /* TESTIMONIALS */
+  .testimonial-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 800px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .testimonial p {
+    color: #dcdce4;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+  }
+  .testimonial-person {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .testimonial-person div {
+    display: flex;
+    flex-direction: column;
+  }
+  .testimonial-person strong {
+    font-size: 0.9rem;
+  }
+  .testimonial-person span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--violet), var(--blue));
+    color: white;
+    flex: none;
+  }
+
+  /* CTA PANEL */
+  .cta-panel {
+    text-align: center;
+    padding: clamp(3rem, 8vw, 5rem) 2rem;
+    border-radius: 2rem;
+    background: linear-gradient(160deg, rgba(139, 92, 246, 0.14), rgba(59, 130, 246, 0.06));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 80px rgba(139, 92, 246, 0.15);
+  }
+  .cta-panel h2 {
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-weight: 800;
+    margin: 0 0 0.85rem;
+  }
+  .cta-panel p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin: 0 0 2rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    max-width: 76rem;
+    margin: 4rem auto 0;
+    padding: 3.5rem 1.5rem 2.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .footer-top {
+    display: grid;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (min-width: 800px) {
+    .footer-top {
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    }
+  }
+  .footer-brand p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 1rem 0 1.25rem;
+    max-width: 22rem;
+    line-height: 1.6;
+  }
+  .social-row {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .social-row a {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .social-row a:hover {
+    border-color: var(--violet);
+    color: #cbb8ff;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .footer-col h4 {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin: 0 0 0.25rem;
+    text-transform: uppercase;
+  }
+  .footer-col a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+  .footer-col a:hover {
+    opacity: 1;
+    color: #cbb8ff;
+  }
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .footer-legal {
+    display: flex;
+    gap: 1.25rem;
+  }
+  .footer-legal a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .footer-legal a:hover {
+    color: var(--text);
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orb-ring,
+    .orb-core,
+    .status-card {
+      animation: none !important;
+    }
+    .reveal {
+      transition: none;
+    }
+  }
+</style>
