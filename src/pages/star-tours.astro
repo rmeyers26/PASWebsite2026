@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const visualPoints = [
+  'The operator is responsible for setup, target acquisition, focus, and target tracking during the event.',
+  'The operator instructs guests in the instrument’s operation and answers questions about the equipment and what is being observed.',
+  'Popular targets include the moon, planets in our solar system, star clusters, asterisms, bright reflection and emission nebulae, and large galaxies.',
+  'Each visual telescope may handle up to 30 guests per hour.',
+  'Typical events include views of one to three different astronomical targets.',
+];
+
+const eaaPoints = [
+  'The operator is responsible for setup, target acquisition, focus, and target tracking during the event.',
+  'The operator converses with guests about the equipment, observed target(s), and answers questions.',
+  'Popular targets include the moon, planets in our solar system, star clusters, asterisms, galaxies, and nebulae.',
+  'Each EAA telescope may handle up to 30 guests seated or standing with a view of the large monitor.',
+  'Typical events may include views of up to six targets.',
+];
+
+const presentations = [
+  'Meteorite collections',
+  'Traveling the universe by telescope',
+  'How to understand the night sky',
+  'The mathematics of cosmological distances',
+  'The history of our universe',
+];
+
+const bookingInfo = [
+  'Event sponsor',
+  'Name of event',
+  'Brief description of the event',
+  'Date',
+  'Times (start & end)',
+  'Location address',
+  'Number of telescopes (operators) desired',
+  'Additional presenters (e.g. meteorites) desired',
+  "Contact's name, email, and telephone",
+];
+---
+
+<BaseLayout
+  title="Star Tours"
+  description="Book a PAS Star Tours event: telescopes, presenters, and hands-on astronomy for schools, scout troops, and community groups."
+>
+  <section class="relative overflow-hidden border-b border-subtle">
+    <img
+      src="/images/star-tours-eaa-night.jpg"
+      alt="A PAS EAA telescope setup at night under red light, with the Triangulum Galaxy displayed on the monitor and the Phoenix skyline behind"
+      class="absolute inset-0 h-full w-full object-cover opacity-60"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-transparent"></div>
+    <div class="relative mx-auto max-w-4xl px-6 py-28 text-center sm:py-36">
+      <p class="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-nebula-teal">Star Tours</p>
+      <h1 class="font-display text-4xl leading-tight tracking-wide text-ink-primary sm:text-6xl">
+        Bring the Night Sky to Your Group
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-ink-muted">
+        The Phoenix Astronomical Society performs community outreach in the form of star parties and other
+        educational events — for schools, scout troops, businesses, and community organizations.
+      </p>
+      <a href="mailto:startours@pasaz.org" class="btn-primary mt-10 inline-flex">Book an Event</a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <p class="text-ink-muted">
+      We provide operators/presenters, telescopes, additional equipment, hands-on guidance, and printed materials.
+      Events are fee-based depending on the number of operators/presenters and the duration of the event. A normal
+      Star Tours event is two hours, but longer sessions may be arranged.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Program Offerings</h2>
+      <div class="mt-10 grid gap-8 sm:grid-cols-2">
+        <div class="card">
+          <h3 class="font-display text-xl text-nebula-teal">Visual Telescopes</h3>
+          <p class="mt-2 text-sm text-ink-muted">
+            Fitted with eyepieces for direct observation by one guest at a time.
+          </p>
+          <ul class="mt-4 space-y-3 text-sm text-ink-muted">
+            {visualPoints.map((point) => <li>• {point}</li>)}
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="font-display text-xl text-nebula-violet">EAA Telescopes</h3>
+          <p class="mt-2 text-sm text-ink-muted">
+            Electronically Assisted Astrophotography — a high-resolution astronomy camera presents the
+            telescope's live view on a large monitor so small groups can view the target together.
+          </p>
+          <ul class="mt-4 space-y-3 text-sm text-ink-muted">
+            {eaaPoints.map((point) => <li>• {point}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <figure class="mt-10 overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <img
+          src="/images/star-tours-eaa-day.jpg"
+          alt="A PAS member with an EAA telescope setup during the day, monitor displaying a nebula image, Camelback Mountain in the background"
+          class="w-full object-cover"
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">
+          A PAS Star Tours EAA setup — telescope, live monitor, and presenter ready for guests.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Additional Presentations</h2>
+    <p class="mt-4 text-ink-muted">Beyond telescope time, PAS presenters can offer talks such as:</p>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+      {
+        presentations.map((item) => (
+          <li class="rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">{item}</li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Book an Event</h2>
+      <p class="mt-4 text-ink-muted">
+        If your business, organization, school, or scout troop is interested in scheduling a Star Tour event,
+        contact us at <a href="mailto:startours@pasaz.org" class="text-nebula-teal hover:underline">startours@pasaz.org</a> and
+        include the following:
+      </p>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+        {
+          bookingInfo.map((item) => (
+            <li class="rounded-lg border border-subtle bg-space-card px-5 py-4 text-sm text-ink-muted">{item}</li>
+          ))
+        }
+      </ul>
+      <a href="mailto:startours@pasaz.org" class="btn-primary mt-8">Email startours@pasaz.org</a>
+    </div>
+  </section>
+</BaseLayout>
