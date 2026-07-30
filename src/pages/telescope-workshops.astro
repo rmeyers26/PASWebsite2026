@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import desertEyepieceSunset from '../assets/images/workshops/desert-eyepiece-sunset.jpg';
+import workshopIndoorScopes from '../assets/images/workshops/workshop-indoor-scopes.jpg';
 ---
 
 <BaseLayout
@@ -8,7 +11,7 @@ import Hero from '../components/Hero.astro';
   description="Free, public telescope workshops from the Phoenix Astronomical Society — get help finding objects in the sky or choosing a telescope to buy."
 >
   <Hero
-    image="/images/workshops/desert-eyepiece-sunset.jpg"
+    image={desertEyepieceSunset}
     alt="A member looking through a telescope eyepiece at sunset in the desert"
     eyebrow="Telescope Workshops"
     title="Get the Most Out of Your Telescope"
@@ -74,9 +77,10 @@ import Hero from '../components/Hero.astro';
     <h2 class="section-heading">Workshops in Action</h2>
     <div class="mt-8 grid gap-6 sm:grid-cols-2">
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
-          src="/images/workshops/workshop-indoor-scopes.jpg"
+        <Image
+          src={workshopIndoorScopes}
           alt="PAS members helping attendees set up and align telescopes at an indoor workshop"
+          width={800}
           loading="lazy"
           class="h-56 w-full object-cover"
         />
@@ -85,9 +89,10 @@ import Hero from '../components/Hero.astro';
         </figcaption>
       </figure>
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
-          src="/images/workshops/desert-eyepiece-sunset.jpg"
+        <Image
+          src={desertEyepieceSunset}
           alt="An attendee looking through a refractor telescope at sunset in the desert"
+          width={800}
           loading="lazy"
           class="h-56 w-full object-cover"
         />

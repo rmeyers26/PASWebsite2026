@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+
 interface Props {
-  image: string;
+  image: ImageMetadata | string;
   alt?: string;
   eyebrow?: string;
   title: string;
@@ -17,12 +19,23 @@ const {
 ---
 
 <section class="relative overflow-hidden border-b border-subtle">
-  <img
-    src={image}
-    alt={alt}
-    class="absolute inset-0 h-full w-full object-cover opacity-60"
-    loading="eager"
-  />
+  {typeof image === 'string' ? (
+    <img
+      src={image}
+      alt={alt}
+      class="absolute inset-0 h-full w-full object-cover opacity-60"
+      loading="eager"
+    />
+  ) : (
+    <Image
+      src={image}
+      alt={alt}
+      width={1600}
+      class="absolute inset-0 h-full w-full object-cover opacity-60"
+      loading="eager"
+      fetchpriority="high"
+    />
+  )}
   <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20"></div>
   <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
     {eyebrow && (

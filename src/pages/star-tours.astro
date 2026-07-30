@@ -1,5 +1,17 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import eaaNight from '../assets/images/star-tours-eaa-night.jpg';
+import sampleHelixNebula from '../assets/images/star-tours-sample-helix-nebula.jpg';
+import sampleWhirlpoolGalaxy from '../assets/images/star-tours-sample-whirlpool-galaxy.jpg';
+import sampleComet from '../assets/images/star-tours-sample-comet.jpg';
+import visualChild from '../assets/images/star-tours-visual-child.jpg';
+import eaaOrionMonitor from '../assets/images/star-tours-eaa-orion-monitor.jpg';
+import eventCrowd from '../assets/images/star-tours-event-crowd.jpg';
+import corporateEvent from '../assets/images/star-tours-corporate-event.jpg';
+import presentationNight from '../assets/images/star-tours-presentation-night.jpg';
+import touchMeteorite from '../assets/images/star-tours-touch-meteorite.jpg';
+import operatorRecruitment from '../assets/images/star-tours-operator-recruitment.jpg';
 
 const visualPoints = [
   'A telescope fitted with an eyepiece, letting each guest observe the target individually.',
@@ -40,9 +52,9 @@ const bookingInfo = [
 ];
 
 const samplePhotos = [
-  { src: '/images/star-tours-sample-helix-nebula.jpg', alt: 'The Helix Nebula, a colorful planetary nebula', caption: 'The Helix Nebula' },
-  { src: '/images/star-tours-sample-whirlpool-galaxy.jpg', alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
-  { src: '/images/star-tours-sample-comet.jpg', alt: 'A green comet with a long tail against a starfield', caption: 'A comet, tail streaming' },
+  { src: sampleHelixNebula, alt: 'The Helix Nebula, a colorful planetary nebula', caption: 'The Helix Nebula' },
+  { src: sampleWhirlpoolGalaxy, alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
+  { src: sampleComet, alt: 'A green comet with a long tail against a starfield', caption: 'A comet, tail streaming' },
 ];
 ---
 
@@ -51,9 +63,12 @@ const samplePhotos = [
   description="Book a PAS Star Tours event: telescopes, presenters, and hands-on astronomy for schools, scout troops, businesses, and celebrations."
 >
   <section class="relative overflow-hidden border-b border-subtle">
-    <img
-      src="/images/star-tours-eaa-night.jpg"
+    <Image
+      src={eaaNight}
       alt="A PAS EAA telescope setup at night under red light, with the Triangulum Galaxy displayed on the monitor and the Phoenix skyline behind"
+      width={1600}
+      loading="eager"
+      fetchpriority="high"
       class="absolute inset-0 h-full w-full object-cover opacity-60"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20"></div>
@@ -86,7 +101,7 @@ const samplePhotos = [
       {
         samplePhotos.map((photo) => (
           <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-            <img src={photo.src} alt={photo.alt} loading="lazy" class="h-40 w-full object-cover" />
+            <Image src={photo.src} alt={photo.alt} width={500} loading="lazy" class="h-40 w-full object-cover" />
             <figcaption class="px-3 py-2 text-xs text-ink-muted">{photo.caption}</figcaption>
           </figure>
         ))
@@ -123,9 +138,10 @@ const samplePhotos = [
 
       <div class="mt-10 grid gap-6 sm:grid-cols-2">
         <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-          <img
-            src="/images/star-tours-visual-child.jpg"
+          <Image
+            src={visualChild}
             alt="A young child looking through a visual telescope eyepiece in daylight"
+            width={800}
             loading="lazy"
             class="h-56 w-full object-cover"
           />
@@ -134,9 +150,10 @@ const samplePhotos = [
           </figcaption>
         </figure>
         <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-          <img
-            src="/images/star-tours-eaa-orion-monitor.jpg"
+          <Image
+            src={eaaOrionMonitor}
             alt="An EAA telescope live-stacking the Orion Nebula onto a monitor at night"
+            width={800}
             loading="lazy"
             class="h-56 w-full object-cover"
           />
@@ -148,9 +165,10 @@ const samplePhotos = [
 
       <div class="mt-6 grid gap-6 sm:grid-cols-2">
         <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-          <img
-            src="/images/star-tours-event-crowd.jpg"
+          <Image
+            src={eventCrowd}
             alt="A large crowd gathered at dusk among lit cacti for a PAS Star Tours event"
+            width={800}
             loading="lazy"
             class="h-56 w-full object-cover"
           />
@@ -159,9 +177,10 @@ const samplePhotos = [
           </figcaption>
         </figure>
         <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-          <img
-            src="/images/star-tours-corporate-event.jpg"
+          <Image
+            src={corporateEvent}
             alt="Five PAS operators with telescopes at a rooftop resort event at night"
+            width={800}
             loading="lazy"
             class="h-56 w-full object-cover"
           />
@@ -195,9 +214,10 @@ const samplePhotos = [
     </p>
     <div class="mt-8 grid gap-6 sm:grid-cols-2">
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
-          src="/images/star-tours-presentation-night.jpg"
+        <Image
+          src={presentationNight}
           alt="A crowd gathered around a lit presentation table at a night Star Tours event"
+          width={800}
           loading="lazy"
           class="h-56 w-full object-cover"
         />
@@ -206,9 +226,10 @@ const samplePhotos = [
         </figcaption>
       </figure>
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
-          src="/images/star-tours-touch-meteorite.jpg"
+        <Image
+          src={touchMeteorite}
           alt="Kids and presenters at a Touch a Meteorite table, with real meteorite specimens laid out"
+          width={800}
           loading="lazy"
           class="h-56 w-full object-cover"
         />
@@ -228,9 +249,10 @@ const samplePhotos = [
         terminology and facts about the cosmos — and operators are paid for their demonstrations.
       </p>
       <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <img
-          src="/images/star-tours-operator-recruitment.jpg"
+        <Image
+          src={operatorRecruitment}
           alt="A PAS meeting slide titled 'Do You Own a Telescope? If so... are you ready?' recruiting Star Tours operators"
+          width={1000}
           loading="lazy"
           class="w-full object-cover"
         />
