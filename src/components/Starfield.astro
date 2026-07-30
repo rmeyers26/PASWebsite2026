@@ -18,6 +18,8 @@ const twinkleStars = makeLayer(18, 1);
 ---
 
 <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-space-base" aria-hidden="true">
+  <div class="ambient-orb ambient-orb-violet absolute -left-[10%] -top-[15%] h-[50vw] w-[50vw] max-w-[720px] rounded-full bg-nebula-violet/20 blur-[120px]"></div>
+  <div class="ambient-orb ambient-orb-blue absolute -right-[15%] top-[20%] h-[45vw] w-[45vw] max-w-[640px] rounded-full bg-sky-500/15 blur-[120px]"></div>
   <div class="starfield-layer absolute h-px w-px rounded-full" style={`box-shadow: ${farStars};`}></div>
   <div class="starfield-layer absolute h-[1.5px] w-[1.5px] rounded-full" style={`box-shadow: ${nearStars};`}></div>
   <div class="starfield-twinkle absolute h-[2px] w-[2px] rounded-full" style={`box-shadow: ${twinkleStars};`}></div>
@@ -31,6 +33,25 @@ const twinkleStars = makeLayer(18, 1);
 
   .starfield-drift {
     animation: drift 60s linear infinite;
+  }
+
+  .ambient-orb {
+    animation: ambient-drift 40s ease-in-out infinite;
+  }
+
+  .ambient-orb-blue {
+    animation-duration: 50s;
+    animation-direction: reverse;
+  }
+
+  @keyframes ambient-drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(4%, 6%) scale(1.08);
+    }
   }
 
   @keyframes twinkle {
