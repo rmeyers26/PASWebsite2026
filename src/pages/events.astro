@@ -69,14 +69,36 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
   </section>
 
   <section class="mx-auto max-w-4xl px-6 py-20">
-    <h2 class="section-heading">School & Scout Group Visits</h2>
+    <h2 class="section-heading">Special Events</h2>
     <p class="mt-4 text-ink-muted">
-      PAS brings telescopes and presenters to schools, scout troops, and community organizations for hands-on
-      astronomy outreach, through our Star Tours program.
+      Beyond our regular meetings and star parties, PAS members take part in special trips and events throughout
+      the year — like a private group tour of Lowell Observatory's Richard F. Caris Dark Sky Planetarium in
+      Flagstaff.
     </p>
-    <div class="mt-6">
-      <PlaceholderNote label="A self-serve online request form is planned for a future phase. Until then, Star Tours events are booked by email." />
+    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <img
+        src="/images/events-lowell-observatory-tour.jpg"
+        alt="PAS members on a private tour of Lowell Observatory's Richard F. Caris Dark Sky Planetarium rooftop deck"
+        loading="lazy"
+        class="w-full object-cover"
+      />
+      <figcaption class="px-4 py-3 text-sm text-ink-muted">
+        PAS members on a private tour of Lowell Observatory's Dark Sky Planetarium.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">School & Scout Group Visits</h2>
+      <p class="mt-4 text-ink-muted">
+        PAS brings telescopes and presenters to schools, scout troops, and community organizations for hands-on
+        astronomy outreach, through our Star Tours program.
+      </p>
+      <div class="mt-6">
+        <PlaceholderNote label="A self-serve online request form is planned for a future phase. Until then, Star Tours events are booked by email." />
+      </div>
+      <a href="/star-tours" class="btn-secondary mt-6">See Star Tours Details</a>
     </div>
-    <a href="/star-tours" class="btn-secondary mt-6">See Star Tours Details</a>
   </section>
 </BaseLayout>
