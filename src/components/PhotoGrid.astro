@@ -1,0 +1,29 @@
+---
+interface Photo {
+  src: string;
+  alt: string;
+  caption: string;
+  color?: boolean;
+}
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+---
+
+<div class="grid gap-6 sm:grid-cols-2">
+  {
+    photos.map((photo) => (
+      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          class:list={['h-56 w-full object-cover', !photo.color && 'grayscale']}
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">{photo.caption}</figcaption>
+      </figure>
+    ))
+  }
+</div>
