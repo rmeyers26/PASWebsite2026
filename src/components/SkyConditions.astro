@@ -1,6 +1,4 @@
 ---
-const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
-
 const conditions = [
   { label: 'Cloud Cover', icon: '☁️' },
   { label: 'Seeing & Transparency', icon: '🔭' },
@@ -29,17 +27,10 @@ const conditions = [
       </ul>
       <div class="text-center md:text-left">
         <p class="text-ink-muted">
-          View the full hour-by-hour astronomical forecast for Phoenix, Arizona on Astrospheric — a free
-          forecasting tool built for astronomers.
+          View the full hour-by-hour astronomical forecast for Phoenix, Arizona — cloud cover, seeing, and
+          transparency from Astrospheric, a free forecasting tool built for astronomers.
         </p>
-        <a
-          href={astrosphericUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary mt-6 inline-flex"
-        >
-          View Phoenix Sky Forecast
-        </a>
+        <a href="/sky-conditions" class="btn-primary mt-6 inline-flex">View Phoenix Sky Forecast</a>
       </div>
     </div>
   </div>
