@@ -3,7 +3,7 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/events', label: 'Events' },
-  { href: '/star-tours', label: 'Star Tours' },
+  { href: '/star-tours', label: 'Star Tours', highlight: true },
   { href: '/telescope-workshops', label: 'Telescope Workshops' },
   { href: '/join', label: 'Join' },
   { href: '/contact', label: 'Contact' },
@@ -27,10 +27,14 @@ const currentPath = Astro.url.pathname;
             <li>
               <a
                 href={item.href}
-                class:list={[
-                  'text-sm font-medium transition hover:text-nebula-teal',
-                  isActive ? 'text-nebula-teal' : 'text-ink-primary',
-                ]}
+                class:list={
+                  item.highlight
+                    ? ['text-base font-bold tracking-wide text-nebula-amber transition hover:text-nebula-amber/80']
+                    : [
+                        'text-sm font-medium transition hover:text-nebula-teal',
+                        isActive ? 'text-nebula-teal' : 'text-ink-primary',
+                      ]
+                }
                 aria-current={isActive ? 'page' : undefined}
               >
                 {item.label}
@@ -52,7 +56,13 @@ const currentPath = Astro.url.pathname;
         {
           navItems.map((item) => (
             <li>
-              <a href={item.href} class="block py-2 text-ink-primary">
+              <a
+                href={item.href}
+                class:list={[
+                  'block py-2',
+                  item.highlight ? 'font-bold text-nebula-amber' : 'text-ink-primary',
+                ]}
+              >
                 {item.label}
               </a>
             </li>
