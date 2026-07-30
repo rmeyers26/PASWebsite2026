@@ -1,18 +1,25 @@
 ---
 interface Props {
   image: string;
+  alt?: string;
   eyebrow?: string;
   title: string;
   subtitle?: string;
 }
 
-const { image, eyebrow, title, subtitle } = Astro.props;
+const {
+  image,
+  alt = 'Placeholder — real member astrophotography will replace this image',
+  eyebrow,
+  title,
+  subtitle,
+} = Astro.props;
 ---
 
 <section class="relative overflow-hidden border-b border-subtle">
   <img
     src={image}
-    alt="Placeholder — real member astrophotography will replace this image"
+    alt={alt}
     class="absolute inset-0 h-full w-full object-cover opacity-70"
     loading="eager"
   />
