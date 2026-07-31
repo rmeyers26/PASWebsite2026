@@ -194,9 +194,15 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
       return new THREE.CanvasTexture(el);
     }
 
-    // --- Starfield: two layers at different radii/speeds for a parallax depth cue ---
+    // --- Starfield: two layers at different radii/speeds for a parallax depth cue.
+    // Each star twinkles on its own time-driven phase (a GPU shader, not a hover/mouse
+    // effect), so it plays identically on touch devices with no pointer at all.
+    const starTwinkleMaterials: THREE.ShaderMaterial[] = [];
     function makeStarfield(count: number, radius: number, size: number, opacity: number) {
       const positions = new Float32Array(count * 3);
+      const sizes = new Float32Array(count);
+      const phases = new Float32Array(count);
+      const speeds = new Float32Array(count);
       for (let i = 0; i < count; i++) {
         const r = radius * (0.55 + Math.random() * 0.45);
         const theta = Math.random() * Math.PI * 2;
@@ -204,21 +210,56 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
         positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi) - radius * 0.3;
+        sizes[i] = size * (0.6 + Math.random() * 0.8);
+        phases[i] = Math.random() * Math.PI * 2;
+        speeds[i] = 0.6 + Math.random() * 1.8;
       }
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const material = new THREE.PointsMaterial({
-        color: 0xf1f3f8,
-        size,
-        sizeAttenuation: true,
+      geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+      geometry.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 1));
+
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          uTime: { value: 0 },
+          uColor: { value: new THREE.Color(0xf1f3f8) },
+          uOpacity: { value: opacity },
+          uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        },
         transparent: true,
-        opacity,
         depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: `
+          attribute float aSize;
+          attribute float aPhase;
+          attribute float aSpeed;
+          uniform float uTime;
+          uniform float uPixelRatio;
+          varying float vTwinkle;
+          void main() {
+            vTwinkle = 0.45 + 0.55 * sin(uTime * aSpeed + aPhase);
+            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+            gl_PointSize = aSize * uPixelRatio * (300.0 / -mvPosition.z);
+            gl_Position = projectionMatrix * mvPosition;
+          }
+        `,
+        fragmentShader: `
+          uniform vec3 uColor;
+          uniform float uOpacity;
+          varying float vTwinkle;
+          void main() {
+            vec2 uv = gl_PointCoord - 0.5;
+            float alpha = smoothstep(0.5, 0.0, length(uv));
+            gl_FragColor = vec4(uColor, alpha * uOpacity * vTwinkle);
+          }
+        `,
       });
+      starTwinkleMaterials.push(material);
       return new THREE.Points(geometry, material);
     }
-    const starsFar = makeStarfield(1400, 110, 0.5, 0.7);
-    const starsNear = makeStarfield(500, 70, 0.9, 0.9);
+    const starsFar = makeStarfield(1400, 110, 5, 0.7);
+    const starsNear = makeStarfield(500, 70, 9, 0.9);
     scene.add(starsFar, starsNear);
 
     // --- Nebula clouds: soft additive sprites drifting slowly in the background ---
@@ -418,6 +459,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
       if (!visible) return;
 
       const elapsed = clock.getElapsedTime();
+      for (const material of starTwinkleMaterials) material.uniforms.uTime.value = elapsed;
       saturnMesh.rotation.y = elapsed * 0.08;
       ringTexture.offset.x = elapsed * 0.01; // gentle shimmer
       moonMesh.rotation.y = elapsed * 0.035;
