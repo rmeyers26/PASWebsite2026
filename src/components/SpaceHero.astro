@@ -493,12 +493,17 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
 
     const clock = new THREE.Clock();
     let rafId = 0;
+    // Reduced motion still gets a gentle, ambient animation (slow rotation + twinkle) —
+    // WCAG asks to avoid large/vestibular-triggering motion, not to freeze entirely. What's
+    // cut under reduced motion is anything driven by user input: mouse parallax, scroll
+    // dolly, and the (larger, sudden) shooting stars.
+    const motionScale = prefersReducedMotion ? 0.3 : 1;
 
     function tick() {
-      if (!prefersReducedMotion) rafId = requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
       if (!visible) return;
 
-      const elapsed = clock.getElapsedTime();
+      const elapsed = clock.getElapsedTime() * motionScale;
       for (const material of starTwinkleMaterials) material.uniforms.uTime.value = elapsed;
       saturnMesh.rotation.y = elapsed * 0.08;
       ringTexture.offset.x = elapsed * 0.01; // gentle shimmer
@@ -510,12 +515,14 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
         sprite.position.x += Math.sin(elapsed * 0.05 + i) * 0.003;
       });
 
-      smoothedX += (mouseX - smoothedX) * 0.03;
-      smoothedY += (mouseY - smoothedY) * 0.03;
-      camera.position.x = smoothedX * 1.4;
-      camera.position.y = -smoothedY * 0.9;
-      camera.position.z = 20 + scrollProgress * 6;
-      camera.lookAt(0, 0, 0);
+      if (!prefersReducedMotion) {
+        smoothedX += (mouseX - smoothedX) * 0.03;
+        smoothedY += (mouseY - smoothedY) * 0.03;
+        camera.position.x = smoothedX * 1.4;
+        camera.position.y = -smoothedY * 0.9;
+        camera.position.z = 20 + scrollProgress * 6;
+        camera.lookAt(0, 0, 0);
+      }
 
       renderer.render(scene, camera);
     }
