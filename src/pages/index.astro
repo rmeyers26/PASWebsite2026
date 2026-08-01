@@ -1,8 +1,59 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import SpaceHero from '../components/SpaceHero.astro';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
+
+const benefits = [
+  {
+    title: 'Monthly Lecture Series',
+    accent: 'text-nebula-teal',
+    body: 'Guest speakers and member talks covering observing, astrophotography, and the latest research.',
+  },
+  {
+    title: 'Public Star Parties',
+    accent: 'text-nebula-violet',
+    body: 'Free, open-to-the-public observing nights — a welcoming first stop for beginners of any age.',
+  },
+  {
+    title: 'Telescope Workshops',
+    accent: 'text-nebula-amber',
+    body: "Free, hands-on help choosing, setting up, and getting the most out of your own telescope.",
+  },
+  {
+    title: 'Star Tours Outreach',
+    accent: 'text-nebula-teal',
+    body: 'Bring PAS telescopes and presenters to your school, scout troop, or community group.',
+  },
+  {
+    title: 'Group Trips',
+    accent: 'text-nebula-violet',
+    body: 'Members-only excursions, like private tours of Lowell Observatory in Flagstaff.',
+  },
+  {
+    title: 'A Club Since 1948',
+    accent: 'text-nebula-amber',
+    body: 'Nearly eight decades of bringing Arizona’s skies to students, families, and lifelong astronomers.',
+  },
+];
+
+const upcomingEventTypes = [
+  {
+    title: 'Monthly Meeting',
+    accent: 'text-nebula-teal',
+    body: 'Our Lecture Series meeting, with a guest speaker and club updates.',
+  },
+  {
+    title: 'Public Star Party',
+    accent: 'text-nebula-violet',
+    body: 'Free, open-air observing — bring your own gear or just look through ours.',
+  },
+  {
+    title: 'Telescope Workshop',
+    accent: 'text-nebula-amber',
+    body: "Can't find anything in your telescope? Bring it and we'll help.",
+  },
+];
 
 const comingSoon = [
   'Member astrophotography gallery & contest',
@@ -16,51 +67,57 @@ const comingSoon = [
   title="Home"
   description="The Phoenix Astronomical Society is a 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona since 1948."
 >
-  <Hero
-    image="/images/placeholder-hero-home.svg"
+  <SpaceHero
     eyebrow="Phoenix Astronomical Society"
-    title="Join Us Under Arizona's Night Sky"
-    subtitle="A community of amateur and professional astronomers, teachers, and learners — of all ages and experience levels."
+    title="Explore the Universe Together"
+    subtitle="Join one of Arizona's most active astronomy communities for observing, astrophotography, education, and discovery."
   >
     <div class="mt-10 flex flex-wrap justify-center gap-4">
-      <a href="/events" class="btn-primary">See Upcoming Events</a>
-      <a href="/join" class="btn-secondary">Become a Member</a>
+      <a href="/join" class="btn-primary">Join the Club</a>
+      <a href="/events" class="btn-secondary">Upcoming Events</a>
     </div>
-  </Hero>
-
-  <ApodOfTheDay />
+  </SpaceHero>
 
   <section class="mx-auto max-w-6xl px-6 py-20">
-    <div class="grid gap-8 sm:grid-cols-3">
-      <div class="card">
-        <h2 class="font-display text-xl text-nebula-teal">Public Star Parties</h2>
-        <p class="mt-3 text-ink-muted">
-          Free, open to the public, and welcoming to first-time stargazers and experienced observers alike.
-        </p>
-        <a href="/events" class="mt-4 inline-block text-sm font-semibold text-nebula-teal hover:underline"
-          >See the schedule →</a
-        >
+    <h2 class="section-heading">Why Join PAS</h2>
+    <p class="mt-3 max-w-2xl text-ink-muted">
+      Concrete reasons members stick around — not just a meeting on the calendar.
+    </p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        benefits.map((benefit) => (
+          <div class="card">
+            <h3 class={`font-display text-lg ${benefit.accent}`}>{benefit.title}</h3>
+            <p class="mt-3 text-ink-muted">{benefit.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-6xl px-6 py-20">
+      <h2 class="section-heading">Upcoming Events</h2>
+      <p class="mt-3 max-w-2xl text-ink-muted">
+        Meetings, star parties, and workshops happen regularly throughout the year.
+      </p>
+      <div class="mt-10 grid gap-6 sm:grid-cols-3">
+        {
+          upcomingEventTypes.map((event) => (
+            <div class="card">
+              <h3 class={`font-display text-lg ${event.accent}`}>{event.title}</h3>
+              <p class="mt-3 text-ink-muted">{event.body}</p>
+            </div>
+          ))
+        }
       </div>
-      <div class="card">
-        <h2 class="font-display text-xl text-nebula-violet">A Club Since 1948</h2>
-        <p class="mt-3 text-ink-muted">
-          Nearly eight decades of bringing Arizona's skies to students, families, and lifelong astronomers.
-        </p>
-        <a href="/about" class="mt-4 inline-block text-sm font-semibold text-nebula-violet hover:underline"
-          >Our history →</a
-        >
-      </div>
-      <div class="card">
-        <h2 class="font-display text-xl text-nebula-amber">Bring Your Class or Troop</h2>
-        <p class="mt-3 text-ink-muted">
-          PAS brings telescopes and presenters to schools, scout troops, and community groups.
-        </p>
-        <a href="/star-tours" class="mt-4 inline-block text-sm font-semibold text-nebula-amber hover:underline"
-          >Request a visit →</a
-        >
+      <div class="mt-10">
+        <a href="/events" class="btn-primary">View Full Calendar</a>
       </div>
     </div>
   </section>
+
+  <ApodOfTheDay />
 
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-6xl px-6 py-20">
