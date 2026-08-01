@@ -237,6 +237,16 @@ const observingSites = [
     <p class="mt-4 text-ink-muted">
       Sites are rated on the Bortle scale, from 1 (darkest) to 9 (brightest inner-city skies).
     </p>
+    <p class="mt-2 text-ink-muted">
+      Want to explore more dark-sky locations beyond this list? Check out the{' '}
+      <a
+        href={`https://www.darkskysites.com/?lat=${astrosphericLat}&lng=${astrosphericLng}&z=8`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-nebula-teal hover:underline"
+      >
+        light pollution map on darkskysites.com</a>.
+    </p>
     <ul class="mt-8 space-y-3">
       {
         observingSites.map((site) => (
