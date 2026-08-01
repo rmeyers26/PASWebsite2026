@@ -49,28 +49,48 @@ const currentPath = Astro.url.pathname;
       }
     </ul>
     <a href="/join" class="btn-primary hidden text-sm lg:inline-flex">Join PAS</a>
-    <details class="lg:hidden">
+    <details class="mobile-menu lg:hidden">
       <summary
-        class="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-2xl text-ink-primary"
+        class="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-ink-primary"
         aria-label="Open menu"
+        aria-expanded="false"
       >
-        ☰
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
       </summary>
       <ul class="absolute left-4 right-4 top-full mt-2 flex max-h-[calc(100vh-6rem)] flex-col gap-1 overflow-y-auto rounded-2xl border border-subtle bg-space-base px-6 py-4 shadow-2xl">
         {
-          navItems.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={[
-                  'block py-2',
-                  item.highlight ? 'font-bold text-nebula-amber' : 'text-ink-primary',
-                ]}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
+          navItems.map((item) => {
+            const isActive = currentPath === item.href;
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    'block py-2',
+                    item.highlight ? 'font-bold text-nebula-amber' : 'text-ink-primary',
+                  ]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
         }
         <li>
           <a href="/join" class="mt-2 block py-2 font-semibold text-nebula-teal">
@@ -81,3 +101,18 @@ const currentPath = Astro.url.pathname;
     </details>
   </nav>
 </header>
+
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  const summary = menu?.querySelector('summary');
+
+  menu?.addEventListener('toggle', () => {
+    summary?.setAttribute('aria-expanded', String(menu.open));
+  });
+
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menu.open = false;
+    });
+  });
+</script>

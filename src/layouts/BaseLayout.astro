@@ -2,6 +2,7 @@
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -40,9 +41,16 @@ const imageURL = new URL(image, Astro.site);
     <meta name="twitter:image" content={imageURL} />
   </head>
   <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-space-base focus:px-4 focus:py-2 focus:text-ink-primary focus:outline focus:outline-2 focus:outline-nebula-teal"
+    >
+      Skip to content
+    </a>
     <Starfield />
     <NavBar />
-    <main>
+    <main id="main-content" tabindex="-1">
+      <Breadcrumbs />
       <slot />
     </main>
     <Footer />

@@ -160,7 +160,7 @@ const observingSites = [
   description="Check tonight's astronomical forecast for the Phoenix area, plus Bortle-rated dark-sky observing sites and seasonal targets for telescopes and binoculars from the Phoenix Astronomical Society."
 >
   <Hero
-    image="/images/placeholder-hero-events.svg"
+    image="/images/placeholder-hero-sky-conditions.svg"
     alt="Placeholder — real member astrophotography will replace this image"
     eyebrow="Sky Conditions"
     title="Sky Conditions & Observing Sites"
@@ -174,18 +174,40 @@ const observingSites = [
       <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
         open it directly on Astrospheric</a>.
     </p>
+    <noscript>
+      <p class="mt-4 text-ink-muted">
+        Sky forecast requires JavaScript —{' '}
+        <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
+          view on Astrospheric</a>.
+      </p>
+    </noscript>
     <div class="mt-8 overflow-hidden rounded-lg border border-subtle p-2">
       <div id="AstrosphericEmbedContainer"></div>
     </div>
   </section>
 
   <script src="https://s-v1-galaxy-direct.astrospheric.com/embed/astrosphericembed.js"></script>
-  <script define:vars={{ astrosphericLat, astrosphericLng }}>
+  <script define:vars={{ astrosphericLat, astrosphericLng, astrosphericUrl }}>
+    const maxAttempts = 50;
+    let attempts = 0;
+
     function createAstrosphericEmbed() {
       if (window.m_AstrosphericEmbed) {
         window.m_AstrosphericEmbed.Create('AstrosphericEmbedContainer', astrosphericLat, astrosphericLng);
-      } else {
+      } else if (attempts < maxAttempts) {
+        attempts += 1;
         setTimeout(createAstrosphericEmbed, 100);
+      } else {
+        const container = document.getElementById('AstrosphericEmbedContainer');
+        if (container) {
+          const link = document.createElement('a');
+          link.href = astrosphericUrl;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.className = 'text-nebula-teal hover:underline';
+          link.textContent = 'Sky forecast requires JavaScript — view on Astrospheric';
+          container.appendChild(link);
+        }
       }
     }
     createAstrosphericEmbed();

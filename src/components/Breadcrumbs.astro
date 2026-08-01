@@ -1,0 +1,53 @@
+---
+const labels: Record<string, string> = {
+  about: 'About',
+  events: 'Events',
+  'star-tours': 'Star Tours',
+  'telescope-workshops': 'Telescope Workshops',
+  'sky-conditions': 'Sky Conditions',
+  exoplanets: 'Exoplanets',
+  'solar-system': 'Solar System',
+  contact: 'Contact',
+  join: 'Join',
+  history: 'History',
+  leadership: 'Leadership',
+};
+
+const pathname = Astro.url.pathname;
+const segments = pathname.split('/').filter(Boolean);
+---
+
+{
+  segments.length > 0 && (
+    <nav aria-label="Breadcrumb" class="mx-auto max-w-6xl px-6 pt-6 text-sm text-ink-muted">
+      <ol class="flex flex-wrap items-center gap-2">
+        <li>
+          <a href="/" class="hover:text-nebula-teal">
+            Home
+          </a>
+        </li>
+        {segments.map((segment, index) => {
+          const href = '/' + segments.slice(0, index + 1).join('/');
+          const isLast = index === segments.length - 1;
+          const label = labels[segment] ?? segment;
+          return (
+            <>
+              <li aria-hidden="true">/</li>
+              <li>
+                {isLast ? (
+                  <span aria-current="page" class="text-ink-primary">
+                    {label}
+                  </span>
+                ) : (
+                  <a href={href} class="hover:text-nebula-teal">
+                    {label}
+                  </a>
+                )}
+              </li>
+            </>
+          );
+        })}
+      </ol>
+    </nav>
+  )
+}

@@ -26,6 +26,19 @@ try {
 ---
 
 {
+  !apod && (
+    <section class="border-t border-subtle bg-space-card/40">
+      <div class="mx-auto max-w-6xl px-6 py-20">
+        <h2 class="section-heading">Astronomy Picture of the Day</h2>
+        <div class="card mt-8">
+          <p class="text-ink-muted">APOD unavailable — check back tomorrow.</p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+{
   apod && (
     <section class="border-t border-subtle bg-space-card/40">
       <div class="mx-auto max-w-6xl px-6 py-20">
