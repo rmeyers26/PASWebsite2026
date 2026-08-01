@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import AmbientHero from '../components/AmbientHero.astro';
 
 const eyesUrl = 'https://eyes.nasa.gov/apps/solar-system/#/home';
 ---
@@ -9,9 +9,8 @@ const eyesUrl = 'https://eyes.nasa.gov/apps/solar-system/#/home';
   title="NASA's Eyes on the Solar System"
   description="Explore a real-time, interactive 3D model of the solar system with NASA's Eyes on the Solar System — recommended by the Phoenix Astronomical Society."
 >
-  <Hero
-    image="/images/placeholder-hero-events.svg"
-    alt="Placeholder — real member astrophotography will replace this image"
+  <AmbientHero
+    accent="teal"
     eyebrow="Explore"
     title="NASA's Eyes on the Solar System"
     subtitle="A free, real-time 3D visualization of the solar system, built by NASA/JPL — see where every planet, moon, and spacecraft is right now."
@@ -19,9 +18,9 @@ const eyesUrl = 'https://eyes.nasa.gov/apps/solar-system/#/home';
     <a href={eyesUrl} target="_blank" rel="noopener noreferrer" class="btn-primary mt-8">
       Launch Eyes on the Solar System ↗
     </a>
-  </Hero>
+  </AmbientHero>
 
-  <section class="mx-auto max-w-3xl px-6 py-20">
+  <section class="mx-auto max-w-3xl px-6 py-20" data-reveal>
     <h2 class="section-heading">What It Is</h2>
     <p class="mt-6 text-ink-muted">
       Eyes on the Solar System is a free, browser-based 3D visualization tool from NASA's Jet Propulsion

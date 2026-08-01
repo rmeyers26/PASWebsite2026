@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import AmbientHero from '../components/AmbientHero.astro';
 
 const detectionMethods = [
   {
@@ -49,8 +49,8 @@ const planetTypes = [
   title="Exoplanets"
   description="An introduction to exoplanets — worlds beyond our solar system — how astronomers find them, and how PAS members observe exoplanet-hosting stars."
 >
-  <Hero
-    image="/images/placeholder-hero-exoplanets.svg"
+  <AmbientHero
+    accent="amber"
     eyebrow="Worlds Beyond Our Solar System"
     title="Exoplanets"
     subtitle="Thousands of planets have been confirmed orbiting other stars — and astronomers are still finding more."
@@ -89,7 +89,7 @@ const planetTypes = [
       <div class="mt-8 grid gap-6 sm:grid-cols-2">
         {
           detectionMethods.map((method) => (
-            <div class="card">
+            <div class="card" data-reveal>
               <h3 class="font-display text-lg text-nebula-teal">{method.name}</h3>
               <p class="mt-2 text-sm text-ink-muted">{method.description}</p>
             </div>
@@ -108,7 +108,7 @@ const planetTypes = [
     <div class="mt-8 grid gap-6 sm:grid-cols-2">
       {
         planetTypes.map((type) => (
-          <div class="card">
+          <div class="card" data-reveal>
             <h3 class="font-display text-lg text-nebula-violet">{type.name}</h3>
             <p class="mt-2 text-sm text-ink-muted">{type.description}</p>
           </div>

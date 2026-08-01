@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import AmbientHero from '../components/AmbientHero.astro';
+import EmbedFrame from '../components/EmbedFrame.astro';
 
 const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
 const telescopeTargets = [
@@ -157,28 +158,27 @@ const observingSites = [
   title="Sky Conditions & Observing Sites"
   description="Check tonight's astronomical forecast for the Phoenix area, plus Bortle-rated dark-sky observing sites and seasonal targets for telescopes and binoculars from the Phoenix Astronomical Society."
 >
-  <Hero
-    image="/images/placeholder-hero-events.svg"
-    alt="Placeholder — real member astrophotography will replace this image"
+  <AmbientHero
+    accent="teal"
     eyebrow="Sky Conditions"
     title="Sky Conditions & Observing Sites"
     subtitle="Tonight's astronomical forecast for the Phoenix area, plus where PAS members go for dark skies and what's worth looking at once you're there."
   />
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
+  <section class="mx-auto max-w-6xl px-6 py-20" data-reveal>
     <h2 class="section-heading">Tonight's Forecast</h2>
     <p class="mt-4 text-ink-muted">
       If the forecast below doesn't load,{' '}
       <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
         open it directly on Astrospheric</a>.
     </p>
-    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
-      <iframe
+    <div class="mt-8">
+      <EmbedFrame
         src={astrosphericUrl}
         title="Astrospheric forecast for Phoenix, Arizona"
-        class="block h-[900px] w-full border-0"
-        loading="lazy"
-      ></iframe>
+        sourceLabel="Astrospheric"
+        sourceUrl={astrosphericUrl}
+      />
     </div>
   </section>
 
