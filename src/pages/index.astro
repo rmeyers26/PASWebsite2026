@@ -54,13 +54,6 @@ const upcomingEventTypes = [
     body: "Can't find anything in your telescope? Bring it and we'll help.",
   },
 ];
-
-const comingSoon = [
-  'Member astrophotography gallery & contest',
-  'Observing Awards & PAS Academy youth challenges',
-  '"Tonight in Arizona" live sky dashboard',
-  'Member dashboard & event registration',
-];
 ---
 
 <BaseLayout
@@ -121,26 +114,6 @@ const comingSoon = [
       <div class="mt-10">
         <a href="/join" class="btn-primary">Join the Club</a>
       </div>
-    </div>
-  </section>
-
-  <section class="border-t border-subtle">
-    <div class="mx-auto max-w-6xl px-6 py-20">
-      <h2 class="section-heading">Coming Soon</h2>
-      <p class="mt-3 max-w-2xl text-ink-muted">
-        This is Phase 1 of a multi-phase rebuild. The site's visual identity and core information are live now —
-        these member-facing features are on the way next.
-      </p>
-      <ul class="mt-8 grid gap-4 sm:grid-cols-2">
-        {
-          comingSoon.map((item) => (
-            <li class="flex items-center gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
-              <span class="h-2 w-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
-              {item}
-            </li>
-          ))
-        }
-      </ul>
     </div>
   </section>
 
