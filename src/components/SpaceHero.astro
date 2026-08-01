@@ -284,60 +284,100 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
     }
     scene.add(nebulaGroup);
 
-    // --- Spiral galaxy: a particle system arranged in colored spiral arms, far background ---
-    function makeGalaxy() {
-      const count = 5000;
+    // --- The Andromeda Galaxy (M31): a tightly-wound two-armed spiral with a warm, bright
+    // core and a cool blue-white disk, seen at Andromeda's real steeply-inclined angle
+    // (~77° from face-on), plus its two brightest satellite galaxies, M32 and M110.
+    function makeAndromeda() {
+      const count = 6000;
       const radius = 13;
-      const branches = 4;
-      const spin = 1.2;
-      const randomness = 0.45;
+      const branches = 2;
+      const spin = 2.4;
+      const randomness = 0.4;
       const randomnessPower = 3;
-      const colorInside = new THREE.Color('#f5b942');
-      const colorMid = new THREE.Color('#8b5cf6');
-      const colorOutside = new THREE.Color('#2dd4bf');
+      const colorCore = new THREE.Color('#fff3d6'); // warm golden-white nucleus
+      const colorMid = new THREE.Color('#dbe4ff'); // pale blue-white disk
+      const colorOutside = new THREE.Color('#8fa8e8'); // cooler blue outer arms
 
       const positions = new Float32Array(count * 3);
       const colors = new Float32Array(count * 3);
+      const sizes = new Float32Array(count);
 
       for (let i = 0; i < count; i++) {
         const i3 = i * 3;
-        const r = Math.random() * radius;
+        const r = Math.pow(Math.random(), 1.5) * radius;
         const spinAngle = r * spin;
         const branchAngle = ((i % branches) / branches) * Math.PI * 2;
         const rand = () => Math.pow(Math.random(), randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * randomness * r;
 
         positions[i3] = Math.cos(branchAngle + spinAngle) * r + rand();
-        positions[i3 + 1] = rand() * 0.3;
+        positions[i3 + 1] = rand() * 0.12; // a thin disk, flattened further by the tilt below
         positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * r + rand();
 
         const mixed =
-          r < radius * 0.5
-            ? colorInside.clone().lerp(colorMid, r / (radius * 0.5))
-            : colorMid.clone().lerp(colorOutside, (r - radius * 0.5) / (radius * 0.5));
+          r < radius * 0.35
+            ? colorMid.clone().lerp(colorCore, 1 - r / (radius * 0.35))
+            : colorMid.clone().lerp(colorOutside, (r - radius * 0.35) / (radius * 0.65));
         colors[i3] = mixed.r;
         colors[i3 + 1] = mixed.g;
         colors[i3 + 2] = mixed.b;
+        sizes[i] = r < radius * 0.2 ? 0.22 : 0.14;
       }
 
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
       const material = new THREE.PointsMaterial({
         size: 0.16,
         sizeAttenuation: true,
         vertexColors: true,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.85,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
       });
       return new THREE.Points(geometry, material);
     }
-    const galaxy = makeGalaxy();
-    galaxy.position.set(-6, 3, -45);
-    galaxy.rotation.x = 1.1;
-    galaxy.scale.setScalar(1.4);
+    const galaxy = makeAndromeda();
+    galaxy.position.set(-15, 9, -30);
+    galaxy.rotation.x = 1.35; // Andromeda's steep, near-edge-on real-world inclination
+    galaxy.rotation.z = 0.3;
+    galaxy.scale.setScalar(1.8);
     scene.add(galaxy);
+
+    // A soft glowing core sprite sells Andromeda's bright, star-like nucleus at a distance.
+    const galaxyCoreGlow = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: makeNebulaTexture('#fff3d6'),
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+    galaxyCoreGlow.position.copy(galaxy.position);
+    galaxyCoreGlow.scale.setScalar(6.5);
+    scene.add(galaxyCoreGlow);
+
+    // M32 and M110 — Andromeda's two brightest satellite galaxies, as small soft smudges.
+    const satelliteSpecs: [string, [number, number, number], number][] = [
+      ['#e9e2c9', [-12, 10.8, -29], 3],
+      ['#c9d4e9', [-19.5, 7.5, -32], 3.8],
+    ];
+    for (const [color, [x, y, z], scale] of satelliteSpecs) {
+      const satellite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: makeNebulaTexture(color),
+          transparent: true,
+          opacity: 0.55,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        }),
+      );
+      satellite.position.set(x, y, z);
+      satellite.scale.setScalar(scale);
+      scene.add(satellite);
+    }
 
     // --- Saturn: sphere + a UV-remapped ring so the radial gradient texture maps correctly ---
     const saturnGroup = new THREE.Group();
@@ -463,7 +503,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
       saturnMesh.rotation.y = elapsed * 0.08;
       ringTexture.offset.x = elapsed * 0.01; // gentle shimmer
       moonMesh.rotation.y = elapsed * 0.035;
-      galaxy.rotation.z = elapsed * 0.015;
+      galaxy.rotation.y = elapsed * 0.015; // keeps the fixed x/z tilt, just turns slowly in-plane
       starsNear.rotation.y = elapsed * 0.006;
       starsFar.rotation.y = -elapsed * 0.003;
       nebulaGroup.children.forEach((sprite, i) => {
