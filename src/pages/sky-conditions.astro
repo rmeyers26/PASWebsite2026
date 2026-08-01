@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 
 const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
+const astrosphericLat = 33.4484;
+const astrosphericLng = -112.074;
 const telescopeTargets = [
   {
     scope: '5" Refractor',
@@ -172,15 +174,22 @@ const observingSites = [
       <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
         open it directly on Astrospheric</a>.
     </p>
-    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
-      <iframe
-        src={astrosphericUrl}
-        title="Astrospheric forecast for Phoenix, Arizona"
-        class="block h-[900px] w-full border-0"
-        loading="lazy"
-      ></iframe>
+    <div class="mt-8 overflow-hidden rounded-lg border border-subtle p-2">
+      <div id="AstrosphericEmbedContainer"></div>
     </div>
   </section>
+
+  <script src="https://s-v1-galaxy-direct.astrospheric.com/embed/astrosphericembed.js"></script>
+  <script define:vars={{ astrosphericLat, astrosphericLng }}>
+    function createAstrosphericEmbed() {
+      if (window.m_AstrosphericEmbed) {
+        window.m_AstrosphericEmbed.Create('AstrosphericEmbedContainer', astrosphericLat, astrosphericLng);
+      } else {
+        setTimeout(createAstrosphericEmbed, 100);
+      }
+    }
+    createAstrosphericEmbed();
+  </script>
 
   <section class="border-t border-subtle mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Viewing With Telescopes</h2>
