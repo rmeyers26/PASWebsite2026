@@ -4,6 +4,8 @@ import AmbientHero from '../components/AmbientHero.astro';
 import EmbedFrame from '../components/EmbedFrame.astro';
 
 const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
+const astrosphericLat = 33.4484;
+const astrosphericLng = -112.074;
 const telescopeTargets = [
   {
     scope: '5" Refractor',
@@ -179,8 +181,22 @@ const observingSites = [
         sourceLabel="Astrospheric"
         sourceUrl={astrosphericUrl}
       />
+    <div class="mt-8 overflow-hidden rounded-lg border border-subtle p-2">
+      <div id="AstrosphericEmbedContainer"></div>
     </div>
   </section>
+
+  <script src="https://s-v1-galaxy-direct.astrospheric.com/embed/astrosphericembed.js"></script>
+  <script define:vars={{ astrosphericLat, astrosphericLng }}>
+    function createAstrosphericEmbed() {
+      if (window.m_AstrosphericEmbed) {
+        window.m_AstrosphericEmbed.Create('AstrosphericEmbedContainer', astrosphericLat, astrosphericLng);
+      } else {
+        setTimeout(createAstrosphericEmbed, 100);
+      }
+    }
+    createAstrosphericEmbed();
+  </script>
 
   <section class="border-t border-subtle mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Viewing With Telescopes</h2>
@@ -227,6 +243,16 @@ const observingSites = [
     <h2 class="section-heading">Dark-Sky Observing Sites</h2>
     <p class="mt-4 text-ink-muted">
       Sites are rated on the Bortle scale, from 1 (darkest) to 9 (brightest inner-city skies).
+    </p>
+    <p class="mt-2 text-ink-muted">
+      Want to explore more dark-sky locations beyond this list? Check out the{' '}
+      <a
+        href={`https://www.darkskysites.com/?lat=${astrosphericLat}&lng=${astrosphericLng}&z=8`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-nebula-teal hover:underline"
+      >
+        light pollution map on darkskysites.com</a>.
     </p>
     <ul class="mt-8 space-y-3">
       {
