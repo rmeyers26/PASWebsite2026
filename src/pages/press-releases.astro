@@ -31,8 +31,7 @@ type Release = {
 //
 // The entries below come from the club's Drive archive, which names its files
 // by date only, so none of them carry a headline yet — those and the summaries
-// still need to be filled in from the PDFs themselves. 2021 and 2022 have not
-// been catalogued.
+// still need to be filled in from the PDFs themselves.
 const releases: Release[] = [
   { date: '2025-09-22', file: '/press-releases/2025/2025-09-22-press-release.pdf' },
   { date: '2025-09-06', file: '/press-releases/2025/2025-09-06-press-release.pdf' },
@@ -54,6 +53,19 @@ const releases: Release[] = [
   { date: '2023-02-23', file: '/press-releases/2023/2023-02-23-press-release.pdf' },
   { date: '2023-02-02', file: '/press-releases/2023/2023-02-02-press-release.pdf' },
   { date: '2023-01-10', file: '/press-releases/2023/2023-01-10-press-release.pdf' },
+  { date: '2022-11-17', file: '/press-releases/2022/2022-11-17-press-release.pdf' },
+  { date: '2022-11-03', file: '/press-releases/2022/2022-11-03-press-release.pdf' },
+  { date: '2022-10-06', file: '/press-releases/2022/2022-10-06-press-release.pdf' },
+  { date: '2022-09-12', file: '/press-releases/2022/2022-09-12-press-release.pdf' },
+  { date: '2022-06-15', file: '/press-releases/2022/2022-06-15-press-release.pdf' },
+  { date: '2022-05-05', file: '/press-releases/2022/2022-05-05-press-release.pdf' },
+  { date: '2022-04-07', file: '/press-releases/2022/2022-04-07-press-release.pdf' },
+  { date: '2022-03-03', file: '/press-releases/2022/2022-03-03-press-release.pdf' },
+  { date: '2022-02-03', file: '/press-releases/2022/2022-02-03-press-release.pdf' },
+  { date: '2022-01-20', file: '/press-releases/2022/2022-01-20-press-release.pdf' },
+  { date: '2021-12-02', file: '/press-releases/2021/2021-12-02-press-release.pdf' },
+  { date: '2021-11-04', file: '/press-releases/2021/2021-11-04-press-release.pdf' },
+  { date: '2021-10-07', file: '/press-releases/2021/2021-10-07-press-release.pdf' },
 ];
 
 // public/ is copied verbatim into the build, so a release's `file` path is both
@@ -185,7 +197,7 @@ const years = [...byYear.entries()];
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <PlaceholderNote
-      label="The 2023 through 2025 releases are listed from the club's Drive archive, but the PDF files themselves still need to be added under public/press-releases/<year>/ (the Drive folders have downloads disabled), and each entry needs its real headline and a short summary. The 2021 and 2022 releases have not been catalogued yet. Remove this note once all three are done."
+      label="Every release from the club's Drive archive is listed here, but the PDF files themselves still need to be added under public/press-releases/<year>/ (the Drive folders have downloads disabled), and each entry needs its real headline and a short summary. Remove this note once both are done."
     />
   </section>
 </BaseLayout>
