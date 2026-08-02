@@ -29,15 +29,31 @@ type Release = {
 //   file: '/press-releases/2025/2025-09-22-fall-star-party-series.pdf',
 // },
 //
-// The 2025 entries below come from the club's Drive archive, which names its
-// files by date only. Their headlines and summaries still need to be filled in
-// from the PDFs themselves.
+// The entries below come from the club's Drive archive, which names its files
+// by date only, so none of them carry a headline yet — those and the summaries
+// still need to be filled in from the PDFs themselves. 2021 and 2022 have not
+// been catalogued.
 const releases: Release[] = [
   { date: '2025-09-22', file: '/press-releases/2025/2025-09-22-press-release.pdf' },
   { date: '2025-09-06', file: '/press-releases/2025/2025-09-06-press-release.pdf' },
   { date: '2025-08-21', file: '/press-releases/2025/2025-08-21-press-release.pdf' },
   { date: '2025-07-29', file: '/press-releases/2025/2025-07-29-press-release.pdf' },
   { date: '2025-05-30', file: '/press-releases/2025/2025-05-30-press-release.pdf' },
+  { date: '2024-05-31', file: '/press-releases/2024/2024-05-31-press-release.pdf' },
+  { date: '2024-04-03', file: '/press-releases/2024/2024-04-03-press-release.pdf' },
+  { date: '2024-02-22', file: '/press-releases/2024/2024-02-22-press-release.pdf' },
+  { date: '2024-01-29', file: '/press-releases/2024/2024-01-29-press-release.pdf' },
+  { date: '2023-12-30', file: '/press-releases/2023/2023-12-30-press-release.pdf' },
+  { date: '2023-11-30', file: '/press-releases/2023/2023-11-30-press-release.pdf' },
+  { date: '2023-11-02', file: '/press-releases/2023/2023-11-02-press-release.pdf' },
+  { date: '2023-10-05', file: '/press-releases/2023/2023-10-05-press-release.pdf' },
+  { date: '2023-09-26', file: '/press-releases/2023/2023-09-26-press-release.pdf' },
+  { date: '2023-08-18', file: '/press-releases/2023/2023-08-18-press-release.pdf' },
+  { date: '2023-07-14', file: '/press-releases/2023/2023-07-14-press-release.pdf' },
+  { date: '2023-05-04', file: '/press-releases/2023/2023-05-04-press-release.pdf' },
+  { date: '2023-02-23', file: '/press-releases/2023/2023-02-23-press-release.pdf' },
+  { date: '2023-02-02', file: '/press-releases/2023/2023-02-02-press-release.pdf' },
+  { date: '2023-01-10', file: '/press-releases/2023/2023-01-10-press-release.pdf' },
 ];
 
 // public/ is copied verbatim into the build, so a release's `file` path is both
@@ -169,7 +185,7 @@ const years = [...byYear.entries()];
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <PlaceholderNote
-      label="The 2025 releases are listed from the club's Drive archive, but the PDF files themselves still need to be added to public/press-releases/2025/ (the Drive folder has downloads disabled), and each entry needs its real headline and a short summary. Earlier years, 2021 through 2024, have not been migrated yet. Remove this note once all three are done."
+      label="The 2023 through 2025 releases are listed from the club's Drive archive, but the PDF files themselves still need to be added under public/press-releases/<year>/ (the Drive folders have downloads disabled), and each entry needs its real headline and a short summary. The 2021 and 2022 releases have not been catalogued yet. Remove this note once all three are done."
     />
   </section>
 </BaseLayout>
