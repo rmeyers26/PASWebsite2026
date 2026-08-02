@@ -76,28 +76,68 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
 </style>
 
 <script>
-  import * as THREE from 'three';
+  // Type-only import: erased at build, so it costs nothing at runtime.
+  import type * as T from 'three';
 
   const section = document.getElementById('space-hero');
   const canvas = document.getElementById('space-hero-canvas') as HTMLCanvasElement | null;
 
+  // three.js is ~124KB gzipped and cannot be meaningfully tree-shaken —
+  // WebGLRenderer alone pulls in most of the library. The hero has a CSS
+  // gradient fallback painted underneath, so the scene is deferred until the
+  // browser is idle rather than competing with LCP for bandwidth.
   if (section && canvas) {
-    void initSpaceHero(section, canvas);
+    const start = () => void initSpaceHero(section, canvas);
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(start, { timeout: 2500 });
+    } else {
+      setTimeout(start, 300);
+    }
   }
 
   async function initSpaceHero(section: HTMLElement, canvas: HTMLCanvasElement) {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    let renderer: THREE.WebGLRenderer;
+    const {
+      AdditiveBlending,
+      AmbientLight,
+      BufferAttribute,
+      BufferGeometry,
+      CanvasTexture,
+      Clock,
+      Color,
+      DirectionalLight,
+      DoubleSide,
+      Group,
+      Line,
+      LineBasicMaterial,
+      Mesh,
+      MeshBasicMaterial,
+      MeshStandardMaterial,
+      PerspectiveCamera,
+      Points,
+      PointsMaterial,
+      RingGeometry,
+      Scene,
+      ShaderMaterial,
+      SphereGeometry,
+      Sprite,
+      SpriteMaterial,
+      Vector3,
+      WebGLRenderer,
+    } = await import('three');
+
+
+    let renderer: T.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+      renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
     } catch {
       return; // No WebGL — the CSS gradient fallback behind the canvas stands on its own.
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 300);
+    const scene = new Scene();
+    const camera = new PerspectiveCamera(50, 1, 0.1, 300);
     camera.position.set(0, 0, 20);
 
     // Assigned once the scene objects exist. Every hero body is placed from the
@@ -116,10 +156,10 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
     setSize();
 
     // --- Lighting: a single warm "sun" plus soft ambient fill, so lit faces read as 3D ---
-    const sunLight = new THREE.DirectionalLight(0xfff2d9, 1.6);
+    const sunLight = new DirectionalLight(0xfff2d9, 1.6);
     sunLight.position.set(-10, 5, 12);
     scene.add(sunLight);
-    scene.add(new THREE.AmbientLight(0x30345a, 1.1));
+    scene.add(new AmbientLight(0x30345a, 1.1));
 
     // --- Procedural textures (no network assets) ---
     function makeSaturnTexture() {
@@ -142,7 +182,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
         imageData.data[i + 2] += n;
       }
       ctx.putImageData(imageData, 0, 0);
-      return new THREE.CanvasTexture(el);
+      return new CanvasTexture(el);
     }
 
     function makeRingTexture() {
@@ -162,7 +202,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
       gradient.addColorStop(1.0, 'rgba(232,217,181,0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, size, 1);
-      return new THREE.CanvasTexture(el);
+      return new CanvasTexture(el);
     }
 
     function makeMoonTexture() {
@@ -200,7 +240,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
         ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.fill();
       }
-      return new THREE.CanvasTexture(el);
+      return new CanvasTexture(el);
     }
 
     function makeNebulaTexture(color: string) {
@@ -215,13 +255,13 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
       grd.addColorStop(1, `${color}00`);
       ctx.fillStyle = grd;
       ctx.fillRect(0, 0, size, size);
-      return new THREE.CanvasTexture(el);
+      return new CanvasTexture(el);
     }
 
     // --- Starfield: two layers at different radii/speeds for a parallax depth cue.
     // Each star twinkles on its own time-driven phase (a GPU shader, not a hover/mouse
     // effect), so it plays identically on touch devices with no pointer at all.
-    const starTwinkleMaterials: THREE.ShaderMaterial[] = [];
+    const starTwinkleMaterials: T.ShaderMaterial[] = [];
     function makeStarfield(count: number, radius: number, size: number, opacity: number) {
       const positions = new Float32Array(count * 3);
       const sizes = new Float32Array(count);
@@ -238,22 +278,22 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
         phases[i] = Math.random() * Math.PI * 2;
         speeds[i] = 0.6 + Math.random() * 1.8;
       }
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
-      geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
-      geometry.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 1));
+      const geometry = new BufferGeometry();
+      geometry.setAttribute('position', new BufferAttribute(positions, 3));
+      geometry.setAttribute('aSize', new BufferAttribute(sizes, 1));
+      geometry.setAttribute('aPhase', new BufferAttribute(phases, 1));
+      geometry.setAttribute('aSpeed', new BufferAttribute(speeds, 1));
 
-      const material = new THREE.ShaderMaterial({
+      const material = new ShaderMaterial({
         uniforms: {
           uTime: { value: 0 },
-          uColor: { value: new THREE.Color(0xf1f3f8) },
+          uColor: { value: new Color(0xf1f3f8) },
           uOpacity: { value: opacity },
           uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
         },
         transparent: true,
         depthWrite: false,
-        blending: THREE.AdditiveBlending,
+        blending: AdditiveBlending,
         vertexShader: `
           attribute float aSize;
           attribute float aPhase;
@@ -284,28 +324,28 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
         `,
       });
       starTwinkleMaterials.push(material);
-      return new THREE.Points(geometry, material);
+      return new Points(geometry, material);
     }
     const starsFar = makeStarfield(1400, 110, 0.9, 0.7);
     const starsNear = makeStarfield(500, 70, 1.5, 0.9);
     scene.add(starsFar, starsNear);
 
     // --- Nebula clouds: soft additive sprites drifting slowly in the background ---
-    const nebulaGroup = new THREE.Group();
+    const nebulaGroup = new Group();
     const nebulaSpecs: [string, [number, number, number], number][] = [
       ['#8b5cf6', [10, 4, -55], 42],
       ['#2dd4bf', [-14, -3, -60], 38],
       ['#f5b942', [2, -8, -70], 30],
     ];
     for (const [color, [x, y, z], scale] of nebulaSpecs) {
-      const material = new THREE.SpriteMaterial({
+      const material = new SpriteMaterial({
         map: makeNebulaTexture(color),
         transparent: true,
         opacity: 0.45,
-        blending: THREE.AdditiveBlending,
+        blending: AdditiveBlending,
         depthWrite: false,
       });
-      const sprite = new THREE.Sprite(material);
+      const sprite = new Sprite(material);
       sprite.position.set(x, y, z);
       sprite.scale.set(scale, scale, 1);
       nebulaGroup.add(sprite);
@@ -322,9 +362,9 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
       const spin = 2.4;
       const randomness = 0.4;
       const randomnessPower = 3;
-      const colorCore = new THREE.Color('#fff3d6'); // warm golden-white nucleus
-      const colorMid = new THREE.Color('#dbe4ff'); // pale blue-white disk
-      const colorOutside = new THREE.Color('#8fa8e8'); // cooler blue outer arms
+      const colorCore = new Color('#fff3d6'); // warm golden-white nucleus
+      const colorMid = new Color('#dbe4ff'); // pale blue-white disk
+      const colorOutside = new Color('#8fa8e8'); // cooler blue outer arms
 
       const positions = new Float32Array(count * 3);
       const colors = new Float32Array(count * 3);
@@ -351,25 +391,25 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
         sizes[i] = r < radius * 0.2 ? 0.22 : 0.14;
       }
 
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-      const material = new THREE.PointsMaterial({
+      const geometry = new BufferGeometry();
+      geometry.setAttribute('position', new BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new BufferAttribute(sizes, 1));
+      const material = new PointsMaterial({
         size: 0.16,
         sizeAttenuation: true,
         vertexColors: true,
         transparent: true,
         opacity: 0.85,
         depthWrite: false,
-        blending: THREE.AdditiveBlending,
+        blending: AdditiveBlending,
       });
-      return new THREE.Points(geometry, material);
+      return new Points(geometry, material);
     }
     // Andromeda and its companions ride in a group so the whole system can be
     // re-placed as one when the viewport changes.
     const GALAXY_DEPTH = -30;
-    const galaxyGroup = new THREE.Group();
+    const galaxyGroup = new Group();
     scene.add(galaxyGroup);
 
     const galaxy = makeAndromeda();
@@ -379,12 +419,12 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
     galaxyGroup.add(galaxy);
 
     // A soft glowing core sprite sells Andromeda's bright, star-like nucleus at a distance.
-    const galaxyCoreGlow = new THREE.Sprite(
-      new THREE.SpriteMaterial({
+    const galaxyCoreGlow = new Sprite(
+      new SpriteMaterial({
         map: makeNebulaTexture('#fff3d6'),
         transparent: true,
         opacity: 0.8,
-        blending: THREE.AdditiveBlending,
+        blending: AdditiveBlending,
         depthWrite: false,
       }),
     );
@@ -398,12 +438,12 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
       ['#c9d4e9', [-4.5, -1.5, -2], 3.8],
     ];
     for (const [color, [x, y, z], scale] of satelliteSpecs) {
-      const satellite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
+      const satellite = new Sprite(
+        new SpriteMaterial({
           map: makeNebulaTexture(color),
           transparent: true,
           opacity: 0.55,
-          blending: THREE.AdditiveBlending,
+          blending: AdditiveBlending,
           depthWrite: false,
         }),
       );
@@ -416,14 +456,14 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
 
     // --- Saturn: sphere + a UV-remapped ring so the radial gradient texture maps correctly ---
     const SATURN_DEPTH = 2;
-    const saturnGroup = new THREE.Group();
+    const saturnGroup = new Group();
     saturnGroup.rotation.z = 0.46; // axial tilt
 
     // Limb darkening: a real gas giant dims toward its edge because the line of
     // sight there passes obliquely through more atmosphere. Without it, flat
     // banding reads as a beach ball. Approximated the usual way, by falling off
     // with the view angle (N·V) and applied to the lit colour.
-    const saturnMaterial = new THREE.MeshStandardMaterial({
+    const saturnMaterial = new MeshStandardMaterial({
       map: makeSaturnTexture(),
       roughness: 0.9,
       metalness: 0,
@@ -443,14 +483,14 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
         );
     };
 
-    const saturnMesh = new THREE.Mesh(new THREE.SphereGeometry(2.1, 48, 48), saturnMaterial);
+    const saturnMesh = new Mesh(new SphereGeometry(2.1, 48, 48), saturnMaterial);
     saturnGroup.add(saturnMesh);
 
     function makeRingGeometry(innerRadius: number, outerRadius: number) {
-      const geometry = new THREE.RingGeometry(innerRadius, outerRadius, 128, 1);
+      const geometry = new RingGeometry(innerRadius, outerRadius, 128, 1);
       const pos = geometry.attributes.position;
       const uv = geometry.attributes.uv;
-      const v3 = new THREE.Vector3();
+      const v3 = new Vector3();
       for (let i = 0; i < pos.count; i++) {
         v3.fromBufferAttribute(pos, i);
         const u = (v3.length() - innerRadius) / (outerRadius - innerRadius);
@@ -459,11 +499,11 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
       return geometry;
     }
     const ringTexture = makeRingTexture();
-    const ringMesh = new THREE.Mesh(
+    const ringMesh = new Mesh(
       makeRingGeometry(2.8, 4.6),
-      new THREE.MeshBasicMaterial({
+      new MeshBasicMaterial({
         map: ringTexture,
-        side: THREE.DoubleSide,
+        side: DoubleSide,
         transparent: true,
         opacity: 0.92,
       }),
@@ -475,9 +515,9 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
     // --- Moon: cratered sphere with subtle relief via a bump map from the same texture ---
     const MOON_DEPTH = 4;
     const moonTexture = makeMoonTexture();
-    const moonMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(0.85, 40, 40),
-      new THREE.MeshStandardMaterial({ map: moonTexture, bumpMap: moonTexture, bumpScale: 0.04, roughness: 1 }),
+    const moonMesh = new Mesh(
+      new SphereGeometry(0.85, 40, 40),
+      new MeshStandardMaterial({ map: moonTexture, bumpMap: moonTexture, bumpScale: 0.04, roughness: 1 }),
     );
     scene.add(moonMesh);
 
@@ -548,14 +588,14 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
       const startY = 12 + Math.random() * 6;
       const startZ = -20 + Math.random() * 15;
       const length = 3 + Math.random() * 2;
-      const dir = new THREE.Vector3(1, -0.55, 0).normalize();
+      const dir = new Vector3(1, -0.55, 0).normalize();
 
       const positions = new Float32Array([0, 0, 0, -dir.x * length, -dir.y * length, -dir.z * length]);
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const material = new THREE.LineBasicMaterial({ color: 0xf1f3f8, transparent: true, opacity: 0 });
-      const line = new THREE.Line(geometry, material);
-      const startPos = new THREE.Vector3(startX, startY, startZ);
+      const geometry = new BufferGeometry();
+      geometry.setAttribute('position', new BufferAttribute(positions, 3));
+      const material = new LineBasicMaterial({ color: 0xf1f3f8, transparent: true, opacity: 0 });
+      const line = new Line(geometry, material);
+      const startPos = new Vector3(startX, startY, startZ);
       line.position.copy(startPos);
       scene.add(line);
 
@@ -607,7 +647,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
       resizeRaf = requestAnimationFrame(setSize);
     }
 
-    const clock = new THREE.Clock();
+    const clock = new Clock();
     let rafId = 0;
     // Reduced motion still gets a gentle, ambient animation (slow rotation + twinkle) —
     // WCAG asks to avoid large/vestibular-triggering motion, not to freeze entirely. What's
