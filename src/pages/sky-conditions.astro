@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import heroPhoto from '../assets/images/star-tours-eaa-night.jpg';
 
 const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
 const astrosphericLat = 33.4484;
@@ -160,49 +161,99 @@ const observingSites = [
   description="Check tonight's astronomical forecast for the Phoenix area, plus Bortle-rated dark-sky observing sites and seasonal targets for telescopes and binoculars from the Phoenix Astronomical Society."
 >
   <Hero
-    image="/images/placeholder-hero-events.svg"
-    alt="Placeholder — real member astrophotography will replace this image"
+    image={heroPhoto}
+    alt="A PAS electronically-assisted-astronomy rig under the night sky, lit red, with city lights on the horizon"
     eyebrow="Sky Conditions"
     title="Sky Conditions & Observing Sites"
     subtitle="Tonight's astronomical forecast for the Phoenix area, plus where PAS members go for dark skies and what's worth looking at once you're there."
   />
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
+  <!-- This page runs long; an in-page nav keeps the four data sets reachable
+       without scrolling back to the top. Sits directly beneath the sticky header. -->
+  <nav
+    aria-label="On this page"
+    class="sticky top-[4.25rem] z-30 border-b border-subtle bg-space-base/90 backdrop-blur-xl"
+  >
+    <ul class="mx-auto flex max-w-5xl gap-6 overflow-x-auto px-6 py-3 text-sm whitespace-nowrap">
+      <li><a href="#forecast" class="text-ink-muted transition hover:text-nebula-teal">Tonight's Forecast</a></li>
+      <li><a href="#telescopes" class="text-ink-muted transition hover:text-nebula-teal">Telescopes</a></li>
+      <li><a href="#binoculars" class="text-ink-muted transition hover:text-nebula-teal">Binoculars</a></li>
+      <li><a href="#sites" class="text-ink-muted transition hover:text-nebula-teal">Observing Sites</a></li>
+    </ul>
+  </nav>
+
+  <section id="forecast" class="mx-auto max-w-6xl px-6 py-20">
     <h2 class="section-heading">Tonight's Forecast</h2>
     <p class="mt-4 text-ink-muted">
       If the forecast below doesn't load,{' '}
       <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
         open it directly on Astrospheric</a>.
     </p>
+    <noscript>
+      <p class="mt-4 text-ink-muted">
+        Sky forecast requires JavaScript —{' '}
+        <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
+          view on Astrospheric</a>.
+      </p>
+    </noscript>
     <div class="mt-8 overflow-hidden rounded-lg border border-subtle p-2">
       <div id="AstrosphericEmbedContainer"></div>
     </div>
   </section>
 
   <script src="https://s-v1-galaxy-direct.astrospheric.com/embed/astrosphericembed.js"></script>
-  <script define:vars={{ astrosphericLat, astrosphericLng }}>
+  <script define:vars={{ astrosphericLat, astrosphericLng, astrosphericUrl }}>
+    const maxAttempts = 50;
+    let attempts = 0;
+
     function createAstrosphericEmbed() {
       if (window.m_AstrosphericEmbed) {
         window.m_AstrosphericEmbed.Create('AstrosphericEmbedContainer', astrosphericLat, astrosphericLng);
-      } else {
+      } else if (attempts < maxAttempts) {
+        attempts += 1;
         setTimeout(createAstrosphericEmbed, 100);
+      } else {
+        const container = document.getElementById('AstrosphericEmbedContainer');
+        if (container) {
+          const link = document.createElement('a');
+          link.href = astrosphericUrl;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.className = 'text-nebula-teal hover:underline';
+          link.textContent = 'Sky forecast requires JavaScript — view on Astrospheric';
+          container.appendChild(link);
+        }
       }
     }
     createAstrosphericEmbed();
   </script>
 
-  <section class="border-t border-subtle mx-auto max-w-4xl px-6 py-20">
+  <section id="telescopes" class="border-t border-subtle mx-auto max-w-5xl px-6 py-20">
     <h2 class="section-heading">Viewing With Telescopes</h2>
     <p class="mt-4 text-ink-muted">
       Suggested targets by aperture and season, from in-town Phoenix skies (Bortle 6–8) out to dark-sky sites
-      like the Antennas area (Bortle 2).
+      like the Antennas area (Bortle 2). Pick your aperture to see its targets.
     </p>
-    <div class="mt-10 space-y-10">
+    <div class="mt-10 space-y-3">
       {
-        telescopeTargets.map((group) => (
-          <div>
-            <h3 class="font-display text-xl tracking-wide text-ink-primary">{group.scope}</h3>
-            <dl class="mt-4 space-y-3">
+        telescopeTargets.map((group, index) => (
+          <details class="target-group card p-0" open={index === 0}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+              <span class="font-display text-lg tracking-wide text-ink-primary">{group.scope}</span>
+              <svg
+                class="target-chevron h-4 w-4 flex-none text-nebula-teal transition-transform"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </summary>
+            <dl class="space-y-3 border-t border-subtle px-5 py-4">
               {group.seasons.map((s) => (
                 <div class="sm:flex sm:gap-3">
                   <dt class="flex-none font-semibold text-nebula-teal sm:w-20">{s.season}</dt>
@@ -210,13 +261,13 @@ const observingSites = [
                 </div>
               ))}
             </dl>
-          </div>
+          </details>
         ))
       }
     </div>
   </section>
 
-  <section class="border-t border-subtle bg-space-card/40">
+  <section id="binoculars" class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Viewable With Binoculars</h2>
       <dl class="mt-8 space-y-5">
@@ -232,7 +283,7 @@ const observingSites = [
     </div>
   </section>
 
-  <section class="mx-auto max-w-4xl px-6 py-20">
+  <section id="sites" class="mx-auto max-w-5xl px-6 py-20">
     <h2 class="section-heading">Dark-Sky Observing Sites</h2>
     <p class="mt-4 text-ink-muted">
       Sites are rated on the Bortle scale, from 1 (darkest) to 9 (brightest inner-city skies).
@@ -251,7 +302,7 @@ const observingSites = [
       {
         observingSites.map((site) => (
           <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-subtle pb-3 text-ink-muted">
-            <span class="flex-none rounded-full bg-space-card px-2.5 py-0.5 text-sm font-semibold text-nebula-amber">
+            <span class="flex-none rounded-full bg-space-card px-2.5 py-0.5 text-sm font-semibold tabular-nums text-nebula-amber">
               Bortle {site.bortle}
             </span>
             <span>{site.name}</span>
@@ -282,3 +333,23 @@ const observingSites = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Anchor targets clear the sticky header + in-page nav when jumped to. */
+  :global(#forecast),
+  :global(#telescopes),
+  :global(#binoculars),
+  :global(#sites) {
+    scroll-margin-top: 8rem;
+  }
+
+  .target-group[open] .target-chevron {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .target-chevron {
+      transition: none;
+    }
+  }
+</style>

@@ -2,82 +2,327 @@
 import { Image } from 'astro:assets';
 import pasLogo from '../assets/images/pas-logo.png';
 
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/events', label: 'Events' },
-  { href: '/star-tours', label: 'Star Tours', highlight: true },
-  { href: '/telescope-workshops', label: 'Telescope Workshops' },
-  { href: '/sky-conditions', label: 'Sky Conditions' },
-  { href: '/exoplanets', label: 'Exoplanets' },
-  { href: '/contact', label: 'Contact' },
+type NavLink = { href: string; label: string };
+type NavItem = { label: string; href?: string; children?: NavLink[] };
+
+// Five top-level entries (four here plus the Join CTA). Grouping keeps the
+// secondary reference pages reachable without competing with Events and Join,
+// and gives /history, /leadership, and /solar-system a home in the primary nav.
+const navItems: NavItem[] = [
+  {
+    label: 'About',
+    children: [
+      { href: '/about', label: 'About PAS' },
+      { href: '/history', label: 'History' },
+      { href: '/leadership', label: 'Leadership' },
+      { href: '/contact', label: 'Contact' },
+    ],
+  },
+  { label: 'Events', href: '/events' },
+  {
+    label: 'Outreach',
+    children: [
+      { href: '/star-tours', label: 'Star Tours' },
+      { href: '/telescope-workshops', label: 'Telescope Workshops' },
+    ],
+  },
+  {
+    label: 'Learn',
+    children: [
+      { href: '/learn', label: 'Learn Astronomy' },
+      { href: '/sky-conditions', label: 'Sky Conditions' },
+      { href: '/exoplanets', label: 'Exoplanets' },
+      { href: '/solar-system', label: 'Solar System' },
+    ],
+  },
 ];
 
-const currentPath = Astro.url.pathname;
+// Astro's static build serves subpages with a trailing slash (/events/), so
+// strip it before comparing against the slash-free hrefs above — otherwise no
+// nav item is ever marked active outside the homepage.
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (item: NavItem) =>
+  item.href === currentPath || (item.children?.some((child) => child.href === currentPath) ?? false);
 ---
 
-<header class="sticky top-0 z-50 border-b border-subtle bg-space-base/60 backdrop-blur-2xl">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Primary">
-    <a href="/" class="flex items-center gap-2.5 font-display text-lg tracking-tight text-ink-primary">
-      <Image src={pasLogo} alt="Phoenix Astronomical Society logo" width={72} height={72} loading="eager" fetchpriority="high" class="h-9 w-9 flex-none" />
-      <span class="hidden sm:inline">Phoenix Astronomical Society</span>
+<header class="sticky top-0 z-50 border-b border-subtle bg-space-base/80 backdrop-blur-2xl">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4" aria-label="Primary">
+    <a
+      href="/"
+      class="flex flex-none items-center gap-2.5 font-display text-base tracking-tight text-ink-primary"
+      aria-current={currentPath === '/' ? 'page' : undefined}
+    >
+      <Image
+        src={pasLogo}
+        alt="Phoenix Astronomical Society logo"
+        width={72}
+        height={72}
+        loading="eager"
+        fetchpriority="high"
+        class="h-9 w-9 flex-none"
+      />
+      <span class="hidden whitespace-nowrap sm:inline">Phoenix Astronomical Society</span>
       <span class="sm:hidden">PAS</span>
     </a>
-    <ul class="hidden gap-6 lg:flex">
+
+    <ul class="hidden items-center gap-2 lg:flex">
       {
-        navItems.map((item) => {
-          const isActive = currentPath === item.href;
-          return (
-            <li>
-              <a
-                href={item.href}
-                class:list={
-                  item.highlight
-                    ? ['text-base font-bold tracking-wide text-nebula-amber transition hover:text-nebula-amber/80']
-                    : [
-                        'text-sm font-medium transition hover:text-nebula-teal',
-                        isActive ? 'text-nebula-teal' : 'text-ink-primary',
-                      ]
-                }
-                aria-current={isActive ? 'page' : undefined}
-              >
-                {item.label}
-              </a>
+        navItems.map((item) =>
+          item.children ? (
+            <li class="relative">
+              <details class="nav-disclosure">
+                <summary
+                  class:list={[
+                    'flex cursor-pointer list-none items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:text-nebula-teal [&::-webkit-details-marker]:hidden',
+                    isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
+                  ]}
+                  aria-expanded="false"
+                >
+                  {item.label}
+                  <svg
+                    class="nav-chevron h-3.5 w-3.5 transition-transform"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </summary>
+                <ul class="nav-panel absolute left-0 top-full z-10 mt-2 min-w-56 rounded-2xl border border-subtle bg-space-modal p-2 shadow-2xl">
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        class:list={[
+                          'block whitespace-nowrap rounded-xl px-3 py-2 text-sm transition hover:bg-white/5 hover:text-nebula-teal',
+                          child.href === currentPath ? 'text-nebula-teal' : 'text-ink-primary',
+                        ]}
+                        aria-current={child.href === currentPath ? 'page' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </li>
-          );
-        })
-      }
-    </ul>
-    <a href="/join" class="btn-primary hidden text-sm lg:inline-flex">Join PAS</a>
-    <details class="lg:hidden">
-      <summary
-        class="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-2xl text-ink-primary"
-        aria-label="Open menu"
-      >
-        ☰
-      </summary>
-      <ul class="absolute left-4 right-4 top-full mt-2 flex max-h-[calc(100vh-6rem)] flex-col gap-1 overflow-y-auto rounded-2xl border border-subtle bg-space-base px-6 py-4 shadow-2xl">
-        {
-          navItems.map((item) => (
+          ) : (
             <li>
               <a
                 href={item.href}
                 class:list={[
-                  'block py-2',
-                  item.highlight ? 'font-bold text-nebula-amber' : 'text-ink-primary',
+                  'block whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:text-nebula-teal',
+                  isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
                 ]}
+                aria-current={isActive(item) ? 'page' : undefined}
               >
                 {item.label}
               </a>
             </li>
-          ))
-        }
-        <li>
-          <a href="/join" class="mt-2 block py-2 font-semibold text-nebula-teal">
-            Join PAS
-          </a>
-        </li>
-      </ul>
+          ),
+        )
+      }
+    </ul>
+
+    <a
+      href="/join"
+      class="btn-primary hidden flex-none whitespace-nowrap px-5 py-2.5 text-sm lg:inline-flex"
+      aria-current={currentPath === '/join' ? 'page' : undefined}
+    >
+      Join PAS
+    </a>
+
+    <details class="mobile-menu nav-disclosure lg:hidden">
+      <summary
+        class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full text-ink-primary transition hover:text-nebula-teal [&::-webkit-details-marker]:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <svg
+          class="menu-icon-open"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
+        <svg
+          class="menu-icon-close"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="6" y1="6" x2="18" y2="18" />
+          <line x1="18" y1="6" x2="6" y2="18" />
+        </svg>
+      </summary>
+
+      <div
+        class="nav-panel absolute left-4 right-4 top-full mt-2 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-subtle bg-space-modal px-5 py-4 shadow-2xl"
+      >
+        <ul class="flex flex-col gap-1">
+          {
+            navItems.map((item) =>
+              item.children ? (
+                <li class="mt-2 first:mt-0">
+                  <p class="px-1 pb-1 text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">
+                    {item.label}
+                  </p>
+                  <ul>
+                    {item.children.map((child) => (
+                      <li>
+                        <a
+                          href={child.href}
+                          class:list={[
+                            'block rounded-xl px-3 py-2.5 transition hover:bg-white/5',
+                            child.href === currentPath ? 'text-nebula-teal' : 'text-ink-primary',
+                          ]}
+                          aria-current={child.href === currentPath ? 'page' : undefined}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li class="mt-2 first:mt-0">
+                  <a
+                    href={item.href}
+                    class:list={[
+                      'block rounded-xl px-3 py-2.5 font-semibold transition hover:bg-white/5',
+                      isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
+                    ]}
+                    aria-current={isActive(item) ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ),
+            )
+          }
+        </ul>
+        <a href="/join" class="btn-primary mt-5 w-full">Join PAS</a>
+      </div>
     </details>
   </nav>
 </header>
+
+<style>
+  /* <details> gives keyboard support and a working menu with no JS; the script
+     below only layers on the behaviours it lacks. Entry is animated here because
+     the closed state is display:none, which cannot be transitioned. */
+  .nav-panel {
+    animation: nav-panel-in 0.16s ease-out;
+    transform-origin: top;
+  }
+
+  @keyframes nav-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.35rem) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .nav-disclosure[open] .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  .menu-icon-close {
+    display: none;
+  }
+
+  .mobile-menu[open] .menu-icon-open {
+    display: none;
+  }
+
+  .mobile-menu[open] .menu-icon-close {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-panel {
+      animation: none;
+    }
+
+    .nav-chevron {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function close(details: HTMLDetailsElement) {
+    details.open = false;
+    details.querySelector('summary')?.setAttribute('aria-expanded', 'false');
+  }
+
+  const currentDisclosures = () => [...document.querySelectorAll<HTMLDetailsElement>('.nav-disclosure')];
+
+  // Per-element wiring has to be redone whenever the header is swapped in.
+  function bindDisclosures() {
+    for (const details of currentDisclosures()) {
+      const summary = details.querySelector('summary');
+
+      details.addEventListener('toggle', () => {
+        summary?.setAttribute('aria-expanded', String(details.open));
+        // Only one menu open at a time, so panels never overlap.
+        if (details.open) {
+          for (const other of currentDisclosures()) {
+            if (other !== details) close(other);
+          }
+        }
+      });
+
+      // Navigating away should not leave the panel open behind the new page.
+      for (const link of details.querySelectorAll('a')) {
+        link.addEventListener('click', () => close(details));
+      }
+    }
+  }
+
+  bindDisclosures();
+  document.addEventListener('astro:page-load', bindDisclosures);
+
+  // Document-level listeners survive view transitions, so they are registered
+  // once and re-query the DOM on each event rather than closing over elements.
+  document.addEventListener('pointerdown', (event) => {
+    const target = event.target as Node;
+    for (const details of currentDisclosures()) {
+      if (details.open && !details.contains(target)) close(details);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    for (const details of currentDisclosures()) {
+      if (!details.open) continue;
+      close(details);
+      details.querySelector('summary')?.focus();
+    }
+  });
+</script>

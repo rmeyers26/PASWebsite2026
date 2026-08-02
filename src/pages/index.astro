@@ -1,19 +1,22 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
+import outreachPhoto from '../assets/images/star-tours-touch-meteorite.jpg';
 
 const benefits = [
+  {
+    title: 'Public Star Parties',
+    accent: 'text-nebula-violet',
+    body: 'Free, open-to-the-public observing nights — a welcoming first stop for beginners of any age. No telescope, no experience, and no membership required: turn up, get in line at an eyepiece, and let a member walk you across the sky.',
+    featured: true,
+  },
   {
     title: 'Monthly Lecture Series',
     accent: 'text-nebula-teal',
     body: 'Guest speakers and member talks covering observing, astrophotography, and the latest research.',
-  },
-  {
-    title: 'Public Star Parties',
-    accent: 'text-nebula-violet',
-    body: 'Free, open-to-the-public observing nights — a welcoming first stop for beginners of any age.',
   },
   {
     title: 'Telescope Workshops',
@@ -55,11 +58,19 @@ const upcomingEventTypes = [
   },
 ];
 
-const comingSoon = [
-  'Member astrophotography gallery & contest',
-  'Observing Awards & PAS Academy youth challenges',
-  '"Tonight in Arizona" live sky dashboard',
-  'Member dashboard & event registration',
+const specialInterestGroups = [
+  {
+    title: 'Astrophotography Special Interest Group',
+    abbr: 'ASIG',
+    accent: 'text-nebula-violet',
+    body: 'Members trading astrophotography technique, gear advice, and image-processing help — from first smartphone shots through deep-sky imaging.',
+  },
+  {
+    title: 'Book(s) Special Interest Group',
+    abbr: 'BSIG',
+    accent: 'text-nebula-teal',
+    body: 'A reading group working through astronomy and space-science titles together, then meeting to talk them over.',
+  },
 ];
 ---
 
@@ -69,7 +80,8 @@ const comingSoon = [
 >
   <SpaceHero
     eyebrow="Phoenix Astronomical Society"
-    title="Explore the Universe Together"
+    title="Explore the Universe"
+    titleTail="Together"
     subtitle="Join one of Arizona's most active astronomy communities for observing, astrophotography, education, and discovery."
   >
     <div class="mt-10 flex flex-wrap justify-center gap-4">
@@ -78,24 +90,20 @@ const comingSoon = [
     </div>
   </SpaceHero>
 
-  <section class="mx-auto max-w-6xl px-6 py-20">
-    <h2 class="section-heading">Why Join PAS</h2>
-    <p class="mt-3 max-w-2xl text-ink-muted">
-      Concrete reasons members stick around — not just a meeting on the calendar.
+  <section class="mx-auto max-w-3xl px-6 py-24 sm:py-28">
+    <p class="font-display text-3xl leading-[1.15] tracking-tight text-ink-primary sm:text-4xl">
+      Phoenix has been looking up since <span class="text-nebula-amber">1948</span> — and for nearly eight
+      decades, someone from this club has been standing next to the telescope, explaining what you're seeing.
     </p>
-    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        benefits.map((benefit) => (
-          <div class="card">
-            <h3 class={`font-display text-lg ${benefit.accent}`}>{benefit.title}</h3>
-            <p class="mt-3 text-ink-muted">{benefit.body}</p>
-          </div>
-        ))
-      }
-    </div>
+    <p class="mt-8 text-lg text-ink-muted">
+      We're a 501(c)(3) nonprofit of beginners, backyard observers, astrophotographers, and lifelong amateurs.
+      The telescopes are a means to an end; the point is the people around them.
+    </p>
   </section>
 
-  <section class="border-t border-subtle bg-space-card/40">
+  <ApodOfTheDay />
+
+  <section class="border-t border-subtle">
     <div class="mx-auto max-w-6xl px-6 py-20">
       <h2 class="section-heading">Upcoming Events</h2>
       <p class="mt-3 max-w-2xl text-ink-muted">
@@ -117,31 +125,129 @@ const comingSoon = [
     </div>
   </section>
 
-  <ApodOfTheDay />
+  <section class="relative isolate flex min-h-[26rem] items-end overflow-hidden sm:min-h-[32rem]">
+    <Image
+      src={outreachPhoto}
+      alt="A PAS member holding out a meteorite for visitors to touch at an outreach event"
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+      class="band-parallax absolute inset-0 -z-10 h-full w-full object-cover"
+    />
+    <!-- Two scrims: the vertical one seats the band into the page, the horizontal
+         one keeps the text column legible regardless of what's behind it. -->
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-t from-space-base via-space-base/75 to-space-base/30"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-r from-space-base/95 via-space-base/55 to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="mx-auto w-full max-w-6xl px-6 py-16">
+      <h2 class="max-w-2xl font-display text-4xl leading-tight tracking-tight text-ink-primary sm:text-5xl">
+        Most people meet us holding a rock older than the Earth.
+      </h2>
+      <p class="mt-6 max-w-xl text-lg text-ink-muted">
+        PAS brings telescopes, meteorites, and members who like explaining things to schools, scout troops, and
+        community groups across the Valley — free of charge.
+      </p>
+      <a href="/star-tours" class="btn-primary mt-8">Bring PAS to Your Group</a>
+    </div>
+  </section>
 
   <section class="border-t border-subtle bg-space-card/40">
-    <div class="mx-auto max-w-6xl px-6 py-20">
-      <h2 class="section-heading">Coming Soon</h2>
+    <div class="mx-auto max-w-7xl px-6 py-20">
+      <h2 class="section-heading">Why Join PAS</h2>
       <p class="mt-3 max-w-2xl text-ink-muted">
-        This is Phase 1 of a multi-phase rebuild. The site's visual identity and core information are live now —
-        these member-facing features are on the way next.
+        Concrete reasons members stick around — not just a meeting on the calendar.
       </p>
-      <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {
-          comingSoon.map((item) => (
-            <li class="flex items-center gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
-              <span class="h-2 w-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
-              {item}
-            </li>
+          benefits.map((benefit) =>
+            benefit.featured ? (
+              <div class="card card-featured flex flex-col justify-between sm:col-span-2 lg:row-span-2">
+                <div>
+                  <span class="glass-badge">Start here</span>
+                  <h3 class={`mt-5 font-display text-2xl sm:text-3xl ${benefit.accent}`}>{benefit.title}</h3>
+                  <p class="mt-4 text-lg text-ink-muted">{benefit.body}</p>
+                </div>
+                <a href="/events" class="btn-secondary mt-8 self-start">Find the Next One</a>
+              </div>
+            ) : (
+              <div class="card">
+                <h3 class={`font-display text-lg ${benefit.accent}`}>{benefit.title}</h3>
+                <p class="mt-3 text-ink-muted">{benefit.body}</p>
+              </div>
+            ),
+          )
+        }
+      </div>
+      <div class="mt-10">
+        <a href="/join" class="btn-primary">Join the Club</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-5xl px-6 py-20">
+      <h2 class="section-heading">Special Interest Groups</h2>
+      <p class="mt-3 max-w-2xl text-ink-muted">
+        Smaller member-run groups that go deep on one corner of the hobby, meeting outside the main monthly
+        calendar.
+      </p>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+        {
+          specialInterestGroups.map((group) => (
+            <div class="card">
+              <h3 class={`font-display text-lg ${group.accent}`}>
+                {group.title} <span class="text-ink-muted">({group.abbr})</span>
+              </h3>
+              <p class="mt-3 text-ink-muted">{group.body}</p>
+            </div>
           ))
         }
-      </ul>
+      </div>
+      <p class="mt-8 text-ink-muted">
+        <span aria-hidden="true">*</span> PAS membership is required to take part in a special interest group.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="/join" class="btn-primary">Become a Member</a>
+        <a href="/contact" class="btn-secondary">Ask About a Group</a>
+      </div>
     </div>
   </section>
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <PlaceholderNote
-      label="Homepage copy above uses placeholder framing where specific facts (exact meeting cadence, current officer names) aren't yet confirmed — see /about, /events, and /contact for details."
+      label="Homepage copy above uses placeholder framing where specific facts (exact meeting cadence, current officer names) aren't yet confirmed — see /about, /events, and /contact for details. Special interest group descriptions are summarized and their cards link to /contact; swap in the real ASIG and BSIG pages and meeting details once confirmed with the club."
     />
   </section>
 </BaseLayout>
+
+<style>
+  /* Signature scroll moment: the outreach photograph drifts against the page as
+     the band crosses the viewport. Driven entirely by the CSS scroll-timeline —
+     no JS, no scroll listener — and only where the browser supports it, so
+     everywhere else the image is simply static. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .band-parallax {
+        transform-origin: center;
+        animation: band-drift linear both;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+      }
+
+      @keyframes band-drift {
+        from {
+          transform: scale(1.18) translateY(-3.5%);
+        }
+        to {
+          transform: scale(1.18) translateY(3.5%);
+        }
+      }
+    }
+  }
+</style>

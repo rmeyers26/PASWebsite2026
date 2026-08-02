@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import heroPhoto from '../assets/images/events-lowell-observatory-tour.jpg';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
 import newsFeature from '../assets/images/about-12news-feature.jpg';
@@ -12,7 +13,8 @@ import newsFeature from '../assets/images/about-12news-feature.jpg';
   description="The history, mission, and people behind the Phoenix Astronomical Society."
 >
   <Hero
-    image="/images/placeholder-hero-about.svg"
+    image={heroPhoto}
+    alt="PAS members on a club tour of Lowell Observatory in Flagstaff"
     eyebrow="About PAS"
     title="A Community of Stargazers Since 1948"
     subtitle="Amateur and professional astronomers, teachers and learners, oldsters and youngsters — all inquiring minds."

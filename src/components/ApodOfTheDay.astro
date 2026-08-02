@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 // NASA Astronomy Picture of the Day: https://apod.nasa.gov/apod/astropix.html
 // Fetched at build time. Set NASA_API_KEY in the environment for a higher rate
 // limit than the shared DEMO_KEY (get one free at https://api.nasa.gov).
@@ -23,7 +24,57 @@ try {
 } catch {
   apod = null;
 }
+
+// The APOD payload carries no dimensions, and an <img> without them shifts the
+// page as it decodes. Read them out of the file header at build time — a ranged
+// request is enough to reach the JPEG SOF / PNG IHDR marker.
+function readJpegOrPngSize(buffer: Uint8Array): { width: number; height: number } | null {
+  const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+  if (buffer[0] === 0x89 && buffer[1] === 0x50) {
+    return { width: view.getUint32(16), height: view.getUint32(20) };
+  }
+  if (buffer[0] !== 0xff || buffer[1] !== 0xd8) return null;
+  let offset = 2;
+  while (offset + 9 < buffer.length) {
+    if (buffer[offset] !== 0xff) {
+      offset += 1;
+      continue;
+    }
+    const marker = buffer[offset + 1];
+    const isSof = marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
+    if (isSof) {
+      return { width: view.getUint16(offset + 7), height: view.getUint16(offset + 5) };
+    }
+    offset += 2 + view.getUint16(offset + 2);
+  }
+  return null;
+}
+
+let apodSize: { width: number; height: number } | null = null;
+if (apod?.media_type === 'image') {
+  try {
+    const res = await fetch(apod.url, { headers: { Range: 'bytes=0-131071' } });
+    if (res.ok) {
+      apodSize = readJpegOrPngSize(new Uint8Array(await res.arrayBuffer()));
+    }
+  } catch {
+    apodSize = null;
+  }
+}
 ---
+
+{
+  !apod && (
+    <section class="border-t border-subtle bg-space-card/40">
+      <div class="mx-auto max-w-6xl px-6 py-20">
+        <h2 class="section-heading">Astronomy Picture of the Day</h2>
+        <div class="card mt-8">
+          <p class="text-ink-muted">APOD unavailable — check back tomorrow.</p>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 {
   apod && (
@@ -45,12 +96,30 @@ try {
         <div class="card mt-8 grid gap-8 md:grid-cols-2 md:items-center">
           {apod.media_type === 'image' ? (
             <a href={apod.hdurl ?? apod.url} target="_blank" rel="noopener noreferrer">
-              <img
-                src={apod.url}
-                alt={apod.title}
-                class="w-full rounded-lg border border-subtle"
-                loading="lazy"
-              />
+              {apodSize ? (
+                <Image
+                  src={apod.url}
+                  alt={apod.title}
+                  width={apodSize.width}
+                  height={apodSize.height}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  quality={70}
+                  class="w-full rounded-lg border border-subtle"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                // Header probe failed — fall back to a hotlink, but keep a
+                // reserved box so the layout still does not shift.
+                <img
+                  src={apod.url}
+                  alt={apod.title}
+                  class="aspect-[3/2] w-full rounded-lg border border-subtle object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
             </a>
           ) : (
             <div class="aspect-video w-full overflow-hidden rounded-lg border border-subtle">
@@ -63,7 +132,7 @@ try {
             </div>
           )}
           <div>
-            <p class="text-sm text-ink-muted">{apod.date}</p>
+            <p class="text-sm tabular-nums text-ink-muted">{apod.date}</p>
             <h3 class="font-display mt-1 text-xl text-nebula-teal">{apod.title}</h3>
             <p class="mt-3 text-ink-muted">{apod.explanation}</p>
             {apod.copyright && (

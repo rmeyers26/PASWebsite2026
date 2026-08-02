@@ -12,12 +12,16 @@ function makeLayer(count: number, maxOpacity: number) {
   return shadows.join(', ');
 }
 
-const farStars = makeLayer(140, 0.5);
-const nearStars = makeLayer(60, 0.8);
-const twinkleStars = makeLayer(18, 1);
+// Every hero on the site paints an opaque background, so this fixed layer is only
+// ever visible *behind body copy* — where discrete bright dots read as dirt rather
+// than atmosphere. Counts and opacities are therefore kept low, and the whole
+// layer is dimmed further on small screens (see the stylesheet below).
+const farStars = makeLayer(90, 0.28);
+const nearStars = makeLayer(38, 0.4);
+const twinkleStars = makeLayer(10, 0.55);
 ---
 
-<div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-space-base" aria-hidden="true">
+<div class="starfield-root pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-space-base" aria-hidden="true">
   <div class="ambient-orb ambient-orb-violet absolute -left-[10%] -top-[15%] h-[50vw] w-[50vw] max-w-[720px] rounded-full bg-nebula-violet/20 blur-[120px]"></div>
   <div class="ambient-orb ambient-orb-blue absolute -right-[15%] top-[20%] h-[45vw] w-[45vw] max-w-[640px] rounded-full bg-sky-500/15 blur-[120px]"></div>
   <div class="starfield-layer absolute h-px w-px rounded-full" style={`box-shadow: ${farStars};`}></div>
@@ -27,6 +31,16 @@ const twinkleStars = makeLayer(18, 1);
 </div>
 
 <style>
+  /* Phone text columns are narrow and sit right over this layer, so dim the
+     stars further there. The soft ambient orbs stay at full strength — they are
+     broad gradients rather than discrete dots and do not disturb reading. */
+  @media (max-width: 40rem) {
+    .starfield-layer,
+    .starfield-twinkle {
+      opacity: 0.45;
+    }
+  }
+
   .starfield-twinkle {
     animation: twinkle 4s ease-in-out infinite;
   }

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import heroPhoto from '../assets/images/events-lecture-meeting.jpg';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 
 const benefits = [
@@ -16,7 +17,8 @@ const benefits = [
   description="Become a member of the Phoenix Astronomical Society."
 >
   <Hero
-    image="/images/placeholder-hero-join.svg"
+    image={heroPhoto}
+    alt="Members gathered for a PAS monthly lecture meeting"
     eyebrow="Membership"
     title="Become Part of the PAS Community"
     subtitle="Open to everyone curious about astronomy — no telescope or experience required."
