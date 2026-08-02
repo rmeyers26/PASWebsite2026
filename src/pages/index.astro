@@ -131,7 +131,7 @@ const specialInterestGroups = [
       alt="A PAS member holding out a meteorite for visitors to touch at an outreach event"
       widths={[768, 1280, 1800]}
       sizes="100vw"
-      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      class="band-parallax absolute inset-0 -z-10 h-full w-full object-cover"
     />
     <!-- Two scrims: the vertical one seats the band into the page, the horizontal
          one keeps the text column legible regardless of what's behind it. -->
@@ -225,3 +225,29 @@ const specialInterestGroups = [
     />
   </section>
 </BaseLayout>
+
+<style>
+  /* Signature scroll moment: the outreach photograph drifts against the page as
+     the band crosses the viewport. Driven entirely by the CSS scroll-timeline —
+     no JS, no scroll listener — and only where the browser supports it, so
+     everywhere else the image is simply static. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .band-parallax {
+        transform-origin: center;
+        animation: band-drift linear both;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+      }
+
+      @keyframes band-drift {
+        from {
+          transform: scale(1.18) translateY(-3.5%);
+        }
+        to {
+          transform: scale(1.18) translateY(3.5%);
+        }
+      }
+    }
+  }
+</style>

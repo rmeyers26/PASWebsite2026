@@ -18,7 +18,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative overflow-hidden border-b border-subtle">
+<section data-hero class="relative overflow-hidden border-b border-subtle">
   {typeof image === 'string' ? (
     <img
       src={image}

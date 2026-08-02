@@ -18,6 +18,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
 
 <section
   id="space-hero"
+  data-hero
   class="relative isolate flex min-h-[92svh] items-center overflow-hidden border-b border-subtle bg-space-base"
 >
   <div class="hero-fallback-bg absolute inset-0" aria-hidden="true"></div>
@@ -79,21 +80,47 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
   // Type-only import: erased at build, so it costs nothing at runtime.
   import type * as T from 'three';
 
-  const section = document.getElementById('space-hero');
-  const canvas = document.getElementById('space-hero-canvas') as HTMLCanvasElement | null;
+  // Torn down and re-created across view transitions, which swap the DOM without
+  // a document load, so a module-scope init would only ever run once.
+  let teardown: (() => void) | null = null;
+  let pendingStart: number | undefined;
 
-  // three.js is ~124KB gzipped and cannot be meaningfully tree-shaken —
-  // WebGLRenderer alone pulls in most of the library. The hero has a CSS
-  // gradient fallback painted underneath, so the scene is deferred until the
-  // browser is idle rather than competing with LCP for bandwidth.
-  if (section && canvas) {
+  function boot() {
+    teardown?.();
+    teardown = null;
+
+    const section = document.getElementById('space-hero');
+    const canvas = document.getElementById('space-hero-canvas') as HTMLCanvasElement | null;
+    if (!section || !canvas) return;
+
+    // three.js is ~124KB gzipped and cannot be meaningfully tree-shaken —
+    // WebGLRenderer alone pulls in most of the library. The hero has a CSS
+    // gradient fallback painted underneath, so the scene is deferred until the
+    // browser is idle rather than competing with LCP for bandwidth.
     const start = () => void initSpaceHero(section, canvas);
     if ('requestIdleCallback' in window) {
-      requestIdleCallback(start, { timeout: 2500 });
+      pendingStart = requestIdleCallback(start, { timeout: 2500 });
     } else {
-      setTimeout(start, 300);
+      pendingStart = setTimeout(start, 300) as unknown as number;
     }
   }
+
+  function cancelPendingStart() {
+    if (pendingStart === undefined) return;
+    if (typeof cancelIdleCallback === 'function') cancelIdleCallback(pendingStart);
+    else clearTimeout(pendingStart);
+    pendingStart = undefined;
+  }
+
+  boot();
+  // Fires on every view-transition navigation (and again on a full load, which
+  // is why boot() tears down anything already running before re-initialising).
+  document.addEventListener('astro:page-load', boot);
+  document.addEventListener('astro:before-swap', () => {
+    cancelPendingStart();
+    teardown?.();
+    teardown = null;
+  });
 
   async function initSpaceHero(section: HTMLElement, canvas: HTMLCanvasElement) {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -693,18 +720,16 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
     tick();
     canvas.classList.add('is-ready');
 
-    window.addEventListener(
-      'pagehide',
-      () => {
-        cancelAnimationFrame(rafId);
-        clearTimeout(shootingStarTimer);
-        observer.disconnect();
-        window.removeEventListener('resize', onResize);
-        window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('scroll', onScroll);
-        renderer.dispose();
-      },
-      { once: true },
-    );
+    const dispose = () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(shootingStarTimer);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('scroll', onScroll);
+      renderer.dispose();
+    };
+    teardown = dispose;
+    window.addEventListener('pagehide', dispose, { once: true });
   }
 </script>

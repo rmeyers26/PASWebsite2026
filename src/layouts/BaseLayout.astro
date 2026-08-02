@@ -2,6 +2,7 @@
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
+import { ClientRouter } from 'astro:transitions';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 // Self-hosted variable fonts. global.css names these families, so without the
 // imports every visitor silently fell back to system-ui.
@@ -43,6 +44,7 @@ const imageURL = new URL(image, Astro.site);
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
+    <ClientRouter />
   </head>
   <body>
     <a
@@ -58,5 +60,56 @@ const imageURL = new URL(image, Astro.site);
       <slot />
     </main>
     <Footer />
+
+    <!-- Inline + data-astro-rerun so this executes again after every view
+         transition; a bundled module script only ever runs once per document.
+         The hidden state is applied here rather than in the stylesheet, so
+         content is never hidden from visitors without JS. -->
+    <script is:inline data-astro-rerun>
+      (() => {
+        const targets = document.querySelectorAll('main section:not([data-hero])');
+        if (!targets.length) return;
+
+        const revealAll = () => targets.forEach((el) => el.classList.add('is-revealed'));
+
+        if (
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+          !('IntersectionObserver' in window)
+        ) {
+          revealAll();
+          return;
+        }
+
+        window.__pasReveal?.disconnect();
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-revealed');
+              obs.unobserve(entry.target); // reveal once, never re-hide on scroll up
+            }
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
+        );
+        window.__pasReveal = observer;
+
+        targets.forEach((el) => {
+          el.classList.add('reveal');
+          observer.observe(el);
+        });
+
+        // Belt and braces: anything already on screen is revealed synchronously,
+        // so a transition that arms the observer mid-layout can never strand
+        // content at opacity 0.
+        requestAnimationFrame(() => {
+          targets.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              el.classList.add('is-revealed');
+            }
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -162,6 +162,30 @@
   }
 }
 
+/* Scroll reveal. `.reveal` is only ever added by script, so a no-JS visitor
+   sees every section at full opacity. Deliberately understated — a short rise
+   and fade on section entry, once, never replayed. */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield-layer,
   .starfield-drift,
