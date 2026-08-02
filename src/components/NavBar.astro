@@ -7,7 +7,7 @@ const navItems = [
   { href: '/about', label: 'About' },
   { href: '/events', label: 'Events' },
   { href: '/star-tours', label: 'Star Tours', highlight: true },
-  { href: '/telescope-workshops', label: 'Telescope Workshops' },
+  { href: '/telescope-workshops', label: 'Workshops' },
   { href: '/sky-conditions', label: 'Sky Conditions' },
   { href: '/learn', label: 'Learn' },
   { href: '/exoplanets', label: 'Exoplanets' },
@@ -21,13 +21,13 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
 ---
 
 <header class="sticky top-0 z-50 border-b border-subtle bg-space-base/60 backdrop-blur-2xl">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Primary">
-    <a href="/" class="flex items-center gap-2.5 font-display text-lg tracking-tight text-ink-primary">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4" aria-label="Primary">
+    <a href="/" class="flex flex-none items-center gap-2.5 font-display text-base tracking-tight text-ink-primary">
       <Image src={pasLogo} alt="Phoenix Astronomical Society logo" width={72} height={72} loading="eager" fetchpriority="high" class="h-9 w-9 flex-none" />
-      <span class="hidden sm:inline">Phoenix Astronomical Society</span>
-      <span class="sm:hidden">PAS</span>
+      <span class="hidden whitespace-nowrap xl:inline">Phoenix Astronomical Society</span>
+      <span class="xl:hidden">PAS</span>
     </a>
-    <ul class="hidden gap-6 lg:flex">
+    <ul class="hidden items-center gap-5 lg:flex xl:gap-6">
       {
         navItems.map((item) => {
           const isActive = currentPath === item.href;
@@ -35,14 +35,14 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
             <li>
               <a
                 href={item.href}
-                class:list={
+                class:list={[
+                  'whitespace-nowrap text-sm transition',
                   item.highlight
-                    ? ['text-base font-bold tracking-wide text-nebula-amber transition hover:text-nebula-amber/80']
-                    : [
-                        'text-sm font-medium transition hover:text-nebula-teal',
-                        isActive ? 'text-nebula-teal' : 'text-ink-primary',
-                      ]
-                }
+                    ? 'font-bold tracking-wide text-nebula-amber hover:text-nebula-amber/80'
+                    : 'font-medium hover:text-nebula-teal',
+                  !item.highlight && isActive ? 'text-nebula-teal' : '',
+                  !item.highlight && !isActive ? 'text-ink-primary' : '',
+                ]}
                 aria-current={isActive ? 'page' : undefined}
               >
                 {item.label}
@@ -52,7 +52,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
         })
       }
     </ul>
-    <a href="/join" class="btn-primary hidden text-sm lg:inline-flex">Join PAS</a>
+    <a href="/join" class="btn-primary hidden flex-none whitespace-nowrap px-5 py-2.5 text-sm lg:inline-flex">Join PAS</a>
     <details class="mobile-menu lg:hidden">
       <summary
         class="flex h-11 w-11 cursor-pointer list-none items-center justify-center text-ink-primary"

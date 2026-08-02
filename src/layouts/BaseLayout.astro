@@ -3,6 +3,10 @@ import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+// Self-hosted variable fonts. global.css names these families, so without the
+// imports every visitor silently fell back to system-ui.
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/inter';
 import '../styles/global.css';
 
 interface Props {
