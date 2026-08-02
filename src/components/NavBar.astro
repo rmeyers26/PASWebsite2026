@@ -9,11 +9,15 @@ const navItems = [
   { href: '/star-tours', label: 'Star Tours', highlight: true },
   { href: '/telescope-workshops', label: 'Telescope Workshops' },
   { href: '/sky-conditions', label: 'Sky Conditions' },
+  { href: '/learn', label: 'Learn' },
   { href: '/exoplanets', label: 'Exoplanets' },
   { href: '/contact', label: 'Contact' },
 ];
 
-const currentPath = Astro.url.pathname;
+// Astro's static build serves subpages with a trailing slash (/events/), so
+// strip it before comparing against the slash-free hrefs above — otherwise no
+// nav item is ever marked active outside the homepage.
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
 ---
 
 <header class="sticky top-0 z-50 border-b border-subtle bg-space-base/60 backdrop-blur-2xl">
