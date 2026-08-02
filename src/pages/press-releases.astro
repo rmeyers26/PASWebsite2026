@@ -8,7 +8,11 @@ type Release = {
   /* ISO 'YYYY-MM-DD'. Single source of truth: it drives the sort order, the
      year grouping, the displayed date, and the <time datetime> attribute. */
   date: string;
-  title: string;
+  /* The release's own headline. Optional: without one the row falls back to
+     using the date as its link text, which keeps every link distinguishable
+     from the others. Add the headline when it is known and the date moves to
+     its own line beneath. */
+  title?: string;
   summary?: string;
   /* Path under public/, so it is also the live URL of the file. */
   file: string;
@@ -24,7 +28,17 @@ type Release = {
 //   summary: 'One or two sentences of context. Optional — omit the field entirely if the title says enough.',
 //   file: '/press-releases/2025/2025-09-22-fall-star-party-series.pdf',
 // },
-const releases: Release[] = [];
+//
+// The 2025 entries below come from the club's Drive archive, which names its
+// files by date only. Their headlines and summaries still need to be filled in
+// from the PDFs themselves.
+const releases: Release[] = [
+  { date: '2025-09-22', file: '/press-releases/2025/2025-09-22-press-release.pdf' },
+  { date: '2025-09-06', file: '/press-releases/2025/2025-09-06-press-release.pdf' },
+  { date: '2025-08-21', file: '/press-releases/2025/2025-08-21-press-release.pdf' },
+  { date: '2025-07-29', file: '/press-releases/2025/2025-07-29-press-release.pdf' },
+  { date: '2025-05-30', file: '/press-releases/2025/2025-05-30-press-release.pdf' },
+];
 
 // public/ is copied verbatim into the build, so a release's `file` path is both
 // its URL and its location on disk relative to public/. Resolve against the cwd
@@ -128,15 +142,19 @@ const years = [...byYear.entries()];
                           type="application/pdf"
                           class="font-semibold text-ink-primary hover:text-nebula-teal"
                         >
-                          {release.title}
+                          {release.title ?? <time datetime={release.date}>{release.displayDate}</time>}
                         </a>
                         <span class="text-sm text-ink-muted">
                           PDF{release.size ? ` · ${release.size}` : ''}
                         </span>
                       </div>
-                      <time datetime={release.date} class="mt-1 block text-sm text-nebula-teal">
-                        {release.displayDate}
-                      </time>
+                      {/* Only a second line when the link text is the headline —
+                          otherwise the date would be printed twice. */}
+                      {release.title && (
+                        <time datetime={release.date} class="mt-1 block text-sm text-nebula-teal">
+                          {release.displayDate}
+                        </time>
+                      )}
                       {release.summary && <p class="mt-2 text-ink-muted">{release.summary}</p>}
                     </li>
                   ))}
@@ -151,7 +169,7 @@ const years = [...byYear.entries()];
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <PlaceholderNote
-      label="This archive is awaiting the press release PDFs from PAS. Add each file to public/press-releases/<year>/ and a matching entry to the releases array in src/pages/press-releases.astro — the year headings, ordering, dates, and file sizes are all derived. Remove this note once the real releases are in."
+      label="The 2025 releases are listed from the club's Drive archive, but the PDF files themselves still need to be added to public/press-releases/2025/ (the Drive folder has downloads disabled), and each entry needs its real headline and a short summary. Earlier years, 2021 through 2024, have not been migrated yet. Remove this note once all three are done."
     />
   </section>
 </BaseLayout>
