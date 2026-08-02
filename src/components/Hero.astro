@@ -44,7 +44,9 @@ const {
         {eyebrow}
       </span>
     )}
-    <h1 class="text-gradient font-display text-4xl leading-[1.05] tracking-tight sm:text-7xl">{title}</h1>
+    <!-- Solid ink, not .text-gradient: this hero sits over photography, where the
+         gradient's violet midpoint lands on unpredictable local backgrounds. -->
+    <h1 class="font-display text-d1 leading-[1.05] tracking-tight text-ink-primary">{title}</h1>
     {subtitle && <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">{subtitle}</p>}
     <slot />
   </div>

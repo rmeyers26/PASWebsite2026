@@ -15,14 +15,31 @@
   --color-ink-primary: #f1f3f8;
   --color-ink-muted: #9ba3b7;
 
-  --color-subtle: rgba(255, 255, 255, 0.06);
-  --color-strong: rgba(255, 255, 255, 0.12);
+  /* Boundary tokens. WCAG 1.4.11 wants 3:1 for the edges of interactive
+     components; against #0a0e17 that needs ~0.34 alpha (0.24 only reaches
+     2.1:1). --color-strong therefore carries interactive boundaries, while
+     --color-subtle stays soft for decorative rules and dividers, which the
+     criterion does not cover. */
+  --color-subtle: rgba(255, 255, 255, 0.1);
+  --color-strong: rgba(255, 255, 255, 0.34);
 
   /* "… Variable" is the family name the @fontsource-variable packages register;
      the plain names cover a locally installed copy. Both are imported in
      BaseLayout — without that import these silently fall through to system-ui. */
   --font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
   --font-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;
+
+  /* Display type scale — seven fluid steps. Each interpolates with the viewport
+     so headings are not undersized on phones (d1 starts at 44px rather than the
+     36px the hero previously used) without needing per-breakpoint overrides.
+     Body sizes keep Tailwind's defaults, whose measure already reads well. */
+  --text-d1: clamp(2.75rem, 1.55rem + 5.2vw, 5rem); /* 44 → 80 */
+  --text-d2: clamp(2.25rem, 1.45rem + 3.6vw, 3.75rem); /* 36 → 60 */
+  --text-d3: clamp(1.875rem, 1.35rem + 2.3vw, 2.75rem); /* 30 → 44 */
+  --text-d4: clamp(1.5rem, 1.25rem + 1.1vw, 2rem); /* 24 → 32 */
+  --text-d5: clamp(1.25rem, 1.13rem + 0.55vw, 1.5rem); /* 20 → 24 */
+  --text-d6: 1.125rem; /* 18 */
+  --text-d7: 0.9375rem; /* 15 */
 
   --shadow-glow-violet: 0 0 24px 0 rgba(139, 92, 246, 0.35);
   --shadow-glow-teal: 0 0 24px 0 rgba(45, 212, 191, 0.35);
@@ -42,10 +59,26 @@
     @apply bg-space-base text-ink-primary font-sans antialiased;
   }
 
+  /* Weight is part of the scale, not just size: the variable fonts give the
+     display face real range, so headings step down 600 → 500 against 400 body. */
   h1,
   h2,
   h3 {
     @apply font-display;
+    text-wrap: balance;
+  }
+
+  h1 {
+    @apply font-semibold;
+  }
+
+  h2,
+  h3 {
+    @apply font-medium;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
@@ -56,6 +89,12 @@
     box-shadow:
       inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
       0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  /* A card that is itself a link is an interactive component, so its boundary
+     falls under 1.4.11; a static informational card does not. */
+  a.card {
+    @apply border-strong;
   }
 
   .card:hover {
@@ -100,12 +139,14 @@
     @apply inline-flex items-center justify-center rounded-full bg-nebula-amber px-7 py-3.5 font-semibold text-space-base transition duration-300 hover:-translate-y-0.5 hover:shadow-glow-amber;
   }
 
+  /* border-strong now clears 3:1, so the outline is the affordance rather than a
+     hint — this is the only thing marking the control's boundary. */
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-strong px-7 py-3.5 font-semibold text-ink-primary backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-nebula-teal hover:text-nebula-teal hover:shadow-glow-teal;
+    @apply inline-flex items-center justify-center rounded-full border-2 border-strong px-7 py-3.5 font-semibold text-ink-primary backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-nebula-teal hover:text-nebula-teal hover:shadow-glow-teal;
   }
 
   .section-heading {
-    @apply font-display text-3xl tracking-tight text-ink-primary sm:text-4xl;
+    @apply font-display text-d3 tracking-tight text-ink-primary;
   }
 
   .text-gradient {
