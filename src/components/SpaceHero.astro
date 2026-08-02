@@ -7,10 +7,13 @@
 interface Props {
   eyebrow?: string;
   title: string;
+  /** Rendered as a second line in solid ink rather than gradient — the gradient's
+   *  mid-violet stop lands on a violet sky and loses contrast on a lower line. */
+  titleTail?: string;
   subtitle?: string;
 }
 
-const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.props;
+const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } = Astro.props;
 ---
 
 <section
@@ -23,6 +26,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
     class="pointer-events-none absolute inset-0 bg-gradient-to-t from-space-base via-space-base/10 to-transparent"
   >
   </div>
+  <div class="hero-text-scrim pointer-events-none absolute inset-0" aria-hidden="true"></div>
   <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
     {
       eyebrow && (
@@ -32,13 +36,27 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
         </span>
       )
     }
-    <h1 class="text-gradient font-display text-4xl leading-[1.05] tracking-tight sm:text-7xl">{title}</h1>
+    <h1 class="font-display text-4xl leading-[1.05] tracking-tight sm:text-7xl">
+      <span class="text-gradient">{title}</span>
+      {titleTail && <span class="block text-ink-primary">{titleTail}</span>}
+    </h1>
     {subtitle && <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">{subtitle}</p>}
     <slot />
   </div>
 </section>
 
 <style>
+  /* Seats the text block against the starfield so body copy never sits directly
+     on bright stars or a nebula edge. */
+  .hero-text-scrim {
+    background: radial-gradient(
+      62% 46% at 50% 50%,
+      rgba(10, 14, 23, 0.82),
+      rgba(10, 14, 23, 0.5) 52%,
+      rgba(10, 14, 23, 0) 78%
+    );
+  }
+
   .hero-fallback-bg {
     background:
       radial-gradient(60% 50% at 78% 18%, rgba(139, 92, 246, 0.28), transparent 60%),
@@ -82,9 +100,10 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 300);
     camera.position.set(0, 0, 20);
 
-    // Assigned once Andromeda exists; it has to be re-placed on resize because
-    // its position is derived from the camera frustum, not hard-coded.
-    let layoutGalaxy: (() => void) | null = null;
+    // Assigned once the scene objects exist. Every hero body is placed from the
+    // camera frustum rather than hard-coded world coordinates, so the whole
+    // composition recomposes for portrait instead of falling off the edges.
+    let layoutScene: (() => void) | null = null;
 
     function setSize() {
       const width = section.clientWidth;
@@ -92,7 +111,7 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
       renderer.setSize(width, height, false);
       camera.aspect = width / Math.max(height, 1);
       camera.updateProjectionMatrix();
-      layoutGalaxy?.();
+      layoutScene?.();
     }
     setSize();
 
@@ -393,26 +412,11 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
       galaxyGroup.add(satellite);
     }
 
-    // Park Andromeda in the upper-left of the frame, clear of the centred
-    // headline. Derived from the frustum at its depth so it never drifts behind
-    // the type as the viewport changes; portrait viewports have far less
-    // horizontal room, so it rides higher and closer in instead.
-    layoutGalaxy = () => {
-      const distance = camera.position.z - GALAXY_DEPTH;
-      const halfHeight = Math.tan((camera.fov * Math.PI) / 360) * distance;
-      const halfWidth = halfHeight * camera.aspect;
-      const landscape = camera.aspect >= 1;
-      galaxyGroup.position.set(
-        -halfWidth * (landscape ? 0.62 : 0.45),
-        halfHeight * (landscape ? 0.52 : 0.72),
-        GALAXY_DEPTH,
-      );
-    };
-    layoutGalaxy();
+    // Placed further down, once Saturn and the moon exist too.
 
     // --- Saturn: sphere + a UV-remapped ring so the radial gradient texture maps correctly ---
+    const SATURN_DEPTH = 2;
     const saturnGroup = new THREE.Group();
-    saturnGroup.position.set(6.5, 1.5, 2);
     saturnGroup.rotation.z = 0.46; // axial tilt
 
     const saturnMesh = new THREE.Mesh(
@@ -448,13 +452,73 @@ const { eyebrow = 'Phoenix Astronomical Society', title, subtitle } = Astro.prop
     scene.add(saturnGroup);
 
     // --- Moon: cratered sphere with subtle relief via a bump map from the same texture ---
+    const MOON_DEPTH = 4;
     const moonTexture = makeMoonTexture();
     const moonMesh = new THREE.Mesh(
       new THREE.SphereGeometry(0.85, 40, 40),
       new THREE.MeshStandardMaterial({ map: moonTexture, bumpMap: moonTexture, bumpScale: 0.04, roughness: 1 }),
     );
-    moonMesh.position.set(-6, -1.8, 4);
     scene.add(moonMesh);
+
+    // --- Responsive composition -------------------------------------------------
+    // Each body gets a target expressed as a fraction of the visible frustum at
+    // its own depth, so the scene recomposes for portrait rather than sliding off
+    // the edges. Landscape keeps the original arrangement; portrait pulls
+    // everything inward, widens the FOV, and clears the vertical middle where the
+    // headline sits (bodies stay beyond |y| > 0.55).
+    const BASE_CAMERA_Z = 20;
+    const composition = {
+      landscape: {
+        fov: 50,
+        galaxy: { x: -0.62, y: 0.52 },
+        saturn: { x: 0.55, y: 0.22, scale: 1 },
+        moon: { x: -0.45, y: -0.26, scale: 1 },
+      },
+      portrait: {
+        fov: 64,
+        galaxy: { x: -0.45, y: 0.72 },
+        saturn: { x: 0.4, y: -0.6, scale: 0.8 },
+        moon: { x: -0.46, y: -0.72, scale: 0.75 },
+      },
+    };
+
+    function frustumAt(depth: number) {
+      const distance = BASE_CAMERA_Z - depth;
+      const halfHeight = Math.tan((camera.fov * Math.PI) / 360) * distance;
+      return { halfHeight, halfWidth: halfHeight * camera.aspect };
+    }
+
+    layoutScene = () => {
+      const layout = camera.aspect >= 1 ? composition.landscape : composition.portrait;
+
+      // FOV first — every frustum measurement below depends on it.
+      camera.fov = layout.fov;
+      camera.updateProjectionMatrix();
+
+      const galaxyFrustum = frustumAt(GALAXY_DEPTH);
+      galaxyGroup.position.set(
+        galaxyFrustum.halfWidth * layout.galaxy.x,
+        galaxyFrustum.halfHeight * layout.galaxy.y,
+        GALAXY_DEPTH,
+      );
+
+      const saturnFrustum = frustumAt(SATURN_DEPTH);
+      saturnGroup.position.set(
+        saturnFrustum.halfWidth * layout.saturn.x,
+        saturnFrustum.halfHeight * layout.saturn.y,
+        SATURN_DEPTH,
+      );
+      saturnGroup.scale.setScalar(layout.saturn.scale);
+
+      const moonFrustum = frustumAt(MOON_DEPTH);
+      moonMesh.position.set(
+        moonFrustum.halfWidth * layout.moon.x,
+        moonFrustum.halfHeight * layout.moon.y,
+        MOON_DEPTH,
+      );
+      moonMesh.scale.setScalar(layout.moon.scale);
+    };
+    layoutScene();
 
     // --- Occasional shooting stars ---
     let shootingStarTimer: ReturnType<typeof setTimeout> | undefined;
