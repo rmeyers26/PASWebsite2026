@@ -1,0 +1,75 @@
+---
+// Frames a third-party iframe embed (Bookwhen, Astrospheric, etc.) so it reads as
+// intentionally integrated rather than a foreign widget: a glass header naming the
+// source, a link out, and a CSS shimmer skeleton shown until the iframe loads. This
+// cannot restyle content *inside* the cross-origin iframe itself — that's a platform
+// limitation, not something fixable here.
+interface Props {
+  src: string;
+  title: string;
+  sourceLabel: string;
+  sourceUrl: string;
+  height?: string;
+}
+
+const { src, title, sourceLabel, sourceUrl, height = '900px' } = Astro.props;
+---
+
+<div class="glass-panel overflow-hidden">
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-subtle px-5 py-3">
+    <span class="glass-badge">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+      Live from {sourceLabel}
+    </span>
+    <a
+      href={sourceUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm font-semibold text-nebula-teal hover:underline"
+    >
+      Open in new tab ↗
+    </a>
+  </div>
+  <div class="embed-frame-body relative" style={`height: ${height};`}>
+    <div class="embed-frame-skeleton absolute inset-0" aria-hidden="true"></div>
+    <iframe
+      src={src}
+      title={title}
+      loading="lazy"
+      class="relative block h-full w-full border-0"
+      onload="this.closest('.embed-frame-body')?.classList.add('is-loaded')"
+    ></iframe>
+  </div>
+</div>
+
+<style>
+  .embed-frame-skeleton {
+    background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0.03) 30%,
+      rgba(255, 255, 255, 0.07) 50%,
+      rgba(255, 255, 255, 0.03) 70%
+    );
+    background-size: 200% 100%;
+    animation: embed-frame-shimmer 1.6s ease-in-out infinite;
+  }
+
+  .embed-frame-body.is-loaded .embed-frame-skeleton {
+    display: none;
+  }
+
+  @keyframes embed-frame-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .embed-frame-skeleton {
+      animation: none;
+    }
+  }
+</style>

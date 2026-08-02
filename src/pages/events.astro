@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
+import EmbedFrame from '../components/EmbedFrame.astro';
 import fireworksTelescope from '../assets/images/events-fireworks-telescope.jpg';
 import lectureMeeting from '../assets/images/events-lecture-meeting.jpg';
 import lowellObservatoryTour from '../assets/images/events-lowell-observatory-tour.jpg';
@@ -40,10 +41,13 @@ import lowellObservatoryTour from '../assets/images/events-lowell-observatory-to
         Members gather before a monthly Lecture Series meeting.
       </figcaption>
     </figure>
-    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
-      <iframe
+    <div class="mt-8">
+      <EmbedFrame
         src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
         title="PAS Events Calendar"
+        sourceLabel="Bookwhen"
+        sourceUrl="https://bookwhen.com/pas-event-calendar"
+      />
         class="block min-h-[400px] w-full border-0"
         loading="lazy"
       ></iframe>

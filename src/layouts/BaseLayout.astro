@@ -2,6 +2,7 @@
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -21,6 +22,12 @@ const imageURL = new URL(image, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Synchronous, before body paints: only JS-enabled browsers get the "hidden until
+      // scrolled into view" [data-reveal] treatment (see global.css) — no-JS visitors
+      // always see full content, nothing is ever permanently invisible.
+      document.documentElement.classList.add('js');
+    </script>
     <link rel="icon" type="image/png" href="/images/pas-logo.png" />
     <link rel="canonical" href={canonicalURL} />
     <title>{pageTitle}</title>
@@ -46,5 +53,6 @@ const imageURL = new URL(image, Astro.site);
       <slot />
     </main>
     <Footer />
+    <ScrollReveal />
   </body>
 </html>
