@@ -1,19 +1,22 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
+import outreachPhoto from '../assets/images/star-tours-touch-meteorite.jpg';
 
 const benefits = [
+  {
+    title: 'Public Star Parties',
+    accent: 'text-nebula-violet',
+    body: 'Free, open-to-the-public observing nights — a welcoming first stop for beginners of any age. No telescope, no experience, and no membership required: turn up, get in line at an eyepiece, and let a member walk you across the sky.',
+    featured: true,
+  },
   {
     title: 'Monthly Lecture Series',
     accent: 'text-nebula-teal',
     body: 'Guest speakers and member talks covering observing, astrophotography, and the latest research.',
-  },
-  {
-    title: 'Public Star Parties',
-    accent: 'text-nebula-violet',
-    body: 'Free, open-to-the-public observing nights — a welcoming first stop for beginners of any age.',
   },
   {
     title: 'Telescope Workshops',
@@ -86,6 +89,17 @@ const specialInterestGroups = [
     </div>
   </SpaceHero>
 
+  <section class="mx-auto max-w-3xl px-6 py-24 sm:py-28">
+    <p class="font-display text-3xl leading-[1.15] tracking-tight text-ink-primary sm:text-4xl">
+      Phoenix has been looking up since <span class="text-nebula-amber">1948</span> — and for nearly eight
+      decades, someone from this club has been standing next to the telescope, explaining what you're seeing.
+    </p>
+    <p class="mt-8 text-lg text-ink-muted">
+      We're a 501(c)(3) nonprofit of beginners, backyard observers, astrophotographers, and lifelong amateurs.
+      The telescopes are a means to an end; the point is the people around them.
+    </p>
+  </section>
+
   <ApodOfTheDay />
 
   <section class="border-t border-subtle">
@@ -110,20 +124,63 @@ const specialInterestGroups = [
     </div>
   </section>
 
+  <section class="relative isolate flex min-h-[26rem] items-end overflow-hidden sm:min-h-[32rem]">
+    <Image
+      src={outreachPhoto}
+      alt="A PAS member holding out a meteorite for visitors to touch at an outreach event"
+      widths={[768, 1280, 1800]}
+      sizes="100vw"
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+    />
+    <!-- Two scrims: the vertical one seats the band into the page, the horizontal
+         one keeps the text column legible regardless of what's behind it. -->
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-t from-space-base via-space-base/75 to-space-base/30"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="absolute inset-0 -z-10 bg-gradient-to-r from-space-base/95 via-space-base/55 to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="mx-auto w-full max-w-6xl px-6 py-16">
+      <h2 class="max-w-2xl font-display text-4xl leading-tight tracking-tight text-ink-primary sm:text-5xl">
+        Most people meet us holding a rock older than the Earth.
+      </h2>
+      <p class="mt-6 max-w-xl text-lg text-ink-muted">
+        PAS brings telescopes, meteorites, and members who like explaining things to schools, scout troops, and
+        community groups across the Valley — free of charge.
+      </p>
+      <a href="/star-tours" class="btn-primary mt-8">Bring PAS to Your Group</a>
+    </div>
+  </section>
+
   <section class="border-t border-subtle bg-space-card/40">
-    <div class="mx-auto max-w-6xl px-6 py-20">
+    <div class="mx-auto max-w-7xl px-6 py-20">
       <h2 class="section-heading">Why Join PAS</h2>
       <p class="mt-3 max-w-2xl text-ink-muted">
         Concrete reasons members stick around — not just a meeting on the calendar.
       </p>
       <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {
-          benefits.map((benefit) => (
-            <div class="card">
-              <h3 class={`font-display text-lg ${benefit.accent}`}>{benefit.title}</h3>
-              <p class="mt-3 text-ink-muted">{benefit.body}</p>
-            </div>
-          ))
+          benefits.map((benefit) =>
+            benefit.featured ? (
+              <div class="card card-featured flex flex-col justify-between sm:col-span-2 lg:row-span-2">
+                <div>
+                  <span class="glass-badge">Start here</span>
+                  <h3 class={`mt-5 font-display text-2xl sm:text-3xl ${benefit.accent}`}>{benefit.title}</h3>
+                  <p class="mt-4 text-lg text-ink-muted">{benefit.body}</p>
+                </div>
+                <a href="/events" class="btn-secondary mt-8 self-start">Find the Next One</a>
+              </div>
+            ) : (
+              <div class="card">
+                <h3 class={`font-display text-lg ${benefit.accent}`}>{benefit.title}</h3>
+                <p class="mt-3 text-ink-muted">{benefit.body}</p>
+              </div>
+            ),
+          )
         }
       </div>
       <div class="mt-10">
@@ -133,7 +190,7 @@ const specialInterestGroups = [
   </section>
 
   <section class="border-t border-subtle">
-    <div class="mx-auto max-w-6xl px-6 py-20">
+    <div class="mx-auto max-w-5xl px-6 py-20">
       <h2 class="section-heading">Special Interest Groups</h2>
       <p class="mt-3 max-w-2xl text-ink-muted">
         Smaller member-run groups that go deep on one corner of the hobby, meeting outside the main monthly
