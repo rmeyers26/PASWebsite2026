@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import heroPhoto from '../assets/images/star-tours-eaa-day.jpg';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 
 const kidsResources = [
@@ -113,8 +114,8 @@ const careerLinks = [
   description="Beginner-friendly astronomy resources from the Phoenix Astronomical Society — a kids' corner, answers about astronomy careers, and a curated set of links for observers of every level."
 >
   <Hero
-    image="/images/placeholder-hero-learn.svg"
-    alt="Placeholder — real member astrophotography will replace this image"
+    image={heroPhoto}
+    alt="A PAS member showing visitors a telescope setup at a daytime outreach event"
     eyebrow="Learn Astronomy"
     title="Start Exploring the Sky"
     subtitle="Whether you're eight years old, weighing a career in astrophysics, or just looking for a good star chart — here's where to begin."

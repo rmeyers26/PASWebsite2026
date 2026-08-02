@@ -419,10 +419,31 @@ const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } =
     const saturnGroup = new THREE.Group();
     saturnGroup.rotation.z = 0.46; // axial tilt
 
-    const saturnMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(2.1, 48, 48),
-      new THREE.MeshStandardMaterial({ map: makeSaturnTexture(), roughness: 0.9, metalness: 0 }),
-    );
+    // Limb darkening: a real gas giant dims toward its edge because the line of
+    // sight there passes obliquely through more atmosphere. Without it, flat
+    // banding reads as a beach ball. Approximated the usual way, by falling off
+    // with the view angle (N·V) and applied to the lit colour.
+    const saturnMaterial = new THREE.MeshStandardMaterial({
+      map: makeSaturnTexture(),
+      roughness: 0.9,
+      metalness: 0,
+    });
+    saturnMaterial.onBeforeCompile = (shader) => {
+      shader.fragmentShader = shader.fragmentShader
+        .replace(
+          '#include <common>',
+          `#include <common>
+           varying vec3 vViewPosition_ld;`,
+        )
+        .replace(
+          '#include <dithering_fragment>',
+          `#include <dithering_fragment>
+           float ndv = clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0);
+           gl_FragColor.rgb *= mix(0.35, 1.0, pow(ndv, 0.55));`,
+        );
+    };
+
+    const saturnMesh = new THREE.Mesh(new THREE.SphereGeometry(2.1, 48, 48), saturnMaterial);
     saturnGroup.add(saturnMesh);
 
     function makeRingGeometry(innerRadius: number, outerRadius: number) {
