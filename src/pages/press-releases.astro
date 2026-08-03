@@ -1,0 +1,367 @@
+---
+import { statSync } from 'node:fs';
+import { join } from 'node:path';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+type Release = {
+  /* ISO 'YYYY-MM-DD'. Single source of truth: it drives the sort order, the
+     year grouping, the displayed date, and the <time datetime> attribute. */
+  date: string;
+  /* The release's own headline. Optional: without one the row falls back to
+     using the date as its link text, which keeps every link distinguishable
+     from the others. Add the headline when it is known and the date moves to
+     its own line beneath. */
+  title?: string;
+  summary?: string;
+  /* Path under public/, so it is also the live URL of the file. */
+  file: string;
+};
+
+// Adding a release is two steps: drop the PDF in public/press-releases/<year>/
+// and add an entry here. Order does not matter — the list is sorted below, and
+// year headings are derived, so there is no second place to keep in sync.
+//
+// {
+//   date: '2025-09-22',
+//   title: 'PAS Announces Fall Public Star Party Series',
+//   summary: 'One or two sentences of context. Optional — omit the field entirely if the title says enough.',
+//   file: '/press-releases/2025/2025-09-22-fall-star-party-series.pdf',
+// },
+//
+// The entries below come from the club's Drive archive, which names its files
+// by date only, so none of them carry a headline yet — those and the summaries
+// still need to be filled in from the PDFs themselves.
+const releases: Release[] = [
+  {
+    date: '2026-01-15',
+    title: 'Free Lecture: “All About Asteroids” with Tom Polakis',
+    summary:
+      'Tom Polakis on the ingenuity behind studying objects that show no detail through even the largest telescopes — photometry, radar imaging, and stellar occultations — from the first asteroid discovery in 1801 to modern science. Held February 5, 2026.',
+    file: '/press-releases/2026/2026-01-15-press-release.pdf',
+  },
+  {
+    date: '2025-09-22',
+    title: 'Telescopes, Binoculars, and the Naked Eye: Tools to View the Universe',
+    summary:
+      'PAS opens its fall season with monthly lectures at Paradise Valley Community College, workshops on choosing and using a telescope, and star parties held in Phoenix city parks with the Parks and Recreation Department.',
+    file: '/press-releases/2025/2025-09-22-press-release.pdf',
+  },
+  {
+    date: '2025-09-06',
+    title: 'A Full House Opens the PAS Lecture Season',
+    summary:
+      'Vice President Mark Johnston drew a full house at Paradise Valley Community College with images and video from his visit to Chile’s largest telescopes, opening the club’s monthly lecture series.',
+    file: '/press-releases/2025/2025-09-06-press-release.pdf',
+  },
+  {
+    date: '2025-08-21',
+    title: 'PAS Events Move to a New Room at Paradise Valley Community College',
+    summary:
+      'Effective immediately for the new school year, all PAS events are held in Building Q, room 120A — the former Maricopa County Library at 17811 North 32nd Street.',
+    file: '/press-releases/2025/2025-08-21-press-release.pdf',
+  },
+  {
+    date: '2025-07-29',
+    title: 'Astronomy Scholarships Announced',
+    summary:
+      'PAS is again offering two $1,000 scholarships to Paradise Valley Community College students studying astronomy or a related field, funded by selling donated telescopes to members.',
+    file: '/press-releases/2025/2025-07-29-press-release.pdf',
+  },
+  {
+    date: '2025-05-30',
+    title: 'PAS Announces Annual Election Results',
+    summary:
+      'Members gathered at Paradise Valley Community College for the end-of-year meeting and celebration to hear the new leadership team: Stuart Brackney president, Mark Johnston vice president, Chris Ford secretary, Richard Sauerbrun treasurer, and Richard Meyers editor of the PAStimes.',
+    file: '/press-releases/2025/2025-05-30-press-release.pdf',
+  },
+  {
+    date: '2024-05-31',
+    title: 'Free Dark-Sky Star Party',
+    summary:
+      'A free public star party at a dark-sky site — bring a telescope, or come without one and share the view through a member’s. Pre-registration was required so attendees could be emailed if clouds forced a change. Held June 8, 2024.',
+    file: '/press-releases/2024/2024-05-31-press-release.pdf',
+  },
+  {
+    date: '2024-04-03',
+    title: 'Free Lecture: “Searching for Life in Creation” with James Renn',
+    summary:
+      'Vatican Observatory Foundation board member James Renn on how the 1.8-metre Vatican Advanced Technology Telescope at Mount Graham joins the search for extraterrestrial life, and what its astronomers — and the Pope — think finding it would mean. Held April 4, 2024.',
+    file: '/press-releases/2024/2024-04-03-press-release.pdf',
+  },
+  {
+    date: '2024-02-22',
+    title: 'Free Lecture: “What Is Next in the Chinese Lunar Exploration Program?” with Dr. James W. Head',
+    summary:
+      'Brown University planetary geologist James Head, who helped select the Apollo landing sites, on China’s far-side lander and rover, the Chang’e 5 sample return, and the upcoming Chang’e 6 mission. Held March 7, 2024.',
+    file: '/press-releases/2024/2024-02-22-press-release.pdf',
+  },
+  {
+    date: '2024-01-29',
+    title:
+      'Free Lecture: “Meteorites: Their Incredible Influence on Our Planet, Culture, and Origin” with Dr. Gregory Brennecka',
+    summary:
+      'Lawrence Livermore National Laboratory cosmochemist Gregory Brennecka on what meteorites reveal about the original structure of the solar system — an effort he calls “cosmolocation” — and their role in shaping life on Earth. Held February 1, 2024.',
+    file: '/press-releases/2024/2024-01-29-press-release.pdf',
+  },
+  {
+    date: '2023-12-30',
+    title: 'Free Lecture: “Edward Emerson Barnard” with Matthew Ota',
+    summary:
+      'Former Mount Wilson telescope operator Matthew Ota on the nineteenth-century observer who discovered numerous comets and dark nebulae, Jupiter’s moon Amalthea, and the star that bears his name. Held January 4, 2024.',
+    file: '/press-releases/2023/2023-12-30-press-release.pdf',
+  },
+  {
+    date: '2023-11-30',
+    title: 'Free Lecture: “Back to the Moon! An Update on Lunar Exploration” with Dr. David A. Williams',
+    summary:
+      'ASU research professor and Psyche mission deputy imager lead David Williams on past lunar exploration and the robotic and crewed missions ahead, with an update on Psyche. Held December 7, 2023.',
+    file: '/press-releases/2023/2023-11-30-press-release.pdf',
+  },
+  {
+    date: '2023-11-02',
+    title: 'Free Lecture: “So, You Think You Want to Live on Mars?” with Kai Staats',
+    summary:
+      'Former PAS president Kai Staats, director of research for the Space Analog for the Moon and Mars at Biosphere 2, on building the world’s only sealed and pressurized Mars habitat analog.',
+    file: '/press-releases/2023/2023-11-02-press-release.pdf',
+  },
+  {
+    date: '2023-10-05',
+    title: 'Free Lecture: “Diamond Dust and Other Relicts of the Dawn of the Solar System” with Dr. Rhonda Stroud',
+    summary:
+      'ASU professor and director of the Buseck Center for Meteorite Studies Rhonda Stroud on stardust from supernovae and stars older than the Sun, preserved in primitive meteorites and studied under advanced electron microscopes.',
+    file: '/press-releases/2023/2023-10-05-press-release.pdf',
+  },
+  { date: '2023-09-26', file: '/press-releases/2023/2023-09-26-press-release.pdf' },
+  { date: '2023-08-18', file: '/press-releases/2023/2023-08-18-press-release.pdf' },
+  { date: '2023-07-14', file: '/press-releases/2023/2023-07-14-press-release.pdf' },
+  { date: '2023-05-04', file: '/press-releases/2023/2023-05-04-press-release.pdf' },
+  { date: '2023-02-23', file: '/press-releases/2023/2023-02-23-press-release.pdf' },
+  {
+    date: '2023-02-02',
+    title: 'Free Lecture: “The Astronomical League” with Alex Vrenios',
+    summary:
+      'PAS secretary and lifetime Astronomical League member Alex Vrenios on the League’s seventy-plus observing programs, how to document your observations, and the difference between seeing and transparency.',
+    file: '/press-releases/2023/2023-02-02-press-release.pdf',
+  },
+  { date: '2023-01-10', file: '/press-releases/2023/2023-01-10-press-release.pdf' },
+  { date: '2022-11-17', file: '/press-releases/2022/2022-11-17-press-release.pdf' },
+  {
+    date: '2022-11-03',
+    title: 'Free Lecture: “Zero Gravity Pizza” with Ted Blank',
+    summary:
+      'PAS member Ted Blank on how astronauts aboard the International Space Station prepare and eat their meals in zero gravity, with a short history of space food.',
+    file: '/press-releases/2022/2022-11-03-press-release.pdf',
+  },
+  {
+    date: '2022-10-06',
+    title: 'Free Lecture: “A Half Century of Astronomical Photography” with Dr. Klaus Brasch',
+    summary:
+      'Lowell Observatory volunteer Klaus Brasch, who has an asteroid named for his work there, on how multi-mirror, segmented, and space-based telescopes transformed astronomical imaging in the late twentieth century.',
+    file: '/press-releases/2022/2022-10-06-press-release.pdf',
+  },
+  {
+    date: '2022-09-12',
+    title: 'PAS Launches Online Membership Signup',
+    summary:
+      'Memberships can now be bought and renewed through pasaz.org, paid by PayPal account or by debit or credit card, with a receipt and welcome kit sent by email.',
+    file: '/press-releases/2022/2022-09-12-press-release.pdf',
+  },
+  {
+    date: '2022-06-15',
+    title: 'PAS Returns to In-Person Meetings and Star Parties',
+    summary:
+      'The board voted unanimously on June 9 to resume normal operations — in-person meetings at Paradise Valley Community College, telescope workshops, and star parties — for the first time since the onset of the COVID-19 pandemic.',
+    file: '/press-releases/2022/2022-06-15-press-release.pdf',
+  },
+  {
+    date: '2022-05-05',
+    title: 'Free Lecture: “Mankind’s ‘Wright Brothers Moment’ on Mars” with Ted Blank',
+    summary:
+      'PAS member and NASA Solar System Ambassador Ted Blank on the design, deployment, and flights of Ingenuity — the first aircraft to fly on another planet — and its work scouting ahead of the Perseverance rover.',
+    file: '/press-releases/2022/2022-05-05-press-release.pdf',
+  },
+  {
+    date: '2022-04-07',
+    title: 'Free Lecture: “Creating a Space-Faring Civilization” with Michael J. Mackowski',
+    summary:
+      'Retired spacecraft systems engineer Mike Mackowski on the National Space Society’s case for permanent human settlement off Earth, and the milestones it has set toward that goal.',
+    file: '/press-releases/2022/2022-04-07-press-release.pdf',
+  },
+  {
+    date: '2022-03-03',
+    title: 'Free Lecture: “Migratory Planets and Chaos in the Young Solar System” with Dr. Renu Malhotra',
+    summary:
+      'University of Arizona Regents Professor Renu Malhotra on the evidence that the giant planets migrated dramatically early in the solar system’s history, and the tension that creates with the orbits of the inner planets.',
+    file: '/press-releases/2022/2022-03-03-press-release.pdf',
+  },
+  {
+    date: '2022-02-03',
+    title: 'Free Lecture: “The Stellina Telescope” with Dr. Alex Woronow',
+    summary:
+      'PAS member Alex Woronow demonstrates the Stellina, a compact telescope that finds its own position, focuses, plate-solves, and images hands-off without add-on software, along with early results from it.',
+    file: '/press-releases/2022/2022-02-03-press-release.pdf',
+  },
+  {
+    date: '2022-01-20',
+    title: 'Free Lecture: “Betelgeuse Is Pretty Cool” with Dr. Emily Levesque',
+    summary:
+      'University of Washington astronomer and author of The Last Stargazers on Betelgeuse’s Great Dimming of 2020 and the questions it reopened about red supergiants.',
+    file: '/press-releases/2022/2022-01-20-press-release.pdf',
+  },
+  {
+    date: '2021-12-02',
+    title: 'Free Lecture: “Rocky, Gassy, Icy, and Dwarf Planets” with Dr. David A. Williams',
+    summary:
+      'ASU research professor and director of the Ronald Greeley Center for Planetary Studies on how the solar system’s rocky, gas, ice, and dwarf worlds formed, and what NASA’s planetary missions found there.',
+    file: '/press-releases/2021/2021-12-02-press-release.pdf',
+  },
+  {
+    date: '2021-11-04',
+    title: 'Free Lecture: “The Search for Life in the Universe” with Dr. Klaus Brasch',
+    summary:
+      'Retired biomedical scientist and Lowell Observatory volunteer Klaus Brasch on the missions to Mars, Europa, and Enceladus driving the search for life beyond Earth.',
+    file: '/press-releases/2021/2021-11-04-press-release.pdf',
+  },
+  {
+    date: '2021-10-07',
+    title: 'Free Lecture: “Space and Time” with Dr. James Lynch',
+    summary:
+      'Woods Hole Oceanographic Institution senior scientist emeritus James Lynch on how relativity and then quantum mechanics reshaped our picture of space and time — not just how they behave, but how they are built.',
+    file: '/press-releases/2021/2021-10-07-press-release.pdf',
+  },
+];
+
+// public/ is copied verbatim into the build, so a release's `file` path is both
+// its URL and its location on disk relative to public/. Resolve against the cwd
+// rather than import.meta.url: this frontmatter is bundled into
+// dist/.prerender/chunks/ before it runs, so import.meta.url points at the
+// bundle, not at this file. Both `astro dev` and `astro build` run from the
+// project root.
+const publicDir = join(process.cwd(), 'public');
+
+// Reading the size off disk means nobody has to type a byte count that would
+// then silently drift when a PDF is replaced. A bad `file` path is the likeliest
+// maintenance mistake, so warn loudly at build time — but do not fail the build
+// over it, since a single bad row should never block a deploy of everything else.
+function fileSize(file: string): string | undefined {
+  try {
+    const bytes = statSync(join(publicDir, file)).size;
+    return bytes >= 1024 * 1024
+      ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+      : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  } catch {
+    console.warn(`[press-releases] No file at public${file} — check the path in src/pages/press-releases.astro`);
+    return undefined;
+  }
+}
+
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'long',
+  // The dates are calendar days, not instants. Without this they parse as UTC
+  // midnight and render as the previous day for anyone west of Greenwich — us.
+  timeZone: 'UTC',
+});
+
+// Newest first, then grouped into years in that same order, so the year headings
+// come out descending without a separately maintained list of years.
+const sorted = [...releases].sort((a, b) => b.date.localeCompare(a.date));
+
+const byYear = new Map<string, (Release & { size?: string; displayDate: string })[]>();
+for (const release of sorted) {
+  const year = release.date.slice(0, 4);
+  const entry = {
+    ...release,
+    size: fileSize(release.file),
+    displayDate: dateFormat.format(new Date(`${release.date}T00:00:00Z`)),
+  };
+  byYear.set(year, [...(byYear.get(year) ?? []), entry]);
+}
+const years = [...byYear.entries()];
+---
+
+<BaseLayout
+  title="Press Releases"
+  description="Official press releases from the Phoenix Astronomical Society, available to read and download as PDFs."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      Newsroom
+    </span>
+    <h1 class="text-gradient font-display text-d2 tracking-tight">Press Releases</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      Official announcements from the Phoenix Astronomical Society — club news, public events, and outreach
+      milestones. Every release is posted here as a PDF you can read or download.
+    </p>
+    <p class="mx-auto mt-4 max-w-2xl text-ink-muted">
+      Members of the media are welcome to contact us at
+      <a href="mailto:info@pasaz.org" class="text-nebula-teal hover:underline">info@pasaz.org</a> for interviews,
+      photographs, or background on the club.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      {
+        years.length === 0 ? (
+          <p class="text-ink-muted">
+            Press releases will be posted here as they are issued. In the meantime, see{' '}
+            <a href="/events" class="text-nebula-teal hover:underline">
+              upcoming events
+            </a>{' '}
+            or get in touch at{' '}
+            <a href="mailto:info@pasaz.org" class="text-nebula-teal hover:underline">
+              info@pasaz.org
+            </a>
+            .
+          </p>
+        ) : (
+          <div class="space-y-14">
+            {years.map(([year, entries]) => (
+              <div>
+                <h2 class="section-heading">{year}</h2>
+                <ul class="mt-6 space-y-4">
+                  {entries.map((release) => (
+                    <li class="border-b border-subtle pb-4">
+                      <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        {/* Same-origin document, so no new tab and no ↗ — this
+                            site reserves both for links that leave it. The file
+                            type and size sit in the link text so the label is
+                            honest about what following it does. */}
+                        <a
+                          href={release.file}
+                          type="application/pdf"
+                          class="font-semibold text-ink-primary hover:text-nebula-teal"
+                        >
+                          {release.title ?? <time datetime={release.date}>{release.displayDate}</time>}
+                        </a>
+                        <span class="text-sm text-ink-muted">
+                          PDF{release.size ? ` · ${release.size}` : ''}
+                        </span>
+                      </div>
+                      {/* Only a second line when the link text is the headline —
+                          otherwise the date would be printed twice. */}
+                      {release.title && (
+                        <time datetime={release.date} class="mt-1 block text-sm text-nebula-teal">
+                          {release.displayDate}
+                        </time>
+                      )}
+                      {release.summary && <p class="mt-2 text-ink-muted">{release.summary}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <PlaceholderNote
+      label="Every release from the club's Drive archive is listed here, but the PDF files themselves still need to be added under public/press-releases/<year>/ (the Drive folders have downloads disabled), and each entry needs its real headline and a short summary. Remove this note once both are done."
+    />
+  </section>
+</BaseLayout>
