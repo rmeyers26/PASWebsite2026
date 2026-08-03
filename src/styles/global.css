@@ -70,6 +70,23 @@
     border-radius: 2px;
   }
 
+  /* The header is sticky (~69px), so without this, tabbing scrolls a focused
+     element to the very top of the viewport and the header hides it — a WCAG
+     2.2 SC 2.4.11 failure. 4.5rem covers the primary header on every page.
+     /sky-conditions stacks a second sticky sub-nav below it and already sets
+     a larger scroll-margin-top on its own section IDs for that; those
+     ID-scoped rules win here on specificity, so this stays the site-wide
+     baseline and that page's extra clearance is untouched. */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [tabindex] {
+    scroll-margin-top: 4.5rem;
+  }
+
   /* Weight is part of the scale, not just size: the variable fonts give the
      display face real range, so headings step down 600 → 500 against 400 body. */
   h1,
