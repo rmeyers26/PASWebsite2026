@@ -20,6 +20,11 @@ const { title, description, image = '/images/pas-logo.png' } = Astro.props;
 const pageTitle = `${title} · Phoenix Astronomical Society`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
+
+// Plausible: cookieless, no consent banner needed. Unset in most local/dev
+// builds on purpose — nothing here breaks without it, the tag is just
+// omitted, same fallback pattern as ApodOfTheDay's NASA_API_KEY.
+const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
 ---
 
 <!doctype html>
@@ -44,6 +49,11 @@ const imageURL = new URL(image, Astro.site);
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
+    {
+      plausibleDomain && (
+        <script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" />
+      )
+    }
     <ClientRouter />
   </head>
   <body>
