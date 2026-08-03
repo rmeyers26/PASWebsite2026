@@ -59,6 +59,17 @@
     @apply bg-space-base text-ink-primary font-sans antialiased;
   }
 
+  /* The only custom focus state anywhere on the site was the skip link's —
+     every button, card link, and nav item otherwise fell back to the
+     user-agent default ring, which reads inconsistently (or not at all) on
+     this near-black ground. Matches the skip link's existing teal outline
+     so the two never look like two different systems. */
+  :focus-visible {
+    outline: 2px solid var(--color-nebula-teal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
   /* Weight is part of the scale, not just size: the variable fonts give the
      display face real range, so headings step down 600 → 500 against 400 body. */
   h1,
