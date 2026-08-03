@@ -186,6 +186,17 @@
   }
 }
 
+/* Printing (and any other non-scrolling render, e.g. a screenshot tool) never
+   fires the IntersectionObserver that reveals these sections, so without this
+   every page would print as a hero followed by blank pages. */
+@media print {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield-layer,
   .starfield-drift,
