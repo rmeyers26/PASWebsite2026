@@ -4,11 +4,17 @@ import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
 import { ClientRouter } from 'astro:transitions';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-// Self-hosted variable fonts. global.css names these families, so without the
-// imports every visitor silently fell back to system-ui.
-import '@fontsource-variable/space-grotesk';
-import '@fontsource-variable/inter';
+// Self-hosted variable fonts, Latin subset only — see fonts.css for why not
+// the full @fontsource-variable packages. global.css names these families,
+// so without this import every visitor silently falls back to system-ui.
+import '../styles/fonts.css';
 import '../styles/global.css';
+// Imported directly (not just referenced from fonts.css) so their resolved,
+// hashed URLs are available here for the <link rel="preload"> tags below —
+// without preloading, both fonts are only discovered once the CSS parses,
+// which visibly delays the largest text on the page.
+import spaceGroteskWoff2 from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2';
+import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
 
 interface Props {
   title: string;
@@ -34,6 +40,8 @@ const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/images/pas-logo.png" />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="preload" as="font" type="font/woff2" href={spaceGroteskWoff2} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interWoff2} crossorigin />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />

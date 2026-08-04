@@ -24,9 +24,8 @@ const kidsResources = [
   },
   {
     name: "NASA's Eyes on the Solar System",
-    url: '/solar-system',
-    body: 'A real-time 3D model of the solar system you can fly through. We keep a full guide to it on this site.',
-    internal: true,
+    url: 'https://eyes.nasa.gov/apps/solar-system/#/home',
+    body: 'A free, real-time 3D model of the solar system, built by NASA/JPL from actual mission data — fly through it, fast-forward or rewind time, and see why a planet is or is not visible tonight.',
   },
 ];
 
@@ -133,14 +132,9 @@ const careerLinks = [
     <div class="mt-10 grid gap-6 sm:grid-cols-2">
       {
         kidsResources.map((resource) => (
-          <a
-            href={resource.url}
-            class="card block"
-            {...(resource.internal ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-          >
+          <a href={resource.url} class="card block" target="_blank" rel="noopener noreferrer">
             <h3 class="font-display text-lg text-nebula-teal">
-              {resource.name}
-              {!resource.internal && <span aria-hidden="true"> ↗</span>}
+              {resource.name} <span aria-hidden="true">↗</span>
             </h3>
             <p class="mt-3 text-ink-muted">{resource.body}</p>
           </a>

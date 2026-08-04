@@ -15,6 +15,10 @@ export default defineConfig({
     '/press-releases/press-releases-2023': '/press-releases',
     '/press-releases/press-releases-2022': '/press-releases',
     '/press-releases/press-releases-2021': '/press-releases',
+    // /solar-system was a full page for a single outbound link to NASA's
+    // Eyes on the Solar System — retired in favor of a resource card on
+    // /learn (P2.8). Kept as a redirect so the URL still resolves.
+    '/solar-system': '/learn',
   },
   image: {
     // Lets <Image> pull the NASA picture of the day through the build-time

@@ -7,7 +7,7 @@ type NavItem = { label: string; href?: string; children?: NavLink[] };
 
 // Five top-level entries (four here plus the Join CTA). Grouping keeps the
 // secondary reference pages reachable without competing with Events and Join,
-// and gives /history, /leadership, and /solar-system a home in the primary nav.
+// and gives /history and /leadership a home in the primary nav.
 const navItems: NavItem[] = [
   {
     label: 'About',
@@ -33,7 +33,6 @@ const navItems: NavItem[] = [
       { href: '/learn', label: 'Learn Astronomy' },
       { href: '/sky-conditions', label: 'Sky Conditions' },
       { href: '/exoplanets', label: 'Exoplanets' },
-      { href: '/solar-system', label: 'Solar System' },
     ],
   },
 ];
