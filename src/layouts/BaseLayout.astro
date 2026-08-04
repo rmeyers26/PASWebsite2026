@@ -2,6 +2,7 @@
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
+import BackToTop from '../components/BackToTop.astro';
 import { ClientRouter } from 'astro:transitions';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 // Self-hosted variable fonts, Latin subset only — see fonts.css for why not
@@ -78,6 +79,7 @@ const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
       <slot />
     </main>
     <Footer />
+    <BackToTop />
 
     <!-- Inline + data-astro-rerun so this executes again after every view
          transition; a bundled module script only ever runs once per document.
