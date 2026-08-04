@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
 import outreachPhoto from '../assets/images/star-tours-touch-meteorite.jpg';
 
@@ -71,26 +70,9 @@ const specialInterestGroups = [
     title: 'Book(s) Special Interest Group',
     abbr: 'BSIG',
     accent: 'text-nebula-teal',
-    body: "Love astronomy? Curious about the latest discoveries in space, cosmology, and planetary science? Join our Astronomy Book Club as we explore some of the most fascinating books written by leading scientists and science communicators. Each selection sparks lively discussions about our universe—from the origins of the cosmos and the mysteries of quantum mechanics to the evolution of planets and the forces that shape them. Whether you're new to astronomy or a lifelong enthusiast, you'll enjoy engaging conversations in a welcoming and informal setting. No scientific background is required—just an interest in learning and sharing ideas with fellow astronomy enthusiasts.",
-  },
-];
-
-const bsigPreviousBooks = [
-  {
-    title: 'Something Deeply Hidden: Quantum Worlds and the Emergence of Space-Time',
-    author: 'Sean Carroll',
-  },
-  {
-    title: 'Battle of the Big Bang: The New Tales of Our Cosmic Origins',
-    author: 'Niayesh Afshordi and Phil Halper',
-  },
-  {
-    title: 'The Secret Lives of Planets: Order, Chaos, and Uniqueness in the Solar System',
-    author: 'Paul Murdin',
-  },
-  {
-    title: 'The Beauty of Falling: A Life in Pursuit of Gravity',
-    author: 'Claudia de Rham',
+    body: 'The Astronomy Book Club — exploring the best books on space, cosmology, and planetary science, then meeting to talk them over. No scientific background required.',
+    url: '/bsig',
+    internal: true,
   },
 ];
 ---
@@ -225,34 +207,14 @@ const bsigPreviousBooks = [
       </p>
       <div class="mt-10 grid gap-6 sm:grid-cols-2">
         {
-          specialInterestGroups.map((group) =>
-            group.url ? (
-              <a href={group.url} class="card block">
-                <h3 class={`font-display text-lg ${group.accent}`}>
-                  {group.title} <span class="text-ink-muted">({group.abbr})</span>
-                </h3>
-                <p class="mt-3 text-ink-muted">{group.body}</p>
-              </a>
-            ) : (
-              <div class="card">
-                <h3 class={`font-display text-lg ${group.accent}`}>
-                  {group.title} <span class="text-ink-muted">({group.abbr})</span>
-                </h3>
-                <p class="mt-3 text-ink-muted">{group.body}</p>
-                <h4 class="mt-5 font-display text-sm text-nebula-teal">Previously Read</h4>
-                <ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm text-ink-muted">
-                  {
-                    bsigPreviousBooks.map((book) => (
-                      <li>
-                        <em>{book.title}</em>
-                        {book.author && <>{' '}— {book.author}</>}
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            ),
-          )
+          specialInterestGroups.map((group) => (
+            <a href={group.url} class="card block">
+              <h3 class={`font-display text-lg ${group.accent}`}>
+                {group.title} <span class="text-ink-muted">({group.abbr})</span>
+              </h3>
+              <p class="mt-3 text-ink-muted">{group.body}</p>
+            </a>
+          ))
         }
       </div>
       <p class="mt-8 text-ink-muted">
@@ -263,12 +225,6 @@ const bsigPreviousBooks = [
         <a href="/contact" class="btn-secondary">Ask About a Group</a>
       </div>
     </div>
-  </section>
-
-  <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote
-      label="BSIG (Book(s) Special Interest Group) still needs a dedicated page and confirmed meeting details from the club, matching what ASIG now has at /asig."
-    />
   </section>
 </BaseLayout>
 
