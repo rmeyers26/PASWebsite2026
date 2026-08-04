@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
 import outreachPhoto from '../assets/images/star-tours-touch-meteorite.jpg';
 
@@ -60,16 +59,20 @@ const upcomingEventTypes = [
 
 const specialInterestGroups = [
   {
-    title: 'Astrophotography Special Interest Group',
+    title: 'Astro Imaging Special Interest Group',
     abbr: 'ASIG',
     accent: 'text-nebula-violet',
-    body: 'Members trading astrophotography technique, gear advice, and image-processing help — from first smartphone shots through deep-sky imaging.',
+    body: 'Learn, practice, and master astronomical imaging — from a first smart-telescope shot of the Moon to multi-night deep-sky mosaics. Meets the 4th Monday of every month, 7:00 pm, at PVCC.',
+    url: '/asig',
+    internal: true,
   },
   {
     title: 'Book(s) Special Interest Group',
     abbr: 'BSIG',
     accent: 'text-nebula-teal',
-    body: 'A reading group working through astronomy and space-science titles together, then meeting to talk them over.',
+    body: 'The Astronomy Book Club — exploring the best books on space, cosmology, and planetary science, then meeting to talk them over. No scientific background required.',
+    url: '/bsig',
+    internal: true,
   },
 ];
 ---
@@ -92,8 +95,10 @@ const specialInterestGroups = [
 
   <section class="mx-auto max-w-3xl px-6 py-24 sm:py-28">
     <p class="font-display text-3xl leading-[1.15] tracking-tight text-ink-primary sm:text-4xl">
-      Phoenix has been looking up since <span class="text-nebula-amber">1948</span> — and for nearly eight
-      decades, someone from this club has been standing next to the telescope, explaining what you're seeing.
+      Phoenix has been looking up since <span class="text-nebula-amber">1948</span>. And for nearly eight
+      decades, whenever someone paused to wonder what was shining overhead, a member of this club was there
+      beside a telescope, ready to explain what they were seeing and inspire the next generation of
+      skywatchers.
     </p>
     <p class="mt-8 text-lg text-ink-muted">
       We're a 501(c)(3) nonprofit of beginners, backyard observers, astrophotographers, and lifelong amateurs.
@@ -149,9 +154,12 @@ const specialInterestGroups = [
       <h2 class="max-w-2xl font-display text-4xl leading-tight tracking-tight text-ink-primary sm:text-5xl">
         Most people meet us holding a rock older than the Earth.
       </h2>
-      <p class="mt-6 max-w-xl text-lg text-ink-muted">
-        PAS brings telescopes, meteorites, and members who like explaining things to schools, scout troops, and
-        community groups across the Valley — free of charge.
+      <p class="mt-6 max-w-2xl text-lg text-ink-muted">
+        PAS brings telescopes, real meteorites you can hold, and members who love explaining what's up there to
+        schools, scout troops, and community groups across the Valley. Every telescope gets its
+        own PAS operator, so each guest gets real time at the eyepiece instead of a glimpse over someone's
+        shoulder — and when clouds get in the way, our meteorite collection and presenters still make for a
+        memorable afternoon.
       </p>
       <a href="/star-tours" class="btn-primary mt-8">Bring PAS to Your Group</a>
     </div>
@@ -190,7 +198,7 @@ const specialInterestGroups = [
     </div>
   </section>
 
-  <section class="border-t border-subtle">
+  <section id="special-interest-groups" class="scroll-mt-[4.5rem] border-t border-subtle">
     <div class="mx-auto max-w-5xl px-6 py-20">
       <h2 class="section-heading">Special Interest Groups</h2>
       <p class="mt-3 max-w-2xl text-ink-muted">
@@ -200,12 +208,12 @@ const specialInterestGroups = [
       <div class="mt-10 grid gap-6 sm:grid-cols-2">
         {
           specialInterestGroups.map((group) => (
-            <div class="card">
+            <a href={group.url} class="card block">
               <h3 class={`font-display text-lg ${group.accent}`}>
                 {group.title} <span class="text-ink-muted">({group.abbr})</span>
               </h3>
               <p class="mt-3 text-ink-muted">{group.body}</p>
-            </div>
+            </a>
           ))
         }
       </div>
@@ -217,12 +225,6 @@ const specialInterestGroups = [
         <a href="/contact" class="btn-secondary">Ask About a Group</a>
       </div>
     </div>
-  </section>
-
-  <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote
-      label="Homepage copy above uses placeholder framing where specific facts (exact meeting cadence, current officer names) aren't yet confirmed — see /about, /events, and /contact for details. Special interest group descriptions are summarized and their cards link to /contact; swap in the real ASIG and BSIG pages and meeting details once confirmed with the club."
-    />
   </section>
 </BaseLayout>
 

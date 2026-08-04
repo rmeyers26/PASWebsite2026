@@ -7,6 +7,22 @@ interface Props {
   eyebrow?: string;
   title: string;
   subtitle?: string;
+  /** 'bright' (default) is the original treatment — opacity-60 plus a fairly
+   *  heavy scrim, right for daylight/high-key photos. 'dark' is for photos
+   *  that are already low-key (night, dusk, silhouettes): the same bright
+   *  treatment crushes them to near-black, so this one keeps more of the
+   *  image's own opacity and lightens the scrim instead of compounding two
+   *  darkening effects on top of an already-dark source. */
+  tone?: 'bright' | 'dark';
+  /** CSS object-position, e.g. '80% 30%' — lets a page keep a face or subject
+   *  out from behind the centered text column instead of always cropping
+   *  from the image's center. */
+  focalPoint?: string;
+  /** 'center' (default) is the original layout. 'left' moves the text block
+   *  to the left edge instead of centering it — for a wide photo whose
+   *  subject sits on the right, so the two never have to fight over the
+   *  same ground. */
+  align?: 'center' | 'left';
 }
 
 const {
@@ -15,7 +31,21 @@ const {
   eyebrow,
   title,
   subtitle,
+  tone = 'bright',
+  focalPoint,
+  align = 'center',
 } = Astro.props;
+
+const imageOpacityClass = tone === 'dark' ? 'opacity-85' : 'opacity-60';
+const scrimClass =
+  tone === 'dark'
+    ? 'bg-gradient-to-t from-space-base/95 via-space-base/45 to-space-base/10'
+    : 'bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20';
+const objectPositionStyle = focalPoint ? `object-position: ${focalPoint}` : undefined;
+const textBlockClass =
+  align === 'left'
+    ? 'relative mx-auto max-w-4xl px-6 py-32 text-left sm:py-40'
+    : 'relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40';
 ---
 
 <section data-hero class="relative overflow-hidden border-b border-subtle">
@@ -23,7 +53,8 @@ const {
     <img
       src={image}
       alt={alt}
-      class="absolute inset-0 h-full w-full object-cover opacity-60"
+      class={`absolute inset-0 h-full w-full object-cover ${imageOpacityClass}`}
+      style={objectPositionStyle}
       loading="eager"
     />
   ) : (
@@ -33,13 +64,14 @@ const {
       widths={[640, 1024, 1440]}
       sizes="100vw"
       quality={52}
-      class="absolute inset-0 h-full w-full object-cover opacity-60"
+      class={`absolute inset-0 h-full w-full object-cover ${imageOpacityClass}`}
+      style={objectPositionStyle}
       loading="eager"
       fetchpriority="high"
     />
   )}
-  <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20"></div>
-  <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
+  <div class={`absolute inset-0 ${scrimClass}`}></div>
+  <div class={textBlockClass}>
     {eyebrow && (
       <span class="glass-badge mb-6">
         <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
@@ -49,7 +81,16 @@ const {
     <!-- Solid ink, not .text-gradient: this hero sits over photography, where the
          gradient's violet midpoint lands on unpredictable local backgrounds. -->
     <h1 class="font-display text-d1 leading-[1.05] tracking-tight text-ink-primary">{title}</h1>
-    {subtitle && <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">{subtitle}</p>}
+    {subtitle && (
+      <p
+        class:list={[
+          'mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted',
+          align === 'left' ? '' : 'mx-auto',
+        ]}
+      >
+        {subtitle}
+      </p>
+    )}
     <slot />
   </div>
 </section>

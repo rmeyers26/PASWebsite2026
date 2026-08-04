@@ -2,10 +2,26 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import FeatureSplit from '../components/FeatureSplit.astro';
 import heroPhoto from '../assets/images/events-lowell-observatory-tour.jpg';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
 import newsFeature from '../assets/images/about-12news-feature.jpg';
+
+// From PAStimes, August 2026 (Vol. 77, Issue #12) — the club's own monthly
+// newsletter masthead. Role-based addresses, already public there.
+const officers = [
+  { role: 'President', name: 'Stu Brackney', email: 'president@pasaz.org' },
+  { role: 'Vice President', name: 'Mark Johnston', email: 'vicepresident@pasaz.org' },
+  { role: 'Treasurer', name: 'Richard Sauerbrun', email: 'treasurer@pasaz.org' },
+  { role: 'Secretary', name: 'Chris Ford', email: 'secretary@pasaz.org' },
+  { role: 'Newsletter Editor', name: 'Richard Meyers', email: 'editor@pasaz.org' },
+  { role: 'Membership Manager', name: 'Damon Finell', email: 'membership@pasaz.org' },
+  { role: 'Member-at-Large', name: 'Ruza Sabelja', email: 'mal1@pasaz.org' },
+  { role: 'Member-at-Large', name: 'Andrew Stone', email: 'mal2@pasaz.org' },
+  { role: 'Event Manager', name: 'Ruza Sabelja', email: 'events@pasaz.org' },
+  { role: 'Star Tours Manager', name: 'Andrew Stone', email: 'startours@pasaz.org' },
+  { role: 'Webmaster', name: 'Ed Skinner', email: 'webmaster@pasaz.org' },
+];
 ---
 
 <BaseLayout
@@ -20,16 +36,23 @@ import newsFeature from '../assets/images/about-12news-feature.jpg';
     subtitle="Amateur and professional astronomers, teachers and learners, oldsters and youngsters — all inquiring minds."
   />
 
-  <section class="mx-auto max-w-4xl px-6 py-20">
-    <h2 class="section-heading">Our Mission</h2>
-    <p class="mt-4 text-ink-muted">
+  <FeatureSplit
+    image={newsFeature}
+    alt="PAS members Mark J. and Stu B. featured on 12 News 'Today in AZ,' demonstrating a telescope"
+    eyebrow="Our Mission"
+    title="Sharing the Night Sky with Phoenix"
+  >
+    <p>
       The Phoenix Astronomical Society is a 501(c)(3) nonprofit organization dedicated to sharing the night sky
       with the Phoenix community — through public star parties, school and scout outreach, and a welcoming home
-      for anyone curious about the universe, from lifelong amateur astronomers to first-time stargazers. PAS is
-      also a Night Sky Network member organization, a NASA-affiliated program run by the Astronomical Society of
-      the Pacific to bring the wonders of the universe to the public.
+      for anyone curious about the universe, from lifelong amateur astronomers to first-time stargazers.
     </p>
-  </section>
+    <p>
+      PAS is also a Night Sky Network member organization, a NASA-affiliated program run by the Astronomical
+      Society of the Pacific to bring the wonders of the universe to the public — most recently visible when
+      members Mark J. and Stu B. brought stargazing to 12 News' "Today in AZ."
+    </p>
+  </FeatureSplit>
 
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-4xl px-6 py-20">
@@ -38,8 +61,9 @@ import newsFeature from '../assets/images/about-12news-feature.jpg';
         Founded in 1948 as the Phoenix Observatory Association by Phoenix College physics professor Amos Hoff,
         PAS spent its early decades pursuing an ambitious dream: building a public observatory. That project was
         never completed, but the society it created has endured — through Phoenix College, Brophy College Prep,
-        Valley Academy, Foothills Academy, and, since 2005, Paradise Valley Community College, where PAS holds
-        public star parties today at the automated observatory on the Black Mountain campus.
+        Valley Academy, Foothills Academy, and, since 2005, Paradise Valley Community College, whose Black
+        Mountain campus hosted PAS star parties for years. Public star parties are held today at Apache Wash
+        Trailhead in North Phoenix.
       </p>
       <a href="/history" class="btn-secondary mt-6">Read the Full History</a>
     </div>
@@ -52,34 +76,30 @@ import newsFeature from '../assets/images/about-12news-feature.jpg';
       outreach. Stu Brackney is our current president.
     </p>
     <a href="/leadership" class="btn-secondary mt-6">See Past Presidents</a>
-    <div class="mt-8 grid gap-6 sm:grid-cols-2">
-      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <Image
-          src={officerAwardTelescope}
-          alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
-          width={800}
-          loading="lazy"
-          class="h-56 w-full object-cover"
-        />
-        <figcaption class="px-4 py-3 text-sm text-ink-muted">
-          PAS officers recognize member contributions at club meetings.
-        </figcaption>
-      </figure>
-      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <Image
-          src={newsFeature}
-          alt="PAS members Mark J. and Stu B. featured on 12 News 'Today in AZ,' demonstrating a telescope"
-          width={800}
-          loading="lazy"
-          class="h-56 w-full object-cover"
-        />
-        <figcaption class="px-4 py-3 text-sm text-ink-muted">
-          PAS members Mark J. and Stu B. bringing stargazing to 12 News' "Today in AZ."
-        </figcaption>
-      </figure>
-    </div>
-    <div class="mt-6">
-      <PlaceholderNote label="Full current officer roster (Secretary, Events, Membership, Star Tours, etc.) and bios go here — placeholder until confirmed by the club, beyond the current president noted above." />
+    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <Image
+        src={officerAwardTelescope}
+        alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
+        width={1000}
+        loading="lazy"
+        class="h-64 w-full object-cover"
+      />
+      <figcaption class="px-4 py-3 text-sm text-ink-muted">
+        PAS officers recognize member contributions at club meetings.
+      </figcaption>
+    </figure>
+    <div class="mt-10 grid gap-4 sm:grid-cols-2">
+      {
+        officers.map((officer) => (
+          <div class="rounded-lg border border-subtle bg-space-card px-5 py-4">
+            <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
+            <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
+            <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">
+              {officer.email}
+            </a>
+          </div>
+        ))
+      }
     </div>
   </section>
 
@@ -87,11 +107,12 @@ import newsFeature from '../assets/images/about-12news-feature.jpg';
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Our Observing Site</h2>
       <p class="mt-4 text-ink-muted">
-        PAS members observe from dark-sky sites around the Phoenix area, away from city light pollution.
+        Public star parties are held at Apache Wash Trailhead in North Phoenix — see{' '}
+        <a href="/events" class="text-nebula-teal hover:underline">Events</a> for the address, a map, and the
+        schedule. Members also observe from dark-sky sites around the Phoenix area; see{' '}
+        <a href="/sky-conditions" class="text-nebula-teal hover:underline">Sky Conditions</a> for a full,
+        Bortle-rated list.
       </p>
-      <div class="mt-6">
-        <PlaceholderNote label="Specific site name, directions, and facility details (this is a strong candidate for its own page, per the full site plan) go here once confirmed." />
-      </div>
     </div>
   </section>
 </BaseLayout>
