@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import milkyWay from '../assets/images/gallery/kris-mlak-milky-way.jpg';
+import ldn541 from '../assets/images/gallery/caleb-sexton-ldn-541.png';
+import theSun from '../assets/images/gallery/mark-johnston-sun.jpg';
+import soulNebula from '../assets/images/gallery/richard-sauerbrun-soul-nebula.jpg';
+import cta1 from '../assets/images/gallery/tom-fleming-cta-1.jpg';
+
+// Each image keeps its own aspect ratio rather than being cropped into a
+// uniform grid — a 3:1 Milky Way panorama and a near-square nebula shot
+// would fight a fixed-height treatment, and these are the club's best work,
+// not archival thumbnails (see PhotoGrid for that treatment on /history).
+const photos = [
+  {
+    src: milkyWay,
+    alt: 'The Milky Way arching over a desert mountain silhouette, with airglow on the horizon',
+    photographer: 'Kris Mlak',
+    subject: 'The Milky Way',
+    note: 'A wide-field panorama of the galactic arch over the Arizona desert.',
+  },
+  {
+    src: soulNebula,
+    alt: 'IC 1848, the Soul Nebula, an emission nebula in Cassiopeia with red and teal gas clouds and dark dust lanes',
+    photographer: 'Richard Sauerbrun',
+    subject: 'IC 1848 — The Soul Nebula',
+    note: 'A narrowband composite of the emission nebula in Cassiopeia, roughly 6,000 light-years away.',
+  },
+  {
+    src: theSun,
+    alt: 'A close-up hydrogen-alpha image of the Sun, showing a towering solar prominence above the chromosphere',
+    photographer: 'Mark Johnston',
+    subject: 'The Sun, in Hydrogen-Alpha',
+    note: 'A solar prominence arcing above the chromosphere, captured in the light of hydrogen-alpha.',
+  },
+  {
+    src: ldn541,
+    alt: 'LDN 541, a dark nebula in Cepheus, seen as dense dust lanes threading a rich star field',
+    photographer: 'Caleb Sexton',
+    subject: 'LDN 541',
+    note: 'An LRGB composite of a dark nebula in Cepheus, where dense dust blocks the light of stars behind it.',
+  },
+  {
+    src: cta1,
+    alt: 'CTA-1, a faint supernova remnant in Cepheus, seen as delicate blue and red filaments against a starfield',
+    photographer: 'Tom Fleming',
+    subject: 'CTA-1',
+    note: 'The faint, wispy remains of a star that ended its life in a supernova roughly 10,000 years ago.',
+  },
+];
+---
+
+<BaseLayout
+  title="Member Gallery"
+  description="Astrophotography from Phoenix Astronomical Society members — the Milky Way, nebulae, and the Sun, captured from Arizona skies."
+>
+  <Hero
+    image={milkyWay}
+    alt="The Milky Way arching over a desert mountain silhouette, with airglow on the horizon"
+    eyebrow="Member Gallery"
+    title="What Our Members See"
+    subtitle="Astrophotography by PAS members, captured from Phoenix-area skies and beyond."
+    tone="dark"
+    focalPoint="50% 40%"
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 text-center">
+    <p class="text-ink-muted">
+      Every image below was shot and processed by a PAS member — many of them regulars at our public star
+      parties and Astro Imaging Special Interest Group meetings. Want to learn how it's done?{' '}
+      <a href="/asig" class="text-nebula-teal hover:underline">Join ASIG</a>.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <div class="space-y-16">
+        {
+          photos.map((photo) => (
+            <figure class="overflow-hidden rounded-2xl border border-subtle bg-space-card">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                width={1600}
+                widths={[640, 1080, 1600]}
+                sizes="(min-width: 896px) 850px, 100vw"
+                quality={80}
+                loading="lazy"
+                class="w-full"
+              />
+              <figcaption class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-5">
+                <div>
+                  <p class="font-display text-lg text-nebula-teal">{photo.subject}</p>
+                  <p class="mt-1 text-sm text-ink-muted">{photo.note}</p>
+                </div>
+                <p class="flex-none text-sm font-semibold text-ink-primary">© {photo.photographer}</p>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-3xl px-6 py-20 text-center">
+      <h2 class="section-heading">Have an Image to Share?</h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-muted">
+        PAS members are always welcome to submit their astrophotography for the gallery — whether it's a
+        first smart-telescope shot of the Moon or a multi-night deep-sky mosaic.
+      </p>
+      <a href="/contact" class="btn-primary mt-8">Submit Your Photo</a>
+    </div>
+  </section>
+</BaseLayout>

@@ -3,7 +3,19 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
 import outreachPhoto from '../assets/images/star-tours-touch-meteorite.jpg';
+import milkyWay from '../assets/images/gallery/kris-mlak-milky-way.jpg';
+import soulNebula from '../assets/images/gallery/richard-sauerbrun-soul-nebula.jpg';
+import theSun from '../assets/images/gallery/mark-johnston-sun.jpg';
+import ldn541 from '../assets/images/gallery/caleb-sexton-ldn-541.png';
+
+const galleryTeaser = [
+  { src: milkyWay, alt: 'The Milky Way arching over a desert mountain silhouette', caption: 'The Milky Way — Kris Mlak', color: true },
+  { src: soulNebula, alt: 'IC 1848, the Soul Nebula, in red and teal emission gas', caption: 'The Soul Nebula — Richard Sauerbrun', color: true },
+  { src: theSun, alt: 'A hydrogen-alpha close-up of a solar prominence', caption: 'The Sun — Mark Johnston', color: true },
+  { src: ldn541, alt: 'LDN 541, a dark nebula in Cepheus threading a dense star field', caption: 'LDN 541 — Caleb Sexton', color: true },
+];
 
 const benefits = [
   {
@@ -107,6 +119,22 @@ const specialInterestGroups = [
   </section>
 
   <ApodOfTheDay />
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-6xl px-6 py-20">
+      <h2 class="section-heading">What Our Members See</h2>
+      <p class="mt-3 max-w-2xl text-ink-muted">
+        NASA isn't the only one with a picture of the day — PAS members shoot the Milky Way, nebulae, and the
+        Sun from right here in Arizona.
+      </p>
+      <div class="mt-10">
+        <PhotoGrid photos={galleryTeaser} />
+      </div>
+      <div class="mt-10">
+        <a href="/gallery" class="btn-primary">View the Full Gallery</a>
+      </div>
+    </div>
+  </section>
 
   <section class="border-t border-subtle">
     <div class="mx-auto max-w-6xl px-6 py-20">
