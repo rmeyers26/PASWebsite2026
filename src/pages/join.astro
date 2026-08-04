@@ -2,13 +2,22 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import heroPhoto from '../assets/images/star-tours-event-crowd.jpg';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 
+// From PAStimes, August 2026 (Vol. 77, Issue #12), "Benefits of PAS
+// Membership" — the club's own published list, lightly tightened for a
+// scannable card grid.
 const benefits = [
-  'Access to public and members-only star parties',
-  'Monthly meetings with guest speakers',
-  'A community of mentors for new astronomers, from beginners to experts',
-  'Opportunities to volunteer at school and community outreach events',
+  "Help PAS carry out its mission of astronomy outreach and education",
+  "Support the Society's college scholarships for astronomy students",
+  'Join the members-only email list and get PAStimes, our monthly newsletter',
+  'Borrow from the PAS telescope loaner program',
+  'Teach at PAS telescope workshops or mentor at star parties',
+  'Join the Astro Imaging Special Interest Group (ASIG)',
+  'Serve as a paid presenter in the Star Tours outreach program',
+  'Buy used astronomy equipment from other members at 50% off',
+  "Go on club trips to Arizona's darkest sites and top observatories",
+  'Connect with professional astronomers through guest lectures and workshops',
+  'Take on a leadership role — committee chair or officer',
 ];
 ---
 
@@ -38,19 +47,17 @@ const benefits = [
         ))
       }
     </ul>
-    <div class="mt-8">
-      <PlaceholderNote label="A concrete list of tangible benefits (newsletter, loaner-scope access, dark-sky site access) — plus membership tiers and dues — is planned once confirmed with the club." />
-    </div>
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-4xl px-6 py-20 text-center">
       <h2 class="section-heading">Ready to Join?</h2>
       <p class="mx-auto mt-4 max-w-xl text-ink-muted">
-        Online membership signup is coming in a future phase of this site. For now, reach out and a PAS officer
-        will help you get started.
+        PAS offers year-round membership — join anytime, with no enrollment deadlines, and get a full 12 months
+        of benefits from the day you sign up. Online signup is coming to this site in a future phase; for now,
+        our Membership Manager will get you started.
       </p>
-      <a href="/contact" class="btn-primary mt-8">Contact Us to Join</a>
+      <a href="mailto:membership@pasaz.org" class="btn-primary mt-8">Email membership@pasaz.org</a>
     </div>
   </section>
 </BaseLayout>
