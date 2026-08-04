@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Timeline from '../components/Timeline.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
+import FeatureSplit from '../components/FeatureSplit.astro';
 import hoffPortrait1963 from '../assets/images/history/hoff-portrait-1963.jpg';
 import pcAstronomyClass1943 from '../assets/images/history/pc-astronomy-class-1943.jpg';
 import pcAstronomyClub1947 from '../assets/images/history/pc-astronomy-club-1947.jpg';
@@ -114,15 +115,6 @@ Clyde Tombaugh, discoverer of Pluto, was living in Las Cruces, New Mexico at the
 Prior to the visit, Parizek had scanned the original Pluto discovery plates and printed them on acetate sized for his now-completed blink comparator. After the Tombaughs arrived, Keith asked Clyde if he remembered their old phone conversation about the comparator — which, even decades later, Clyde recalled as "one of the more interesting phone calls he received while at NMSU." Keith invited him to try the apparatus, telling him only that it held some "old plates" related to an asteroid — without mentioning he'd secretly loaded the copied discovery plates. Clyde sat down, peered into the eyepieces, and began toggling between the images. After a few passes, recognition spread across his face. He stood up, still smiling, and said: "Thanks! I just discovered Pluto for the second time."
 
 On the night of the lecture, hundreds of astronomy enthusiasts from around the valley filled Brophy Prep. At 7:45 pm, following a brief introduction from Parizek and then-PAS President Richard Wasson, Tombaugh took the podium and spoke for roughly two hours on his discovery and career, illustrated with a 35mm slide show of highlights from his astronomical life. A question-and-answer period followed, and the evening closed with the chance to purchase an autographed poster commemorating his discovery of Pluto — all proceeds benefiting the Tombaugh Scholar Fund for astronomy majors at NMSU. It remains one of the major events in PAS history, and a fitting tribute to both Hoff and Tombaugh alike.`,
-    photos: [
-      {
-        src: tombaughPoster1988,
-        alt: 'Autographed Clyde Tombaugh commemorative poster, inscribed March 25, 1988',
-        caption: 'Clyde W. Tombaugh’s autographed commemorative poster from the March 25, 1988 lecture at Brophy Prep.',
-        color: true,
-      },
-    ],
-    photoCredit: 'Poster image via the Phoenix Astronomical Society archives.',
   },
   {
     title: 'The Valley Academy Years',
@@ -213,22 +205,46 @@ const honorRoll = [
 
   {
     eras.map((era, i) => (
-      <section class:list={['border-t border-subtle', i % 2 === 1 && 'bg-space-card/40']}>
-        <div class="mx-auto max-w-3xl px-6 py-16">
-          <h2 class="section-heading">{era.title}</h2>
-          <div class="mt-6 space-y-4 text-ink-muted">
-            {era.body.split('\n\n').map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
-          </div>
-          {era.photos && (
-            <div class="mt-8">
-              <PhotoGrid photos={era.photos} />
-              <p class="mt-4 text-sm text-ink-muted">{era.photoCredit}</p>
+      <>
+        <section class:list={['border-t border-subtle', i % 2 === 1 && 'bg-space-card/40']}>
+          <div class="mx-auto max-w-3xl px-6 py-16">
+            <h2 class="section-heading">{era.title}</h2>
+            <div class="mt-6 space-y-4 text-ink-muted">
+              {era.body.split('\n\n').map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
             </div>
-          )}
-        </div>
-      </section>
+            {era.photos && (
+              <div class="mt-8">
+                <PhotoGrid photos={era.photos} />
+                <p class="mt-4 text-sm text-ink-muted">{era.photoCredit}</p>
+              </div>
+            )}
+          </div>
+        </section>
+        {era.title === 'The Clyde Tombaugh Lecture' && (
+          <FeatureSplit
+            image={tombaughPoster1988}
+            alt="Clyde W. Tombaugh's autographed commemorative poster from the March 25, 1988 lecture at Brophy Prep"
+            eyebrow="A Fitting Tribute"
+            title={'"I Just Discovered Pluto for the Second Time"'}
+            reverse
+          >
+            <p>
+              Before the lecture, Keith Parizek secretly loaded copies of the original Pluto discovery plates into
+              his blink comparator and asked Tombaugh to try it out, telling him only that it held some "old
+              plates" related to an asteroid.
+            </p>
+            <p>
+              Tombaugh peered into the eyepieces, toggled between the images, and recognition spread across his
+              face. He stood up, still smiling, and said: "Thanks! I just discovered Pluto for the second time."
+            </p>
+            <p class="text-sm">
+              Poster image via the Phoenix Astronomical Society archives.
+            </p>
+          </FeatureSplit>
+        )}
+      </>
     ))
   }
 

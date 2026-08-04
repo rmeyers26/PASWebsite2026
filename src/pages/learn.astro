@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import FeatureSplit from '../components/FeatureSplit.astro';
 import heroPhoto from '../assets/images/star-tours-eaa-day.jpg';
+import visualChild from '../assets/images/star-tours-visual-child.jpg';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 
 const kidsResources = [
@@ -221,19 +223,21 @@ const careerLinks = [
     </div>
   </section>
 
-  <section class="border-t border-subtle bg-space-card/40">
-    <div class="mx-auto max-w-4xl px-6 py-20 text-center">
-      <h2 class="section-heading">Learn Alongside Other Observers</h2>
-      <p class="mx-auto mt-4 max-w-xl text-ink-muted">
-        Reading about the sky is a good start; sharing an eyepiece with someone who knows it well is better. PAS
-        runs free telescope workshops and public star parties throughout the year.
-      </p>
-      <div class="mt-8 flex flex-wrap justify-center gap-4">
-        <a href="/telescope-workshops" class="btn-primary">Telescope Workshops</a>
-        <a href="/events" class="btn-secondary">Upcoming Events</a>
-      </div>
+  <FeatureSplit
+    image={visualChild}
+    alt="A young child looking through a telescope eyepiece in her front yard"
+    eyebrow="Beyond the Screen"
+    title="Learn Alongside Other Observers"
+  >
+    <p>
+      Reading about the sky is a good start; sharing an eyepiece with someone who knows it well is better. PAS
+      runs free telescope workshops and public star parties throughout the year.
+    </p>
+    <div class="flex flex-wrap gap-4 pt-2">
+      <a href="/telescope-workshops" class="btn-primary">Telescope Workshops</a>
+      <a href="/events" class="btn-secondary">Upcoming Events</a>
     </div>
-  </section>
+  </FeatureSplit>
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <PlaceholderNote

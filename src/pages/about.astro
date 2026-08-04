@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import FeatureSplit from '../components/FeatureSplit.astro';
 import heroPhoto from '../assets/images/events-lowell-observatory-tour.jpg';
 import PlaceholderNote from '../components/PlaceholderNote.astro';
 import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
@@ -20,16 +21,23 @@ import newsFeature from '../assets/images/about-12news-feature.jpg';
     subtitle="Amateur and professional astronomers, teachers and learners, oldsters and youngsters — all inquiring minds."
   />
 
-  <section class="mx-auto max-w-4xl px-6 py-20">
-    <h2 class="section-heading">Our Mission</h2>
-    <p class="mt-4 text-ink-muted">
+  <FeatureSplit
+    image={newsFeature}
+    alt="PAS members Mark J. and Stu B. featured on 12 News 'Today in AZ,' demonstrating a telescope"
+    eyebrow="Our Mission"
+    title="Sharing the Night Sky with Phoenix"
+  >
+    <p>
       The Phoenix Astronomical Society is a 501(c)(3) nonprofit organization dedicated to sharing the night sky
       with the Phoenix community — through public star parties, school and scout outreach, and a welcoming home
-      for anyone curious about the universe, from lifelong amateur astronomers to first-time stargazers. PAS is
-      also a Night Sky Network member organization, a NASA-affiliated program run by the Astronomical Society of
-      the Pacific to bring the wonders of the universe to the public.
+      for anyone curious about the universe, from lifelong amateur astronomers to first-time stargazers.
     </p>
-  </section>
+    <p>
+      PAS is also a Night Sky Network member organization, a NASA-affiliated program run by the Astronomical
+      Society of the Pacific to bring the wonders of the universe to the public — most recently visible when
+      members Mark J. and Stu B. brought stargazing to 12 News' "Today in AZ."
+    </p>
+  </FeatureSplit>
 
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-4xl px-6 py-20">
@@ -53,32 +61,18 @@ import newsFeature from '../assets/images/about-12news-feature.jpg';
       outreach. Stu Brackney is our current president.
     </p>
     <a href="/leadership" class="btn-secondary mt-6">See Past Presidents</a>
-    <div class="mt-8 grid gap-6 sm:grid-cols-2">
-      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <Image
-          src={officerAwardTelescope}
-          alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
-          width={800}
-          loading="lazy"
-          class="h-56 w-full object-cover"
-        />
-        <figcaption class="px-4 py-3 text-sm text-ink-muted">
-          PAS officers recognize member contributions at club meetings.
-        </figcaption>
-      </figure>
-      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-        <Image
-          src={newsFeature}
-          alt="PAS members Mark J. and Stu B. featured on 12 News 'Today in AZ,' demonstrating a telescope"
-          width={800}
-          loading="lazy"
-          class="h-56 w-full object-cover"
-        />
-        <figcaption class="px-4 py-3 text-sm text-ink-muted">
-          PAS members Mark J. and Stu B. bringing stargazing to 12 News' "Today in AZ."
-        </figcaption>
-      </figure>
-    </div>
+    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <Image
+        src={officerAwardTelescope}
+        alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
+        width={1000}
+        loading="lazy"
+        class="h-64 w-full object-cover"
+      />
+      <figcaption class="px-4 py-3 text-sm text-ink-muted">
+        PAS officers recognize member contributions at club meetings.
+      </figcaption>
+    </figure>
     <div class="mt-6">
       <PlaceholderNote label="Full current officer roster (Secretary, Events, Membership, Star Tours, etc.) and bios go here — placeholder until confirmed by the club, beyond the current president noted above." />
     </div>
