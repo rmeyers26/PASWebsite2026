@@ -60,10 +60,12 @@ const upcomingEventTypes = [
 
 const specialInterestGroups = [
   {
-    title: 'Astrophotography Special Interest Group',
+    title: 'Astro Imaging Special Interest Group',
     abbr: 'ASIG',
     accent: 'text-nebula-violet',
-    body: 'Members trading astrophotography technique, gear advice, and image-processing help — from first smartphone shots through deep-sky imaging.',
+    body: 'Learn, practice, and master astronomical imaging — from a first smart-telescope shot of the Moon to multi-night deep-sky mosaics. Meets the 4th Monday of every month, 7:00 pm, at PVCC.',
+    url: '/asig',
+    internal: true,
   },
   {
     title: 'Book(s) Special Interest Group',
@@ -204,14 +206,23 @@ const specialInterestGroups = [
       </p>
       <div class="mt-10 grid gap-6 sm:grid-cols-2">
         {
-          specialInterestGroups.map((group) => (
-            <div class="card">
-              <h3 class={`font-display text-lg ${group.accent}`}>
-                {group.title} <span class="text-ink-muted">({group.abbr})</span>
-              </h3>
-              <p class="mt-3 text-ink-muted">{group.body}</p>
-            </div>
-          ))
+          specialInterestGroups.map((group) =>
+            group.url ? (
+              <a href={group.url} class="card block">
+                <h3 class={`font-display text-lg ${group.accent}`}>
+                  {group.title} <span class="text-ink-muted">({group.abbr})</span>
+                </h3>
+                <p class="mt-3 text-ink-muted">{group.body}</p>
+              </a>
+            ) : (
+              <div class="card">
+                <h3 class={`font-display text-lg ${group.accent}`}>
+                  {group.title} <span class="text-ink-muted">({group.abbr})</span>
+                </h3>
+                <p class="mt-3 text-ink-muted">{group.body}</p>
+              </div>
+            ),
+          )
         }
       </div>
       <p class="mt-8 text-ink-muted">
@@ -226,7 +237,7 @@ const specialInterestGroups = [
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <PlaceholderNote
-      label="Homepage copy above uses placeholder framing where specific facts (exact meeting cadence, current officer names) aren't yet confirmed — see /about, /events, and /contact for details. Special interest group descriptions are summarized and their cards link to /contact; swap in the real ASIG and BSIG pages and meeting details once confirmed with the club."
+      label="BSIG (Book(s) Special Interest Group) still needs a dedicated page and confirmed meeting details from the club, matching what ASIG now has at /asig."
     />
   </section>
 </BaseLayout>
