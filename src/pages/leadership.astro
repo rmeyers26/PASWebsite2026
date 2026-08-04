@@ -46,7 +46,7 @@ const pasPresidents = [
       <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
       Club Leadership
     </span>
-    <h1 class="text-gradient font-display text-d2 tracking-tight">Past Presidents</h1>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Past Presidents</h1>
     <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
       PAS is run entirely by volunteer members, including officers overseeing membership, events, and community
       outreach. Stu Brackney is our current president.
@@ -56,42 +56,72 @@ const pasPresidents = [
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-3xl px-6 py-16">
       <h2 class="section-heading">Phoenix Observatory Association</h2>
-      <ul class="mt-8 space-y-3">
-        {
-          poaPresidents.map((president) => (
-            <li class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 rounded-lg border border-subtle bg-space-card px-5 py-4">
-              <span class="font-display text-ink-primary">{president.name}</span>
-              <span class="text-sm text-ink-muted">{president.years}</span>
-            </li>
-          ))
-        }
-      </ul>
+      <div class="mt-8 overflow-x-auto rounded-lg border border-subtle">
+        <table class="w-full border-collapse text-left">
+          <thead>
+            <tr class="border-b border-subtle">
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                President
+              </th>
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                Years
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              poaPresidents.map((president) => (
+                <tr class="border-b border-subtle last:border-b-0">
+                  <td class="px-5 py-3 font-display text-ink-primary">{president.name}</td>
+                  <td class="px-5 py-3 text-sm text-ink-muted">{president.years}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
   <section class="border-t border-subtle">
     <div class="mx-auto max-w-3xl px-6 py-16">
       <h2 class="section-heading">Phoenix Astronomical Society</h2>
-      <ul class="mt-8 space-y-3">
-        {
-          pasPresidents.map((president) => (
-            <li
-              class:list={[
-                'flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 rounded-lg border px-5 py-4',
-                president.current
-                  ? 'border-nebula-teal/50 bg-space-card shadow-glow-teal'
-                  : 'border-subtle bg-space-card',
-              ]}
-            >
-              <span class="font-display text-ink-primary">
-                {president.name}
-                {president.current && <span class="ml-2 text-xs font-semibold uppercase tracking-wide text-nebula-teal">Current</span>}
-              </span>
-              <span class="text-sm text-ink-muted">{president.years}</span>
-            </li>
-          ))
-        }
-      </ul>
+      <div class="mt-8 overflow-x-auto rounded-lg border border-subtle">
+        <table class="w-full border-collapse text-left">
+          <thead>
+            <tr class="border-b border-subtle">
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                President
+              </th>
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                Years
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              pasPresidents.map((president) => (
+                <tr
+                  class:list={[
+                    'border-b border-subtle last:border-b-0',
+                    president.current && 'bg-nebula-teal/5',
+                  ]}
+                >
+                  <td class="px-5 py-3 font-display text-ink-primary">
+                    {president.name}
+                    {president.current && (
+                      <span class="ml-2 text-xs font-semibold uppercase tracking-wide text-nebula-teal">
+                        Current
+                      </span>
+                    )}
+                  </td>
+                  <td class="px-5 py-3 text-sm text-ink-muted">{president.years}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
       <p class="mt-8 text-sm text-ink-muted">Presidents assume office in May of the listed year(s).</p>
     </div>
   </section>
