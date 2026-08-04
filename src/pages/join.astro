@@ -19,6 +19,19 @@ const benefits = [
   'Connect with professional astronomers through guest lectures and workshops',
   'Take on a leadership role — committee chair or officer',
 ];
+
+const membershipTiers = [
+  { name: 'Individual Membership', price: '$30' },
+  { name: 'Family Membership', price: '$36' },
+  { name: 'Student Membership', price: '$16' },
+  { name: 'Lifetime Member', price: '$500' },
+  { name: 'Lifetime Member 65+', price: '$250' },
+];
+
+const addOns = [
+  { name: 'Name Badge', price: '$20' },
+  { name: 'Embroidered Logo', price: '$10' },
+];
 ---
 
 <BaseLayout
@@ -50,6 +63,35 @@ const benefits = [
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Membership Tiers</h2>
+      <p class="mt-3 text-ink-muted">Recurring memberships are annual, January through December.</p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          membershipTiers.map((tier) => (
+            <div class="rounded-lg border border-subtle bg-space-card px-5 py-4">
+              <p class="text-ink-primary">{tier.name}</p>
+              <p class="mt-1 font-display text-2xl text-nebula-amber">{tier.price}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <h3 class="font-display mt-10 text-lg text-ink-primary">Optional Add-Ons</h3>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {
+          addOns.map((item) => (
+            <div class="flex items-center justify-between rounded-lg border border-subtle bg-space-card px-5 py-4">
+              <p class="text-ink-muted">{item.name}</p>
+              <p class="font-display text-ink-primary">{item.price}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
     <div class="mx-auto max-w-4xl px-6 py-20 text-center">
       <h2 class="section-heading">Ready to Join?</h2>
       <p class="mx-auto mt-4 max-w-xl text-ink-muted">
