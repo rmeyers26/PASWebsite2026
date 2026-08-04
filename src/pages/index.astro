@@ -74,6 +74,24 @@ const specialInterestGroups = [
     body: 'A reading group working through astronomy and space-science titles together, then meeting to talk them over.',
   },
 ];
+
+const bsigPreviousBooks = [
+  {
+    title: 'Something Deeply Hidden: Quantum Worlds and the Emergence of Space-Time',
+    author: 'Sean Carroll',
+  },
+  {
+    title: 'Battle of the Big Bang: The New Tales of Our Cosmic Origins',
+    author: 'Niayesh Afshordi and Phil Halper',
+  },
+  {
+    title: 'The Secret Lives of Planets: Order, Chaos, and Uniqueness in the Solar System',
+    author: 'Paul Murdin',
+  },
+  {
+    title: 'The Beauty of Falling: A Life in Pursuit of Gravity',
+  },
+];
 ---
 
 <BaseLayout
@@ -224,6 +242,19 @@ const specialInterestGroups = [
             ),
           )
         }
+      </div>
+      <div class="mt-10 rounded-lg border border-subtle bg-space-card px-6 py-6">
+        <h3 class="font-display text-lg text-nebula-teal">BSIG — Previously Read</h3>
+        <ul class="mt-3 list-disc space-y-1.5 pl-5 text-ink-muted">
+          {
+            bsigPreviousBooks.map((book) => (
+              <li>
+                <em>{book.title}</em>
+                {book.author && <>{' '}— {book.author}</>}
+              </li>
+            ))
+          }
+        </ul>
       </div>
       <p class="mt-8 text-ink-muted">
         <span aria-hidden="true">*</span> PAS membership is required to take part in a special interest group.
