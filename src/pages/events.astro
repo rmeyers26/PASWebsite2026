@@ -112,13 +112,19 @@ const starPartySchema = {
     </figure>
     <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
       <iframe
-        src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
+        data-embed-src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
+        data-embed-group="bookwhen"
         title="PAS Events Calendar"
         class="block min-h-[400px] w-full border-0"
-        loading="lazy"
       ></iframe>
+      <noscript>
+        <iframe
+          src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
+          title="PAS Events Calendar"
+          class="block min-h-[400px] w-full border-0"
+        ></iframe>
+      </noscript>
     </div>
-    <script is:inline src="https://cdn.bookwhen.com/js/iframe_resizer.js"></script>
   </section>
 
   <section class="border-t border-subtle">
@@ -137,12 +143,19 @@ const starPartySchema = {
       </address>
       <div class="mt-6 overflow-hidden rounded-lg border border-subtle">
         <iframe
-          src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
+          data-embed-src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
           title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
           class="block h-[320px] w-full border-0"
-          loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
+        <noscript>
+          <iframe
+            src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
+            title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
+            class="block h-[320px] w-full border-0"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </noscript>
       </div>
 
       <h3 class="font-display mt-12 text-lg text-nebula-violet">Public Star Parties</h3>
@@ -162,15 +175,80 @@ const starPartySchema = {
       </p>
       <div class="mt-6 overflow-hidden rounded-lg border border-subtle">
         <iframe
-          src="https://maps.google.com/maps?q=Apache+Wash+Trailhead,+1600+E+Sonoran+Desert+Dr,+Phoenix,+AZ+85085&output=embed"
+          data-embed-src="https://maps.google.com/maps?q=Apache+Wash+Trailhead,+1600+E+Sonoran+Desert+Dr,+Phoenix,+AZ+85085&output=embed"
           title="Map showing Apache Wash Trailhead, 1600 E Sonoran Desert Dr, Phoenix, AZ 85085"
           class="block h-[320px] w-full border-0"
-          loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
+        <noscript>
+          <iframe
+            src="https://maps.google.com/maps?q=Apache+Wash+Trailhead,+1600+E+Sonoran+Desert+Dr,+Phoenix,+AZ+85085&output=embed"
+            title="Map showing Apache Wash Trailhead, 1600 E Sonoran Desert Dr, Phoenix, AZ 85085"
+            class="block h-[320px] w-full border-0"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </noscript>
       </div>
     </div>
   </section>
+
+  <script>
+    // All three third-party embeds (the Bookwhen calendar iframe, its two
+    // Google Maps neighbors, and the Bookwhen resizer script that makes the
+    // calendar iframe auto-height) are deferred behind IntersectionObserver
+    // rather than the browser's native loading="lazy" — native lazy-loading
+    // uses a large "near viewport" heuristic (traditionally over 1000px) that
+    // this page's embeds, sitting close to the top of a mostly-text page,
+    // clear almost immediately after load anyway. The resizer <script> in
+    // particular had no equivalent at all before this: loading="lazy" only
+    // applies to iframes/images, and a plain <script src> with neither defer
+    // nor async blocks HTML parsing at that point in the document until it
+    // finishes downloading and executing — a classic render-blocking
+    // third-party request, and the one piece of this page an audit would
+    // actually flag.
+    function initLazyEmbeds() {
+      const targets = document.querySelectorAll<HTMLIFrameElement>('iframe[data-embed-src]');
+      if (!targets.length) return;
+
+      let resizerRequested = false;
+      function loadBookwhenResizer() {
+        if (resizerRequested) return;
+        resizerRequested = true;
+        const script = document.createElement('script');
+        script.src = 'https://cdn.bookwhen.com/js/iframe_resizer.js';
+        document.body.appendChild(script);
+      }
+
+      function activate(iframe: HTMLIFrameElement) {
+        if (iframe.src) return; // already activated — astro:page-load can re-run this
+        const src = iframe.dataset.embedSrc;
+        if (!src) return;
+        iframe.src = src;
+        if (iframe.dataset.embedGroup === 'bookwhen') loadBookwhenResizer();
+      }
+
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(activate);
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            activate(entry.target as HTMLIFrameElement);
+            obs.unobserve(entry.target);
+          }
+        },
+        { rootMargin: '300px 0px' },
+      );
+
+      targets.forEach((el) => observer.observe(el));
+    }
+
+    initLazyEmbeds();
+    document.addEventListener('astro:page-load', initLazyEmbeds);
+  </script>
 
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-4xl px-6 py-20">
