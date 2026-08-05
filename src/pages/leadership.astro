@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const poaPresidents = [
+  { years: '1948', name: 'William A. Rhodes' },
+  { years: '1949', name: 'Amos Hoff' },
+  { years: '1950 - 1959', name: 'unknown' },
+  { years: '1960 - 1966', name: 'Dr. Keith Parizek' },
+  { years: '1967 - 1972', name: 'Byron Barry' },
+  { years: '1973', name: 'Dr. James Conley' },
+  { years: '1973', name: 'Paul B. Hartman, Jr.' },
+];
+
+const pasPresidents = [
+  { years: '1974', name: 'Paul B. Hartman, Jr.' },
+  { years: '1975', name: 'Clifford Vaughan' },
+  { years: '1976 - 1977', name: 'William N. Anderson' },
+  { years: '1978', name: 'Clifford Vaughan' },
+  { years: '1979', name: 'Jerry Maurer' },
+  { years: '1980 - 1981', name: 'Dr. Bruce Lenard' },
+  { years: '1982 - 1983', name: 'Stanley A. Gorodenski' },
+  { years: '1984', name: 'Raul Espinoza' },
+  { years: '1985 - 1986', name: 'William Krist' },
+  { years: '1987', name: 'Richard J. Wasson' },
+  { years: '1988 - 1992', name: 'Kai Staats' },
+  { years: '1993 - 1994', name: 'Andrew Castillo' },
+  { years: '1995', name: 'Jonathan Wolfe' },
+  { years: '1996 - 1998', name: 'Justin Cain' },
+  { years: '1999 - 2000', name: 'Jerry Belcher' },
+  { years: '2001 - 2004', name: 'Mark Stephenson' },
+  { years: '2005 - 2006', name: 'Terri Finch' },
+  { years: '2007 - 2010', name: 'Rod Sutter' },
+  { years: '2011 - 2014', name: 'Bruce Wurst' },
+  { years: '2015 - 2016', name: 'Sam Insana' },
+  { years: '2017 - 2021', name: 'Mike Marron' },
+  { years: '2021 - Present', name: 'Stu Brackney', current: true },
+];
+---
+
+<BaseLayout
+  title="Past Presidents"
+  description="A list of every president to lead the Phoenix Observatory Association and Phoenix Astronomical Society since 1948."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+      Club Leadership
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Past Presidents</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      PAS is run entirely by volunteer members, including officers overseeing membership, events, and community
+      outreach. Stu Brackney is our current president.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <h2 class="section-heading">Phoenix Observatory Association</h2>
+      <div class="mt-8 overflow-x-auto rounded-lg border border-subtle">
+        <table class="w-full border-collapse text-left">
+          <thead>
+            <tr class="border-b border-subtle">
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                President
+              </th>
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                Years
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              poaPresidents.map((president) => (
+                <tr class="border-b border-subtle last:border-b-0">
+                  <td class="px-5 py-3 font-display text-ink-primary">{president.name}</td>
+                  <td class="px-5 py-3 text-sm text-ink-muted">{president.years}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <h2 class="section-heading">Phoenix Astronomical Society</h2>
+      <div class="mt-8 overflow-x-auto rounded-lg border border-subtle">
+        <table class="w-full border-collapse text-left">
+          <thead>
+            <tr class="border-b border-subtle">
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                President
+              </th>
+              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                Years
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              pasPresidents.map((president) => (
+                <tr
+                  class:list={[
+                    'border-b border-subtle last:border-b-0',
+                    president.current && 'bg-nebula-teal/5',
+                  ]}
+                >
+                  <td class="px-5 py-3 font-display text-ink-primary">
+                    {president.name}
+                    {president.current && (
+                      <span class="ml-2 text-xs font-semibold uppercase tracking-wide text-nebula-teal">
+                        Current
+                      </span>
+                    )}
+                  </td>
+                  <td class="px-5 py-3 text-sm text-ink-muted">{president.years}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-8 text-sm text-ink-muted">Presidents assume office in May of the listed year(s).</p>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-3xl px-6 py-16 text-center">
+      <a href="/about" class="btn-secondary">← Back to About</a>
+    </div>
+  </section>
+</BaseLayout>

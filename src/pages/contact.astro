@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+const contacts = [
+  { label: 'General Inquiries', email: 'info@pasaz.org' },
+  { label: 'Astronomy Questions', email: 'astronomy-questions@pasaz.org' },
+  { label: 'School & Scout Star Tours', email: 'startours@pasaz.org' },
+  { label: 'Website Issues', email: 'webmaster@pasaz.org' },
+];
+---
+
+<BaseLayout title="Contact" description="Get in touch with the Phoenix Astronomical Society.">
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+      Contact
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Get in Touch</h1>
+    <p class="mx-auto mt-6 max-w-xl text-ink-muted">
+      Questions about membership, events, or bringing PAS to your school or scout troop? Reach out below.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <div class="grid gap-6 sm:grid-cols-2">
+        {
+          contacts.map((contact) => (
+            <div class="card">
+              <h2 class="font-display text-lg text-nebula-teal">{contact.label}</h2>
+              <a href={`mailto:${contact.email}`} class="mt-2 inline-block text-ink-muted hover:text-nebula-teal">
+                {contact.email}
+              </a>
+              {contact.label === 'School & Scout Star Tours' && (
+                <a href="/star-tours" class="mt-2 block text-sm text-nebula-amber hover:underline">
+                  See full Star Tours details →
+                </a>
+              )}
+            </div>
+          ))
+        }
+      </div>
+      <div class="mt-8">
+        <PlaceholderNote label="Contact addresses above were found via web research and should be verified as current before launch. A self-serve contact/outreach-request form is planned for Phase 2." />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
