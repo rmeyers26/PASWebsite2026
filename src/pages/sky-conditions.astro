@@ -6,6 +6,27 @@ import heroPhoto from '../assets/images/star-tours-eaa-night.jpg';
 const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitude=-112.074&Loc=Forecast';
 const astrosphericLat = 33.4484;
 const astrosphericLng = -112.074;
+
+// Peak dates for the year's six major showers, from the American Meteor
+// Society's annual calendar — stable to within a day year over year, but
+// worth a quick cross-check against amsmeteors.org each January since AMS
+// republishes updated calendars annually. Month/day only (no year): the
+// client script below works out whether each has already peaked this year
+// and rolls it to next year automatically, so this list never goes stale
+// the way a hardcoded year would.
+const meteorShowers = [
+  { name: 'Quadrantids', month: 1, day: 3, radiant: 'Boötes' },
+  { name: 'Lyrids', month: 4, day: 22, radiant: 'Lyra' },
+  { name: 'Perseids', month: 8, day: 12, radiant: 'Perseus' },
+  { name: 'Orionids', month: 10, day: 21, radiant: 'Orion' },
+  { name: 'Leonids', month: 11, day: 17, radiant: 'Leo' },
+  { name: 'Geminids', month: 12, day: 14, radiant: 'Gemini' },
+];
+const monthNames = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
 const telescopeTargets = [
   {
     scope: '5" Refractor',
@@ -185,7 +206,44 @@ const observingSites = [
 
   <section id="forecast" class="mx-auto max-w-6xl px-6 py-20">
     <h2 class="section-heading">Tonight's Forecast</h2>
-    <p class="mt-4 text-ink-muted">
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      <div class="card">
+        <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">Moon Tonight</p>
+        <p class="mt-3 font-display text-2xl text-ink-primary">
+          <span id="moon-phase-icon" aria-hidden="true">🌙</span>
+          <span id="moon-phase-name">—</span>
+        </p>
+        <p class="mt-1 text-sm text-ink-muted" id="moon-phase-illum"></p>
+        <noscript>
+          <p class="mt-1 text-sm text-ink-muted">Requires JavaScript to compute tonight's phase.</p>
+        </noscript>
+      </div>
+      <div class="card">
+        <p class="text-sm font-semibold uppercase tracking-wide text-nebula-amber">Meteor Showers</p>
+        <ul class="mt-3 space-y-2 text-sm">
+          {
+            meteorShowers.map((shower) => (
+              <li
+                class="flex items-baseline justify-between gap-3"
+                data-shower-item
+                data-month={shower.month}
+                data-day={shower.day}
+              >
+                <span class="shower-name text-ink-primary">
+                  {shower.name} <span class="text-ink-muted">({shower.radiant})</span>
+                </span>
+                <span class="shower-date flex-none text-ink-muted">
+                  Peaks {monthNames[shower.month - 1]} {shower.day}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <p class="mt-8 text-ink-muted">
       If the forecast below doesn't load,{' '}
       <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
         open it directly on Astrospheric</a>.
@@ -201,6 +259,93 @@ const observingSites = [
       <div id="AstrosphericEmbedContainer"></div>
     </div>
   </section>
+
+  <script>
+    // Pure math, computed client-side so it's accurate for the visitor's
+    // actual "tonight" rather than whenever the site was last built/deployed
+    // — the Astrospheric weather widget above is live for the same reason.
+    const LUNAR_MONTH_DAYS = 29.530588853;
+    const KNOWN_NEW_MOON_UTC = Date.UTC(2000, 0, 6, 18, 14);
+
+    const MOON_PHASES: { max: number; name: string; icon: string }[] = [
+      { max: 0.02, name: 'New Moon', icon: '🌑' },
+      { max: 0.24, name: 'Waxing Crescent', icon: '🌒' },
+      { max: 0.26, name: 'First Quarter', icon: '🌓' },
+      { max: 0.49, name: 'Waxing Gibbous', icon: '🌔' },
+      { max: 0.51, name: 'Full Moon', icon: '🌕' },
+      { max: 0.74, name: 'Waning Gibbous', icon: '🌖' },
+      { max: 0.76, name: 'Last Quarter', icon: '🌗' },
+      { max: 0.98, name: 'Waning Crescent', icon: '🌘' },
+      { max: 1.01, name: 'New Moon', icon: '🌑' },
+    ];
+
+    function updateMoonPhase() {
+      const iconEl = document.getElementById('moon-phase-icon');
+      const nameEl = document.getElementById('moon-phase-name');
+      const illumEl = document.getElementById('moon-phase-illum');
+      if (!iconEl || !nameEl || !illumEl) return;
+
+      const ageDays = ((Date.now() - KNOWN_NEW_MOON_UTC) / 86_400_000) % LUNAR_MONTH_DAYS;
+      const fraction = ((ageDays % LUNAR_MONTH_DAYS) + LUNAR_MONTH_DAYS) / LUNAR_MONTH_DAYS % 1;
+      // Fraction of the disc lit — exact for a circular orbit approximation,
+      // which is what a decorative widget like this needs, not an almanac.
+      const illumination = Math.round((1 - Math.cos(2 * Math.PI * fraction)) / 2 * 100);
+      const phase = MOON_PHASES.find((p) => fraction <= p.max) ?? MOON_PHASES[0];
+
+      iconEl.textContent = phase.icon;
+      nameEl.textContent = phase.name;
+      illumEl.textContent = `${illumination}% illuminated`;
+    }
+
+    function updateMeteorShowers() {
+      const items = document.querySelectorAll<HTMLLIElement>('[data-shower-item]');
+      if (!items.length) return;
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let soonestItem: HTMLLIElement | null = null;
+      let soonestDiff = Infinity;
+
+      for (const item of items) {
+        const month = Number(item.dataset.month) - 1;
+        const day = Number(item.dataset.day);
+        let next = new Date(today.getFullYear(), month, day);
+        if (next < today) next = new Date(today.getFullYear() + 1, month, day);
+
+        const dateEl = item.querySelector('.shower-date');
+        if (dateEl) {
+          const withYear = next.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+          dateEl.textContent = `Peaks ${withYear}`;
+        }
+
+        const diff = next.getTime() - today.getTime();
+        if (diff < soonestDiff) {
+          soonestDiff = diff;
+          soonestItem = item;
+        }
+      }
+
+      // Only one "Next Up" badge should ever exist — re-running on repeat
+      // astro:page-load events (view transitions) must not stack another.
+      document.querySelector('.shower-next-badge')?.remove();
+      const nameEl = soonestItem?.querySelector('.shower-name');
+      if (nameEl) {
+        const badge = document.createElement('span');
+        badge.textContent = 'Next Up';
+        badge.className = 'shower-next-badge';
+        nameEl.appendChild(badge);
+      }
+    }
+
+    function updateSkyWidgets() {
+      updateMoonPhase();
+      updateMeteorShowers();
+    }
+
+    updateSkyWidgets();
+    document.addEventListener('astro:page-load', updateSkyWidgets);
+  </script>
 
   <script src="https://s-v1-galaxy-direct.astrospheric.com/embed/astrosphericembed.js"></script>
   <script define:vars={{ astrosphericLat, astrosphericLng, astrosphericUrl }}>
@@ -353,6 +498,26 @@ const observingSites = [
 
   .target-group[open] .target-chevron {
     transform: rotate(180deg);
+  }
+
+  /* Marks whichever meteor shower's peak is soonest — added by the client
+     script above, since "soonest" depends on the visitor's actual today.
+     :global() because Astro's scoped-style attribute is only ever applied
+     to elements present in the server-rendered markup; this span is
+     created by document.createElement at runtime, so a scoped selector
+     would silently never match it. */
+  :global(.shower-next-badge) {
+    display: inline-block;
+    margin-left: 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-nebula-amber) 18%, transparent);
+    padding: 0.1rem 0.55rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-nebula-amber);
+    vertical-align: middle;
   }
 
   /* The in-page nav's four items don't all fit on a phone screen, so it
