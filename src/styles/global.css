@@ -1,0 +1,235 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-space-base: #0a0e17;
+  --color-space-card: #12182b;
+  --color-space-modal: #18233d;
+  --color-space-overlay: #1e2947;
+
+  --color-nebula-violet: #8b5cf6;
+  --color-nebula-teal: #2dd4bf;
+  --color-nebula-amber: #f5b942;
+  --color-nebula-green: #4ade80;
+  --color-nebula-red: #f26d6d;
+
+  --color-ink-primary: #f1f3f8;
+  --color-ink-muted: #9ba3b7;
+
+  /* Boundary tokens. WCAG 1.4.11 wants 3:1 for the edges of interactive
+     components; against #0a0e17 that needs ~0.34 alpha (0.24 only reaches
+     2.1:1). --color-strong therefore carries interactive boundaries, while
+     --color-subtle stays soft for decorative rules and dividers, which the
+     criterion does not cover. */
+  --color-subtle: rgba(255, 255, 255, 0.1);
+  --color-strong: rgba(255, 255, 255, 0.34);
+
+  /* "… Variable" is the family name the @fontsource-variable packages register;
+     the plain names cover a locally installed copy. Both are imported in
+     BaseLayout — without that import these silently fall through to system-ui. */
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;
+
+  /* Display type scale — seven fluid steps. Each interpolates with the viewport
+     so headings are not undersized on phones (d1 starts at 44px rather than the
+     36px the hero previously used) without needing per-breakpoint overrides.
+     Body sizes keep Tailwind's defaults, whose measure already reads well. */
+  --text-d1: clamp(2.75rem, 1.55rem + 5.2vw, 5rem); /* 44 → 80 */
+  --text-d2: clamp(2.25rem, 1.45rem + 3.6vw, 3.75rem); /* 36 → 60 */
+  --text-d3: clamp(1.875rem, 1.35rem + 2.3vw, 2.75rem); /* 30 → 44 */
+  --text-d4: clamp(1.5rem, 1.25rem + 1.1vw, 2rem); /* 24 → 32 */
+  --text-d5: clamp(1.25rem, 1.13rem + 0.55vw, 1.5rem); /* 20 → 24 */
+  --text-d6: 1.125rem; /* 18 */
+  --text-d7: 0.9375rem; /* 15 */
+
+  --shadow-glow-violet: 0 0 24px 0 rgba(139, 92, 246, 0.35);
+  --shadow-glow-teal: 0 0 24px 0 rgba(45, 212, 191, 0.35);
+  --shadow-glow-amber: 0 0 24px 0 rgba(245, 185, 66, 0.35);
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+    /* The starfield and WebGL hero are inherently dark surfaces, so the site
+       is dark-only. Declaring this keeps UA-rendered controls and scrollbars
+       consistent for visitors whose OS is set to light mode. */
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-space-base text-ink-primary font-sans antialiased;
+  }
+
+  /* The only custom focus state anywhere on the site was the skip link's —
+     every button, card link, and nav item otherwise fell back to the
+     user-agent default ring, which reads inconsistently (or not at all) on
+     this near-black ground. Matches the skip link's existing teal outline
+     so the two never look like two different systems. */
+  :focus-visible {
+    outline: 2px solid var(--color-nebula-teal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* The header is sticky (~69px), so without this, tabbing scrolls a focused
+     element to the very top of the viewport and the header hides it — a WCAG
+     2.2 SC 2.4.11 failure. 4.5rem covers the primary header on every page.
+     /sky-conditions stacks a second sticky sub-nav below it and already sets
+     a larger scroll-margin-top on its own section IDs for that; those
+     ID-scoped rules win here on specificity, so this stays the site-wide
+     baseline and that page's extra clearance is untouched. */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [tabindex] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  /* Weight is part of the scale, not just size: the variable fonts give the
+     display face real range, so headings step down 600 → 500 against 400 body. */
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  h1 {
+    @apply font-semibold;
+  }
+
+  h2,
+  h3 {
+    @apply font-medium;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .card {
+    @apply relative rounded-2xl border border-subtle p-6 backdrop-blur-xl transition duration-300;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+      0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  /* A card that is itself a link is an interactive component, so its boundary
+     falls under 1.4.11; a static informational card does not. */
+  a.card {
+    @apply border-strong;
+  }
+
+  .card:hover {
+    @apply -translate-y-0.5 border-white/20;
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+      0 12px 40px -12px rgba(139, 92, 246, 0.35);
+  }
+
+  /* A heavier card for one primary item per section — used sparingly, so the
+     grid has a focal point instead of reading as an undifferentiated matrix. */
+  .card-featured {
+    @apply border-strong;
+    background: linear-gradient(
+      155deg,
+      rgba(139, 92, 246, 0.16),
+      rgba(45, 212, 191, 0.07) 55%,
+      rgba(255, 255, 255, 0.02)
+    );
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .card-featured:hover {
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
+      0 18px 50px -14px rgba(139, 92, 246, 0.5);
+  }
+
+  .glass-panel {
+    @apply rounded-2xl border border-subtle backdrop-blur-xl;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  }
+
+  .glass-badge {
+    @apply inline-flex items-center gap-2 rounded-full border border-strong px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-ink-muted backdrop-blur-xl;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-nebula-amber px-7 py-3.5 font-semibold text-space-base transition duration-300 hover:-translate-y-0.5 hover:shadow-glow-amber;
+  }
+
+  /* border-strong now clears 3:1, so the outline is the affordance rather than a
+     hint — this is the only thing marking the control's boundary. */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border-2 border-strong px-7 py-3.5 font-semibold text-ink-primary backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-nebula-teal hover:text-nebula-teal hover:shadow-glow-teal;
+  }
+
+  .section-heading {
+    @apply font-display text-d3 tracking-tight text-ink-primary;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(120deg, #f1f3f8 15%, #8b5cf6 55%, #2dd4bf 90%);
+  }
+
+  .placeholder-note {
+    @apply rounded-lg border border-dashed px-4 py-3 text-sm;
+    border-color: color-mix(in srgb, var(--color-nebula-amber) 60%, transparent);
+    background-color: color-mix(in srgb, var(--color-nebula-amber) 10%, transparent);
+    color: var(--color-nebula-amber);
+  }
+}
+
+/* Scroll reveal. `.reveal` is only ever added by script, so a no-JS visitor
+   sees every section at full opacity. Deliberately understated — a short rise
+   and fade on section entry, once, never replayed. */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Printing (and any other non-scrolling render, e.g. a screenshot tool) never
+   fires the IntersectionObserver that reveals these sections, so without this
+   every page would print as a hero followed by blank pages. */
+@media print {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield-layer,
+  .starfield-drift,
+  .starfield-twinkle,
+  .ambient-orb {
+    animation: none !important;
+  }
+}

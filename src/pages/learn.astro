@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FeatureSplit from '../components/FeatureSplit.astro';
+import heroPhoto from '../assets/images/star-tours-eaa-day.jpg';
+import visualChild from '../assets/images/star-tours-visual-child.jpg';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+const kidsResources = [
+  {
+    name: 'NASA Space Place',
+    url: 'https://spaceplace.nasa.gov/',
+    body: "NASA's site built for elementary-age kids — games, hands-on craft activities, and plain-language answers about planets, stars, and space technology.",
+  },
+  {
+    name: 'ESA Kids',
+    url: 'https://www.esa.int/kids/en/home',
+    body: 'The European Space Agency\'s children\'s site, with stories and activities about the solar system, the universe, and life as an astronaut.',
+  },
+  {
+    name: 'Stellarium Web',
+    url: 'https://stellarium-web.org/',
+    body: 'A free planetarium that runs right in your browser — set your location and see exactly what is overhead tonight. No download, no account.',
+  },
+  {
+    name: "NASA's Eyes on the Solar System",
+    url: 'https://eyes.nasa.gov/apps/solar-system/#/home',
+    body: 'A free, real-time 3D model of the solar system, built by NASA/JPL from actual mission data — fly through it, fast-forward or rewind time, and see why a planet is or is not visible tonight.',
+  },
+];
+
+const careerFaqs = [
+  {
+    question: 'Do I need a PhD to work in astronomy?',
+    answer:
+      'For a research astronomer position — at a university, national observatory, or NASA center — a PhD in astronomy, astrophysics, or physics is the standard path. But plenty of careers in the field do not require one: telescope and instrument operators, engineers, software and data specialists, planetarium educators, and science communicators all work in astronomy without a doctorate.',
+  },
+  {
+    question: 'What should I study in high school and college?',
+    answer:
+      'Build the strongest math and physics foundation you can — astronomy is a physics-heavy field. Programming is close behind, since modern astronomy runs on large datasets. At the undergraduate level, a physics or astronomy major is the usual route, and many working astronomers majored in physics before specializing in graduate school.',
+  },
+  {
+    question: 'Is astronomy the same thing as astrophysics?',
+    answer:
+      'In practice the terms overlap almost entirely, and departments use them interchangeably. Where people draw a distinction, "astronomy" leans toward observing and cataloguing what is out there, while "astrophysics" emphasizes the underlying physics of how those objects work.',
+  },
+  {
+    question: 'What jobs exist besides being a research astronomer?',
+    answer:
+      'Observatory and telescope operations, instrument and optical engineering, spacecraft mission operations, scientific software and data science, museum and planetarium education, science journalism, and the aerospace industry. The analytical and computational skills an astronomy degree builds also transfer well outside the field.',
+  },
+  {
+    question: 'How do I get started right now, before any of that?',
+    answer:
+      'Observe. Learn the sky with your eyes and a pair of binoculars, keep a record of what you see, and get to know other observers — a local club like PAS is one of the easiest ways to do all three. Hands-on time under the stars is what sustains the interest that carries people through the coursework later.',
+  },
+];
+
+const resourceGroups = [
+  {
+    title: 'Plan Your Observing',
+    accent: 'text-nebula-teal',
+    links: [
+      { name: 'Stellarium', url: 'https://stellarium.org/', note: 'Free desktop planetarium software' },
+      { name: 'Heavens-Above', url: 'https://heavens-above.com/', note: 'Satellite passes and ISS predictions' },
+      { name: 'Sky Conditions & Observing Sites', url: '/sky-conditions', note: 'Our Phoenix-area forecast and dark-sky site list', internal: true },
+    ],
+  },
+  {
+    title: 'News & Magazines',
+    accent: 'text-nebula-violet',
+    links: [
+      { name: 'Sky & Telescope', url: 'https://skyandtelescope.org/', note: 'Observing guides and monthly sky highlights' },
+      { name: 'Astronomy Magazine', url: 'https://www.astronomy.com/', note: 'News, equipment reviews, and beginner guides' },
+      { name: 'EarthSky', url: 'https://earthsky.org/', note: 'Daily "what to look for tonight" posts' },
+    ],
+  },
+  {
+    title: 'Organizations',
+    accent: 'text-nebula-amber',
+    links: [
+      { name: 'Astronomical League', url: 'https://www.astroleague.org/', note: 'Structured observing programs and awards' },
+      { name: 'DarkSky International', url: 'https://darksky.org/', note: 'Light pollution advocacy and resources' },
+      { name: 'AAVSO', url: 'https://www.aavso.org/', note: 'Variable star observing for amateurs' },
+    ],
+  },
+  {
+    title: 'Space Agencies & Imagery',
+    accent: 'text-nebula-teal',
+    links: [
+      { name: 'NASA', url: 'https://www.nasa.gov/', note: 'Missions, news, and image libraries' },
+      { name: 'Astronomy Picture of the Day', url: 'https://apod.nasa.gov/apod/astropix.html', note: 'A new astronomical image daily since 1995' },
+      { name: 'European Space Agency', url: 'https://www.esa.int/', note: "Europe's missions and science results" },
+    ],
+  },
+  {
+    title: 'Contribute to Real Science',
+    accent: 'text-nebula-violet',
+    links: [
+      { name: 'Zooniverse', url: 'https://www.zooniverse.org/', note: 'Citizen science projects, including galaxy classification' },
+      { name: 'NASA Citizen Science', url: 'https://science.nasa.gov/citizen-science/', note: 'Official NASA-affiliated volunteer projects' },
+    ],
+  },
+];
+
+const careerLinks = [
+  { name: 'American Astronomical Society — Careers', url: 'https://aas.org/careers' },
+  { name: 'NASA — Careers', url: 'https://www.nasa.gov/careers/' },
+];
+---
+
+<BaseLayout
+  title="Learn Astronomy"
+  description="Beginner-friendly astronomy resources from the Phoenix Astronomical Society — a kids' corner, answers about astronomy careers, and a curated set of links for observers of every level."
+>
+  <Hero
+    image={heroPhoto}
+    alt="A PAS member showing visitors a telescope setup at a daytime outreach event"
+    eyebrow="Learn Astronomy"
+    title="Start Exploring the Sky"
+    subtitle="Whether you're eight years old, weighing a career in astrophysics, or just looking for a good star chart — here's where to begin."
+    focalPoint="30% 15%"
+  />
+
+  <section class="mx-auto max-w-5xl px-6 py-20">
+    <h2 class="section-heading">Kids Corner</h2>
+    <p class="mt-4 max-w-2xl text-ink-muted">
+      Astronomy is one of the few sciences where a curious kid and a professional researcher can look at the same
+      sky on the same night. These are good places for young astronomers to start.
+    </p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      {
+        kidsResources.map((resource) => (
+          <a href={resource.url} class="card block" target="_blank" rel="noopener noreferrer">
+            <h3 class="font-display text-lg text-nebula-teal">
+              {resource.name} <span aria-hidden="true">↗</span>
+            </h3>
+            <p class="mt-3 text-ink-muted">{resource.body}</p>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-8 text-ink-muted">
+      Kids are welcome at every PAS public star party, and looking through a real telescope beats any website.
+      See <a href="/events" class="text-nebula-teal hover:underline">upcoming events</a> to find the next one.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">FAQ: Astronomy Careers</h2>
+      <p class="mt-4 max-w-2xl text-ink-muted">
+        Questions we hear from students and parents at outreach events, answered generally — a professional
+        astronomer or a school counselor can give you advice specific to your situation.
+      </p>
+      <dl class="mt-10 space-y-8">
+        {
+          careerFaqs.map((faq) => (
+            <div>
+              <dt class="font-display text-lg text-nebula-teal">{faq.question}</dt>
+              <dd class="mt-3 text-ink-muted">{faq.answer}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="mt-10">
+        <h3 class="font-display text-lg text-ink-primary">Where to read more</h3>
+        <ul class="mt-4 space-y-2">
+          {
+            careerLinks.map((link) => (
+              <li>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-nebula-teal hover:underline"
+                >
+                  {link.name} <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-6 py-20">
+    <h2 class="section-heading">Astronomy Resources</h2>
+    <p class="mt-4 max-w-2xl text-ink-muted">
+      Sites PAS members actually use — for planning a night out, keeping up with the field, and going deeper.
+    </p>
+    <div class="mt-10 space-y-10">
+      {
+        resourceGroups.map((group) => (
+          <div>
+            <h3 class={`font-display text-xl tracking-wide ${group.accent}`}>{group.title}</h3>
+            <ul class="mt-4 space-y-3">
+              {group.links.map((link) => (
+                <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-subtle pb-3">
+                  <a
+                    href={link.url}
+                    class="font-semibold text-ink-primary hover:text-nebula-teal"
+                    {...(link.internal ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+                  >
+                    {link.name}
+                    {!link.internal && <span aria-hidden="true"> ↗</span>}
+                  </a>
+                  <span class="text-sm text-ink-muted">{link.note}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <FeatureSplit
+    image={visualChild}
+    alt="A young child looking through a telescope eyepiece in her front yard"
+    eyebrow="Beyond the Screen"
+    title="Learn Alongside Other Observers"
+  >
+    <p>
+      Reading about the sky is a good start; sharing an eyepiece with someone who knows it well is better. PAS
+      runs free telescope workshops and public star parties throughout the year.
+    </p>
+    <div class="flex flex-wrap gap-4 pt-2">
+      <a href="/telescope-workshops" class="btn-primary">Telescope Workshops</a>
+      <a href="/events" class="btn-secondary">Upcoming Events</a>
+    </div>
+  </FeatureSplit>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <PlaceholderNote
+      label="External resources on this page are third-party sites chosen as generally recognized starting points, not PAS endorsements, and the careers answers are general guidance rather than club-authored advice — both are worth a club review before launch. If PAS has its own beginner handouts, youth program, or recommended reading list, they should replace or supplement these."
+    />
+  </section>
+</BaseLayout>

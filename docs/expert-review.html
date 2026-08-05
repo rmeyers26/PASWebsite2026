@@ -1,0 +1,1910 @@
+<title>PAS Website — Expert Review</title>
+
+<style>
+  :root {
+    --ground: #f4f2f1;
+    --panel: #ffffff;
+    --ink: #1a1715;
+    --ink-2: #4a4441;
+    --muted: #736c67;
+    --rule: #ddd7d3;
+    --rule-2: #ebe6e3;
+    --accent: #b23218;
+    --accent-soft: #f0e0da;
+    --cool: #0d6a75;
+    --warn: #8a6206;
+    --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    --mono: ui-monospace, 'SF Mono', SFMono-Regular, 'Cascadia Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+    --measure: 66ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #100e0e;
+      --panel: #171514;
+      --ink: #ece8e5;
+      --ink-2: #c2bbb6;
+      --muted: #948e89;
+      --rule: #2e2a28;
+      --rule-2: #221f1e;
+      --accent: #ff6a45;
+      --accent-soft: #2a1a15;
+      --cool: #5bcfd8;
+      --warn: #dda63a;
+    }
+  }
+
+  :root[data-theme='dark'] {
+    --ground: #100e0e;
+    --panel: #171514;
+    --ink: #ece8e5;
+    --ink-2: #c2bbb6;
+    --muted: #948e89;
+    --rule: #2e2a28;
+    --rule-2: #221f1e;
+    --accent: #ff6a45;
+    --accent-soft: #2a1a15;
+    --cool: #5bcfd8;
+    --warn: #dda63a;
+  }
+
+  :root[data-theme='light'] {
+    --ground: #f4f2f1;
+    --panel: #ffffff;
+    --ink: #1a1715;
+    --ink-2: #4a4441;
+    --muted: #736c67;
+    --rule: #ddd7d3;
+    --rule-2: #ebe6e3;
+    --accent: #b23218;
+    --accent-soft: #f0e0da;
+    --cool: #0d6a75;
+    --warn: #8a6206;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem) 8rem;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: clamp(3rem, 7vw, 5.5rem) 0 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .masthead h1 {
+    font-size: clamp(2.1rem, 5.4vw, 3.6rem);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+
+  .masthead .sub {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-top: 1.75rem;
+    max-width: 62ch;
+  }
+
+  /* ---------- readout ---------- */
+
+  .readout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 3rem 0 4rem;
+  }
+
+  .readout > div {
+    background: var(--panel);
+    padding: 1.4rem 1.5rem 1.6rem;
+  }
+
+  .readout .k {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .readout .v {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-top: 0.7rem;
+    color: var(--accent);
+  }
+
+  .readout .v small {
+    font-size: 0.9rem;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
+
+  .readout .n {
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    margin-top: 0.5rem;
+    line-height: 1.45;
+  }
+
+  /* ---------- sections ---------- */
+
+  section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem 2.5rem;
+    padding: 3rem 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (min-width: 940px) {
+    section {
+      grid-template-columns: 180px minmax(0, 1fr);
+    }
+    .rail {
+      position: sticky;
+      top: 2rem;
+      align-self: start;
+    }
+  }
+
+  .rail .part {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .rail .score {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.55rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-top: 0.6rem;
+  }
+
+  .rail .score span {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .body {
+    max-width: var(--measure);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 3.2vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin-bottom: 1.2rem;
+  }
+
+  h3 {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 2.4rem 0 0.9rem;
+  }
+
+  h4 {
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin: 1.8rem 0 0.6rem;
+  }
+
+  p {
+    margin-bottom: 1.05rem;
+    text-wrap: pretty;
+  }
+
+  .body > p:last-child,
+  .body > ol:last-child,
+  .body > ul:last-child {
+    margin-bottom: 0;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  a {
+    color: var(--accent);
+  }
+
+  ul,
+  ol {
+    margin: 0 0 1.05rem 0;
+    padding-left: 1.35rem;
+  }
+
+  li {
+    margin-bottom: 0.55rem;
+  }
+
+  li::marker {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.85em;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.84em;
+    background: var(--rule-2);
+    padding: 0.12em 0.38em;
+    border-radius: 2px;
+    color: var(--ink-2);
+  }
+
+  blockquote {
+    margin: 1.4rem 0;
+    padding: 0.2rem 0 0.2rem 1.4rem;
+    border-left: 2px solid var(--accent);
+    font-style: italic;
+    color: var(--ink-2);
+  }
+
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ---------- flow diagram ---------- */
+
+  .flow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.75;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 1.3rem 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--ink-2);
+  }
+
+  .flow b {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ---------- tables ---------- */
+
+  .tw {
+    overflow-x: auto;
+    margin: 1.4rem 0;
+    border: 1px solid var(--rule);
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.87rem;
+    background: var(--panel);
+  }
+
+  th {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.72rem 1rem;
+    border-bottom: 1px solid var(--rule-2);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  td.num,
+  th.num {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ---------- score bars ---------- */
+
+  .bars {
+    margin: 1.6rem 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .bar {
+    display: grid;
+    grid-template-columns: minmax(120px, 168px) 1fr 3.2rem;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--rule-2);
+  }
+
+  .bar .lbl {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-2);
+  }
+
+  .bar .track {
+    height: 6px;
+    background: var(--rule-2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bar .track i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--accent);
+    display: block;
+  }
+
+  .bar .val {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    text-align: right;
+    color: var(--ink);
+  }
+
+  .bar.hi .track i {
+    background: var(--cool);
+  }
+  .bar.lo .track i {
+    background: var(--accent);
+  }
+  .bar.mid .track i {
+    background: var(--warn);
+  }
+
+  /* ---------- callouts ---------- */
+
+  .call {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 1.1rem 1.4rem;
+    margin: 1.5rem 0;
+  }
+
+  .call p:last-child {
+    margin-bottom: 0;
+  }
+
+  .call .tag {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ---------- verdict ---------- */
+
+  .qa {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.2rem;
+    margin-top: 1.8rem;
+  }
+
+  .qa .q {
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+  }
+
+  .final {
+    border: 2px solid var(--ink);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    margin-top: 3rem;
+  }
+
+  .final h2 {
+    margin-top: 0;
+  }
+
+  .final ol {
+    counter-reset: f;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .final ol li {
+    counter-increment: f;
+    padding-left: 2.4rem;
+    position: relative;
+    margin-bottom: 0.9rem;
+  }
+
+  .final ol li::before {
+    content: counter(f, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+
+  .foot {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.8;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  :where(a, summary):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">Uncompromising external review · August 2026</div>
+    <h1>A world-class hero attached to an unfinished website.</h1>
+    <div class="sub">
+      Phoenix Astronomical Society · pasaz.org<br />
+      Commit ceaab26 · Astro 7 · 15 pages · 11 components · 4,425 lines<br />
+      Method: full source read, production build, rendered captures at 1440×900 and 390×844,
+      print-media emulation, computed-style and contrast measurement.
+    </div>
+  </header>
+
+  <div class="readout">
+    <div>
+      <div class="k">Overall</div>
+      <div class="v">68<small> / 100</small></div>
+      <div class="n">Grade B−</div>
+    </div>
+    <div>
+      <div class="k">World-class readiness</div>
+      <div class="v">45<small>%</small></div>
+      <div class="n">Hero excepted</div>
+    </div>
+    <div>
+      <div class="k">First impression</div>
+      <div class="v">8<small> / 10</small></div>
+      <div class="n">Highest score here, and earned</div>
+    </div>
+    <div>
+      <div class="k">Launch-ready</div>
+      <div class="v" style="color: var(--accent)">NO</div>
+      <div class="n">8 public placeholder banners; dead-end join funnel</div>
+    </div>
+  </div>
+
+  <!-- ============ EXECUTIVE SUMMARY ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Executive summary</div>
+    </div>
+    <div class="body">
+      <h2>The engineering is now better than the content it serves.</h2>
+
+      <p>
+        The <code>SpaceHero</code> component is the real thing — a procedurally-generated three.js scene
+        with a limb-darkened Saturn, a correctly-inclined Andromeda, GPU-shader star twinkle, a
+        frustum-relative composition that recomposes for portrait, idle-deferred loading behind a CSS
+        fallback, and a reduced-motion tier that keeps ambient motion while cutting input-driven parallax.
+        That is craft at the level of the companies in the comparison set.
+      </p>
+
+      <p>
+        The design tokens are equally serious. The stylesheet contains a comment computing that
+        <code>rgba(255,255,255,0.24)</code> only reaches 2.1:1 against <code>#0a0e17</code> and therefore
+        raising it to <code>0.34</code> to satisfy WCAG 1.4.11. Almost nobody does that.
+      </p>
+
+      <p>Then you scroll, and the site stops being that.</p>
+
+      <p>
+        Below the fold, every page resolves into the same card grid. Eight amber warning banners reading
+        <em>"⚠ Placeholder content — needs real info from PAS"</em> are visible to the public across seven of
+        fourteen pages. The primary conversion path — a "Join PAS" button in the header on every page, plus
+        two more on the homepage — terminates on a page that says online signup is "coming in a future
+        phase" and redirects to a list of <code>mailto:</code> links.
+      </p>
+
+      <p>
+        Membership dues are never stated. The meeting time is never stated. The street address is never
+        stated. There is no map. There is no newsletter. There are no social links of any kind. There is
+        not one photograph taken through a member's telescope.
+      </p>
+
+      <div class="call">
+        <span class="tag">The finding that should sting</span>
+        <p>
+          This is an astronomy club. Its members own the most emotionally powerful raw material any
+          organization in this category can have — their own images of the sky. The site instead borrows
+          NASA's Astronomy Picture of the Day, dumps the unedited NASA caption into a card (including
+          NASA's own promotional line, <em>"What picture did APOD feature on your birthday?"</em>), and calls
+          that the wonder section. The club's own visual identity is a handful of undirected phone
+          snapshots of people at folding tables under fluorescent light.
+        </p>
+      </div>
+
+      <p>
+        Nothing on the critical path is a rebuild. This is a launch-blocking content and photography
+        problem wearing a well-built front end.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 1 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 1 · First impression</div>
+      <div class="score">8<span>/10</span></div>
+    </div>
+    <div class="body">
+      <h2>The first five seconds are the best thing here.</h2>
+
+      <p>
+        At 1440px the hero is genuinely arresting. Saturn sits upper-right with a properly UV-remapped ring
+        and limb darkening that makes it read as a sphere rather than a decal. Andromeda occupies the
+        upper-left as 6,000 additively-blended points. Stars twinkle on independent per-vertex phases. The
+        type is large, confident, and correctly seated on a radial scrim so it never fights a bright star.
+        Nothing here looks like a template.
+      </p>
+
+      <div class="tw">
+        <table>
+          <tr>
+            <td style="width: 45%">Would I immediately stay?</td>
+            <td><strong>Yes.</strong></td>
+          </tr>
+          <tr>
+            <td>Does this feel premium?</td>
+            <td>The hero does.</td>
+          </tr>
+          <tr>
+            <td>Does this look expensive?</td>
+            <td>Yes — until you scroll.</td>
+          </tr>
+          <tr>
+            <td>Custom or template-based?</td>
+            <td>Unmistakably custom.</td>
+          </tr>
+          <tr>
+            <td>Does it feel alive?</td>
+            <td>Yes. The twinkle is time-driven, not hover-driven, so it plays on touch devices too.</td>
+          </tr>
+          <tr>
+            <td>Clarity of purpose?</td>
+            <td style="color: var(--accent)"><strong>Weak.</strong></td>
+          </tr>
+        </table>
+      </div>
+
+      <p>
+        The clarity failure is the one thing dragging this off a 9. Nothing above the fold says
+        <em>free</em>, says <em>Phoenix</em>, says <em>no telescope required</em>, or says <em>the next public
+        star party is on the 14th</em>. The single most persuasive fact this club owns — anyone can turn up,
+        for free, tonight, and look through a real telescope — is buried in a card three screens down. The
+        hero is selling atmosphere when it could be selling an invitation.
+      </p>
+
+      <h3>Two real flaws</h3>
+      <ol>
+        <li>
+          <strong>The moon is a bug that looks like a smudge.</strong> At <code>MOON_DEPTH = 4</code> it
+          renders as a near-black disc with no visible craters and no terminator. On the desktop capture it
+          reads as dust on the monitor. Either light it so its 150-crater procedural texture earns its
+          place, or remove it.
+        </li>
+        <li>
+          <strong>Portrait composition collides with the CTA.</strong> At 390×844, Saturn's ring passes
+          directly through the "Upcoming Events" button, and the eyebrow badge —
+          <code>text-xs</code> at <code>tracking-[0.2em]</code>, nearly full viewport width — sits on top of
+          the galaxy's arm. The portrait <code>composition</code> object clears the vertical middle for the
+          headline but never accounts for the CTA slot below the subtitle.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PART 2 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 2 · Branding</div>
+      <div class="score">55<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>There is a visual style here. There is not yet a visual identity.</h2>
+
+      <h4>Logo</h4>
+      <p>
+        Used at 36×36 in the header and as the favicon. It is a detailed circular badge with a telescope
+        silhouette and small type — at 36px it is illegible mush, and it is the <em>only</em> place the brand
+        mark appears on the entire site. It is also the Open Graph image for all fourteen pages, so every
+        share of this site anywhere renders as a tiny logo on a card.
+      </p>
+
+      <h4>Typography</h4>
+      <p>
+        Space Grotesk over Inter, competently set — the seven-step fluid <code>--text-d1…d7</code> scale with
+        <code>clamp()</code> is better type infrastructure than most sites in the comparison set have. But
+        these are the two most-defaulted-to typefaces of the last five years. They say "this is a modern
+        website" rather than "this is <em>the Phoenix Astronomical Society</em>." A club with a 1948 founding
+        date, a lost observatory project, and a Tombaugh-autographed poster in its archive has a
+        typographic story available to it that Space Grotesk does not tell.
+      </p>
+
+      <h4>Color</h4>
+      <p>
+        Violet <code>#8b5cf6</code> / teal <code>#2dd4bf</code> / amber <code>#f5b942</code> on
+        <code>#0a0e17</code>. Well-executed — accents are assigned semantically per card and the amber CTA
+        hits 10.85:1 — but violet-and-teal-on-dark is what every astronomy site, every SaaS dark mode, and
+        every AI-generated "space" comp looks like in 2026. Nothing here is Arizona. Nothing is Sonoran.
+        This site is set in a desert with the most distinctive sky and light quality in the continental
+        United States, and the palette could belong to a crypto exchange.
+      </p>
+
+      <h4>Photography</h4>
+      <p>
+        The critical failure. Every image is an undirected snapshot — fluorescent-lit meeting rooms, a man
+        standing in a beige lot, a crowd at dusk. Honest and human, which has value, but ungraded,
+        unretouched, inconsistent in color temperature, and the <em>only</em> imagery the brand owns.
+      </p>
+
+      <p>
+        <strong>Could another club copy it?</strong> The hero, no — that is real engineering. Everything
+        else, yes, in a weekend, by swapping the logo. <strong>What emotion does the brand create?</strong>
+        Competence. Not wonder, not welcome, not belonging.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 3 · Visual design</div>
+      <div class="score">78<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Genuinely good craft, monotonously applied.</h2>
+
+      <h3>What is excellent</h3>
+      <ul>
+        <li>
+          <strong>The token system.</strong> <code>--color-subtle</code> (0.1 alpha, decorative rules)
+          versus <code>--color-strong</code> (0.34 alpha, interactive boundaries) is a distinction most
+          design systems never draw, and the stylesheet documents <em>why</em> with the contrast math.
+        </li>
+        <li>
+          <strong>Card hierarchy.</strong> <code>.card-featured</code> exists specifically so one item per
+          grid becomes a focal point "instead of reading as an undifferentiated matrix."
+        </li>
+        <li>
+          <strong>Depth is restrained.</strong> An inset top highlight plus a low-opacity drop shadow,
+          escalating to a violet-tinted glow on hover. Glass without the 2021 glassmorphism cliché.
+        </li>
+        <li>
+          <strong>Vertical rhythm.</strong> Consistent <code>py-20</code> sections with hairline separators
+          and alternating surface tint, across all fourteen pages.
+        </li>
+        <li>
+          <code>text-wrap: balance</code> on headings and <code>text-wrap: pretty</code> on paragraphs.
+          Small, correct, rarely done.
+        </li>
+      </ul>
+
+      <h3>What breaks it</h3>
+      <ol>
+        <li>
+          <strong><code>.text-gradient</code> is applied to headings too short to hold a gradient.</strong>
+          On the press page, "Press Releases" renders with "Press" in near-white and "Releases" in
+          violet-to-teal. It reads as two different emphases rather than one heading. Same on
+          <code>/history</code>, <code>/leadership</code>, <code>/contact</code>, <code>/404</code>.
+        </li>
+        <li>
+          <strong>The card grid is the only compositional idea below the fold.</strong> Homepage: 3-up
+          cards, photo band, 6-up cards, 2-up cards. Exoplanets: 2-up, 2-up. Learn: 2-up, 3-up. No
+          long-form layout, no editorial spread, no data visualization. The monotony is invisible on any
+          single page and obvious across the site.
+        </li>
+        <li>
+          <strong>The breadcrumb bar creates an orphaned strip.</strong> On every interior page a thin band
+          of starfield sits between the sticky header and the hero image. On the homepage there is no
+          breadcrumb and the hero touches the header. Two structural treatments for one slot.
+        </li>
+        <li>
+          <strong>Alignment inconsistency.</strong> Four pages open with a centered text hero over nothing;
+          the rest open with a centered hero over a photo. The first variant reads as an unfinished version
+          of the second.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PART 4 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 4 · Hero section</div>
+      <div class="score">9<span>/10 · 4/10</span></div>
+    </div>
+    <div class="body">
+      <h2>There are two heroes on this site and they are not in the same league.</h2>
+
+      <p>
+        <code>SpaceHero.astro</code> (homepage only) is world-class. <code>Hero.astro</code> (eight interior
+        pages) is where the site loses most of its perceived quality, and the cause is a single line:
+      </p>
+
+      <div class="flow">class="absolute inset-0 h-full w-full object-cover <b>opacity-60</b>"</div>
+
+      <p>
+        Every hero image, regardless of source, is set to 60% opacity and then covered with a scrim.
+        Applied uniformly, this does two incompatible things:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Night photographs die.</strong> <code>/events</code> uses a telescope-beside-fireworks
+          night shot. At 60% opacity under a 70% scrim it is functionally black — in the desktop capture you
+          cannot identify the telescope, the fireworks, or the fence. The most exciting photograph in the
+          library renders as a dark rectangle.
+        </li>
+        <li>
+          <strong>Daytime photographs survive and collide.</strong> <code>/learn</code> uses a daytime shot
+          of a member beside a refractor. It survives — and the headline "Start Exploring the Sky" lands
+          directly across the man's face. No focal-point offset, no per-image crop.
+        </li>
+      </ul>
+
+      <div class="call">
+        <span class="tag">Worst single asset decision on the site</span>
+        <p>
+          The <code>/join</code> hero. The page whose entire job is to make someone want to belong opens
+          with a fluorescent-lit community-college classroom of people seated at folding tables. It is a
+          photograph of a meeting. <strong>Nobody has ever joined an astronomy club because they wanted to
+          attend a meeting.</strong>
+        </p>
+      </div>
+
+      <p>
+        <strong>Seven of the eight interior heroes contain no call to action.</strong> <code>/events</code>
+        asks "When Is the Next Observing Session?" in 80px type and then provides no answer and no button.
+        <code>/join</code> states "Become Part of the PAS Community" and offers nothing to click.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 5 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 5 · Navigation</div>
+      <div class="score">84<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>The most professional part of the site after the hero.</h2>
+
+      <p>
+        Four grouped top-level items plus a persistent amber "Join PAS" CTA. Fourteen pages organized into
+        five slots is disciplined information architecture.
+      </p>
+
+      <h3>Done right</h3>
+      <ul>
+        <li>
+          Built on <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>, so it is keyboard-operable and
+          fully functional with JavaScript disabled — the script only adds behaviors the element lacks.
+        </li>
+        <li>
+          <code>aria-expanded</code> maintained on toggle; <code>aria-current="page"</code> on both the item
+          and its parent group; Escape closes and returns focus to the summary; outside-click closes; one
+          panel open at a time.
+        </li>
+        <li>
+          Document-level listeners registered once and re-querying on each event, so they survive view
+          transitions — a bug class most implementations ship.
+        </li>
+        <li>
+          The trailing-slash normalization is a real bug that was found and fixed; without it no nav item
+          would ever highlight on a statically-built subpage.
+        </li>
+      </ul>
+
+      <h3>Gaps</h3>
+      <ol>
+        <li>
+          <strong>No search.</strong> With 14 pages, a Bortle-rated site list, seasonal target tables by
+          aperture, a press archive back to 2021, and a long-form history, search is now justified.
+        </li>
+        <li>
+          <strong>The footer is a bare link list.</strong> No sitemap grouping, no social, no newsletter, no
+          address, no next event, no donation link. For a nonprofit the footer is prime real estate and it
+          is empty.
+        </li>
+        <li><code>aria-haspopup</code> is absent on the dropdown summaries. Minor, but free.</li>
+        <li>The mobile menu offers no route to the homepage except the logo.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PART 6 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 6 · User experience</div>
+      <div class="score">62<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>The membership journey is a dead end.</h2>
+
+      <p>This is the most important finding in this document.</p>
+
+      <div class="flow">Header "Join PAS"        (on all 14 pages)
+Homepage "Join the Club" (hero)
+Homepage "Join the Club" (Why Join)
+Homepage "Become a Member" (SIG section)
+        ↓
+    /join
+        ↓
+    "Online membership signup is coming in a future phase of this site.
+     For now, reach out and a PAS officer will help you get started."
+        ↓
+    /contact
+        ↓
+    mailto:info@pasaz.org
+        ↓
+    <b>(the visitor's mail client, and then nothing)</b></div>
+
+      <p>
+        Four distinct calls to action converge on a page that admits it cannot do the thing it exists to
+        do. Along the way the site never states what membership costs, what tiers exist, what you get, when
+        meetings are, or where they are. <code>/join</code> lists four benefits, three of which — access to
+        star parties, monthly meetings, a community of mentors — are things the site elsewhere says are
+        <em>free and open to the public without membership</em>.
+      </p>
+
+      <div class="call">
+        <span class="tag">Root cause</span>
+        <p>
+          The page cannot answer "why would I pay for this?" because the site never says there is anything
+          to pay.
+        </p>
+      </div>
+
+      <h3>Event discovery is nearly as bad</h3>
+
+      <p>
+        The homepage section titled "Upcoming Events" contains no events. It contains three cards
+        describing event <em>types</em> — "Monthly Meeting," "Public Star Party," "Telescope Workshop" — with
+        no dates. The button reads "View Full Calendar" and leads to <code>/events</code>, whose hero asks
+        "When Is the Next Observing Session?" and whose answer is an embedded Bookwhen
+        <code>&lt;iframe&gt;</code>.
+      </p>
+
+      <p>
+        That iframe is the only place on the entire site where a date lives. It is third-party, below the
+        fold, lazily loaded, not indexable, and inherits none of the site's typography or color. During
+        this review the embed failed to load and the page offered the visitor nothing.
+      </p>
+
+      <p>
+        <strong>A visitor cannot learn when the next public star party is without leaving the site.</strong>
+        For a club whose outreach mission depends on people showing up on a specific night, this is the
+        highest-leverage defect here.
+      </p>
+
+      <h3>Friction</h3>
+      <p>
+        Cognitive load is low — plain writing, short pages, scannable grids. The friction is structural:
+        every path that matters ends in <code>mailto:</code>. Star Tours booking, volunteering, joining,
+        contact. <strong>There is not a single <code>&lt;form&gt;</code> element in the codebase.</strong>
+      </p>
+
+      <h3>Delight</h3>
+      <p>
+        The parallax photo band on the homepage — driven by CSS <code>animation-timeline: view()</code> with
+        no scroll listener and no JavaScript, gated behind <code>@supports</code> and
+        <code>prefers-reduced-motion</code> — is a genuinely tasteful signature moment. The 404 page is
+        charming. That is the complete inventory of delight below the hero.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 7 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 7 · Mobile</div>
+      <div class="score">65<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>The hero eats the first screen and delivers no information.</h2>
+
+      <h3>Working</h3>
+      <p>
+        Responsive grids collapse cleanly. The hamburger is a 44×44 target and mobile nav rows clear 44px.
+        The mobile panel is height-capped with <code>overflow-y-auto</code> so it can never exceed the
+        screen. The starfield is dimmed to <code>opacity: 0.45</code> under 40rem specifically because
+        "discrete bright dots read as dirt rather than atmosphere" behind narrow text columns — a
+        considered, non-obvious call. The fluid type scale gives phones 44px headings rather than 36px.
+      </p>
+
+      <h3>Broken</h3>
+      <ol>
+        <li>
+          At 390×844 the first screen is badge, three lines of headline, four lines of subtitle, two stacked
+          buttons — and the second button sits below the fold behind Saturn's ring.
+          <strong>A phone visitor's first screen contains zero facts.</strong>
+        </li>
+        <li>
+          The eyebrow badge does not survive portrait: <code>text-xs</code> at <code>tracking-[0.2em]</code>
+          renders at nearly full viewport width, overlapping the galaxy, pill border pressed to both edges.
+        </li>
+        <li>
+          Header + breadcrumb + hero consumes roughly 60% of the viewport before any content, on every one
+          of eight interior pages.
+        </li>
+        <li>
+          Two third-party embeds (Bookwhen, Astrospheric) not designed for a 390px column, over whose touch
+          targets, contrast, and scroll behavior the site has no control.
+        </li>
+      </ol>
+
+      <p>
+        <strong>Would someone enjoy browsing entirely from a phone?</strong> They would enjoy the hero, then
+        spend the session scrolling past photography darkened to near-black, unable to find out when
+        anything happens.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 8 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 8 · Desktop</div>
+      <div class="score">82<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Designed at tablet width, centered on desktop.</h2>
+
+      <p>
+        The hero scales beautifully — <code>min-h-[92svh]</code>, correct <code>svh</code> unit choice,
+        canvas sized from <code>section.clientWidth</code> with an rAF-debounced resize handler, and a full
+        scene re-layout on resize rather than a naive camera adjustment.
+      </p>
+
+      <p>
+        Content max-widths are disciplined and varied by content type — <code>3xl</code> for the homepage
+        manifesto, <code>4xl</code> for prose, <code>5xl</code> for learn grids, <code>6xl</code> for card
+        sections, <code>7xl</code> for the nav. That is a real editorial decision, not one global container.
+      </p>
+
+      <p>
+        <strong>Where it falls short:</strong> at 1440px and above, interior pages are a <code>4xl</code>
+        column centered in a wide dark field, leaving roughly 60% of the viewport occupied by nothing but
+        the fixed starfield. No sidebar, no marginalia, no pull quote, no wide-format moment. Information
+        density is low throughout — <code>/leadership</code> uses a full-width bordered row per president
+        for 29 presidents, which is a table pretending to be a card list.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 9 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 9 · Content</div>
+      <div class="score">72<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>The writing is much better than the content strategy.</h2>
+
+      <p>Somebody who can write worked on this:</p>
+
+      <blockquote>
+        <p>
+          "Phoenix has been looking up since 1948 — and for nearly eight decades, someone from this club has
+          been standing next to the telescope, explaining what you're seeing."
+        </p>
+      </blockquote>
+
+      <blockquote>
+        <p>
+          "We're a 501(c)(3) nonprofit of beginners, backyard observers, astrophotographers, and lifelong
+          amateurs. The telescopes are a means to an end; the point is the people around them."
+        </p>
+      </blockquote>
+
+      <blockquote>
+        <p>"Most people meet us holding a rock older than the Earth."</p>
+      </blockquote>
+
+      <p>
+        That last headline is the best line on the site — specific, surprising, and it earns its
+        photograph. The <code>/learn</code> career FAQ is the most substantive content anywhere here. The
+        <code>/history</code> page is a genuine archival asset: the lost observatory, the mirror auctioned in
+        1976 and bought by a past president for $2,600, the Tombaugh poster.
+      </p>
+
+      <h3>What undermines it</h3>
+      <ol>
+        <li>
+          <strong>Eight public "placeholder" banners.</strong> Amber-bordered, amber-backed, impossible to
+          miss, on <code>/</code>, <code>/join</code>, <code>/contact</code>, <code>/events</code>,
+          <code>/learn</code>, <code>/press-releases</code>, and twice on <code>/about</code>. One tells the
+          public that the contact addresses "were found via web research and should be verified." Another
+          tells them the press release PDFs are missing. This is internal project management leaking onto
+          production, and it destroys credibility more thoroughly than anything else here.
+        </li>
+        <li>
+          <strong>The APOD card dumps NASA's raw caption.</strong> No clamp, no excerpt, no editorial
+          framing. The August capture runs 250+ words in an unbounded paragraph that unbalances the card and
+          ends with NASA's own site-promotion line — <em>"Sky Surprise: What picture did APOD feature on your
+          birthday?"</em> — an instruction to visit a different website, printed on the PAS homepage.
+        </li>
+        <li>
+          <strong>A text bug ships to production.</strong> <code>/press-releases</code> renders "contact us
+          at<strong>info@pasaz.org</strong>" — the space before the link is missing in the built HTML.
+        </li>
+        <li>
+          <strong><code>/solar-system</code> and <code>/exoplanets</code> are link pages wearing page
+          costumes.</strong> The first is 57 lines whose entire purpose is to send the visitor to
+          eyes.nasa.gov. The second is a competent but entirely generic explainer with one sentence of
+          actual PAS relevance. Both are in the primary navigation.
+        </li>
+        <li>
+          <strong>There is no content written for a child on this site.</strong> The "Kids Corner" is four
+          links to other organizations' children's sites.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PART 10 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 10 · Community</div>
+      <div class="score">35<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Essentially unbuilt.</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr>
+              <th>Element</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Dues / tiers</td><td style="color: var(--accent)"><strong>Absent</strong></td></tr>
+            <tr><td>Social proof</td><td style="color: var(--accent)"><strong>None</strong></td></tr>
+            <tr><td>Testimonials</td><td style="color: var(--accent)"><strong>None</strong></td></tr>
+            <tr><td>Member spotlights</td><td style="color: var(--accent)"><strong>None</strong></td></tr>
+            <tr><td>Community gallery</td><td style="color: var(--accent)"><strong>None</strong></td></tr>
+            <tr><td>Forum / Discord</td><td style="color: var(--accent)"><strong>None</strong></td></tr>
+            <tr><td>Social media links</td><td style="color: var(--accent)"><strong>None anywhere on the site</strong></td></tr>
+            <tr><td>Newsletter signup</td><td style="color: var(--accent)"><strong>None</strong></td></tr>
+            <tr><td>Donation path</td><td style="color: var(--accent)"><strong>None</strong> — despite 501(c)(3) status stated four times</td></tr>
+            <tr><td>Youth engagement</td><td>Four outbound links</td></tr>
+            <tr><td>Volunteer opportunities</td><td>One paragraph → <code>mailto:</code></td></tr>
+            <tr><td>Advanced observers</td><td>Bortle site list — the best resource on the site</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The Special Interest Groups section is emblematic. Two groups are described — astrophotography and
+        books — and both cards link to <code>/contact</code>.
+        <strong>The club's astrophotography community, which by definition produces images, is represented
+        on the website by a paragraph and an email address.</strong>
+      </p>
+
+      <p>
+        The three "sample" images on <code>/star-tours</code> — a comet, the Helix Nebula, the Whirlpool
+        Galaxy — are rendered at 500px in a 3-up grid of 160px-tall thumbnails, and the source files are
+        7–23KB, meaning they are low-resolution to begin with. They are captioned "A few examples of what
+        guests may see," which frames the club's own imagery as a product demo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 11 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 11 · Events</div>
+      <div class="score">45<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Everything is delegated to an iframe.</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Capability</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Calendar</td><td>Third-party iframe, below the fold</td></tr>
+            <tr><td>Dates visible in HTML</td><td style="color: var(--accent)"><strong>None</strong></td></tr>
+            <tr><td>Registration / RSVP</td><td>Inside the iframe; no native flow</td></tr>
+            <tr><td>Past events</td><td>None</td></tr>
+            <tr><td>Maps / directions</td><td style="color: var(--accent)"><strong>None anywhere on the site</strong></td></tr>
+            <tr><td>Weather at event time</td><td><code>/sky-conditions</code> exists but is not linked from <code>/events</code></td></tr>
+            <tr><td>Equipment list</td><td style="color: var(--cool)"><strong>Present, and excellent</strong></td></tr>
+            <tr><td>Speaker information</td><td style="color: var(--accent)"><strong>None</strong> — a lecture series with guest speakers and not one speaker named</td></tr>
+            <tr><td>Add-to-calendar / sharing</td><td>None</td></tr>
+            <tr><td>Structured data</td><td style="color: var(--accent)"><strong>None</strong> — no <code>Event</code> schema, no rich results</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The "What to Bring" list — red flashlight, warm layers, folding chair — is a small, genuinely
+        excellent piece of outreach writing. It is also the only part of the events experience the site
+        actually owns.
+      </p>
+
+      <p>
+        Note the missed adjacency: <code>/sky-conditions</code> contains a live Phoenix astronomical forecast
+        and a Bortle-rated list of observing sites, and <code>/events</code> does not link to it. A visitor
+        deciding whether to drive out on a given night needs both, and the site never puts them together.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 12 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 12 · Accessibility</div>
+      <div class="score">80<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Strong fundamentals, two real WCAG 2.2 gaps.</h2>
+
+      <h3>Above the industry standard</h3>
+
+      <p>
+        <strong>Contrast is deliberate and documented.</strong> Measured: body muted <code>#9ba3b7</code> on
+        <code>#0a0e17</code> = <strong>7.65:1</strong>; teal links = <strong>10.4:1</strong>; amber primary
+        button = <strong>10.85:1</strong>. All comfortably exceed AA, most exceed AAA. The
+        <code>--color-strong</code> token exists solely to bring interactive boundaries to 3:1 for SC
+        1.4.11, with the arithmetic in a comment.
+      </p>
+
+      <p>
+        <strong>Reduced motion is tiered, not binary.</strong> The stylesheet kills the reveal, the starfield
+        drift, the twinkle, and the parallax band; the WebGL hero keeps slow ambient rotation at
+        <code>motionScale = 0.3</code> but drops mouse parallax, scroll dolly, and shooting stars. The
+        comment reasons correctly that WCAG asks to avoid vestibular-triggering motion, not to freeze the
+        page.
+      </p>
+
+      <p>
+        <strong>Progressive enhancement is real.</strong> Navigation works with JS disabled. The reveal
+        animation's hidden state is applied by script rather than CSS specifically so no-JS visitors see all
+        content. Skip link with a visible focus state; one <code>&lt;h1&gt;</code> per page across all
+        fourteen; correct heading order; descriptive alt text throughout.
+      </p>
+
+      <h3>The gaps</h3>
+      <ol>
+        <li>
+          <strong>There is no <code>:focus-visible</code> system.</strong> The only custom focus style in the
+          codebase is on the skip link. Every button, card link, nav summary, and dropdown item falls back
+          to the UA default ring. On a near-black ground with pill buttons and translucent glass cards that
+          is inconsistent at best. <strong>WCAG 2.2 SC 2.4.13</strong> risk.
+        </li>
+        <li>
+          <strong>The sticky header will obscure focused elements.</strong> Roughly 69px tall,
+          <code>sticky top-0 z-50</code>. Tabbing scrolls focused elements to the viewport top, directly
+          underneath it. Only <code>/sky-conditions</code> sets <code>scroll-margin-top</code>.
+          <strong>WCAG 2.2 SC 2.4.11 — a Level AA failure across all fourteen pages.</strong>
+        </li>
+        <li>Bullet lists built from typed <code>•</code> characters inside <code>&lt;li&gt;</code> on <code>/events</code>.</li>
+        <li>Two third-party iframes whose internal accessibility is outside the site's control, on two of the most important pages.</li>
+      </ol>
+
+      <p>
+        <strong>Estimated automated score: 92–96.</strong> Estimated manual audit result:
+        <strong>fails AA on 2.4.11</strong>, borderline on 2.4.13.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 13 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 13 · Performance</div>
+      <div class="score">74<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Sophisticated loading strategy, undermined by font delivery.</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Asset</th><th class="num">Size</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>three.module.js</code></td><td class="num"><strong>489.7 KB</strong> raw (~124 KB gz)</td></tr>
+            <tr><td>ClientRouter (view transitions)</td><td class="num">16.1 KB</td></tr>
+            <tr><td>SpaceHero script</td><td class="num">12.6 KB</td></tr>
+            <tr><td>CSS (single bundle)</td><td class="num">46.0 KB</td></tr>
+            <tr><td>Fonts</td><td class="num"><strong>10 × woff2, 276 KB</strong></td></tr>
+            <tr><td>Total <code>dist/</code></td><td class="num">15 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Handled well</h3>
+      <ul>
+        <li>
+          three.js is dynamically imported inside <code>requestIdleCallback</code> behind a CSS-gradient
+          fallback painted immediately — the hero has a real LCP candidate before any WebGL work begins.
+        </li>
+        <li>The render loop early-returns when the hero is off-screen. Full teardown and <code>renderer.dispose()</code> on view transition and <code>pagehide</code>.</li>
+        <li>All textures generated procedurally on canvas — zero network requests for the entire 3D scene.</li>
+        <li>
+          The APOD component reads JPEG SOF / PNG IHDR markers from a
+          <strong>ranged 128KB request at build time</strong> purely to obtain intrinsic dimensions and
+          prevent CLS. An unusually thorough solution to a layout-shift problem.
+        </li>
+        <li>The parallax band uses CSS <code>animation-timeline: view()</code> — no scroll listener, no JS.</li>
+      </ul>
+
+      <h3>Costing you</h3>
+      <ol>
+        <li>
+          <strong>No font preloading.</strong> Both variable fonts are discovered only after the 46KB
+          stylesheet parses. Text renders in <code>system-ui</code> and then swaps — a visible FOUT on the
+          largest text on the page, which is also the LCP element.
+        </li>
+        <li>
+          <strong>Ten woff2 files for an English-only site.</strong> The bare
+          <code>@fontsource-variable/*</code> imports pull Cyrillic, Cyrillic-ext, Greek, Greek-ext,
+          Vietnamese, and Latin-ext. Importing only <code>/latin.css</code> would cut this to two files.
+        </li>
+        <li>
+          <strong>Two render-blocking third-party scripts on the two most important pages.</strong> Bookwhen
+          on <code>/events</code> has no <code>defer</code> and no <code>preconnect</code>; Astrospheric on
+          <code>/sky-conditions</code> adds a polling loop of up to 50 × 100ms.
+        </li>
+      </ol>
+
+      <p>
+        <strong>Projected Core Web Vitals:</strong> LCP good on desktop (~1.5–2.0s), borderline on mid-range
+        mobile due to the font swap. CLS excellent. INP good except on <code>/events</code> and
+        <code>/sky-conditions</code>, where third-party embeds dominate.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 14 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 14 · SEO</div>
+      <div class="score">62<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Clean technical hygiene, zero structured data.</h2>
+
+      <p>
+        <strong>Present and correct:</strong> unique titles and descriptions per page, canonical URLs,
+        generated sitemap, <code>robots.txt</code>, clean semantic URLs, one <code>&lt;h1&gt;</code> per page,
+        five legacy redirects preserving inbound links, Open Graph and Twitter Card tags everywhere, and
+        static HTML output so everything is crawlable.
+      </p>
+
+      <h3>The gaps, in order of cost</h3>
+      <ol>
+        <li>
+          <strong>There is no structured data anywhere on the site.</strong> Zero
+          <code>application/ld+json</code>. No <code>Organization</code>, no <code>Event</code> — and
+          therefore <strong>no rich results for "star party phoenix," the exact query this club needs to
+          win</strong> — no <code>BreadcrumbList</code> despite breadcrumbs being rendered, and no
+          <code>FAQPage</code> on <code>/learn</code>, which contains five well-formed Q&amp;A pairs sitting
+          ready for it.
+        </li>
+        <li>
+          <strong>Every page shares one Open Graph image: the 72px logo PNG.</strong> For an organization
+          whose subject matter is <em>pictures of space</em>, this is the most wasteful line in the codebase.
+        </li>
+        <li>
+          <strong>Local SEO is entirely absent.</strong> No <code>LocalBusiness</code> schema, no
+          name/address/phone block, no street address anywhere, no map, no Business Profile link. A local
+          club invisible to "astronomy club near me."
+        </li>
+        <li>
+          <strong>The events calendar is inside an iframe</strong>, so the highest-intent content on the site
+          is invisible to search engines.
+        </li>
+        <li>
+          <strong>Unclaimed keywords:</strong> "star party phoenix," "where to stargaze near phoenix," "dark
+          sky sites arizona," "telescope help phoenix." The Bortle-rated site list is genuinely strong
+          material for these — and it is buried under a nav dropdown labeled "Learn," with no dedicated
+          landing page, no schema, and no descriptive internal anchors.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PART 15 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 15 · Motion</div>
+      <div class="score">80<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Restraint is the achievement here.</h2>
+
+      <p>
+        <strong>Star twinkle is a GPU vertex/fragment shader</strong> with per-star phase and speed
+        attributes. The comment notes it is deliberately time-driven rather than hover-driven "so it plays
+        identically on touch devices with no pointer at all." The fragment shader uses a tight core with
+        fast falloff, with a comment explaining that a linear ramp would read as a blurred disc rather than
+        a star. That is someone who has actually looked at stars.
+      </p>
+
+      <p>
+        <strong>The parallax band</strong> — CSS scroll-driven, <code>@supports</code>-gated,
+        reduced-motion-gated, ±3.5% translate at 1.18 scale — is the correct way to do a scroll effect in
+        2026. <strong>Scroll reveal</strong> is understated and unobserved after firing, so it never replays.
+      </p>
+
+      <div class="call">
+        <span class="tag">Verified defect · three-line fix</span>
+        <p>
+          <strong>The scroll reveal breaks printing.</strong> Under print-media emulation, the homepage hero
+          renders at <code>opacity: 1</code> and <strong>all seven sections below it render at
+          <code>opacity: 0</code></strong>. Printing or saving any page to PDF produces a hero followed by
+          blank pages. The <code>.reveal</code> hidden state is applied by script and only removed by an
+          IntersectionObserver that never fires in a non-scrolling render context. This also affects
+          full-page screenshot services.
+        </p>
+        <p><code>@media print { .reveal { opacity: 1; transform: none } }</code></p>
+      </div>
+
+      <p>
+        <strong>Otherwise:</strong> nothing hovers meaningfully except cards and buttons, both of which lift
+        2px and glow. That is the complete microinteraction inventory. All the motion is in the hero and all
+        of it is ambient — nothing communicates, nothing responds to a decision the user made.
+      </p>
+
+      <p><strong>Does motion enhance or distract?</strong> Enhance. This is one of the few sites in this category that does not overdo it.</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 16 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 16 · Architecture</div>
+      <div class="score">85<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>The most professionally-executed dimension.</h2>
+
+      <p>
+        Astro 7 with Tailwind 4, static output. Exactly right: fourteen mostly-static pages, near-zero
+        client JS by default, islands only where genuinely needed. React or Next.js here would have been a
+        mistake.
+      </p>
+
+      <p><strong>The comments explain <em>why</em>, not <em>what</em>, and they document real decisions:</strong></p>
+      <ul>
+        <li>Why <code>--color-strong</code> is 0.34 alpha (the contrast math).</li>
+        <li>Why the hero title tail is solid ink rather than gradient (the gradient's violet stop loses contrast on a violet sky).</li>
+        <li>Why the reveal's hidden state lives in JS rather than CSS (no-JS visitors).</li>
+        <li>Why document-level listeners are registered once (they survive view transitions).</li>
+        <li>Why limb darkening is applied to Saturn ("without it, flat banding reads as a beach ball").</li>
+      </ul>
+
+      <p>
+        <strong>View-transition correctness</strong> is where most Astro sites with <code>ClientRouter</code>
+        are quietly broken, and this one is not. Teardown on <code>astro:before-swap</code>, cancelled idle
+        callbacks, disposed renderer, disconnected observers, and <code>data-astro-rerun</code> on the
+        inline reveal script with an explanation of why a bundled module would only run once.
+      </p>
+
+      <h3>Weaknesses</h3>
+      <ol>
+        <li>
+          <strong>No CMS. Content is hardcoded in <code>.astro</code> files.</strong> Every officer name,
+          press release, observing site, and president is a TypeScript array literal inside a page
+          component. A volunteer club officer cannot update the site without editing source and
+          redeploying. <strong>This is the single greatest threat to the site's long-term survival</strong> —
+          clubs abandon sites they cannot update.
+        </li>
+        <li>No tests, no CI, no lint or formatter config. On a volunteer-maintained project, this is how regressions ship.</li>
+        <li>No analytics and no error monitoring. There is no way to know whether anyone reaches <code>/join</code>, or whether the Bookwhen embed is failing for real visitors.</li>
+        <li>The APOD fetch is build-time only, and no scheduled rebuild is configured — so "Picture of the Day" goes stale.</li>
+        <li>Two third-party runtime dependencies loaded as plain scripts with no SRI and no CSP.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PART 17 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 17 · Feature audit</div>
+    </div>
+    <div class="body">
+      <h2>What this site should and should not build.</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Feature</th><th>Verdict</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Native events calendar, dates in HTML</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>Highest-value item on this list</td></tr>
+            <tr><td><strong>Member astrophotography gallery</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>The club's greatest untapped asset</td></tr>
+            <tr><td><strong>Online signup + stated dues</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>Closes the funnel</td></tr>
+            <tr><td><strong>Newsletter signup</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>Zero-cost retention; absent entirely</td></tr>
+            <tr><td><strong>Contact / Star Tours forms</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>Star Tours is a revenue line booked by email</td></tr>
+            <tr><td><strong>Map + directions</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>People must physically arrive</td></tr>
+            <tr><td><strong>Social links</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>Currently zero on a 14-page site</td></tr>
+            <tr><td><strong>Donation path</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>501(c)(3) stated four times, never actionable</td></tr>
+            <tr><td><strong>Structured data</strong></td><td style="color: var(--accent)"><strong>Essential</strong></td><td>Biggest SEO lever available</td></tr>
+            <tr><td>Speaker profiles</td><td>Nice to have</td><td>Strong content, low effort</td></tr>
+            <tr><td>Add-to-calendar / reminders</td><td>Nice to have</td><td>Attendance driver</td></tr>
+            <tr><td>Sequenced beginner path</td><td>Nice to have</td><td>Converts curiosity into a first visit</td></tr>
+            <tr><td>Member spotlights / testimonials</td><td>Nice to have</td><td>Social proof entirely absent</td></tr>
+            <tr><td>Lunar phase widget</td><td>Nice to have</td><td>Cheap, on-brand, useful for planning</td></tr>
+            <tr><td>Meteor shower tracker</td><td>Nice to have</td><td>Seasonal traffic driver</td></tr>
+            <tr><td>Observation logs</td><td>Nice to have</td><td>Needs accounts</td></tr>
+            <tr><td>Citizen science hub</td><td>Nice to have</td><td>Exoplanet Watch and Zooniverse already linked</td></tr>
+            <tr><td>Telescope recommendations</td><td>Nice to have</td><td>Natural companion to the workshops page</td></tr>
+            <tr><td>Live astronomy weather</td><td style="color: var(--cool)">Already present</td><td>Astrospheric embed</td></tr>
+            <tr><td>Dark sky maps</td><td style="color: var(--cool)">Partially present</td><td>Bortle list exists; a map completes it</td></tr>
+            <tr><td>NASA APOD</td><td style="color: var(--cool)">Already present</td><td>Needs editorial framing, not removal</td></tr>
+            <tr><td>Equipment database</td><td>Unnecessary</td><td>Sky &amp; Telescope does it better</td></tr>
+            <tr><td>Interactive star charts</td><td>Unnecessary</td><td>Link Stellarium Web; don't rebuild it</td></tr>
+            <tr><td>Interactive planet explorer</td><td>Unnecessary</td><td>NASA Eyes exists and is linked</td></tr>
+            <tr><td>Live satellite tracking</td><td>Unnecessary</td><td>Heavens-Above exists and is linked</td></tr>
+            <tr><td>Live observatory feeds</td><td>Unnecessary</td><td>Operational burden a volunteer club can't carry</td></tr>
+            <tr><td>Personalized dashboards</td><td>Unnecessary</td><td>Requires a user base that doesn't exist yet</td></tr>
+            <tr><td>Achievement badges</td><td>Unnecessary</td><td>Gamification without a community to gamify</td></tr>
+            <tr><td>AI astronomy assistant</td><td>Unnecessary</td><td>Solves no problem this club has</td></tr>
+            <tr><td>Push notifications</td><td>Unnecessary</td><td>Email first — and there is no list yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PART 18 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 18 · Competitive</div>
+    </div>
+    <div class="body">
+      <h2>Out-engineers the field; out-contented by all of it.</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Compared against</th><th>PAS exceeds</th><th>PAS falls short</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>NASA</strong></td><td>Visual cohesion; speed</td><td>Content depth; imagery; structured data</td></tr>
+            <tr><td><strong>ESA</strong></td><td>Cleaner typography, tighter IA</td><td>Photography and video, by an enormous margin</td></tr>
+            <tr><td><strong>The Planetary Society</strong></td><td>Front-end sophistication</td><td>Membership funnel, donations, editorial cadence. <strong>They convert; PAS cannot.</strong></td></tr>
+            <tr><td><strong>Griffith Observatory</strong></td><td>Modernity — theirs is dated</td><td>Practical visitor info: hours, directions, parking. All absent here.</td></tr>
+            <tr><td><strong>Lowell Observatory</strong></td><td>Motion design and hero craft</td><td>Ticketing, program depth, photography — and PAS links to Lowell as an attraction</td></tr>
+            <tr><td><strong>Royal Observatory Greenwich</strong></td><td>Performance and build quality</td><td>Archival storytelling — despite PAS having a great archive sitting unused</td></tr>
+            <tr><td><strong>Stellarium</strong></td><td>Everything visual</td><td>Utility. Stellarium does one thing perfectly; PAS delegates its utilities to third parties.</td></tr>
+            <tr><td><strong>Sky &amp; Telescope / Astronomy</strong></td><td>Design quality — both look like 2015</td><td>Content volume, publishing cadence, "what's up this month"</td></tr>
+            <tr><td><strong>Awwwards science winners</strong></td><td>The hero is competitive. Genuinely.</td><td>Everything after the hero — and Awwwards judges the whole experience</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The gap is not talent. It is that the site has a front end and does not yet have a publication.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PART 19 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 19 · Honest critique</div>
+    </div>
+    <div class="body">
+      <h2>Direct answers.</h2>
+
+      <h4>What feels dated?</h4>
+      <p>
+        Very little visually. The dated things are structural: <code>mailto:</code> links as the primary
+        conversion mechanism, third-party iframes as core functionality, and hardcoded content arrays with
+        no CMS. Those are 2010 patterns wearing a 2026 skin.
+      </p>
+
+      <h4>What feels generic?</h4>
+      <p>
+        The violet/teal/dark palette. Space Grotesk + Inter. The card grid, which is the only layout idea
+        below the fold. <code>/exoplanets</code>, which reads like an encyclopedia entry. The four
+        <code>/join</code> bullets. The word "community," used eleven times without ever being demonstrated.
+      </p>
+
+      <h4>What feels amateur?</h4>
+      <ol>
+        <li>Eight amber "⚠ Placeholder content" banners on the live site.</li>
+        <li>A "Join" page that cannot be joined.</li>
+        <li>The <code>/join</code> hero: a fluorescent-lit room of people at folding tables.</li>
+        <li><code>/learn</code>'s headline printed across a man's face.</li>
+        <li><code>atinfo@pasaz.org</code> on the press page.</li>
+        <li>The near-black <code>/events</code> hero.</li>
+        <li><code>.text-gradient</code> splitting "Press Releases" into two colors.</li>
+        <li>The unclamped APOD caption ending in NASA's birthday-picture promo.</li>
+      </ol>
+
+      <h4>What feels premium?</h4>
+      <p>
+        The hero, unreservedly. The token system and its contrast documentation. The reduced-motion
+        tiering. The <code>&lt;details&gt;</code>-based navigation. The parallax band. The APOD
+        dimension-probe for CLS. The type scale. The homepage manifesto copy. "Most people meet us holding a
+        rock older than the Earth."
+      </p>
+
+      <h4>What should be redesigned from scratch?</h4>
+      <ol>
+        <li><strong><code>Hero.astro</code>.</strong> One uniform opacity/scrim treatment cannot serve both night and daytime photography. It needs per-image focal points, per-image scrim direction, left-aligned variants, and a CTA slot.</li>
+        <li><strong><code>/join</code>.</strong> Rebuild around dues, tiers, a real signup, and one photograph of a person's face lit by a screen at 11pm.</li>
+        <li><strong><code>/events</code>.</strong> Own the data. Dates in HTML, <code>Event</code> schema, next-three-events on the homepage.</li>
+      </ol>
+
+      <h4>What is missing?</h4>
+      <p>
+        Dates. Prices. An address. A map. A form. A gallery. A newsletter. A social link. A donate button.
+        Speaker names. Member faces. Structured data. Anything a person could share.
+      </p>
+
+      <h4>What is overdesigned?</h4>
+      <p>
+        Almost nothing — which is a compliment. If pressed: ambient orbs plus a CSS starfield plus a WebGL
+        starfield plus nebula sprites are four simultaneous background systems, and behind long-form pages
+        like <code>/history</code> the fixed starfield adds noise the reading experience does not want.
+      </p>
+
+      <h4>What disappoints users?</h4>
+      <p>Clicking "Join PAS."</p>
+    </div>
+  </section>
+
+  <!-- ============ PART 20 ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Part 20 · Roadmap</div>
+    </div>
+    <div class="body">
+      <h2>Critical — fix before this site is public</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th class="num">#</th><th>Fix</th><th>Why it matters</th><th class="num">Effort</th><th class="num">ROI</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">1</td><td><strong>Remove all 8 placeholder banners</strong> — fill the content or delete the section</td><td>The site tells visitors it is unfinished. Nothing else matters while these are visible.</td><td class="num">S</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">2</td><td><strong>Make <code>/join</code> work</strong> — dues, tiers, a real signup or payment link</td><td>Four CTAs across 14 pages converge on a dead end.</td><td class="num">M</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">3</td><td><strong>Put the next three events on the homepage and <code>/events</code> as real HTML</strong></td><td>No visitor can learn when anything happens without leaving the site.</td><td class="num">M</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">4</td><td><strong>Fix the print/PDF blank-page bug</strong></td><td>Every page prints as a hero followed by blank space. Three lines.</td><td class="num">S</td><td class="num">High</td></tr>
+            <tr><td class="num">5</td><td><strong>Replace the <code>/join</code> and <code>/events</code> hero images</strong></td><td>Recruitment opens on a conference room; events opens on a black rectangle.</td><td class="num">S</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">6</td><td><strong>Add a <code>:focus-visible</code> ring and <code>scroll-margin-top</code></strong></td><td>WCAG 2.2 SC 2.4.11 is a Level AA failure across all 14 pages.</td><td class="num">S</td><td class="num">High</td></tr>
+            <tr><td class="num">7</td><td><strong>Fix <code>contact us at&lt;a&gt;</code></strong> on the press page</td><td>Renders as <code>atinfo@pasaz.org</code>.</td><td class="num">S</td><td class="num">High</td></tr>
+            <tr><td class="num">8</td><td><strong>Add an address, a map, and meeting times</strong></td><td>People have to physically arrive and the site never says where.</td><td class="num">S</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="margin-top: 2.5rem">High impact — next 30 days</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th class="num">#</th><th>Fix</th><th>Why it matters</th><th class="num">Effort</th><th class="num">ROI</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">9</td><td><strong>Build the member astrophotography gallery</strong>; three images on the homepage</td><td>The club's greatest asset is entirely absent. This is the site's emotional core.</td><td class="num">M</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">10</td><td><strong>Add JSON-LD</strong>: Organization, Event, BreadcrumbList, FAQPage</td><td>Unlocks Google event rich results for "star party phoenix."</td><td class="num">S</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">11</td><td><strong>Per-page Open Graph images</strong></td><td>Every share currently renders a 72px logo.</td><td class="num">S</td><td class="num">High</td></tr>
+            <tr><td class="num">12</td><td><strong>Newsletter signup</strong> in the footer and on <code>/join</code></td><td>The only owned retention channel, currently nonexistent.</td><td class="num">S</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">13</td><td><strong>Replace all four <code>mailto:</code> flows with forms</strong></td><td>Star Tours is a revenue line booked by email.</td><td class="num">M</td><td class="num">High</td></tr>
+            <tr><td class="num">14</td><td><strong>Social links and a donate button in the footer</strong></td><td>501(c)(3) stated four times and never actionable.</td><td class="num">S</td><td class="num">High</td></tr>
+            <tr><td class="num">15</td><td><strong>Art-direct <code>Hero.astro</code></strong> — focal points, scrim direction, CTA slot</td><td>Eight pages share one treatment that suits none of them.</td><td class="num">M</td><td class="num">High</td></tr>
+            <tr><td class="num">16</td><td><strong>Clamp the APOD caption</strong>; strip NASA's promo line</td><td>Currently 250 unedited words plus an ad for another site.</td><td class="num">S</td><td class="num">Medium</td></tr>
+            <tr><td class="num">17</td><td><strong>Preload the Latin woff2 files; import <code>/latin.css</code> only</strong></td><td>Removes a visible FOUT on the LCP element; drops 8 font files.</td><td class="num">S</td><td class="num">High</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="margin-top: 2.5rem">Medium priority — next 90 days</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th class="num">#</th><th>Fix</th><th>Why it matters</th><th class="num">Effort</th><th class="num">ROI</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">18</td><td><strong>Move content into Astro Content Collections</strong></td><td>Volunteers cannot update the site without editing source. This determines whether it survives.</td><td class="num">M</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">19</td><td>Speaker profiles and a lecture archive</td><td>Strong content sitting unused; excellent SEO surface.</td><td class="num">M</td><td class="num">Medium</td></tr>
+            <tr><td class="num">20</td><td>A real "Start Here" beginner path</td><td>Curiosity currently has nowhere to go but a card grid.</td><td class="num">M</td><td class="num">High</td></tr>
+            <tr><td class="num">21</td><td>Member spotlights and testimonials</td><td>Social proof is entirely absent.</td><td class="num">M</td><td class="num">Medium</td></tr>
+            <tr><td class="num">22</td><td>A dark-sky sites landing page with a map</td><td>The Bortle list is the best content on the site and is buried under "Learn."</td><td class="num">M</td><td class="num">High</td></tr>
+            <tr><td class="num">23</td><td>Give <code>/leadership</code> a real table; retire <code>/solar-system</code> to a link</td><td>29 cards for 29 name/date pairs; one page for one outbound link.</td><td class="num">S</td><td class="num">Medium</td></tr>
+            <tr><td class="num">24</td><td>A second layout idea below the fold</td><td>The card grid is currently the only compositional move.</td><td class="num">M</td><td class="num">Medium</td></tr>
+            <tr><td class="num">25</td><td>Analytics and a scheduled daily rebuild</td><td>Nobody knows if <code>/join</code> is reached; APOD goes stale.</td><td class="num">S</td><td class="num">High</td></tr>
+            <tr><td class="num">26</td><td>Lunar phase and next-star-party widgets</td><td>Cheap, on-brand, useful, and a reason to return.</td><td class="num">S</td><td class="num">Medium</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="margin-top: 2.5rem">Future vision — 6–12 months</h2>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th class="num">#</th><th>Initiative</th><th>Why it matters</th><th class="num">Effort</th><th class="num">ROI</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">27</td><td>Member accounts, observation logs, photo-submission pipeline</td><td>Turns a brochure into a platform; makes the gallery self-sustaining.</td><td class="num">L</td><td class="num">Medium</td></tr>
+            <tr><td class="num">28</td><td><strong>A monthly "What's Up Over Phoenix" publication</strong></td><td>The most repeatable traffic and retention engine in this category.</td><td class="num">L</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">29</td><td><strong>Commission one real photo shoot</strong> — members at the eyepiece, faces lit by red light</td><td>The one thing money most reliably fixes here.</td><td class="num">M</td><td class="num" style="color: var(--accent)"><strong>High</strong></td></tr>
+            <tr><td class="num">30</td><td>A distinctive brand system derived from Sonoran night</td><td>Currently indistinguishable from any other dark-mode site.</td><td class="num">L</td><td class="num">Medium</td></tr>
+            <tr><td class="num">31</td><td>"The Observatory That Was Never Built" — scroll narrative from the archive</td><td>Genuinely unique material presented as a wall of body copy today.</td><td class="num">L</td><td class="num">Medium</td></tr>
+            <tr><td class="num">32</td><td>Youth and educator hub with downloadable materials</td><td>Converts Star Tours demand into a self-serve pipeline.</td><td class="num">L</td><td class="num">Medium</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Final verdict</div>
+      <div class="score">68<span>/100</span></div>
+    </div>
+    <div class="body">
+      <h2>Scores</h2>
+
+      <div class="bars">
+        <div class="bar hi"><span class="lbl">Architecture</span><span class="track"><i style="width: 85%"></i></span><span class="val">85</span></div>
+        <div class="bar hi"><span class="lbl">Navigation</span><span class="track"><i style="width: 84%"></i></span><span class="val">84</span></div>
+        <div class="bar hi"><span class="lbl">Desktop</span><span class="track"><i style="width: 82%"></i></span><span class="val">82</span></div>
+        <div class="bar hi"><span class="lbl">Accessibility</span><span class="track"><i style="width: 80%"></i></span><span class="val">80</span></div>
+        <div class="bar hi"><span class="lbl">Motion</span><span class="track"><i style="width: 80%"></i></span><span class="val">80</span></div>
+        <div class="bar hi"><span class="lbl">Design</span><span class="track"><i style="width: 78%"></i></span><span class="val">78</span></div>
+        <div class="bar mid"><span class="lbl">Performance</span><span class="track"><i style="width: 74%"></i></span><span class="val">74</span></div>
+        <div class="bar mid"><span class="lbl">Content</span><span class="track"><i style="width: 72%"></i></span><span class="val">72</span></div>
+        <div class="bar mid"><span class="lbl">Innovation</span><span class="track"><i style="width: 70%"></i></span><span class="val">70</span></div>
+        <div class="bar mid"><span class="lbl">Emotional impact</span><span class="track"><i style="width: 66%"></i></span><span class="val">66</span></div>
+        <div class="bar mid"><span class="lbl">Mobile</span><span class="track"><i style="width: 65%"></i></span><span class="val">65</span></div>
+        <div class="bar lo"><span class="lbl">SEO</span><span class="track"><i style="width: 62%"></i></span><span class="val">62</span></div>
+        <div class="bar lo"><span class="lbl">UX</span><span class="track"><i style="width: 62%"></i></span><span class="val">62</span></div>
+        <div class="bar lo"><span class="lbl">Branding</span><span class="track"><i style="width: 55%"></i></span><span class="val">55</span></div>
+        <div class="bar lo"><span class="lbl">Community</span><span class="track"><i style="width: 35%"></i></span><span class="val">35</span></div>
+      </div>
+
+      <h2 style="margin-top: 2.5rem">The nine questions</h2>
+
+      <div class="qa">
+        <p class="q">1 · Is this truly a world-class website?</p>
+        <p>
+          No. It has a world-class <em>component</em>. The hero would not be out of place on a site from any
+          organization in the comparison set. The other 90% of the experience is a well-built, well-written,
+          under-populated club site. World-class is a property of the whole experience, and this experience
+          ends at a "Join" page that cannot be joined.
+        </p>
+      </div>
+
+      <div class="qa">
+        <p class="q">2 · Would it be competitive for an Awwwards nomination?</p>
+        <p>
+          The hero alone would draw attention. The submission would not survive judging — Usability would
+          collapse on the dead-end join flow and Content would collapse on eight visible placeholder
+          banners. <strong>Honorable mention at the very best; realistically, no.</strong>
+        </p>
+      </div>
+
+      <div class="qa">
+        <p class="q">3 · Would it impress a first-time visitor within five seconds?</p>
+        <p>
+          Yes, on desktop. Emphatically. On mobile, the first screen contains no facts and the second CTA is
+          behind a planet.
+        </p>
+      </div>
+
+      <div class="qa">
+        <p class="q">4 · Would it attract younger audiences while serving experienced astronomers?</p>
+        <p>
+          It serves experienced observers well — <code>/sky-conditions</code> is a genuine resource. It does
+          not attract younger audiences: no social presence, no gallery, no video, no shareable content, no
+          member faces, and a membership page illustrated with a photograph of a meeting.
+        </p>
+      </div>
+
+      <div class="qa">
+        <p class="q">5 · Would someone be excited enough to become a member after visiting?</p>
+        <p>
+          They would be excited by the hero and then unable to act on it. There is no price, no signup, no
+          date, no address. <strong>The site currently cannot produce a member.</strong>
+        </p>
+      </div>
+
+      <div class="qa">
+        <p class="q">6 · Top 10 changes with the most impact</p>
+      </div>
+
+      <div class="final" style="margin-top: 1rem">
+        <ol>
+          <li>Delete or fill all eight placeholder banners.</li>
+          <li>Make <code>/join</code> actually work — dues, tiers, a real form.</li>
+          <li>Put the next three dated events on the homepage in real HTML.</li>
+          <li>Build the member astrophotography gallery.</li>
+          <li>Replace the <code>/join</code> and <code>/events</code> hero images.</li>
+          <li>Add an address, a map, and meeting times.</li>
+          <li>Add <code>Event</code> and <code>Organization</code> JSON-LD.</li>
+          <li>Replace every <code>mailto:</code> flow with a form.</li>
+          <li>Add a newsletter signup, social links, and a donate button.</li>
+          <li>Add a <code>:focus-visible</code> system and fix the sticky-header focus obstruction.</li>
+        </ol>
+        <p style="margin-top: 1.5rem; margin-bottom: 0">
+          <strong>Eight of ten are content and information decisions, not code.</strong> That is the shape of
+          this project.
+        </p>
+      </div>
+
+      <div class="qa" style="margin-top: 2.5rem">
+        <p class="q">7 · With $50,000</p>
+        <ul>
+          <li><strong>$18,000 — Content and photography.</strong> A night shoot at the PVCC observatory (members at the eyepiece, faces lit red, a child's face at an eyepiece), plus a daytime shoot for <code>/join</code> and <code>/learn</code>. Curate and grade 30 member astrophotographs. The highest-return line item on this list, because it is the one thing that cannot be engineered.</li>
+          <li><strong>$12,000 — Close the funnel.</strong> Native events with dates and schema, membership signup with payment, contact and Star Tours forms, newsletter, donate.</li>
+          <li><strong>$8,000 — Gallery and CMS.</strong> Astrophotography gallery plus Content Collections so volunteers can maintain it.</li>
+          <li><strong>$6,000 — Art-direct the interior heroes</strong> and add a second compositional pattern below the fold.</li>
+          <li><strong>$4,000 — Accessibility, SEO, and performance pass.</strong></li>
+          <li><strong>$2,000 — Analytics, scheduled rebuilds, monitoring.</strong></li>
+        </ul>
+      </div>
+
+      <div class="qa">
+        <p class="q">8 · With $250,000</p>
+        <p>Everything above, plus:</p>
+        <ul>
+          <li>
+            <strong>A distinctive brand identity.</strong> A commissioned typeface pairing and a palette
+            derived from actual Sonoran night — the quality of Arizona light at astronomical twilight, the
+            color of a red headlamp on saguaro, the horizon glow of Phoenix seen from Bortle 2. Retire
+            violet-and-teal entirely.
+          </li>
+          <li>
+            <strong>"What's Up Over Phoenix"</strong> as a real monthly publication with an editor, a
+            template system, and an email program. This is the engine that turns a website into an
+            institution.
+          </li>
+          <li><strong>A member platform</strong> — accounts, observation logs, a moderated photo pipeline, badges tied to Astronomical League observing programs.</li>
+          <li>
+            <strong>"The Observatory That Was Never Built"</strong> — a scroll-driven narrative built from
+            the archive already sitting in <code>/history</code>: Amos Hoff, the 1973 Kaufman plans, the
+            county choosing an equestrian facility with "the usual glaring arena lighting," the mirror
+            auctioned in 1976 and bought back by a past president. A genuinely singular story no other
+            astronomy club on earth can tell, currently presented as a wall of body copy. Done properly,
+            this is the piece that gets written about.
+          </li>
+          <li><strong>A live sky utility the club owns</strong> rather than embeds, in its own design language.</li>
+          <li><strong>Educator hub</strong> with downloadable, standards-aligned materials.</li>
+          <li><strong>A third-party accessibility audit</strong> and a WCAG 2.2 AA conformance statement.</li>
+        </ul>
+      </div>
+
+      <div class="qa">
+        <p class="q">9 · What would I refuse to launch until it was fixed?</p>
+        <ol>
+          <li><strong>Every placeholder banner.</strong> Non-negotiable. A public site does not tell visitors it is unfinished.</li>
+          <li><strong>The join dead end.</strong> Either a working signup, or an honest, well-designed "membership is handled by email — here is exactly what to write and what it costs." What ships today is neither.</li>
+          <li><strong>No dates anywhere in HTML.</strong> An events organization whose events are invisible without JavaScript and invisible to search engines entirely.</li>
+          <li><strong>No address and no map.</strong></li>
+          <li><strong>The <code>/join</code> hero photograph.</strong> I would ship a solid gradient before I would ship that room.</li>
+          <li><strong>The print/PDF blank-page bug.</strong> Three lines. No excuse.</li>
+          <li><strong>The <code>atinfo@pasaz.org</code> typo.</strong></li>
+        </ol>
+        <p>I would launch with the WCAG 2.4.11 issue open and fix it in week one. I would not launch with the first seven.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SMALLEST SET ============ -->
+  <section>
+    <div class="rail">
+      <div class="part">Action plan</div>
+    </div>
+    <div class="body">
+      <div class="final">
+        <h2>The smallest set of changes that transforms this site</h2>
+        <p style="color: var(--muted); font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.04em">
+          Roughly three weeks of work. Moves the site from "impressive demo" to "best astronomy club website
+          in the United States."
+        </p>
+        <ol style="margin-top: 1.8rem">
+          <li><strong>Delete every placeholder banner</strong> — by filling the content, not by hiding the warning.</li>
+          <li><strong>Put dates on the site.</strong> Next three events on the homepage, full list on <code>/events</code>, in real HTML, with <code>Event</code> schema. Add the address and a map.</li>
+          <li><strong>Make <code>/join</code> work.</strong> State the dues. State the tiers. Add a form or a payment link. Replace the conference-room photograph.</li>
+          <li><strong>Publish 20 member astrophotographs.</strong> A gallery page, three on the homepage, and the best six as page heroes and Open Graph images. Stop borrowing NASA's wonder when the club produces its own.</li>
+          <li><strong>Add the missing connective tissue</strong> — newsletter, social links, donate, forms instead of <code>mailto:</code>, <code>:focus-visible</code>, and the three-line print fix.</li>
+        </ol>
+        <p style="margin-top: 1.8rem; margin-bottom: 0">
+          None of this is a redesign. The design is already good and the engineering is already better than
+          good. <strong>What this site needs is for the club to show up inside it.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">
+    Prepared as an uncompromising external review.<br />
+    Every technical claim verified against the source, the production build, or rendered output.<br />
+    Contrast ratios computed from token values. Print behavior verified under print-media emulation.
+  </p>
+</div>
