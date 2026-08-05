@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { monthlyDsoTargets } from '../data/dsoTargets';
 import eaaNight from '../assets/images/star-tours-eaa-night.jpg';
 import sampleHelixNebula from '../assets/images/star-tours-sample-helix-nebula.jpg';
 import sampleWhirlpoolGalaxy from '../assets/images/star-tours-sample-whirlpool-galaxy.jpg';
@@ -56,6 +57,8 @@ const samplePhotos = [
   { src: sampleWhirlpoolGalaxy, alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
   { src: sampleComet, alt: 'A green comet with a long tail against a starfield', caption: 'A comet, tail streaming' },
 ];
+
+const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' });
 ---
 
 <BaseLayout
@@ -188,6 +191,58 @@ const samplePhotos = [
             The PAS operator team at a private rooftop event for a corporate group.
           </figcaption>
         </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Sample Targets by Month</h2>
+      <p class="mt-4 text-ink-muted">
+        The night sky's deep-sky objects — nebulae, star clusters, galaxies, and double stars — return to the same
+        part of the sky every year, so here's a sense of what a Star Tours event might show depending on the
+        season. (Planets and comets aren't included here since their visibility shifts from year to year.)
+      </p>
+      <div class="mt-8 space-y-3">
+        {
+          monthlyDsoTargets.map((entry) => (
+            <details class="group rounded-xl border border-subtle bg-space-card" open={entry.month === currentMonthName}>
+              <summary class="cursor-pointer select-none px-5 py-4 font-display text-lg text-ink-primary marker:content-none">
+                {entry.month}
+              </summary>
+              <div class="border-t border-subtle px-5 py-4">
+                {entry.targets.length === 0 ? (
+                  <p class="text-sm italic text-ink-muted">Target list coming soon for this month.</p>
+                ) : (
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-ink-muted">
+                      <thead>
+                        <tr class="border-b border-subtle text-xs uppercase tracking-wide text-ink-muted">
+                          <th class="py-2 pr-4 font-medium">Name</th>
+                          <th class="py-2 pr-4 font-medium">Type</th>
+                          <th class="py-2 pr-4 font-medium">Constellation</th>
+                          <th class="py-2 pr-4 font-medium">Magnitude</th>
+                          <th class="py-2 pr-4 font-medium">Apparent Size</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {entry.targets.map((target) => (
+                          <tr class="border-b border-subtle/50 last:border-0">
+                            <td class="py-2 pr-4 text-ink-primary">{target.name}</td>
+                            <td class="py-2 pr-4">{target.type}</td>
+                            <td class="py-2 pr-4">{target.constellation}</td>
+                            <td class="py-2 pr-4">{target.magnitude}</td>
+                            <td class="py-2 pr-4">{target.size}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </details>
+          ))
+        }
       </div>
     </div>
   </section>
