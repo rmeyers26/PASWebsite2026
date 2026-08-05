@@ -1,0 +1,92 @@
+---
+// Generates a physically-plausible star field at build time: varied size/brightness,
+// only a small fraction set to twinkle. Pure CSS animation, no images, no client JS.
+function makeLayer(count: number, maxOpacity: number) {
+  const shadows: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const x = Math.round(Math.random() * 100 * 10) / 10;
+    const y = Math.round(Math.random() * 100 * 10) / 10;
+    const opacity = (Math.random() * maxOpacity + 0.1).toFixed(2);
+    shadows.push(`${x}vw ${y}vh 0 rgba(241,243,248,${opacity})`);
+  }
+  return shadows.join(', ');
+}
+
+// Every hero on the site paints an opaque background, so this fixed layer is only
+// ever visible *behind body copy* — where discrete bright dots read as dirt rather
+// than atmosphere. Counts and opacities are therefore kept low, and the whole
+// layer is dimmed further on small screens (see the stylesheet below).
+const farStars = makeLayer(90, 0.28);
+const nearStars = makeLayer(38, 0.4);
+const twinkleStars = makeLayer(10, 0.55);
+---
+
+<div class="starfield-root pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-space-base" aria-hidden="true">
+  <div class="ambient-orb ambient-orb-violet absolute -left-[10%] -top-[15%] h-[50vw] w-[50vw] max-w-[720px] rounded-full bg-nebula-violet/20 blur-[120px]"></div>
+  <div class="ambient-orb ambient-orb-blue absolute -right-[15%] top-[20%] h-[45vw] w-[45vw] max-w-[640px] rounded-full bg-sky-500/15 blur-[120px]"></div>
+  <div class="starfield-layer absolute h-px w-px rounded-full" style={`box-shadow: ${farStars};`}></div>
+  <div class="starfield-layer absolute h-[1.5px] w-[1.5px] rounded-full" style={`box-shadow: ${nearStars};`}></div>
+  <div class="starfield-twinkle absolute h-[2px] w-[2px] rounded-full" style={`box-shadow: ${twinkleStars};`}></div>
+  <div class="starfield-drift absolute inset-x-0 top-1/3 h-1/3 bg-gradient-to-r from-transparent via-nebula-violet/5 to-transparent blur-3xl"></div>
+</div>
+
+<style>
+  /* Phone text columns are narrow and sit right over this layer, so dim the
+     stars further there. The soft ambient orbs stay at full strength — they are
+     broad gradients rather than discrete dots and do not disturb reading. */
+  @media (max-width: 40rem) {
+    .starfield-layer,
+    .starfield-twinkle {
+      opacity: 0.45;
+    }
+  }
+
+  .starfield-twinkle {
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  .starfield-drift {
+    animation: drift 60s linear infinite;
+  }
+
+  .ambient-orb {
+    animation: ambient-drift 40s ease-in-out infinite;
+  }
+
+  .ambient-orb-blue {
+    animation-duration: 50s;
+    animation-direction: reverse;
+  }
+
+  @keyframes ambient-drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(4%, 6%) scale(1.08);
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes drift {
+    0% {
+      transform: translateX(-5%);
+    }
+    50% {
+      transform: translateX(5%);
+    }
+    100% {
+      transform: translateX(-5%);
+    }
+  }
+</style>

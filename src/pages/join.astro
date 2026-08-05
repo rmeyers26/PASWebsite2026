@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import heroPhoto from '../assets/images/star-tours-event-crowd.jpg';
+
+// From PAStimes, August 2026 (Vol. 77, Issue #12), "Benefits of PAS
+// Membership" — the club's own published list, lightly tightened for a
+// scannable card grid.
+const benefits = [
+  "Help PAS carry out its mission of astronomy outreach and education",
+  "Support the Society's college scholarships for astronomy students",
+  'Join the members-only email list and get PAStimes, our monthly newsletter',
+  'Borrow from the PAS telescope loaner program',
+  'Teach at PAS telescope workshops or mentor at star parties',
+  'Join the Astro Imaging Special Interest Group (ASIG)',
+  'Serve as a paid presenter in the Star Tours outreach program',
+  'Buy used astronomy equipment from other members at 50% off',
+  "Go on club trips to Arizona's darkest sites and top observatories",
+  'Connect with professional astronomers through guest lectures and workshops',
+  'Take on a leadership role — committee chair or officer',
+];
+
+const membershipTiers = [
+  { name: 'Individual Membership', price: '$30', featured: true },
+  { name: 'Family Membership', price: '$36' },
+  { name: 'Student Membership', price: '$16' },
+  { name: 'Lifetime Member', price: '$500' },
+  { name: 'Lifetime Member 65+', price: '$250' },
+];
+
+const addOns = [
+  { name: 'Name Badge', price: '$20' },
+  { name: 'Embroidered Logo', price: '$10' },
+];
+---
+
+<BaseLayout
+  title="Join"
+  description="Become a member of the Phoenix Astronomical Society."
+>
+  <Hero
+    image={heroPhoto}
+    alt="PAS members and guests gathered around a telescope at dusk, with string lights and desert cactus around them"
+    eyebrow="Membership"
+    title="Become Part of the PAS Community"
+    subtitle="Open to everyone curious about astronomy — no telescope or experience required."
+    tone="dark"
+    focalPoint="50% 25%"
+  />
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Member Benefits</h2>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      {
+        benefits.map((benefit) => (
+          <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
+            <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
+            {benefit}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Membership Tiers</h2>
+      <p class="mt-3 text-ink-muted">Recurring memberships are annual, January through December.</p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          membershipTiers.map((tier) =>
+            tier.featured ? (
+              <div class="card card-featured">
+                <span class="glass-badge">Most Common</span>
+                <p class="mt-4 text-ink-primary">{tier.name}</p>
+                <p class="mt-1 font-display text-2xl text-nebula-amber">{tier.price}</p>
+              </div>
+            ) : (
+              <div class="card">
+                <p class="text-ink-primary">{tier.name}</p>
+                <p class="mt-1 font-display text-2xl text-nebula-amber">{tier.price}</p>
+              </div>
+            ),
+          )
+        }
+      </div>
+
+      <h3 class="font-display mt-10 text-lg text-ink-primary">Optional Add-Ons</h3>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {
+          addOns.map((item) => (
+            <div class="card flex items-center justify-between">
+              <p class="text-ink-muted">{item.name}</p>
+              <p class="font-display text-ink-primary">{item.price}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20 text-center">
+      <h2 class="section-heading">Ready to Join?</h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-muted">
+        We now offer a year-round membership, which means you can join at any time with no enrollment
+        deadlines, and you'll receive a full 12 months of benefits. If you have any questions, our Membership
+        Manager is happy to help at{' '}
+        <a href="mailto:membership@pasaz.org" class="text-nebula-teal hover:underline">membership@pasaz.org</a>.
+      </p>
+      <a href="mailto:membership@pasaz.org" class="btn-primary mt-8">Email membership@pasaz.org</a>
+    </div>
+  </section>
+</BaseLayout>
