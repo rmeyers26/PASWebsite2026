@@ -91,7 +91,7 @@ const officers = [
     <div class="mt-10 grid gap-4 sm:grid-cols-2">
       {
         officers.map((officer) => (
-          <div class="rounded-lg border border-subtle bg-space-card px-5 py-4">
+          <div class="card">
             <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
             <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
             <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">

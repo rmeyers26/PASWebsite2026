@@ -175,7 +175,7 @@ const observingSites = [
     aria-label="On this page"
     class="sticky top-[4.25rem] z-30 border-b border-subtle bg-space-base/90 backdrop-blur-xl"
   >
-    <ul class="mx-auto flex max-w-5xl gap-6 overflow-x-auto px-6 py-3 text-sm whitespace-nowrap">
+    <ul class="subnav-scroll mx-auto flex max-w-5xl gap-6 overflow-x-auto px-6 py-3 text-sm whitespace-nowrap">
       <li><a href="#forecast" class="text-ink-muted transition hover:text-nebula-teal">Tonight's Forecast</a></li>
       <li><a href="#telescopes" class="text-ink-muted transition hover:text-nebula-teal">Telescopes</a></li>
       <li><a href="#binoculars" class="text-ink-muted transition hover:text-nebula-teal">Binoculars</a></li>
@@ -353,6 +353,21 @@ const observingSites = [
 
   .target-group[open] .target-chevron {
     transform: rotate(180deg);
+  }
+
+  /* The in-page nav's four items don't all fit on a phone screen, so it
+     scrolls horizontally — but a plain overflow-x-auto gives no visual cue
+     that "Observing Sites" continues off the right edge. Below the point
+     where the row wraps to scroll (sm), fade the last ~12% of the row so
+     truncated content reads as "more here" instead of just stopping. Wider
+     viewports fit all four items with room to spare, so the mask is scoped
+     out there — applying it unconditionally would fade the tail end of
+     "Observing Sites" even when nothing is actually cut off. */
+  @media (max-width: 639px) {
+    .subnav-scroll {
+      -webkit-mask-image: linear-gradient(to right, black 88%, transparent);
+      mask-image: linear-gradient(to right, black 88%, transparent);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
