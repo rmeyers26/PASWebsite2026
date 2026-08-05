@@ -7,6 +7,13 @@ const astrosphericUrl = 'https://www.astrospheric.com/?Latitude=33.4484&Longitud
 const astrosphericLat = 33.4484;
 const astrosphericLng = -112.074;
 
+// VirtualSky (Las Cumbres Observatory) reads its config straight from this
+// URL's query string, so the interactive sky chart below opens centered on
+// Phoenix instead of wherever the visitor's browser happens to be.
+const virtualSkyUrl =
+  `https://virtualsky.lco.global/embed/index.html?longitude=${astrosphericLng}&latitude=${astrosphericLat}` +
+  '&projection=stereo&constellations=true&constellationlabels=true&showstarlabels=true&az=180&live=true';
+
 // Peak dates for the year's six major showers, from the American Meteor
 // Society's annual calendar — stable to within a day year over year, but
 // worth a quick cross-check against amsmeteors.org each January since AMS
@@ -198,6 +205,7 @@ const observingSites = [
   >
     <ul class="subnav-scroll mx-auto flex max-w-5xl gap-6 overflow-x-auto px-6 py-3 text-sm whitespace-nowrap">
       <li><a href="#forecast" class="text-ink-muted transition hover:text-nebula-teal">Tonight's Forecast</a></li>
+      <li><a href="#skychart" class="text-ink-muted transition hover:text-nebula-teal">Sky Chart</a></li>
       <li><a href="#telescopes" class="text-ink-muted transition hover:text-nebula-teal">Telescopes</a></li>
       <li><a href="#binoculars" class="text-ink-muted transition hover:text-nebula-teal">Binoculars</a></li>
       <li><a href="#sites" class="text-ink-muted transition hover:text-nebula-teal">Observing Sites</a></li>
@@ -257,6 +265,33 @@ const observingSites = [
     </noscript>
     <div class="mt-8 overflow-hidden rounded-lg border border-subtle p-2">
       <div id="AstrosphericEmbedContainer"></div>
+    </div>
+  </section>
+
+  <section id="skychart" class="border-t border-subtle mx-auto max-w-6xl px-6 py-20">
+    <h2 class="section-heading">Tonight's Sky Chart</h2>
+    <p class="mt-4 text-ink-muted">
+      An interactive planetarium centered on Phoenix — pan, zoom, and see what's up right now.
+    </p>
+    <p class="mt-4 text-ink-muted">
+      If the chart below doesn't load,{' '}
+      <a href={virtualSkyUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
+        open it directly on VirtualSky</a>.
+    </p>
+    <noscript>
+      <p class="mt-4 text-ink-muted">
+        The sky chart requires JavaScript —{' '}
+        <a href={virtualSkyUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
+          view it on VirtualSky</a>.
+      </p>
+    </noscript>
+    <div class="mt-8 overflow-hidden rounded-lg border border-subtle p-2">
+      <iframe
+        src={virtualSkyUrl}
+        loading="lazy"
+        class="block h-[500px] w-full border-0"
+        title="Interactive sky chart for Phoenix, AZ"
+      ></iframe>
     </div>
   </section>
 
@@ -490,6 +525,7 @@ const observingSites = [
 <style>
   /* Anchor targets clear the sticky header + in-page nav when jumped to. */
   :global(#forecast),
+  :global(#skychart),
   :global(#telescopes),
   :global(#binoculars),
   :global(#sites) {

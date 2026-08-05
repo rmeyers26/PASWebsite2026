@@ -13,10 +13,9 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
 const startHerePath = [
   {
     title: 'Learn the Sky Tonight',
-    body: "Open Stellarium Web, set your location, and see exactly what's overhead right now — no download, no account.",
-    href: 'https://stellarium-web.org/',
-    cta: 'Open Stellarium Web',
-    external: true,
+    body: "Open our interactive sky chart and see exactly what's overhead right now from Phoenix — no download, no account.",
+    href: '/sky-conditions#skychart',
+    cta: 'Open the Sky Chart',
     accent: 'text-nebula-teal',
   },
   {
@@ -54,9 +53,10 @@ const kidsResources = [
     body: 'The European Space Agency\'s children\'s site, with stories and activities about the solar system, the universe, and life as an astronaut.',
   },
   {
-    name: 'Stellarium Web',
-    url: 'https://stellarium-web.org/',
-    body: 'A free planetarium that runs right in your browser — set your location and see exactly what is overhead tonight. No download, no account.',
+    name: 'Interactive Sky Chart',
+    url: '/sky-conditions#skychart',
+    body: 'See exactly what is overhead tonight from Phoenix with our interactive sky chart, right here on the PAS site — no download, no account.',
+    internal: true,
   },
   {
     name: "NASA's Eyes on the Solar System",
@@ -173,12 +173,8 @@ const careerLinks = [
             </span>
             <h3 class="mt-4 font-display text-lg text-ink-primary">{step.title}</h3>
             <p class="mt-3 flex-1 text-sm text-ink-muted">{step.body}</p>
-            <a
-              href={step.href}
-              class="mt-5 text-sm font-semibold text-nebula-teal hover:underline"
-              {...(step.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            >
-              {step.cta} {step.external ? <span aria-hidden="true">↗</span> : <span aria-hidden="true">→</span>}
+            <a href={step.href} class="mt-5 text-sm font-semibold text-nebula-teal hover:underline">
+              {step.cta} <span aria-hidden="true">→</span>
             </a>
           </li>
         ))
@@ -195,9 +191,13 @@ const careerLinks = [
     <div class="mt-10 grid gap-6 sm:grid-cols-2">
       {
         kidsResources.map((resource) => (
-          <a href={resource.url} class="card block" target="_blank" rel="noopener noreferrer">
+          <a
+            href={resource.url}
+            class="card block"
+            {...(resource.internal ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+          >
             <h3 class="font-display text-lg text-nebula-teal">
-              {resource.name} <span aria-hidden="true">↗</span>
+              {resource.name} {!resource.internal && <span aria-hidden="true">↗</span>}
             </h3>
             <p class="mt-3 text-ink-muted">{resource.body}</p>
           </a>
