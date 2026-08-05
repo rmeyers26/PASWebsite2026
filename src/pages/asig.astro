@@ -41,7 +41,9 @@ function parseIcsDate(value: string, allDay: boolean): Date {
   return new Date(Date.UTC(y, mo, d, h + 7, mi, s));
 }
 
-let nextAsigMeeting: AsigMeeting | null = null;
+const UPCOMING_MEETING_COUNT = 4;
+
+let upcomingAsigMeetings: AsigMeeting[] = [];
 try {
   const res = await fetch(ASIG_ICS_FEED);
   if (res.ok) {
@@ -66,26 +68,29 @@ try {
       });
     }
     meetings.sort((a, b) => a.start.getTime() - b.start.getTime());
-    nextAsigMeeting = meetings.find((m) => m.start.getTime() >= Date.now() - 12 * 60 * 60 * 1000) ?? null;
+    upcomingAsigMeetings = meetings
+      .filter((m) => m.start.getTime() >= Date.now() - 12 * 60 * 60 * 1000)
+      .slice(0, UPCOMING_MEETING_COUNT);
   }
 } catch {
-  nextAsigMeeting = null;
+  upcomingAsigMeetings = [];
 }
 
-const nextAsigMeetingSchema = nextAsigMeeting
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'Event',
-      name: `PAS ASIG — ${nextAsigMeeting.summary}`,
-      startDate: nextAsigMeeting.start.toISOString(),
-      eventAttendanceMode: nextAsigMeeting.location?.toLowerCase().includes('zoom')
-        ? 'https://schema.org/OnlineEventAttendanceMode'
-        : 'https://schema.org/OfflineEventAttendanceMode',
-      eventStatus: 'https://schema.org/EventScheduled',
-      organizer: { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' },
-      location: nextAsigMeeting.location ? { '@type': 'Place', name: nextAsigMeeting.location } : undefined,
-    }
-  : null;
+// One Event per upcoming meeting, same pattern as the two separate Event
+// blocks on /events (Lecture Series + Star Party) rather than one array —
+// simpler for a scraper to pick up and matches the site's existing convention.
+const asigMeetingSchemas = upcomingAsigMeetings.map((meeting) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `PAS ASIG — ${meeting.summary}`,
+  startDate: meeting.start.toISOString(),
+  eventAttendanceMode: meeting.location?.toLowerCase().includes('zoom')
+    ? 'https://schema.org/OnlineEventAttendanceMode'
+    : 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  organizer: { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' },
+  location: meeting.location ? { '@type': 'Place', name: meeting.location } : undefined,
+}));
 
 const whatWeDo = [
   {
@@ -217,9 +222,9 @@ const whatYoullGain = [
   title="Astro Imaging Special Interest Group"
   description="PAS ASIG: a members-only group for learning, practicing, and mastering astronomical imaging, meeting monthly at PVCC."
 >
-  {nextAsigMeetingSchema && (
-    <script type="application/ld+json" set:html={JSON.stringify(nextAsigMeetingSchema)} />
-  )}
+  {asigMeetingSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
       <span class="h-1.5 w-1.5 rounded-full bg-nebula-violet shadow-glow-violet" />
@@ -247,34 +252,45 @@ const whatYoullGain = [
         Phoenix, AZ 85032
       </address>
 
-      {nextAsigMeeting && (
+      {upcomingAsigMeetings.length > 0 && (
         <div class="card mt-6">
-          <p class="text-sm font-semibold uppercase tracking-wide text-nebula-violet">Next Meeting</p>
-          <p class="mt-2 font-display text-xl text-ink-primary">
-            {nextAsigMeeting.start.toLocaleDateString('en-US', {
-              weekday: 'long',
-              month: 'long',
-              day: 'numeric',
-              timeZone: 'America/Phoenix',
-            })}
-            {!nextAsigMeeting.allDay && (
-              <>
-                {' at '}
-                {nextAsigMeeting.start.toLocaleTimeString('en-US', {
-                  hour: 'numeric',
-                  minute: '2-digit',
-                  timeZone: 'America/Phoenix',
-                })}
-              </>
-            )}
-          </p>
-          {nextAsigMeeting.summary && <p class="mt-1 text-ink-muted">{nextAsigMeeting.summary}</p>}
-          {nextAsigMeeting.location && (
-            <p class="mt-2 text-sm text-ink-muted">
-              📍 {nextAsigMeeting.location}
-              {nextAsigMeeting.location.toLowerCase().includes('zoom') && ' — this month\'s meeting is online, not at PVCC'}
-            </p>
-          )}
+          <p class="text-sm font-semibold uppercase tracking-wide text-nebula-violet">Upcoming Meetings</p>
+          <ul class="mt-4 divide-y divide-subtle">
+            {upcomingAsigMeetings.map((meeting, index) => (
+              <li class:list={['py-4 first:pt-0 last:pb-0']}>
+                <p class="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-lg text-ink-primary">
+                  {meeting.start.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    timeZone: 'America/Phoenix',
+                  })}
+                  {!meeting.allDay && (
+                    <>
+                      {' at '}
+                      {meeting.start.toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        timeZone: 'America/Phoenix',
+                      })}
+                    </>
+                  )}
+                  {index === 0 && (
+                    <span class="rounded-full bg-nebula-violet/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-nebula-violet">
+                      Next
+                    </span>
+                  )}
+                </p>
+                {meeting.summary && <p class="mt-1 text-ink-muted">{meeting.summary}</p>}
+                {meeting.location && (
+                  <p class="mt-2 text-sm text-ink-muted">
+                    📍 {meeting.location}
+                    {meeting.location.toLowerCase().includes('zoom') && ' — online, not at PVCC'}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
