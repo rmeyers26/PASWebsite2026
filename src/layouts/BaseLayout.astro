@@ -28,6 +28,30 @@ const pageTitle = `${title} · Phoenix Astronomical Society`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 
+// Organization schema.org markup, present on every page — the documented,
+// low-effort path to a Google Knowledge Panel for "Phoenix Astronomical
+// Society". Kept in this layout (rather than per-page) since the facts it
+// describes (who PAS is) don't vary by page; Event-specific markup lives
+// on /events instead. Social links mirror Footer.astro's `sameAs` list.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Phoenix Astronomical Society',
+  alternateName: 'PAS',
+  url: Astro.site?.toString(),
+  logo: imageURL.toString(),
+  description:
+    'A 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona since 1948 — public star parties, telescope workshops, and school outreach.',
+  foundingDate: '1948',
+  email: 'info@pasaz.org',
+  sameAs: [
+    'https://www.facebook.com/PhoenixAstronomicalSociety',
+    'https://www.instagram.com/phoenix_astronomical_society/',
+    'https://www.threads.com/@phoenix_astronomical_society',
+    'https://www.youtube.com/@PASAZ.ORG9876',
+  ],
+};
+
 // Plausible: cookieless, no consent banner needed. Unset in most local/dev
 // builds on purpose — nothing here breaks without it, the tag is just
 // omitted, same fallback pattern as ApodOfTheDay's NASA_API_KEY.
@@ -58,6 +82,7 @@ const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     {
       plausibleDomain && (
         <script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" />

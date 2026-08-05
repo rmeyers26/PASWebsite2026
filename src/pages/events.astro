@@ -6,12 +6,80 @@ import PlaceholderNote from '../components/PlaceholderNote.astro';
 import fireworksTelescope from '../assets/images/events-fireworks-telescope.jpg';
 import lectureMeeting from '../assets/images/events-lecture-meeting.jpg';
 import lowellObservatoryTour from '../assets/images/events-lowell-observatory-tour.jpg';
+
+const organizer = { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' };
+
+// The Lecture Series has a fixed, page-published rule ("1st Thursday of
+// every month, 7:00 pm"), so it's encoded exactly via eventSchedule's
+// byMonthWeek — Google's documented pattern for "nth weekday of month"
+// recurrence. Star Parties are deliberately NOT given the same treatment:
+// their dates are calendar-driven with no fixed weekday (see copy below),
+// so asserting a recurrence rule for them would be inaccurate structured
+// data. It still gets a valid Event entry — organizer, venue, description
+// — just without a fabricated schedule or startDate, which means it won't
+// itself qualify for Google's Event rich result until real per-occurrence
+// dates are pulled from Bookwhen (see the review's Phase-2 note on that).
+const lectureSeriesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'PAS Monthly Lecture Series',
+  description: 'Guest speakers and member talks on observing, astrophotography, and current research.',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  organizer,
+  location: {
+    '@type': 'Place',
+    name: 'Paradise Valley Community College — Building Q, Conference Center, Classroom 120A',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '17811 North 32nd Street',
+      addressLocality: 'Phoenix',
+      addressRegion: 'AZ',
+      postalCode: '85032',
+      addressCountry: 'US',
+    },
+  },
+  eventSchedule: {
+    '@type': 'Schedule',
+    repeatFrequency: 'P1M',
+    byDay: 'https://schema.org/Thursday',
+    byMonthWeek: 1,
+    startTime: '19:00',
+    scheduleTimezone: 'America/Phoenix',
+  },
+};
+
+const starPartySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'PAS Public Star Party',
+  description:
+    'Free, open-air observing at Apache Wash Trailhead, away from city light pollution. Gate closes at 7:00 pm; see the calendar above for each date.',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  isAccessibleForFree: true,
+  organizer,
+  location: {
+    '@type': 'Place',
+    name: 'Apache Wash Trailhead',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '1600 E Sonoran Desert Dr',
+      addressLocality: 'Phoenix',
+      addressRegion: 'AZ',
+      postalCode: '85085',
+      addressCountry: 'US',
+    },
+  },
+};
 ---
 
 <BaseLayout
   title="Events"
   description="Upcoming PAS meetings, public star parties, and observing nights in the Phoenix area."
 >
+  <script type="application/ld+json" set:html={JSON.stringify(lectureSeriesSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(starPartySchema)} />
   <Hero
     image={fireworksTelescope}
     alt="A PAS telescope set up beside a fireworks display at a public event"
