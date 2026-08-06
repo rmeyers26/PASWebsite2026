@@ -1,40 +1,12 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const poaPresidents = [
-  { years: '1948', name: 'William A. Rhodes' },
-  { years: '1949', name: 'Amos Hoff' },
-  { years: '1950 - 1959', name: 'unknown' },
-  { years: '1960 - 1966', name: 'Dr. Keith Parizek' },
-  { years: '1967 - 1972', name: 'Byron Barry' },
-  { years: '1973', name: 'Dr. James Conley' },
-  { years: '1973', name: 'Paul B. Hartman, Jr.' },
-];
-
-const pasPresidents = [
-  { years: '1974', name: 'Paul B. Hartman, Jr.' },
-  { years: '1975', name: 'Clifford Vaughan' },
-  { years: '1976 - 1977', name: 'William N. Anderson' },
-  { years: '1978', name: 'Clifford Vaughan' },
-  { years: '1979', name: 'Jerry Maurer' },
-  { years: '1980 - 1981', name: 'Dr. Bruce Lenard' },
-  { years: '1982 - 1983', name: 'Stanley A. Gorodenski' },
-  { years: '1984', name: 'Raul Espinoza' },
-  { years: '1985 - 1986', name: 'William Krist' },
-  { years: '1987', name: 'Richard J. Wasson' },
-  { years: '1988 - 1992', name: 'Kai Staats' },
-  { years: '1993 - 1994', name: 'Andrew Castillo' },
-  { years: '1995', name: 'Jonathan Wolfe' },
-  { years: '1996 - 1998', name: 'Justin Cain' },
-  { years: '1999 - 2000', name: 'Jerry Belcher' },
-  { years: '2001 - 2004', name: 'Mark Stephenson' },
-  { years: '2005 - 2006', name: 'Terri Finch' },
-  { years: '2007 - 2010', name: 'Rod Sutter' },
-  { years: '2011 - 2014', name: 'Bruce Wurst' },
-  { years: '2015 - 2016', name: 'Sam Insana' },
-  { years: '2017 - 2021', name: 'Mike Marron' },
-  { years: '2021 - Present', name: 'Stu Brackney', current: true },
-];
+// Content lives in src/content/past-presidents/past-presidents.json (managed
+// via the Sveltia CMS) — see src/content.config.ts for the schema.
+const pastPresidents = (await getEntry('past-presidents', 'data'))!;
+const poaPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'POA');
+const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PAS');
 ---
 
 <BaseLayout

@@ -1,54 +1,31 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import milkyWay from '../assets/images/gallery/kris-mlak-milky-way.jpg';
-import ldn541 from '../assets/images/gallery/caleb-sexton-ldn-541.png';
-import theSun from '../assets/images/gallery/mark-johnston-sun.jpg';
-import soulNebula from '../assets/images/gallery/richard-sauerbrun-soul-nebula.jpg';
-import cta1 from '../assets/images/gallery/tom-fleming-cta-1.jpg';
 
+// Content lives in src/content/gallery/ (one JSON file per photo, managed via
+// the Sveltia CMS) — see src/content.config.ts for the schema. Curated
+// images keep living in src/assets/images/gallery/ and are referenced by
+// relative path so they still go through Astro's <Image> optimization
+// pipeline; new CMS uploads land in public/ instead (see PLAN.md /
+// src/content.config.ts comments — hybrid strategy, confirmed decision).
+//
 // Each image keeps its own aspect ratio rather than being cropped into a
 // uniform grid — a 3:1 Milky Way panorama and a near-square nebula shot
 // would fight a fixed-height treatment, and these are the club's best work,
 // not archival thumbnails (see PhotoGrid for that treatment on /history).
-const photos = [
-  {
-    src: milkyWay,
-    alt: 'The Milky Way arching over a desert mountain silhouette, with airglow on the horizon',
-    photographer: 'Kris Mlak',
-    subject: 'The Milky Way',
-    note: 'A wide-field panorama of the galactic arch over the Arizona desert.',
-  },
-  {
-    src: soulNebula,
-    alt: 'IC 1848, the Soul Nebula, an emission nebula in Cassiopeia with red and teal gas clouds and dark dust lanes',
-    photographer: 'Richard Sauerbrun',
-    subject: 'IC 1848 — The Soul Nebula',
-    note: 'A narrowband composite of the emission nebula in Cassiopeia, roughly 6,000 light-years away.',
-  },
-  {
-    src: theSun,
-    alt: 'A close-up hydrogen-alpha image of the Sun, showing a towering solar prominence above the chromosphere',
-    photographer: 'Mark Johnston',
-    subject: 'The Sun, in Hydrogen-Alpha',
-    note: 'A solar prominence arcing above the chromosphere, captured in the light of hydrogen-alpha.',
-  },
-  {
-    src: ldn541,
-    alt: 'LDN 541, a dark nebula in Cepheus, seen as dense dust lanes threading a rich star field',
-    photographer: 'Caleb Sexton',
-    subject: 'LDN 541',
-    note: 'An LRGB composite of a dark nebula in Cepheus, where dense dust blocks the light of stars behind it.',
-  },
-  {
-    src: cta1,
-    alt: 'CTA-1, a faint supernova remnant in Cepheus, seen as delicate blue and red filaments against a starfield',
-    photographer: 'Tom Fleming',
-    subject: 'CTA-1',
-    note: 'The faint, wispy remains of a star that ended its life in a supernova roughly 10,000 years ago.',
-  },
-];
+const galleryEntries = await getCollection('gallery');
+const photos = galleryEntries
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((entry) => ({
+    src: entry.data.image,
+    alt: entry.data.alt,
+    photographer: entry.data.photographer,
+    subject: entry.data.subject,
+    note: entry.data.note,
+  }));
+const heroPhoto = photos[0].src;
 ---
 
 <BaseLayout
@@ -56,8 +33,8 @@ const photos = [
   description="Astrophotography from Phoenix Astronomical Society members — the Milky Way, nebulae, and the Sun, captured from Arizona skies."
 >
   <Hero
-    image={milkyWay}
-    alt="The Milky Way arching over a desert mountain silhouette, with airglow on the horizon"
+    image={heroPhoto}
+    alt={photos[0].alt}
     eyebrow="Member Gallery"
     title="What Our Members See"
     subtitle="Astrophotography by PAS members, captured from Phoenix-area skies and beyond."

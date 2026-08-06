@@ -1,4 +1,5 @@
 ---
+import { getEntry } from 'astro:content';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
@@ -28,27 +29,32 @@ const pageTitle = `${title} · Phoenix Astronomical Society`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 
+// Site-wide org identity lives in src/content/site-settings/site-settings.json
+// (managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+// Footer.astro reads the same entry, so the two no longer keep separate
+// copies of the name, emails, and social links in sync by hand.
+const siteSettings = (await getEntry('site-settings', 'data'))!.data;
+
 // Organization schema.org markup, present on every page — the documented,
 // low-effort path to a Google Knowledge Panel for "Phoenix Astronomical
 // Society". Kept in this layout (rather than per-page) since the facts it
 // describes (who PAS is) don't vary by page; Event-specific markup lives
-// on /events instead. Social links mirror Footer.astro's `sameAs` list.
+// on /events instead.
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Phoenix Astronomical Society',
-  alternateName: 'PAS',
+  name: siteSettings.orgName,
+  alternateName: siteSettings.alternateName,
   url: Astro.site?.toString(),
   logo: imageURL.toString(),
-  description:
-    'A 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona since 1948 — public star parties, telescope workshops, and school outreach.',
-  foundingDate: '1948',
-  email: 'info@pasaz.org',
+  description: siteSettings.description,
+  foundingDate: siteSettings.foundingYear,
+  email: siteSettings.email,
   sameAs: [
-    'https://www.facebook.com/PhoenixAstronomicalSociety',
-    'https://www.instagram.com/phoenix_astronomical_society/',
-    'https://www.threads.com/@phoenix_astronomical_society',
-    'https://www.youtube.com/@PASAZ.ORG9876',
+    siteSettings.socials.facebook,
+    siteSettings.socials.instagram,
+    siteSettings.socials.threads,
+    siteSettings.socials.youtube,
   ],
 };
 
@@ -111,7 +117,7 @@ const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
       <Breadcrumbs />
       <slot />
     </main>
-    <Footer />
+    <Footer siteSettings={siteSettings} />
     <BackToTop />
 
     <!-- Inline + data-astro-rerun so this executes again after every view
