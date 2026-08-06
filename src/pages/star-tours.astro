@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { monthlyDsoTargets } from '../data/dsoTargets';
 import eaaNight from '../assets/images/star-tours-eaa-night.jpg';
 import sampleHelixNebula from '../assets/images/star-tours-sample-helix-nebula.jpg';
 import sampleWhirlpoolGalaxy from '../assets/images/star-tours-sample-whirlpool-galaxy.jpg';
@@ -56,6 +57,8 @@ const samplePhotos = [
   { src: sampleWhirlpoolGalaxy, alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
   { src: sampleComet, alt: 'A green comet with a long tail against a starfield', caption: 'A comet, tail streaming' },
 ];
+
+const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' });
 ---
 
 <BaseLayout
@@ -191,6 +194,111 @@ const samplePhotos = [
       </div>
     </div>
   </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Sample Targets by Month</h2>
+      <p class="mt-4 text-ink-muted">
+        The night sky's deep-sky objects — nebulae, star clusters, galaxies, and double stars — return to the same
+        part of the sky every year, so here's a sense of what a Star Tours event might show depending on the
+        season. (Planets and comets aren't included here since their visibility shifts from year to year.) Rise
+        and set times are approximate for the early-to-mid part of each month and will drift by a few minutes a
+        day as the month goes on.
+      </p>
+      <div class="mt-8 space-y-3">
+        {
+          monthlyDsoTargets.map((entry) => (
+            <details class="group rounded-xl border border-subtle bg-space-card" open={entry.month === currentMonthName}>
+              <summary class="flex cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 font-display text-lg text-ink-primary marker:content-none">
+                <span>{entry.month}</span>
+                {entry.targets.length > 0 && (
+                  <button
+                    type="button"
+                    class="print-month-btn shrink-0 rounded-lg border border-subtle bg-space-base px-3 py-1.5 font-sans text-xs font-medium text-ink-muted transition hover:border-strong hover:text-ink-primary"
+                    data-month={entry.month}
+                  >
+                    Print
+                  </button>
+                )}
+              </summary>
+              <div class="border-t border-subtle px-5 py-4">
+                {entry.targets.length === 0 ? (
+                  <p class="text-sm italic text-ink-muted">Target list coming soon for this month.</p>
+                ) : (
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-ink-muted">
+                      <thead>
+                        <tr class="border-b border-subtle text-xs uppercase tracking-wide text-ink-muted">
+                          <th class="py-2 pr-4 font-medium">Name</th>
+                          <th class="py-2 pr-4 font-medium">Type</th>
+                          <th class="py-2 pr-4 font-medium">Constellation</th>
+                          <th class="py-2 pr-4 font-medium">Magnitude</th>
+                          <th class="py-2 pr-4 font-medium">Apparent Size</th>
+                          <th class="py-2 pr-4 font-medium">Rise</th>
+                          <th class="py-2 pr-4 font-medium">Set</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {entry.targets.map((target) => (
+                          <tr class="border-b border-subtle/50 last:border-0">
+                            <td class="py-2 pr-4 text-ink-primary">{target.name}</td>
+                            <td class="py-2 pr-4">{target.type}</td>
+                            <td class="py-2 pr-4">{target.constellation}</td>
+                            <td class="py-2 pr-4">{target.magnitude}</td>
+                            <td class="py-2 pr-4">{target.size}</td>
+                            <td class="py-2 pr-4">{target.rise}</td>
+                            <td class="py-2 pr-4">{target.set}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('.print-month-btn').forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const table = btn.closest('details')?.querySelector('table');
+        if (!table) return;
+
+        const month = btn.dataset.month ?? '';
+        const printWindow = window.open('', '_blank', 'width=800,height=900');
+        if (!printWindow) return;
+
+        printWindow.document.write(`<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>${month} Deep-Sky Targets — PAS Star Tours</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 2rem; color: #111; }
+      h1 { font-size: 1.25rem; margin-bottom: 1rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+      th, td { text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid #ccc; }
+      th { text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em; }
+    </style>
+  </head>
+  <body>
+    <h1>${month} Deep-Sky Targets — PAS Star Tours</h1>
+    ${table.outerHTML}
+  </body>
+</html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+      });
+    });
+  </script>
 
   <section class="mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Astronomy Topic Presentations</h2>
