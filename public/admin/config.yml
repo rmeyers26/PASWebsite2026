@@ -2,11 +2,17 @@ backend:
   name: github
   repo: rmeyers26/paswebsite2026
   branch: main
-  # sveltia-cms-auth deploys as its own small Cloudflare Worker (separate
-  # from this site's Pages project) — see the plan's Phase C. Replace this
-  # placeholder with that Worker's URL once it's deployed; the CMS login
-  # button will not work until this points at a real auth endpoint.
-  base_url: https://REPLACE-WITH-YOUR-SVELTIA-CMS-AUTH-WORKER.workers.dev
+  # Temporary: this site is currently deploying via Netlify (see the PR's
+  # deploy-preview checks), so login uses Netlify's built-in GitHub OAuth
+  # proxy — no separate service to deploy. Requires a GitHub OAuth App
+  # (callback URL https://api.netlify.com/auth/done) with its Client
+  # ID/Secret entered in the Netlify site dashboard's OAuth settings.
+  #
+  # When hosting moves to Cloudflare Pages, swap this block for a
+  # self-hosted `sveltia-cms-auth` Cloudflare Worker instead:
+  #   base_url: https://<your-sveltia-cms-auth-worker>.workers.dev
+  #   auth_endpoint: auth
+  base_url: https://api.netlify.com
   auth_endpoint: auth
 
 # Direct-commit workflow, no draft/review step — see the plan's decisions
