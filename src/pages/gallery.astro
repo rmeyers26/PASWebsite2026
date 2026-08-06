@@ -25,7 +25,9 @@ const photos = galleryEntries
     subject: entry.data.subject,
     note: entry.data.note,
   }));
-const heroPhoto = photos[0].src;
+// Gallery entries are CMS-editable now, so an all-deleted collection is a
+// real (if unlikely) state to handle, not a hypothetical.
+const firstPhoto = photos.at(0);
 ---
 
 <BaseLayout
@@ -33,8 +35,8 @@ const heroPhoto = photos[0].src;
   description="Astrophotography from Phoenix Astronomical Society members — the Milky Way, nebulae, and the Sun, captured from Arizona skies."
 >
   <Hero
-    image={heroPhoto}
-    alt={photos[0].alt}
+    image={firstPhoto?.src ?? '/images/pas-logo.png'}
+    alt={firstPhoto?.alt ?? 'Phoenix Astronomical Society'}
     eyebrow="Member Gallery"
     title="What Our Members See"
     subtitle="Astrophotography by PAS members, captured from Phoenix-area skies and beyond."
@@ -52,31 +54,49 @@ const heroPhoto = photos[0].src;
 
   <section class="border-t border-subtle">
     <div class="mx-auto max-w-4xl px-6 py-16">
-      <div class="space-y-16">
-        {
-          photos.map((photo) => (
-            <figure class="overflow-hidden rounded-2xl border border-subtle bg-space-card">
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                width={1600}
-                widths={[640, 1080, 1600]}
-                sizes="(min-width: 896px) 850px, 100vw"
-                quality={80}
-                loading="lazy"
-                class="w-full"
-              />
-              <figcaption class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-5">
-                <div>
-                  <p class="font-display text-lg text-nebula-teal">{photo.subject}</p>
-                  <p class="mt-1 text-sm text-ink-muted">{photo.note}</p>
-                </div>
-                <p class="flex-none text-sm font-semibold text-ink-primary">© {photo.photographer}</p>
-              </figcaption>
-            </figure>
-          ))
-        }
-      </div>
+      {
+        photos.length === 0 ? (
+          <p class="text-center text-ink-muted">
+            No photos here yet — check back soon, or see{' '}
+            <a href="/contact" class="text-nebula-teal hover:underline">
+              how to submit one
+            </a>
+            .
+          </p>
+        ) : (
+          <div class="space-y-16">
+            {photos.map((photo) => (
+              <figure class="overflow-hidden rounded-2xl border border-subtle bg-space-card">
+                {typeof photo.src === 'string' ? (
+                  // CMS-uploaded photos land in public/ as a plain URL, which
+                  // bypasses Astro's asset pipeline — <Image> can't process
+                  // these, so they render unoptimized (see hybrid gallery
+                  // strategy in src/content.config.ts).
+                  <img src={photo.src} alt={photo.alt} loading="lazy" class="w-full" />
+                ) : (
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={1600}
+                    widths={[640, 1080, 1600]}
+                    sizes="(min-width: 896px) 850px, 100vw"
+                    quality={80}
+                    loading="lazy"
+                    class="w-full"
+                  />
+                )}
+                <figcaption class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-5">
+                  <div>
+                    <p class="font-display text-lg text-nebula-teal">{photo.subject}</p>
+                    <p class="mt-1 text-sm text-ink-muted">{photo.note}</p>
+                  </div>
+                  <p class="flex-none text-sm font-semibold text-ink-primary">© {photo.photographer}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )
+      }
     </div>
   </section>
 

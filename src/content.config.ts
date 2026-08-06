@@ -47,7 +47,12 @@ const officers = defineCollection({
       name: z.string(),
       email: z.string(),
       order: z.number(),
-      photo: image().optional(),
+      // Sveltia uploads new photos to the public/ media folder (a plain URL
+      // string, not an asset Vite can process), so image() alone would
+      // reject every CMS-uploaded photo. Accept either: a processed
+      // src-asset for anything curated directly in the repo, or a public
+      // URL string for anything uploaded through the CMS.
+      photo: z.union([image(), z.string()]).optional(),
     }),
 });
 
@@ -111,7 +116,11 @@ const gallery = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/gallery' }),
   schema: ({ image }) =>
     z.object({
-      image: image(),
+      // See the officers.photo comment above — same reason for the union:
+      // curated photos stay as processed src-assets, CMS uploads land in
+      // public/ as a plain URL string. gallery.astro renders each variant
+      // differently (<Image> vs a plain <img>).
+      image: z.union([image(), z.string()]),
       alt: z.string(),
       photographer: z.string(),
       subject: z.string(),
