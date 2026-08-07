@@ -1,49 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import pasLogo from '../assets/images/pas-logo.png';
-
-type NavLink = { href: string; label: string };
-type NavItem = { label: string; href?: string; children?: NavLink[] };
-
-// Seven top-level entries (six here plus the Join CTA). Grouping keeps the
-// secondary reference pages reachable without competing with Events, Gallery,
-// and Join, and gives /history and /leadership a home in the primary nav.
-const navItems: NavItem[] = [
-  {
-    label: 'About',
-    children: [
-      { href: '/about', label: 'About PAS' },
-      { href: '/history', label: 'History' },
-      { href: '/leadership', label: 'Club Leadership' },
-      { href: '/press-releases', label: 'Press Releases' },
-      { href: '/contact', label: 'Contact' },
-    ],
-  },
-  { label: 'Events', href: '/events' },
-  { label: 'Gallery', href: '/gallery' },
-  {
-    label: 'Outreach',
-    children: [
-      { href: '/star-tours', label: 'Star Tours' },
-      { href: '/telescope-workshops', label: 'Telescope Workshops' },
-    ],
-  },
-  {
-    label: 'Learn',
-    children: [
-      { href: '/learn', label: 'Learn Astronomy' },
-      { href: '/sky-conditions', label: 'Sky Conditions' },
-      { href: '/exoplanets', label: 'Exoplanets' },
-    ],
-  },
-  {
-    label: 'Groups',
-    children: [
-      { href: '/asig', label: 'Astro Imaging (ASIG)' },
-      { href: '/bsig', label: 'Book Club (BSIG)' },
-    ],
-  },
-];
+import { navItems, joinCta, type NavItem } from '../data/navigation';
 
 // Astro's static build serves subpages with a trailing slash (/events/), so
 // strip it before comparing against the slash-free hrefs above — otherwise no
@@ -137,11 +95,11 @@ const isActive = (item: NavItem) =>
     </ul>
 
     <a
-      href="/join"
+      href={joinCta.href}
       class="btn-primary hidden flex-none whitespace-nowrap px-5 py-2.5 text-sm lg:inline-flex"
-      aria-current={currentPath === '/join' ? 'page' : undefined}
+      aria-current={currentPath === joinCta.href ? 'page' : undefined}
     >
-      Join PAS
+      {joinCta.label}
     </a>
 
     <details class="mobile-menu nav-disclosure lg:hidden">
@@ -230,7 +188,7 @@ const isActive = (item: NavItem) =>
             )
           }
         </ul>
-        <a href="/join" class="btn-primary mt-5 w-full">Join PAS</a>
+        <a href={joinCta.href} class="btn-primary mt-5 w-full">{joinCta.label}</a>
       </div>
     </details>
   </nav>
@@ -292,8 +250,14 @@ const isActive = (item: NavItem) =>
   const currentDisclosures = () => [...document.querySelectorAll<HTMLDetailsElement>('.nav-disclosure')];
 
   // Per-element wiring has to be redone whenever the header is swapped in.
+  // The data-bound marker guards against double-binding the same element —
+  // harmless today since the header is always fresh DOM on navigation, but
+  // this is what keeps it that way if that ever changes (e.g. transition:persist).
   function bindDisclosures() {
     for (const details of currentDisclosures()) {
+      if (details.dataset.bound) continue;
+      details.dataset.bound = 'true';
+
       const summary = details.querySelector('summary');
 
       details.addEventListener('toggle', () => {
