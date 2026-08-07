@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import pasLogo from '../assets/images/pas-logo.png';
 
 interface Props {
   // Optional so the component still works if ever rendered outside
@@ -16,8 +18,11 @@ const year = new Date().getFullYear();
   <div class="mx-auto max-w-6xl px-6 py-10 text-sm text-ink-muted">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       <div>
-        <p class="font-display text-ink-primary">{siteSettings.orgName}</p>
-        <p class="mt-1">{siteSettings.description}</p>
+        <div class="flex items-center gap-2.5">
+          <Image src={pasLogo} alt="Phoenix Astronomical Society logo" width={72} height={72} class="h-9 w-9 flex-none" />
+          <p class="font-display text-ink-primary">{siteSettings.orgName}</p>
+        </div>
+        <p class="mt-3">{siteSettings.description}</p>
         <div class="mt-4 flex flex-col gap-1">
           <a
             href={siteSettings.socials.facebook}
@@ -57,6 +62,7 @@ const year = new Date().getFullYear();
         <a href="/" class="hover:text-nebula-teal">Home</a>
         <a href="/about" class="hover:text-nebula-teal">About</a>
         <a href="/history" class="hover:text-nebula-teal">History</a>
+        <a href="/leadership" class="hover:text-nebula-teal">Club Leadership</a>
         <a href="/press-releases" class="hover:text-nebula-teal">Press Releases</a>
         <a href="/events" class="hover:text-nebula-teal">Events</a>
         <a href="/gallery" class="hover:text-nebula-teal">Gallery</a>
