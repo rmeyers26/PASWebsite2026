@@ -134,6 +134,35 @@ const gallery = defineCollection({
     }),
 });
 
+const specialInterestGroups = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/special-interest-groups' }),
+  schema: z.object({
+    title: z.string(),
+    abbr: z.string(),
+    accent: z.enum(['violet', 'teal', 'amber']),
+    body: z.string(),
+    // Internal page (e.g. '/asig') or an external URL for a group without
+    // its own page yet.
+    url: z.string(),
+    // Lets an officer take a group off the home page / nav without
+    // deleting its entry (or its page) — e.g. hiatus, or staging a new
+    // group before its page is ready.
+    enabled: z.boolean().default(true),
+    order: z.number(),
+  }),
+});
+
+const loanerScopes = defineCollection({
+  loader: singleton('src/content/loaner-scopes/loaner-scopes.json'),
+  schema: z.object({
+    equipment: z.array(
+      z.object({
+        name: z.string(),
+      }),
+    ),
+  }),
+});
+
 const siteSettings = defineCollection({
   loader: singleton('src/content/site-settings/site-settings.json'),
   schema: z.object({
@@ -162,5 +191,7 @@ export const collections = {
   'bsig-books': bsigBooks,
   'sky-targets': skyTargets,
   gallery,
+  'special-interest-groups': specialInterestGroups,
+  'loaner-scopes': loanerScopes,
   'site-settings': siteSettings,
 };

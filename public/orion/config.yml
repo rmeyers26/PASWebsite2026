@@ -143,6 +143,35 @@ collections:
                 widget: select
                 options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
+  - name: special-interest-groups
+    label: "Special Interest Groups"
+    folder: "src/content/special-interest-groups"
+    format: json
+    create: true
+    slug: "{{fields.abbr}}"
+    fields:
+      - { label: "Enabled", name: enabled, widget: boolean, default: true, hint: "Turn off to hide this group from the home page and nav menu without deleting it." }
+      - { label: "Title", name: title, widget: string }
+      - { label: "Abbreviation", name: abbr, widget: string, hint: "e.g. ASIG" }
+      - { label: "Accent Color", name: accent, widget: select, options: ["violet", "teal", "amber"] }
+      - { label: "Description", name: body, widget: text }
+      - { label: "Link", name: url, widget: string, hint: "Internal page (e.g. /asig) or an external URL if the group doesn't have its own page yet." }
+      - { label: "Display Order", name: order, widget: number, value_type: int }
+
+  - name: loaner-scopes
+    label: "Telescope Loan Program"
+    files:
+      - name: list
+        label: "Loaner Equipment"
+        file: "src/content/loaner-scopes/loaner-scopes.json"
+        fields:
+          - name: equipment
+            label: "Equipment"
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
+
   - name: site-settings
     label: "Site Settings"
     files:

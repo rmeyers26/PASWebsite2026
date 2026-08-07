@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import workshopIndoorScopes from '../assets/images/workshops/workshop-indoor-scopes.jpg';
+
+// Editable by club officers via the Sveltia CMS ("Telescope Loan Program" ->
+// "Loaner Equipment") — see src/content/loaner-scopes/loaner-scopes.json.
+const { equipment } = (await getEntry('loaner-scopes', 'data'))!.data;
+const inventory = equipment.map((item) => item.name);
+
+const requestFields = [
+  'Your full name',
+  'PAS membership status',
+  'Preferred telescope (if known)',
+  'Intended use (visual observing or astrophotography)',
+  'Requested loan dates',
+];
+---
+
+<BaseLayout
+  title="Telescope Loan Program"
+  description="Active PAS members can borrow telescopes and accessories from the PAS Telescope Loan Program, from beginner-friendly setups to higher-value imaging systems."
+>
+  <Hero
+    image={workshopIndoorScopes}
+    alt="A row of loaner telescopes set up indoors at a PAS event"
+    eyebrow="Member Benefit"
+    title="PAS Telescope Loan Program"
+    subtitle="Active PAS members get access to a range of donated telescopes and accessories — for both visual astronomy and astrophotography."
+  />
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Overview</h2>
+    <p class="mt-4 text-ink-muted">
+      Members can borrow from the full PAS telescope inventory. Equipment ranges from beginner-friendly setups
+      to higher-value imaging systems, offering opportunities to explore different observing and imaging
+      techniques.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Current Inventory</h2>
+      <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+        {
+          inventory.map((item) => (
+            <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <div class="grid gap-10 sm:grid-cols-2">
+      <div>
+        <h2 class="section-heading">Check-Out Requirements</h2>
+        <ul class="mt-4 space-y-2 text-ink-muted">
+          <li>Some telescopes require completion of a short training program before use.</li>
+          <li>Higher-value equipment may require credit card information as a security measure against loss or damage.</li>
+          <li>An accessory kit (eyepieces and supporting gear) is available for all loaner telescopes when needed.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="section-heading">Loan Period</h2>
+        <ul class="mt-4 space-y-2 text-ink-muted">
+          <li>Standard loan duration is up to one month.</li>
+          <li>Extensions may be granted in special cases upon request.</li>
+        </ul>
+        <h2 class="section-heading mt-8">Pickup & Return</h2>
+        <ul class="mt-4 space-y-2 text-ink-muted">
+          <li>All equipment must be collected from the PAS storage facility.</li>
+          <li>All items must be returned to the same facility by the agreed end date.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20 text-center">
+      <h2 class="section-heading">How to Request a Telescope</h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-muted">
+        To check out a telescope, email
+        <a href="mailto:telescope@pasaz.org" class="text-nebula-teal hover:underline">telescope@pasaz.org</a>
+        with the following information:
+      </p>
+      <ul class="mx-auto mt-6 max-w-md space-y-2 text-left text-ink-muted">
+        {
+          requestFields.map((field) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
+              {field}
+            </li>
+          ))
+        }
+      </ul>
+      <a href="mailto:telescope@pasaz.org?subject=Telescope Loan Request" class="btn-primary mt-8">
+        Email telescope@pasaz.org
+      </a>
+      <p class="mt-6 text-sm text-ink-muted">
+        Not a member yet? <a href="/join" class="text-nebula-teal hover:underline">Join PAS</a> to become eligible
+        for the telescope loan program and other member benefits.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
