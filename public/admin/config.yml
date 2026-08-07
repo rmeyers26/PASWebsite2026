@@ -1,0 +1,161 @@
+backend:
+  name: github
+  repo: rmeyers26/paswebsite2026
+  branch: main
+  # Temporary: this site is currently deploying via Netlify (see the PR's
+  # deploy-preview checks), so login uses Netlify's built-in GitHub OAuth
+  # proxy — no separate service to deploy. Requires a GitHub OAuth App
+  # (callback URL https://api.netlify.com/auth/done) with its Client
+  # ID/Secret entered in the Netlify site dashboard's OAuth settings.
+  #
+  # When hosting moves to Cloudflare Pages, swap this block for a
+  # self-hosted `sveltia-cms-auth` Cloudflare Worker instead:
+  #   base_url: https://<your-sveltia-cms-auth-worker>.workers.dev
+  #   auth_endpoint: auth
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Direct-commit workflow, no draft/review step — see the plan's decisions
+# log for why (3 named, low-technical-comfort editors, no distinct reviewer
+# role identified).
+publish_mode: simple
+
+# Default location for anything uploaded through a generic "image" field
+# that isn't scoped to a specific collection folder below.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: press-releases
+    label: "Press Releases"
+    folder: "src/content/press-releases"
+    format: json
+    create: true
+    slug: "{{date}}-press-release"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Title", name: title, widget: string, required: false, hint: "Leave blank for older releases without a known headline yet." }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      - { label: "PDF", name: pdf, widget: file, media_folder: "public/press-releases", public_folder: "/press-releases", hint: "Upload into the correct /YYYY subfolder to match the site's existing URL structure." }
+
+  - name: officers
+    label: "Officers"
+    folder: "src/content/officers"
+    format: json
+    create: true
+    slug: "{{fields.email}}"
+    fields:
+      - { label: "Role", name: role, widget: string }
+      - { label: "Name", name: name, widget: string }
+      - { label: "Email", name: email, widget: string }
+      - { label: "Display Order", name: order, widget: number, value_type: int, hint: "Controls the order officer cards appear in on the About page." }
+      - { label: "Photo", name: photo, widget: image, required: false }
+
+  - name: gallery
+    label: "Member Gallery"
+    folder: "src/content/gallery"
+    format: json
+    create: true
+    slug: "{{fields.photographer}}-{{fields.subject}}"
+    fields:
+      - { label: "Image", name: photo, widget: image, required: false, hint: "New uploads are not automatically resized — please keep files reasonably sized (under a few MB) before uploading. Leave blank when editing one of the site's original curated photos; only used for new uploads." }
+      - { label: "Alt Text", name: alt, widget: string, hint: "Describe the image for screen readers and search engines — required." }
+      - { label: "Photographer", name: photographer, widget: string }
+      - { label: "Subject", name: subject, widget: string }
+      - { label: "Note", name: note, widget: text }
+      - { label: "Display Order", name: order, widget: number, value_type: int }
+
+  - name: past-presidents
+    label: "Past Presidents"
+    files:
+      - name: list
+        label: "Past Presidents List"
+        file: "src/content/past-presidents/past-presidents.json"
+        fields:
+          - name: presidents
+            label: "Presidents"
+            widget: list
+            summary: "{{fields.years}} — {{fields.name}}"
+            fields:
+              - { label: "Years", name: years, widget: string }
+              - { label: "Name", name: name, widget: string }
+              - { label: "Currently in Office?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting president." }
+              - { label: "Organization", name: org, widget: select, options: ["POA", "PAS"], hint: "POA = Phoenix Observatory Association (pre-1974). PAS = Phoenix Astronomical Society (1974–present)." }
+
+  - name: career-faqs
+    label: "Career FAQs"
+    files:
+      - name: list
+        label: "Career FAQs List"
+        file: "src/content/career-faqs/career-faqs.json"
+        fields:
+          - name: faqs
+            label: "FAQs"
+            widget: list
+            summary: "{{fields.question}}"
+            fields:
+              - { label: "Question", name: question, widget: string }
+              - { label: "Answer", name: answer, widget: text }
+
+  - name: bsig-books
+    label: "BSIG Book List"
+    files:
+      - name: list
+        label: "Book List"
+        file: "src/content/bsig-books/bsig-books.json"
+        fields:
+          - name: books
+            label: "Books"
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: title, widget: string }
+              - { label: "Author", name: author, widget: string }
+
+  - name: sky-targets
+    label: "Sky Targets"
+    files:
+      - name: list
+        label: "Sky Targets List"
+        file: "src/content/sky-targets/sky-targets.json"
+        fields:
+          - name: targets
+            label: "Targets"
+            widget: list
+            summary: "{{fields.month}} — {{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string }
+              - { label: "Type", name: type, widget: string }
+              - { label: "Constellation", name: constellation, widget: string }
+              - { label: "Magnitude", name: magnitude, widget: string, hint: "Free text — some entries list two values, e.g. '6.9 & 8.4'." }
+              - { label: "Apparent Size", name: size, widget: string }
+              - { label: "Rise", name: rise, widget: string }
+              - { label: "Set", name: set, widget: string }
+              - label: "Month"
+                name: month
+                widget: select
+                options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+  - name: site-settings
+    label: "Site Settings"
+    files:
+      - name: main
+        label: "Site Settings"
+        file: "src/content/site-settings/site-settings.json"
+        fields:
+          - { label: "Organization Name", name: orgName, widget: string }
+          - { label: "Short Name", name: alternateName, widget: string }
+          - { label: "Founding Year", name: foundingYear, widget: string }
+          - { label: "Description", name: description, widget: text }
+          - { label: "Logo Path", name: logo, widget: string, hint: "Path under public/, e.g. /images/pas-logo.png — not a file upload, this must match an existing file." }
+          - { label: "General Email", name: email, widget: string }
+          - { label: "Astronomy Questions Email", name: astronomyQuestionsEmail, widget: string }
+          - { label: "Webmaster Email", name: webmasterEmail, widget: string }
+          - name: socials
+            label: "Social Links"
+            widget: object
+            fields:
+              - { label: "Facebook", name: facebook, widget: string }
+              - { label: "Instagram", name: instagram, widget: string }
+              - { label: "Threads", name: threads, widget: string }
+              - { label: "YouTube", name: youtube, widget: string }

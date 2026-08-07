@@ -1,0 +1,157 @@
+---
+import { statSync } from 'node:fs';
+import { join } from 'node:path';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+type Release = {
+  date: string;
+  title?: string;
+  summary?: string;
+  file: string;
+};
+
+// Content lives in src/content/press-releases/ (one JSON file per release,
+// managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+const releaseEntries = await getCollection('press-releases');
+const releases: Release[] = releaseEntries.map((entry) => ({
+  date: entry.data.date,
+  title: entry.data.title,
+  summary: entry.data.summary,
+  file: entry.data.pdf,
+}));
+
+// public/ is copied verbatim into the build, so a release's `file` path is both
+// its URL and its location on disk relative to public/. Resolve against the cwd
+// rather than import.meta.url: this frontmatter is bundled into
+// dist/.prerender/chunks/ before it runs, so import.meta.url points at the
+// bundle, not at this file. Both `astro dev` and `astro build` run from the
+// project root.
+const publicDir = join(process.cwd(), 'public');
+
+// Reading the size off disk means nobody has to type a byte count that would
+// then silently drift when a PDF is replaced. A bad `file` path is the likeliest
+// maintenance mistake, so warn loudly at build time — but do not fail the build
+// over it, since a single bad row should never block a deploy of everything else.
+function fileSize(file: string): string | undefined {
+  try {
+    const bytes = statSync(join(publicDir, file)).size;
+    return bytes >= 1024 * 1024
+      ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+      : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  } catch {
+    console.warn(`[press-releases] No file at public${file} — check the path in src/pages/press-releases.astro`);
+    return undefined;
+  }
+}
+
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'long',
+  // The dates are calendar days, not instants. Without this they parse as UTC
+  // midnight and render as the previous day for anyone west of Greenwich — us.
+  timeZone: 'UTC',
+});
+
+// Newest first, then grouped into years in that same order, so the year headings
+// come out descending without a separately maintained list of years.
+const sorted = [...releases].sort((a, b) => b.date.localeCompare(a.date));
+
+const byYear = new Map<string, (Release & { size?: string; displayDate: string })[]>();
+for (const release of sorted) {
+  const year = release.date.slice(0, 4);
+  const entry = {
+    ...release,
+    size: fileSize(release.file),
+    displayDate: dateFormat.format(new Date(`${release.date}T00:00:00Z`)),
+  };
+  byYear.set(year, [...(byYear.get(year) ?? []), entry]);
+}
+const years = [...byYear.entries()];
+---
+
+<BaseLayout
+  title="Press Releases"
+  description="Official press releases from the Phoenix Astronomical Society, available to read and download as PDFs."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      Newsroom
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Press Releases</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      Official announcements from the Phoenix Astronomical Society — club news, public events, and outreach
+      milestones. Every release is posted here as a PDF you can read or download.
+    </p>
+    <p class="mx-auto mt-4 max-w-2xl text-ink-muted">
+      Members of the media are welcome to contact us at{' '}
+      <a href="mailto:info@pasaz.org" class="text-nebula-teal hover:underline">info@pasaz.org</a> for interviews,
+      photographs, or background on the club.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      {
+        years.length === 0 ? (
+          <p class="text-ink-muted">
+            Press releases will be posted here as they are issued. In the meantime, see{' '}
+            <a href="/events" class="text-nebula-teal hover:underline">
+              upcoming events
+            </a>{' '}
+            or get in touch at{' '}
+            <a href="mailto:info@pasaz.org" class="text-nebula-teal hover:underline">
+              info@pasaz.org
+            </a>
+            .
+          </p>
+        ) : (
+          <div class="space-y-14">
+            {years.map(([year, entries]) => (
+              <div>
+                <h2 class="section-heading">{year}</h2>
+                <ul class="mt-6 space-y-4">
+                  {entries.map((release) => (
+                    <li class="border-b border-subtle pb-4">
+                      <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        {/* Same-origin document, so no new tab and no ↗ — this
+                            site reserves both for links that leave it. The file
+                            type and size sit in the link text so the label is
+                            honest about what following it does. */}
+                        <a
+                          href={release.file}
+                          type="application/pdf"
+                          class="font-semibold text-ink-primary hover:text-nebula-teal"
+                        >
+                          {release.title ?? <time datetime={release.date}>{release.displayDate}</time>}
+                        </a>
+                        <span class="text-sm text-ink-muted">
+                          PDF{release.size ? ` · ${release.size}` : ''}
+                        </span>
+                      </div>
+                      {/* Only a second line when the link text is the headline —
+                          otherwise the date would be printed twice. */}
+                      {release.title && (
+                        <time datetime={release.date} class="mt-1 block text-sm text-nebula-teal">
+                          {release.displayDate}
+                        </time>
+                      )}
+                      {release.summary && <p class="mt-2 text-ink-muted">{release.summary}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <PlaceholderNote
+      label="Every release from the club's Drive archive is listed here, but the PDF files themselves still need to be added under public/press-releases/<year>/ (the Drive folders have downloads disabled), and each entry needs its real headline and a short summary. Remove this note once both are done."
+    />
+  </section>
+</BaseLayout>

@@ -1,0 +1,174 @@
+---
+import { getEntry } from 'astro:content';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import Starfield from '../components/Starfield.astro';
+import BackToTop from '../components/BackToTop.astro';
+import { ClientRouter } from 'astro:transitions';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+// Self-hosted variable fonts, Latin subset only — see fonts.css for why not
+// the full @fontsource-variable packages. global.css names these families,
+// so without this import every visitor silently falls back to system-ui.
+import '../styles/fonts.css';
+import '../styles/global.css';
+// Imported directly (not just referenced from fonts.css) so their resolved,
+// hashed URLs are available here for the <link rel="preload"> tags below —
+// without preloading, both fonts are only discovered once the CSS parses,
+// which visibly delays the largest text on the page.
+import spaceGroteskWoff2 from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2';
+import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image = '/images/pas-logo.png' } = Astro.props;
+const pageTitle = `${title} · Phoenix Astronomical Society`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+
+// Site-wide org identity lives in src/content/site-settings/site-settings.json
+// (managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+// Footer.astro reads the same entry, so the two no longer keep separate
+// copies of the name, emails, and social links in sync by hand.
+const siteSettings = (await getEntry('site-settings', 'data'))!.data;
+
+// Organization schema.org markup, present on every page — the documented,
+// low-effort path to a Google Knowledge Panel for "Phoenix Astronomical
+// Society". Kept in this layout (rather than per-page) since the facts it
+// describes (who PAS is) don't vary by page; Event-specific markup lives
+// on /events instead.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteSettings.orgName,
+  alternateName: siteSettings.alternateName,
+  url: Astro.site?.toString(),
+  logo: imageURL.toString(),
+  description: siteSettings.description,
+  foundingDate: siteSettings.foundingYear,
+  email: siteSettings.email,
+  sameAs: [
+    siteSettings.socials.facebook,
+    siteSettings.socials.instagram,
+    siteSettings.socials.threads,
+    siteSettings.socials.youtube,
+  ],
+};
+
+// Plausible: cookieless, no consent banner needed. Unset in most local/dev
+// builds on purpose — nothing here breaks without it, the tag is just
+// omitted, same fallback pattern as ApodOfTheDay's NASA_API_KEY.
+const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0e17" />
+    <!-- Generated at build time from public/images/pas-logo.png — the club's
+         real logo, just previously only shipped as one plain PNG with no
+         sizes attribute and no Apple/Android-specific variants. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="preload" as="font" type="font/woff2" href={spaceGroteskWoff2} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interWoff2} crossorigin />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:site_name" content="Phoenix Astronomical Society" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    {
+      plausibleDomain && (
+        <script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" />
+      )
+    }
+    <ClientRouter />
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-space-base focus:px-4 focus:py-2 focus:text-ink-primary focus:outline focus:outline-2 focus:outline-nebula-teal"
+    >
+      Skip to content
+    </a>
+    <Starfield />
+    <NavBar />
+    <main id="main-content" tabindex="-1">
+      <Breadcrumbs />
+      <slot />
+    </main>
+    <Footer siteSettings={siteSettings} />
+    <BackToTop />
+
+    <!-- Inline + data-astro-rerun so this executes again after every view
+         transition; a bundled module script only ever runs once per document.
+         The hidden state is applied here rather than in the stylesheet, so
+         content is never hidden from visitors without JS. -->
+    <script is:inline data-astro-rerun>
+      (() => {
+        const targets = document.querySelectorAll('main section:not([data-hero])');
+        if (!targets.length) return;
+
+        const revealAll = () => targets.forEach((el) => el.classList.add('is-revealed'));
+
+        if (
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+          !('IntersectionObserver' in window)
+        ) {
+          revealAll();
+          return;
+        }
+
+        window.__pasReveal?.disconnect();
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-revealed');
+              obs.unobserve(entry.target); // reveal once, never re-hide on scroll up
+            }
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
+        );
+        window.__pasReveal = observer;
+
+        targets.forEach((el) => {
+          el.classList.add('reveal');
+          observer.observe(el);
+        });
+
+        // Belt and braces: anything already on screen is revealed synchronously,
+        // so a transition that arms the observer mid-layout can never strand
+        // content at opacity 0.
+        requestAnimationFrame(() => {
+          targets.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              el.classList.add('is-revealed');
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+
+// Content lives in src/content/gallery/ (one JSON file per photo, managed via
+// the Sveltia CMS) — see src/content.config.ts for the schema. Curated
+// images keep living in src/assets/images/gallery/ and are referenced by
+// relative path so they still go through Astro's <Image> optimization
+// pipeline; new CMS uploads land in public/ instead (see PLAN.md /
+// src/content.config.ts comments — hybrid strategy, confirmed decision).
+//
+// Each image keeps its own aspect ratio rather than being cropped into a
+// uniform grid — a 3:1 Milky Way panorama and a near-square nebula shot
+// would fight a fixed-height treatment, and these are the club's best work,
+// not archival thumbnails (see PhotoGrid for that treatment on /history).
+const galleryEntries = await getCollection('gallery');
+const photos = galleryEntries
+  .sort((a, b) => a.data.order - b.data.order)
+  // `photo` (CMS upload) wins over `image` (developer-curated) when both
+  // are somehow set; entries missing both are dropped rather than crashing.
+  .flatMap((entry) => {
+    const src = entry.data.photo ?? entry.data.image;
+    return src
+      ? [
+          {
+            src,
+            alt: entry.data.alt,
+            photographer: entry.data.photographer,
+            subject: entry.data.subject,
+            note: entry.data.note,
+          },
+        ]
+      : [];
+  });
+// Gallery entries are CMS-editable now, so an all-deleted collection is a
+// real (if unlikely) state to handle, not a hypothetical.
+const firstPhoto = photos.at(0);
+---
+
+<BaseLayout
+  title="Member Gallery"
+  description="Astrophotography from Phoenix Astronomical Society members — the Milky Way, nebulae, and the Sun, captured from Arizona skies."
+>
+  <Hero
+    image={firstPhoto?.src ?? '/images/pas-logo.png'}
+    alt={firstPhoto?.alt ?? 'Phoenix Astronomical Society'}
+    eyebrow="Member Gallery"
+    title="What Our Members See"
+    subtitle="Astrophotography by PAS members, captured from Phoenix-area skies and beyond."
+    tone="dark"
+    focalPoint="50% 40%"
+  />
+
+  <section class="mx-auto max-w-3xl px-6 py-16 text-center">
+    <p class="text-ink-muted">
+      Every image below was shot and processed by a PAS member — many of them regulars at our public star
+      parties and Astro Imaging Special Interest Group meetings. Want to learn how it's done?{' '}
+      <a href="/asig" class="text-nebula-teal hover:underline">Join ASIG</a>.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      {
+        photos.length === 0 ? (
+          <p class="text-center text-ink-muted">
+            No photos here yet — check back soon, or see{' '}
+            <a href="/contact" class="text-nebula-teal hover:underline">
+              how to submit one
+            </a>
+            .
+          </p>
+        ) : (
+          <div class="space-y-16">
+            {photos.map((photo) => (
+              <figure class="overflow-hidden rounded-2xl border border-subtle bg-space-card">
+                {typeof photo.src === 'string' ? (
+                  // CMS-uploaded photos land in public/ as a plain URL, which
+                  // bypasses Astro's asset pipeline — <Image> can't process
+                  // these, so they render unoptimized (see hybrid gallery
+                  // strategy in src/content.config.ts).
+                  <img src={photo.src} alt={photo.alt} loading="lazy" class="w-full" />
+                ) : (
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={1600}
+                    widths={[640, 1080, 1600]}
+                    sizes="(min-width: 896px) 850px, 100vw"
+                    quality={80}
+                    loading="lazy"
+                    class="w-full"
+                  />
+                )}
+                <figcaption class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-5">
+                  <div>
+                    <p class="font-display text-lg text-nebula-teal">{photo.subject}</p>
+                    <p class="mt-1 text-sm text-ink-muted">{photo.note}</p>
+                  </div>
+                  <p class="flex-none text-sm font-semibold text-ink-primary">© {photo.photographer}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-3xl px-6 py-20 text-center">
+      <h2 class="section-heading">Have an Image to Share?</h2>
+      <p class="mx-auto mt-4 max-w-xl text-ink-muted">
+        PAS members are always welcome to submit their astrophotography for the gallery — whether it's a
+        first smart-telescope shot of the Moon or a multi-night deep-sky mosaic.
+      </p>
+      <a href="/contact" class="btn-primary mt-8">Submit Your Photo</a>
+    </div>
+  </section>
+</BaseLayout>

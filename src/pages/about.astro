@@ -1,0 +1,123 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FeatureSplit from '../components/FeatureSplit.astro';
+import heroPhoto from '../assets/images/events-lowell-observatory-tour.jpg';
+import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
+import newsFeature from '../assets/images/about-12news-feature.jpg';
+
+// Content lives in src/content/officers/ (one JSON file per officer, managed
+// via the Sveltia CMS) — see src/content.config.ts for the schema.
+const officerEntries = await getCollection('officers');
+const officers = officerEntries.sort((a, b) => a.data.order - b.data.order).map((entry) => entry.data);
+---
+
+<BaseLayout
+  title="About"
+  description="The history, mission, and people behind the Phoenix Astronomical Society."
+>
+  <Hero
+    image={heroPhoto}
+    alt="PAS members on a club tour of Lowell Observatory in Flagstaff"
+    eyebrow="About PAS"
+    title="A Community of Stargazers Since 1948"
+    subtitle="Amateur and professional astronomers, teachers and learners, oldsters and youngsters — all inquiring minds."
+  />
+
+  <FeatureSplit
+    image={newsFeature}
+    alt="PAS members Mark J. and Stu B. featured on 12 News 'Today in AZ,' demonstrating a telescope"
+    eyebrow="Our Mission"
+    title="Sharing the Night Sky with Phoenix"
+  >
+    <p>
+      The Phoenix Astronomical Society is a 501(c)(3) nonprofit organization dedicated to sharing the night sky
+      with the Phoenix community — through public star parties, school and scout outreach, and a welcoming home
+      for anyone curious about the universe, from lifelong amateur astronomers to first-time stargazers.
+    </p>
+    <p>
+      PAS is also a Night Sky Network member organization, a NASA-affiliated program run by the Astronomical
+      Society of the Pacific to bring the wonders of the universe to the public — most recently visible when
+      members Mark J. and Stu B. brought stargazing to 12 News' "Today in AZ."
+    </p>
+  </FeatureSplit>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Our History</h2>
+      <p class="mt-4 text-ink-muted">
+        Founded in 1948 as the Phoenix Observatory Association by Phoenix College physics professor Amos Hoff,
+        PAS spent its early decades pursuing an ambitious dream: building a public observatory. That project was
+        never completed, but the society it created has endured — through Phoenix College, Brophy College Prep,
+        Valley Academy, Foothills Academy, and, since 2005, Paradise Valley Community College, whose Black
+        Mountain campus hosted PAS star parties for years. Public star parties are held today at Apache Wash
+        Trailhead in North Phoenix.
+      </p>
+      <a href="/history" class="btn-secondary mt-6">Read the Full History</a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Club Leadership</h2>
+    <p class="mt-4 text-ink-muted">
+      PAS is run entirely by volunteer members, including officers overseeing membership, events, and community
+      outreach. Stu Brackney is our current president.
+    </p>
+    <a href="/leadership" class="btn-secondary mt-6">See Past Presidents</a>
+    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <Image
+        src={officerAwardTelescope}
+        alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
+        width={1000}
+        loading="lazy"
+        class="h-64 w-full object-cover"
+      />
+      <figcaption class="px-4 py-3 text-sm text-ink-muted">
+        PAS officers recognize member contributions at club meetings.
+      </figcaption>
+    </figure>
+    <div class="mt-10 grid gap-4 sm:grid-cols-2">
+      {
+        officers.map((officer) => (
+          <div class="card flex items-start gap-4">
+            {officer.photo && (
+              // CMS uploads land in public/ as a plain URL string, which
+              // bypasses Astro's <Image> pipeline entirely — see
+              // src/content.config.ts for why this field is a plain string.
+              <div class="h-16 w-16 flex-none overflow-hidden rounded-full border border-subtle bg-space-card">
+                <img
+                  src={officer.photo}
+                  alt={`Photo of ${officer.name}`}
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
+              <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
+              <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">
+                {officer.email}
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Our Observing Site</h2>
+      <p class="mt-4 text-ink-muted">
+        Public star parties are held at Apache Wash Trailhead in North Phoenix — see{' '}
+        <a href="/events" class="text-nebula-teal hover:underline">Events</a> for the address, a map, and the
+        schedule. Members also observe from dark-sky sites around the Phoenix area; see{' '}
+        <a href="/sky-conditions" class="text-nebula-teal hover:underline">Sky Conditions</a> for a full,
+        Bortle-rated list.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

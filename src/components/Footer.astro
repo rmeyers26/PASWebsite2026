@@ -1,0 +1,79 @@
+---
+import { getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  // Optional so the component still works if ever rendered outside
+  // BaseLayout; falls back to fetching the same singleton itself.
+  siteSettings?: CollectionEntry<'site-settings'>['data'];
+}
+
+const siteSettings = Astro.props.siteSettings ?? (await getEntry('site-settings', 'data'))!.data;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-subtle bg-space-base/80">
+  <div class="mx-auto max-w-6xl px-6 py-10 text-sm text-ink-muted">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <p class="font-display text-ink-primary">{siteSettings.orgName}</p>
+        <p class="mt-1">{siteSettings.description}</p>
+        <div class="mt-4 flex flex-col gap-1">
+          <a
+            href={siteSettings.socials.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-nebula-teal"
+          >
+            Facebook ↗
+          </a>
+          <a
+            href={siteSettings.socials.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-nebula-teal"
+          >
+            Instagram ↗
+          </a>
+          <a
+            href={siteSettings.socials.threads}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-nebula-teal"
+          >
+            Threads ↗
+          </a>
+          <a
+            href={siteSettings.socials.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-nebula-teal"
+          >
+            YouTube ↗
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <a href="/" class="hover:text-nebula-teal">Home</a>
+        <a href="/about" class="hover:text-nebula-teal">About</a>
+        <a href="/history" class="hover:text-nebula-teal">History</a>
+        <a href="/press-releases" class="hover:text-nebula-teal">Press Releases</a>
+        <a href="/events" class="hover:text-nebula-teal">Events</a>
+        <a href="/gallery" class="hover:text-nebula-teal">Gallery</a>
+        <a href="/star-tours" class="hover:text-nebula-teal">Star Tours</a>
+        <a href="/join" class="hover:text-nebula-teal">Join</a>
+        <a href="/contact" class="hover:text-nebula-teal">Contact</a>
+      </div>
+      <div class="flex flex-col gap-1">
+        <a href={`mailto:${siteSettings.email}`} class="hover:text-nebula-teal">{siteSettings.email}</a>
+        <a href={`mailto:${siteSettings.astronomyQuestionsEmail}`} class="hover:text-nebula-teal">
+          {siteSettings.astronomyQuestionsEmail}
+        </a>
+        <a href={`mailto:${siteSettings.webmasterEmail}`} class="hover:text-nebula-teal">
+          {siteSettings.webmasterEmail}
+        </a>
+      </div>
+    </div>
+    <p class="mt-8 border-t border-subtle pt-6">© {year} {siteSettings.orgName}. All rights reserved.</p>
+  </div>
+</footer>

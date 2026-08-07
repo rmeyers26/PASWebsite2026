@@ -1,0 +1,9 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = 'Placeholder content — needs real info from PAS before launch' } = Astro.props;
+---
+
+<p class="placeholder-note">⚠ {label}</p>
