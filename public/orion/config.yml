@@ -15,6 +15,13 @@ backend:
   base_url: https://api.netlify.com
   auth_endpoint: auth
 
+# Branding for the CMS admin UI itself (not site content) — shows on the
+# login screen, the app header, and the browser tab.
+app_title: "PAS Content Manager"
+logo:
+  src: /images/pas-logo.png
+  show_in_header: true
+
 # Direct-commit workflow, no draft/review step — see the plan's decisions
 # log for why (3 named, low-technical-comfort editors, no distinct reviewer
 # role identified).
