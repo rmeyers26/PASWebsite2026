@@ -1,17 +1,9 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import FeatureSplit from '../components/FeatureSplit.astro';
 import heroPhoto from '../assets/images/events-lowell-observatory-tour.jpg';
-import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
 import newsFeature from '../assets/images/about-12news-feature.jpg';
-
-// Content lives in src/content/officers/ (one JSON file per officer, managed
-// via the Sveltia CMS) — see src/content.config.ts for the schema.
-const officerEntries = await getCollection('officers');
-const officers = officerEntries.sort((a, b) => a.data.order - b.data.order).map((entry) => entry.data);
 ---
 
 <BaseLayout
@@ -56,55 +48,6 @@ const officers = officerEntries.sort((a, b) => a.data.order - b.data.order).map(
         Trailhead in North Phoenix.
       </p>
       <a href="/history" class="btn-secondary mt-6">Read the Full History</a>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-4xl px-6 py-20">
-    <h2 class="section-heading">Club Leadership</h2>
-    <p class="mt-4 text-ink-muted">
-      PAS is run entirely by volunteer members, including officers overseeing membership, events, and community
-      outreach. Stu Brackney is our current president.
-    </p>
-    <a href="/leadership" class="btn-secondary mt-6">See Past Presidents</a>
-    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
-      <Image
-        src={officerAwardTelescope}
-        alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
-        width={1000}
-        loading="lazy"
-        class="h-64 w-full object-cover"
-      />
-      <figcaption class="px-4 py-3 text-sm text-ink-muted">
-        PAS officers recognize member contributions at club meetings.
-      </figcaption>
-    </figure>
-    <div class="mt-10 grid gap-4 sm:grid-cols-2">
-      {
-        officers.map((officer) => (
-          <div class="card flex items-start gap-4">
-            {officer.photo && (
-              // CMS uploads land in public/ as a plain URL string, which
-              // bypasses Astro's <Image> pipeline entirely — see
-              // src/content.config.ts for why this field is a plain string.
-              <div class="h-16 w-16 flex-none overflow-hidden rounded-full border border-subtle bg-space-card">
-                <img
-                  src={officer.photo}
-                  alt={`Photo of ${officer.name}`}
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-            )}
-            <div>
-              <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
-              <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
-              <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">
-                {officer.email}
-              </a>
-            </div>
-          </div>
-        ))
-      }
     </div>
   </section>
 
