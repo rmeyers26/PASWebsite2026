@@ -256,15 +256,13 @@ const observingSites = [
       <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
         open it directly on Astrospheric</a>.
     </p>
-    <noscript>
-      <p class="mt-4 text-ink-muted">
-        Sky forecast requires JavaScript —{' '}
-        <a href={astrosphericUrl} target="_blank" rel="noopener noreferrer" class="text-nebula-teal hover:underline">
-          view on Astrospheric</a>.
-      </p>
-    </noscript>
     <div class="mt-8 overflow-hidden rounded-lg border border-subtle p-2">
-      <div id="AstrosphericEmbedContainer"></div>
+      <iframe
+        src={`https://www.astrospheric.com/?App=embedded&AppVersion=3&Latitude=${astrosphericLat}&Longitude=${astrosphericLng}`}
+        loading="lazy"
+        class="block h-[500px] w-full border-0"
+        title="Astrospheric sky forecast for Phoenix, AZ"
+      ></iframe>
     </div>
   </section>
 
@@ -380,33 +378,6 @@ const observingSites = [
 
     updateSkyWidgets();
     document.addEventListener('astro:page-load', updateSkyWidgets);
-  </script>
-
-  <script src="https://s-v1-galaxy-direct.astrospheric.com/embed/astrosphericembed.js"></script>
-  <script define:vars={{ astrosphericLat, astrosphericLng, astrosphericUrl }}>
-    const maxAttempts = 50;
-    let attempts = 0;
-
-    function createAstrosphericEmbed() {
-      if (window.m_AstrosphericEmbed) {
-        window.m_AstrosphericEmbed.Create('AstrosphericEmbedContainer', astrosphericLat, astrosphericLng);
-      } else if (attempts < maxAttempts) {
-        attempts += 1;
-        setTimeout(createAstrosphericEmbed, 100);
-      } else {
-        const container = document.getElementById('AstrosphericEmbedContainer');
-        if (container) {
-          const link = document.createElement('a');
-          link.href = astrosphericUrl;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          link.className = 'text-nebula-teal hover:underline';
-          link.textContent = 'Sky forecast unavailable — view it directly on Astrospheric';
-          container.appendChild(link);
-        }
-      }
-    }
-    createAstrosphericEmbed();
   </script>
 
   <section id="telescopes" class="border-t border-subtle mx-auto max-w-5xl px-6 py-20">
