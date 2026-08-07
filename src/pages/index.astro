@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
@@ -69,24 +70,18 @@ const upcomingEventTypes = [
   },
 ];
 
-const specialInterestGroups = [
-  {
-    title: 'Astro Imaging Special Interest Group',
-    abbr: 'ASIG',
-    accent: 'text-nebula-violet',
-    body: 'Learn, practice, and master astronomical imaging — from a first smart-telescope shot of the Moon to multi-night deep-sky mosaics. Meets the 4th Monday of every month, 7:00 pm, at PVCC.',
-    url: '/asig',
-    internal: true,
-  },
-  {
-    title: 'Book(s) Special Interest Group',
-    abbr: 'BSIG',
-    accent: 'text-nebula-teal',
-    body: 'The Astronomy Book Club — exploring the best books on space, cosmology, and planetary science, then meeting to talk them over. No scientific background required.',
-    url: '/bsig',
-    internal: true,
-  },
-];
+const accentClasses = {
+  violet: 'text-nebula-violet',
+  teal: 'text-nebula-teal',
+  amber: 'text-nebula-amber',
+};
+
+// Editable by club officers via the Sveltia CMS ("Special Interest Groups")
+// — an officer can disable a group (put it on hiatus) or stage a new one
+// without a code change. See src/content/special-interest-groups/.
+const specialInterestGroups = (await getCollection('special-interest-groups'))
+  .filter((group) => group.data.enabled)
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout
@@ -227,34 +222,36 @@ const specialInterestGroups = [
     </div>
   </section>
 
-  <section id="special-interest-groups" class="scroll-mt-[4.5rem] border-t border-subtle">
-    <div class="mx-auto max-w-5xl px-6 py-20">
-      <h2 class="section-heading">Special Interest Groups</h2>
-      <p class="mt-3 max-w-2xl text-ink-muted">
-        Smaller member-run groups that go deep on one corner of the hobby, meeting outside the main monthly
-        calendar.
-      </p>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2">
-        {
-          specialInterestGroups.map((group) => (
-            <a href={group.url} class="card block">
-              <h3 class={`font-display text-lg ${group.accent}`}>
-                {group.title} <span class="text-ink-muted">({group.abbr})</span>
-              </h3>
-              <p class="mt-3 text-ink-muted">{group.body}</p>
-            </a>
-          ))
-        }
-      </div>
-      <p class="mt-8 text-ink-muted">
-        <span aria-hidden="true">*</span> PAS membership is required to take part in a special interest group.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-4">
-        <a href="/join" class="btn-primary">Become a Member</a>
-        <a href="/contact" class="btn-secondary">Ask About a Group</a>
-      </div>
-    </div>
-  </section>
+  {
+    specialInterestGroups.length > 0 && (
+      <section id="special-interest-groups" class="scroll-mt-[4.5rem] border-t border-subtle">
+        <div class="mx-auto max-w-5xl px-6 py-20">
+          <h2 class="section-heading">Special Interest Groups</h2>
+          <p class="mt-3 max-w-2xl text-ink-muted">
+            Smaller member-run groups that go deep on one corner of the hobby, meeting outside the main monthly
+            calendar.
+          </p>
+          <div class="mt-10 grid gap-6 sm:grid-cols-2">
+            {specialInterestGroups.map(({ data: group }) => (
+              <a href={group.url} class="card block">
+                <h3 class={`font-display text-lg ${accentClasses[group.accent]}`}>
+                  {group.title} <span class="text-ink-muted">({group.abbr})</span>
+                </h3>
+                <p class="mt-3 text-ink-muted">{group.body}</p>
+              </a>
+            ))}
+          </div>
+          <p class="mt-8 text-ink-muted">
+            <span aria-hidden="true">*</span> PAS membership is required to take part in a special interest group.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="/join" class="btn-primary">Become a Member</a>
+            <a href="/contact" class="btn-secondary">Ask About a Group</a>
+          </div>
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>
 
 <style>

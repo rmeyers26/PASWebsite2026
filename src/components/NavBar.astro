@@ -1,9 +1,17 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import pasLogo from '../assets/images/pas-logo.png';
 
 type NavLink = { href: string; label: string };
 type NavItem = { label: string; href?: string; children?: NavLink[] };
+
+// Same source as the home page's Special Interest Groups section — an
+// officer disabling a group here via the CMS removes it from the nav too.
+const groupLinks: NavLink[] = (await getCollection('special-interest-groups'))
+  .filter((group) => group.data.enabled)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((group) => ({ href: group.data.url, label: group.data.abbr }));
 
 // Seven top-level entries (six here plus the Join CTA). Grouping keeps the
 // secondary reference pages reachable without competing with Events, Gallery,
@@ -38,13 +46,7 @@ const navItems: NavItem[] = [
       { href: '/exoplanets', label: 'Exoplanets' },
     ],
   },
-  {
-    label: 'Groups',
-    children: [
-      { href: '/asig', label: 'Astro Imaging (ASIG)' },
-      { href: '/bsig', label: 'Book Club (BSIG)' },
-    ],
-  },
+  ...(groupLinks.length > 0 ? [{ label: 'Groups', children: groupLinks }] : []),
 ];
 
 // Astro's static build serves subpages with a trailing slash (/events/), so

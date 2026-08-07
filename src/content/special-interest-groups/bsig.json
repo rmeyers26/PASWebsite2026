@@ -1,0 +1,9 @@
+{
+  "title": "Book(s) Special Interest Group",
+  "abbr": "BSIG",
+  "accent": "teal",
+  "body": "The Astronomy Book Club — exploring the best books on space, cosmology, and planetary science, then meeting to talk them over. No scientific background required.",
+  "url": "/bsig",
+  "enabled": true,
+  "order": 2
+}
