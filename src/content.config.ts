@@ -134,6 +134,17 @@ const gallery = defineCollection({
     }),
 });
 
+const loanerScopes = defineCollection({
+  loader: singleton('src/content/loaner-scopes/loaner-scopes.json'),
+  schema: z.object({
+    equipment: z.array(
+      z.object({
+        name: z.string(),
+      }),
+    ),
+  }),
+});
+
 const siteSettings = defineCollection({
   loader: singleton('src/content/site-settings/site-settings.json'),
   schema: z.object({
@@ -162,5 +173,6 @@ export const collections = {
   'bsig-books': bsigBooks,
   'sky-targets': skyTargets,
   gallery,
+  'loaner-scopes': loanerScopes,
   'site-settings': siteSettings,
 };

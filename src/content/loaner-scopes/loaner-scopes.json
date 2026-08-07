@@ -1,0 +1,14 @@
+{
+  "equipment": [
+    { "name": "Dwarf Lab Mini" },
+    { "name": "Dwarf Lab 3" },
+    { "name": "Askar 103 APO 103mm f/6.8 Triplet Refractor Telescope, with iOptron AZ Mount Pro and an advanced eyepiece kit" },
+    { "name": "ZWO SeeStar S50 (×2)" },
+    { "name": "Coronado Personal Solar Telescope (PST)" },
+    { "name": "Orion SkyQuest XT-10 — 10\" Dobsonian" },
+    { "name": "Orion SkyQuest XT-8 — 8\" Dobsonian" },
+    { "name": "Sky-Watcher 10\" Collapsible Motorized Dobsonian" },
+    { "name": "Accessory Kit #4 — Advanced Observing" },
+    { "name": "Accessory Kit #5 — 1.25\" Eyepieces & Filters" }
+  ]
+}
