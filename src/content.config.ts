@@ -39,6 +39,19 @@ const pressReleases = defineCollection({
   }),
 });
 
+const newsletters = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/newsletters' }),
+  schema: z.object({
+    // ISO 'YYYY-MM-DD'. Drives sort order, year grouping, displayed date, and
+    // the <time datetime> attribute.
+    date: z.string(),
+    title: z.string().optional(),
+    summary: z.string().optional(),
+    // Path under public/, so it is also the live URL of the file.
+    pdf: z.string(),
+  }),
+});
+
 const officers = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/officers' }),
   schema: z.object({
@@ -185,6 +198,7 @@ const siteSettings = defineCollection({
 
 export const collections = {
   'press-releases': pressReleases,
+  newsletters,
   officers,
   'past-presidents': pastPresidents,
   'career-faqs': careerFaqs,
