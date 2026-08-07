@@ -1,6 +1,13 @@
 ---
-import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
+
+// Content lives in src/content/officers/ (one JSON file per officer, managed
+// via the Sveltia CMS) — see src/content.config.ts for the schema.
+const officerEntries = await getCollection('officers');
+const officers = officerEntries.sort((a, b) => a.data.order - b.data.order).map((entry) => entry.data);
 
 // Content lives in src/content/past-presidents/past-presidents.json (managed
 // via the Sveltia CMS) — see src/content.config.ts for the schema.
@@ -10,15 +17,15 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
 ---
 
 <BaseLayout
-  title="Past Presidents"
-  description="A list of every president to lead the Phoenix Observatory Association and Phoenix Astronomical Society since 1948."
+  title="Club Leadership"
+  description="The current officers and past presidents of the Phoenix Astronomical Society."
 >
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
       <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
       Club Leadership
     </span>
-    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Past Presidents</h1>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Club Leadership</h1>
     <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
       PAS is run entirely by volunteer members, including officers overseeing membership, events, and community
       outreach. Stu Brackney is our current president.
@@ -26,6 +33,52 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <h2 class="section-heading">Current Officers</h2>
+      <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <Image
+          src={officerAwardTelescope}
+          alt="A PAS officer presenting another member with a FirstScope Moon telescope, with outreach event photos on screen behind them"
+          width={1000}
+          loading="lazy"
+          class="h-64 w-full object-cover"
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">
+          PAS officers recognize member contributions at club meetings.
+        </figcaption>
+      </figure>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2">
+        {
+          officers.map((officer) => (
+            <div class="card flex items-start gap-4">
+              {officer.photo && (
+                // CMS uploads land in public/ as a plain URL string, which
+                // bypasses Astro's <Image> pipeline entirely — see
+                // src/content.config.ts for why this field is a plain string.
+                <div class="h-16 w-16 flex-none overflow-hidden rounded-full border border-subtle bg-space-card">
+                  <img
+                    src={officer.photo}
+                    alt={`Photo of ${officer.name}`}
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
+                <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
+                <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">
+                  {officer.email}
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
     <div class="mx-auto max-w-3xl px-6 py-16">
       <h2 class="section-heading">Phoenix Observatory Association</h2>
       <div class="mt-8 overflow-x-auto rounded-lg border border-subtle">

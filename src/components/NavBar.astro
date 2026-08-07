@@ -5,7 +5,7 @@ import pasLogo from '../assets/images/pas-logo.png';
 type NavLink = { href: string; label: string };
 type NavItem = { label: string; href?: string; children?: NavLink[] };
 
-// Seven top-level entries (six here plus the Join CTA). Grouping keeps the
+// Eight top-level entries (seven here plus the Join CTA). Grouping keeps the
 // secondary reference pages reachable without competing with Events, Gallery,
 // and Join, and gives /history and /leadership a home in the primary nav.
 const navItems: NavItem[] = [
@@ -14,11 +14,11 @@ const navItems: NavItem[] = [
     children: [
       { href: '/about', label: 'About PAS' },
       { href: '/history', label: 'History' },
-      { href: '/leadership', label: 'Leadership' },
       { href: '/press-releases', label: 'Press Releases' },
       { href: '/contact', label: 'Contact' },
     ],
   },
+  { label: 'Club Leadership', href: '/leadership' },
   { label: 'Events', href: '/events' },
   { label: 'Gallery', href: '/gallery' },
   {
