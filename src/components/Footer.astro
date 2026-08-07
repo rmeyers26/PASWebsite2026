@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import pasLogo from '../assets/images/pas-logo.png';
+import { navItems, joinCta, type NavLink } from '../data/navigation';
 
 interface Props {
   // Optional so the component still works if ever rendered outside
@@ -12,6 +13,14 @@ interface Props {
 
 const siteSettings = Astro.props.siteSettings ?? (await getEntry('site-settings', 'data'))!.data;
 const year = new Date().getFullYear();
+
+// Flattened from the same navItems NavBar uses, so every page reachable from
+// the header stays reachable here too, with no separate list to keep in sync.
+const footerLinks: NavLink[] = [
+  { href: '/', label: 'Home' },
+  ...navItems.flatMap((item) => item.children ?? (item.href ? [{ href: item.href, label: item.label }] : [])),
+  joinCta,
+];
 ---
 
 <footer class="border-t border-subtle bg-space-base/80">
@@ -59,16 +68,9 @@ const year = new Date().getFullYear();
         </div>
       </div>
       <div class="flex flex-col gap-1">
-        <a href="/" class="hover:text-nebula-teal">Home</a>
-        <a href="/about" class="hover:text-nebula-teal">About</a>
-        <a href="/history" class="hover:text-nebula-teal">History</a>
-        <a href="/leadership" class="hover:text-nebula-teal">Club Leadership</a>
-        <a href="/press-releases" class="hover:text-nebula-teal">Press Releases</a>
-        <a href="/events" class="hover:text-nebula-teal">Events</a>
-        <a href="/gallery" class="hover:text-nebula-teal">Gallery</a>
-        <a href="/star-tours" class="hover:text-nebula-teal">Star Tours</a>
-        <a href="/join" class="hover:text-nebula-teal">Join</a>
-        <a href="/contact" class="hover:text-nebula-teal">Contact</a>
+        {footerLinks.map((link) => (
+          <a href={link.href} class="hover:text-nebula-teal">{link.label}</a>
+        ))}
       </div>
       <div class="flex flex-col gap-1">
         <a href={`mailto:${siteSettings.email}`} class="hover:text-nebula-teal">{siteSettings.email}</a>

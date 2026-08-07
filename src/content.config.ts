@@ -31,7 +31,7 @@ const pressReleases = defineCollection({
   schema: z.object({
     // ISO 'YYYY-MM-DD'. Drives sort order, year grouping, displayed date, and
     // the <time datetime> attribute.
-    date: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected ISO date YYYY-MM-DD'),
     title: z.string().optional(),
     summary: z.string().optional(),
     // Path under public/, so it is also the live URL of the file.
@@ -44,8 +44,8 @@ const officers = defineCollection({
   schema: z.object({
       role: z.string(),
       name: z.string(),
-      email: z.string(),
-      order: z.number(),
+      email: z.string().email(),
+      order: z.number().int().nonnegative(),
       // Astro resolves an image()-typed field for every entry, even ones
       // where the actual value is a CMS-uploaded public/ URL string — a
       // union with image() doesn't fall back gracefully per-entry, it just
@@ -130,7 +130,7 @@ const gallery = defineCollection({
       photographer: z.string(),
       subject: z.string(),
       note: z.string(),
-      order: z.number(),
+      order: z.number().int().nonnegative(),
     }),
 });
 
@@ -139,17 +139,17 @@ const siteSettings = defineCollection({
   schema: z.object({
     orgName: z.string(),
     alternateName: z.string(),
-    foundingYear: z.string(),
+    foundingYear: z.string().regex(/^\d{4}$/, 'Expected a 4-digit year'),
     description: z.string(),
     logo: z.string(),
-    email: z.string(),
-    astronomyQuestionsEmail: z.string(),
-    webmasterEmail: z.string(),
+    email: z.string().email(),
+    astronomyQuestionsEmail: z.string().email(),
+    webmasterEmail: z.string().email(),
     socials: z.object({
-      facebook: z.string(),
-      instagram: z.string(),
-      threads: z.string(),
-      youtube: z.string(),
+      facebook: z.string().url(),
+      instagram: z.string().url(),
+      threads: z.string().url(),
+      youtube: z.string().url(),
     }),
   }),
 });
