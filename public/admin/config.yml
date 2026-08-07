@@ -58,7 +58,7 @@ collections:
     create: true
     slug: "{{fields.photographer}}-{{fields.subject}}"
     fields:
-      - { label: "Image", name: image, widget: image, hint: "New uploads are not automatically resized — please keep files reasonably sized (under a few MB) before uploading." }
+      - { label: "Image", name: photo, widget: image, hint: "New uploads are not automatically resized — please keep files reasonably sized (under a few MB) before uploading." }
       - { label: "Alt Text", name: alt, widget: string, hint: "Describe the image for screen readers and search engines — required." }
       - { label: "Photographer", name: photographer, widget: string }
       - { label: "Subject", name: subject, widget: string }

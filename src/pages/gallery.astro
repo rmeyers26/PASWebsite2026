@@ -18,13 +18,22 @@ import Hero from '../components/Hero.astro';
 const galleryEntries = await getCollection('gallery');
 const photos = galleryEntries
   .sort((a, b) => a.data.order - b.data.order)
-  .map((entry) => ({
-    src: entry.data.image,
-    alt: entry.data.alt,
-    photographer: entry.data.photographer,
-    subject: entry.data.subject,
-    note: entry.data.note,
-  }));
+  // `photo` (CMS upload) wins over `image` (developer-curated) when both
+  // are somehow set; entries missing both are dropped rather than crashing.
+  .flatMap((entry) => {
+    const src = entry.data.photo ?? entry.data.image;
+    return src
+      ? [
+          {
+            src,
+            alt: entry.data.alt,
+            photographer: entry.data.photographer,
+            subject: entry.data.subject,
+            note: entry.data.note,
+          },
+        ]
+      : [];
+  });
 // Gallery entries are CMS-editable now, so an all-deleted collection is a
 // real (if unlikely) state to handle, not a hypothetical.
 const firstPhoto = photos.at(0);
