@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import FeatureSplit from '../components/FeatureSplit.astro';
@@ -7,21 +8,10 @@ import heroPhoto from '../assets/images/events-lowell-observatory-tour.jpg';
 import officerAwardTelescope from '../assets/images/about-officer-award-telescope.jpg';
 import newsFeature from '../assets/images/about-12news-feature.jpg';
 
-// From PAStimes, August 2026 (Vol. 77, Issue #12) — the club's own monthly
-// newsletter masthead. Role-based addresses, already public there.
-const officers = [
-  { role: 'President', name: 'Stu Brackney', email: 'president@pasaz.org' },
-  { role: 'Vice President', name: 'Mark Johnston', email: 'vicepresident@pasaz.org' },
-  { role: 'Treasurer', name: 'Richard Sauerbrun', email: 'treasurer@pasaz.org' },
-  { role: 'Secretary', name: 'Chris Ford', email: 'secretary@pasaz.org' },
-  { role: 'Newsletter Editor', name: 'Richard Meyers', email: 'editor@pasaz.org' },
-  { role: 'Membership Manager', name: 'Damon Finell', email: 'membership@pasaz.org' },
-  { role: 'Member-at-Large', name: 'Ruza Sabelja', email: 'mal1@pasaz.org' },
-  { role: 'Member-at-Large', name: 'Andrew Stone', email: 'mal2@pasaz.org' },
-  { role: 'Event Manager', name: 'Ruza Sabelja', email: 'events@pasaz.org' },
-  { role: 'Star Tours Manager', name: 'Andrew Stone', email: 'startours@pasaz.org' },
-  { role: 'Webmaster', name: 'Ed Skinner', email: 'webmaster@pasaz.org' },
-];
+// Content lives in src/content/officers/ (one JSON file per officer, managed
+// via the Sveltia CMS) — see src/content.config.ts for the schema.
+const officerEntries = await getCollection('officers');
+const officers = officerEntries.sort((a, b) => a.data.order - b.data.order).map((entry) => entry.data);
 ---
 
 <BaseLayout

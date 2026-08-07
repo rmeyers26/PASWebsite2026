@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { monthlyDsoTargets } from '../data/dsoTargets';
 import eaaNight from '../assets/images/star-tours-eaa-night.jpg';
 import sampleHelixNebula from '../assets/images/star-tours-sample-helix-nebula.jpg';
 import sampleWhirlpoolGalaxy from '../assets/images/star-tours-sample-whirlpool-galaxy.jpg';
@@ -59,6 +59,21 @@ const samplePhotos = [
 ];
 
 const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' });
+
+// Content lives in src/content/sky-targets/sky-targets.json as a flat list
+// (one row per target per month it's visible in), managed via the Sveltia
+// CMS — see src/content.config.ts for the schema. Regroup by month here so
+// the template below (unchanged) still gets one entry per month, in month
+// order, including months with no targets yet.
+const monthOrder = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+const skyTargetsEntry = (await getEntry('sky-targets', 'data'))!;
+const monthlyDsoTargets = monthOrder.map((month) => ({
+  month,
+  targets: skyTargetsEntry.data.targets.filter((t) => t.month === month),
+}));
 ---
 
 <BaseLayout

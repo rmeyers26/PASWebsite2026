@@ -1,4 +1,5 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import FeatureSplit from '../components/FeatureSplit.astro';
@@ -65,33 +66,10 @@ const kidsResources = [
   },
 ];
 
-const careerFaqs = [
-  {
-    question: 'Do I need a PhD to work in astronomy?',
-    answer:
-      'For a research astronomer position — at a university, national observatory, or NASA center — a PhD in astronomy, astrophysics, or physics is the standard path. But plenty of careers in the field do not require one: telescope and instrument operators, engineers, software and data specialists, planetarium educators, and science communicators all work in astronomy without a doctorate.',
-  },
-  {
-    question: 'What should I study in high school and college?',
-    answer:
-      'Build the strongest math and physics foundation you can — astronomy is a physics-heavy field. Programming is close behind, since modern astronomy runs on large datasets. At the undergraduate level, a physics or astronomy major is the usual route, and many working astronomers majored in physics before specializing in graduate school.',
-  },
-  {
-    question: 'Is astronomy the same thing as astrophysics?',
-    answer:
-      'In practice the terms overlap almost entirely, and departments use them interchangeably. Where people draw a distinction, "astronomy" leans toward observing and cataloguing what is out there, while "astrophysics" emphasizes the underlying physics of how those objects work.',
-  },
-  {
-    question: 'What jobs exist besides being a research astronomer?',
-    answer:
-      'Observatory and telescope operations, instrument and optical engineering, spacecraft mission operations, scientific software and data science, museum and planetarium education, science journalism, and the aerospace industry. The analytical and computational skills an astronomy degree builds also transfer well outside the field.',
-  },
-  {
-    question: 'How do I get started right now, before any of that?',
-    answer:
-      'Observe. Learn the sky with your eyes and a pair of binoculars, keep a record of what you see, and get to know other observers — a local club like PAS is one of the easiest ways to do all three. Hands-on time under the stars is what sustains the interest that carries people through the coursework later.',
-  },
-];
+// Content lives in src/content/career-faqs/career-faqs.json (managed via the
+// Sveltia CMS) — see src/content.config.ts for the schema.
+const careerFaqEntry = (await getEntry('career-faqs', 'data'))!;
+const careerFaqs = careerFaqEntry.data.faqs;
 
 const resourceGroups = [
   {

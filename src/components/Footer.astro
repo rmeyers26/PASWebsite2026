@@ -1,4 +1,14 @@
 ---
+import { getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  // Optional so the component still works if ever rendered outside
+  // BaseLayout; falls back to fetching the same singleton itself.
+  siteSettings?: CollectionEntry<'site-settings'>['data'];
+}
+
+const siteSettings = Astro.props.siteSettings ?? (await getEntry('site-settings', 'data'))!.data;
 const year = new Date().getFullYear();
 ---
 
@@ -6,11 +16,11 @@ const year = new Date().getFullYear();
   <div class="mx-auto max-w-6xl px-6 py-10 text-sm text-ink-muted">
     <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       <div>
-        <p class="font-display text-ink-primary">Phoenix Astronomical Society</p>
-        <p class="mt-1">A 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona.</p>
+        <p class="font-display text-ink-primary">{siteSettings.orgName}</p>
+        <p class="mt-1">{siteSettings.description}</p>
         <div class="mt-4 flex flex-col gap-1">
           <a
-            href="https://www.facebook.com/PhoenixAstronomicalSociety"
+            href={siteSettings.socials.facebook}
             target="_blank"
             rel="noopener noreferrer"
             class="hover:text-nebula-teal"
@@ -18,7 +28,7 @@ const year = new Date().getFullYear();
             Facebook ↗
           </a>
           <a
-            href="https://www.instagram.com/phoenix_astronomical_society/"
+            href={siteSettings.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
             class="hover:text-nebula-teal"
@@ -26,7 +36,7 @@ const year = new Date().getFullYear();
             Instagram ↗
           </a>
           <a
-            href="https://www.threads.com/@phoenix_astronomical_society"
+            href={siteSettings.socials.threads}
             target="_blank"
             rel="noopener noreferrer"
             class="hover:text-nebula-teal"
@@ -34,7 +44,7 @@ const year = new Date().getFullYear();
             Threads ↗
           </a>
           <a
-            href="https://www.youtube.com/@PASAZ.ORG9876"
+            href={siteSettings.socials.youtube}
             target="_blank"
             rel="noopener noreferrer"
             class="hover:text-nebula-teal"
@@ -55,13 +65,15 @@ const year = new Date().getFullYear();
         <a href="/contact" class="hover:text-nebula-teal">Contact</a>
       </div>
       <div class="flex flex-col gap-1">
-        <a href="mailto:info@pasaz.org" class="hover:text-nebula-teal">info@pasaz.org</a>
-        <a href="mailto:astronomy-questions@pasaz.org" class="hover:text-nebula-teal">
-          astronomy-questions@pasaz.org
+        <a href={`mailto:${siteSettings.email}`} class="hover:text-nebula-teal">{siteSettings.email}</a>
+        <a href={`mailto:${siteSettings.astronomyQuestionsEmail}`} class="hover:text-nebula-teal">
+          {siteSettings.astronomyQuestionsEmail}
         </a>
-        <a href="mailto:webmaster@pasaz.org" class="hover:text-nebula-teal">webmaster@pasaz.org</a>
+        <a href={`mailto:${siteSettings.webmasterEmail}`} class="hover:text-nebula-teal">
+          {siteSettings.webmasterEmail}
+        </a>
       </div>
     </div>
-    <p class="mt-8 border-t border-subtle pt-6">© {year} Phoenix Astronomical Society. All rights reserved.</p>
+    <p class="mt-8 border-t border-subtle pt-6">© {year} {siteSettings.orgName}. All rights reserved.</p>
   </div>
 </footer>

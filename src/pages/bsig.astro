@@ -1,24 +1,11 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const previousBooks = [
-  {
-    title: 'Something Deeply Hidden: Quantum Worlds and the Emergence of Space-Time',
-    author: 'Sean Carroll',
-  },
-  {
-    title: 'Battle of the Big Bang: The New Tales of Our Cosmic Origins',
-    author: 'Niayesh Afshordi and Phil Halper',
-  },
-  {
-    title: 'The Secret Lives of Planets: Order, Chaos, and Uniqueness in the Solar System',
-    author: 'Paul Murdin',
-  },
-  {
-    title: 'The Beauty of Falling: A Life in Pursuit of Gravity',
-    author: 'Claudia de Rham',
-  },
-];
+// Content lives in src/content/bsig-books/bsig-books.json (managed via the
+// Sveltia CMS) — see src/content.config.ts for the schema.
+const bsigBooksEntry = (await getEntry('bsig-books', 'data'))!;
+const previousBooks = bsigBooksEntry.data.books;
 ---
 
 <BaseLayout
