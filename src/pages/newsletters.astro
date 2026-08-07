@@ -1,0 +1,186 @@
+---
+import { statSync } from 'node:fs';
+import { join } from 'node:path';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+type Issue = {
+  date: string;
+  title?: string;
+  summary?: string;
+  file: string;
+};
+
+// Content lives in src/content/newsletters/ (one JSON file per issue,
+// managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+const issueEntries = await getCollection('newsletters');
+const issues: Issue[] = issueEntries.map((entry) => ({
+  date: entry.data.date,
+  title: entry.data.title,
+  summary: entry.data.summary,
+  file: entry.data.pdf,
+}));
+
+// public/ is copied verbatim into the build, so an issue's `file` path is both
+// its URL and its location on disk relative to public/. Resolve against the cwd
+// rather than import.meta.url: this frontmatter is bundled into
+// dist/.prerender/chunks/ before it runs, so import.meta.url points at the
+// bundle, not at this file. Both `astro dev` and `astro build` run from the
+// project root.
+const publicDir = join(process.cwd(), 'public');
+
+// Reading the size off disk means nobody has to type a byte count that would
+// then silently drift when a PDF is replaced. A bad `file` path is the likeliest
+// maintenance mistake, so warn loudly at build time — but do not fail the build
+// over it, since a single bad row should never block a deploy of everything else.
+function fileSize(file: string): string | undefined {
+  try {
+    const bytes = statSync(join(publicDir, file)).size;
+    return bytes >= 1024 * 1024
+      ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+      : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  } catch {
+    console.warn(`[newsletters] No file at public${file} — check the path in src/pages/newsletters.astro`);
+    return undefined;
+  }
+}
+
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'long',
+  // The dates are calendar days, not instants. Without this they parse as UTC
+  // midnight and render as the previous day for anyone west of Greenwich — us.
+  timeZone: 'UTC',
+});
+
+// Newest first, then grouped into years in that same order, so the year headings
+// come out descending without a separately maintained list of years.
+const sorted = [...issues].sort((a, b) => b.date.localeCompare(a.date));
+
+const byYear = new Map<string, (Issue & { size?: string; displayDate: string })[]>();
+for (const issue of sorted) {
+  const year = issue.date.slice(0, 4);
+  const entry = {
+    ...issue,
+    size: fileSize(issue.file),
+    displayDate: dateFormat.format(new Date(`${issue.date}T00:00:00Z`)),
+  };
+  byYear.set(year, [...(byYear.get(year) ?? []), entry]);
+}
+const years = [...byYear.entries()];
+const [, latestIssues] = years[0] ?? [undefined, []];
+const latest = latestIssues[0];
+---
+
+<BaseLayout
+  title="Newsletters"
+  description="Read the Phoenix Astronomical Society's monthly newsletter and browse the historical archive of past issues."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      Newsletters
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Newsletters</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      The Phoenix Astronomical Society's monthly newsletter — club news, upcoming events, and member updates.
+      Every issue is posted here as a PDF you can read or download, along with the full historical archive.
+    </p>
+  </section>
+
+  {
+    latest && (
+      <section class="border-t border-subtle bg-space-card/40">
+        <div class="mx-auto max-w-4xl px-6 py-16">
+          <h2 class="section-heading">Latest Issue</h2>
+          <div class="mt-6 border-b border-subtle pb-6">
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <a
+                href={latest.file}
+                type="application/pdf"
+                class="text-xl font-semibold text-ink-primary hover:text-nebula-teal"
+              >
+                {latest.title ?? <time datetime={latest.date}>{latest.displayDate}</time>}
+              </a>
+              <span class="text-sm text-ink-muted">PDF{latest.size ? ` · ${latest.size}` : ''}</span>
+            </div>
+            {latest.title && (
+              <time datetime={latest.date} class="mt-1 block text-sm text-nebula-teal">
+                {latest.displayDate}
+              </time>
+            )}
+            {latest.summary && <p class="mt-2 text-ink-muted">{latest.summary}</p>}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Archive</h2>
+      {
+        years.length === 0 ? (
+          <p class="mt-6 text-ink-muted">
+            Newsletters will be posted here as they are issued. In the meantime, see{' '}
+            <a href="/events" class="text-nebula-teal hover:underline">
+              upcoming events
+            </a>{' '}
+            or get in touch at{' '}
+            <a href="mailto:info@pasaz.org" class="text-nebula-teal hover:underline">
+              info@pasaz.org
+            </a>
+            .
+          </p>
+        ) : (
+          <div class="mt-6 space-y-14">
+            {years.map(([year, entries], yearIndex) => {
+              // The latest issue already has its own section above, so skip it
+              // here without hiding the rest of its year's issues.
+              const listed = yearIndex === 0 ? entries.slice(1) : entries;
+              return (
+                listed.length > 0 && (
+                  <div>
+                    <h3 class="text-lg font-semibold text-ink-primary">{year}</h3>
+                    <ul class="mt-6 space-y-4">
+                      {listed.map((issue) => (
+                        <li class="border-b border-subtle pb-4">
+                          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                            {/* Same-origin document, so no new tab and no ↗ — this
+                                site reserves both for links that leave it. The file
+                                type and size sit in the link text so the label is
+                                honest about what following it does. */}
+                            <a
+                              href={issue.file}
+                              type="application/pdf"
+                              class="font-semibold text-ink-primary hover:text-nebula-teal"
+                            >
+                              {issue.title ?? <time datetime={issue.date}>{issue.displayDate}</time>}
+                            </a>
+                            <span class="text-sm text-ink-muted">PDF{issue.size ? ` · ${issue.size}` : ''}</span>
+                          </div>
+                          {/* Only a second line when the link text is the headline —
+                              otherwise the date would be printed twice. */}
+                          {issue.title && (
+                            <time datetime={issue.date} class="mt-1 block text-sm text-nebula-teal">
+                              {issue.displayDate}
+                            </time>
+                          )}
+                          {issue.summary && <p class="mt-2 text-ink-muted">{issue.summary}</p>}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              );
+            })}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <PlaceholderNote label="Newsletter issues are managed from the CMS (Content > Newsletters) — add a new issue there each month, and older issues can be uploaded to build out the historical archive. Remove this note once the archive is populated." />
+  </section>
+</BaseLayout>
