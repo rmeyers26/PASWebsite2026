@@ -81,12 +81,27 @@ const officers = officerEntries.sort((a, b) => a.data.order - b.data.order).map(
     <div class="mt-10 grid gap-4 sm:grid-cols-2">
       {
         officers.map((officer) => (
-          <div class="card">
-            <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
-            <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
-            <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">
-              {officer.email}
-            </a>
+          <div class="card flex items-start gap-4">
+            {officer.photo && (
+              // CMS uploads land in public/ as a plain URL string, which
+              // bypasses Astro's <Image> pipeline entirely — see
+              // src/content.config.ts for why this field is a plain string.
+              <div class="h-16 w-16 flex-none overflow-hidden rounded-full border border-subtle bg-space-card">
+                <img
+                  src={officer.photo}
+                  alt={`Photo of ${officer.name}`}
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
+              <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
+              <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">
+                {officer.email}
+              </a>
+            </div>
           </div>
         ))
       }

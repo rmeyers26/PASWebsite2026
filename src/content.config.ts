@@ -41,18 +41,18 @@ const pressReleases = defineCollection({
 
 const officers = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/officers' }),
-  schema: ({ image }) =>
-    z.object({
+  schema: z.object({
       role: z.string(),
       name: z.string(),
       email: z.string(),
       order: z.number(),
-      // Sveltia uploads new photos to the public/ media folder (a plain URL
-      // string, not an asset Vite can process), so image() alone would
-      // reject every CMS-uploaded photo. Accept either: a processed
-      // src-asset for anything curated directly in the repo, or a public
-      // URL string for anything uploaded through the CMS.
-      photo: z.union([image(), z.string()]).optional(),
+      // Astro resolves an image()-typed field for every entry, even ones
+      // where the actual value is a CMS-uploaded public/ URL string — a
+      // union with image() doesn't fall back gracefully per-entry, it just
+      // crashes the build the moment any entry's value isn't a real local
+      // asset. No officer has a curated src-asset photo today, so this is a
+      // plain string (rendered as a plain <img> in about.astro).
+      photo: z.string().optional(),
     }),
 });
 
@@ -116,11 +116,16 @@ const gallery = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/gallery' }),
   schema: ({ image }) =>
     z.object({
-      // See the officers.photo comment above — same reason for the union:
-      // curated photos stay as processed src-assets, CMS uploads land in
-      // public/ as a plain URL string. gallery.astro renders each variant
-      // differently (<Image> vs a plain <img>).
-      image: z.union([image(), z.string()]),
+      // Two distinct fields, not a union — see the officers.photo comment
+      // for why: Astro resolves an image()-typed field for every entry, so
+      // a value that's actually a CMS-uploaded public/ URL string crashes
+      // the build the moment it's declared under the same image()-bearing
+      // field as a real curated asset. `image` is developer-curated only
+      // (not exposed in the CMS config); `photo` is what Sveltia writes to
+      // when an editor uploads a new gallery photo. gallery.astro prefers
+      // `photo` when present, falling back to `image`.
+      image: image().optional(),
+      photo: z.string().optional(),
       alt: z.string(),
       photographer: z.string(),
       subject: z.string(),
