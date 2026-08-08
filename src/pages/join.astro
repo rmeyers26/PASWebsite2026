@@ -1,7 +1,10 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import heroPhoto from '../assets/images/star-tours-event-crowd.jpg';
+
+const siteSettings = (await getEntry('site-settings', 'data'))!.data;
 
 // From PAStimes, August 2026 (Vol. 77, Issue #12), "Benefits of PAS
 // Membership" — the club's own published list, lightly tightened for a
@@ -29,8 +32,8 @@ const membershipTiers = [
 ];
 
 const addOns = [
-  { name: 'Name Badge', price: '$20' },
-  { name: 'Embroidered Logo', price: '$10' },
+  { name: 'Name Badge', price: '$20', photo: siteSettings.nameBadgePhoto },
+  { name: 'Embroidered Logo', price: '$10', photo: siteSettings.patchPhoto },
 ];
 ---
 
@@ -100,6 +103,9 @@ const addOns = [
               <label class="card addon-option flex items-center justify-between">
                 <span class="flex items-center gap-3">
                   <input type="checkbox" name="addon" value={item.name} data-price={item.price} />
+                  {item.photo && (
+                    <img src={item.photo} alt="" class="h-12 w-16 flex-none rounded object-contain" />
+                  )}
                   <span class="text-ink-muted">{item.name}</span>
                 </span>
                 <span class="font-display text-ink-primary">{item.price}</span>
