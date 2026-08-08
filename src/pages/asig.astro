@@ -14,6 +14,7 @@ interface AsigMeeting {
   start: Date;
   allDay: boolean;
   location?: string;
+  url?: string;
 }
 
 function unfoldIcs(raw: string): string {
@@ -60,11 +61,13 @@ try {
       const start = parseIcsDate(dtstartMatch[1], allDay);
 
       const locationMatch = block.match(/^LOCATION:(.+)$/m);
+      const urlMatch = block.match(/^URL(?:;[^:]*)?:(.+)$/m);
       meetings.push({
         summary: summary.replace(/^ASIG\s*/i, '').trim(),
         start,
         allDay,
         location: locationMatch?.[1].trim().replace(/\\,/g, ','),
+        url: urlMatch?.[1].trim(),
       });
     }
     meetings.sort((a, b) => a.start.getTime() - b.start.getTime());
@@ -90,6 +93,7 @@ const asigMeetingSchemas = upcomingAsigMeetings.map((meeting) => ({
   eventStatus: 'https://schema.org/EventScheduled',
   organizer: { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' },
   location: meeting.location ? { '@type': 'Place', name: meeting.location } : undefined,
+  url: meeting.url,
 }));
 
 const whatWeDo = [
@@ -286,6 +290,18 @@ const whatYoullGain = [
                   <p class="mt-2 text-sm text-ink-muted">
                     📍 {meeting.location}
                     {meeting.location.toLowerCase().includes('zoom') && ' — online, not at PVCC'}
+                  </p>
+                )}
+                {meeting.url && (
+                  <p class="mt-2">
+                    <a
+                      href={meeting.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm font-semibold text-nebula-teal hover:underline"
+                    >
+                      Sign up on Bookwhen →
+                    </a>
                   </p>
                 )}
               </li>
