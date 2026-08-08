@@ -118,24 +118,40 @@ async function fetchFromNasaApi(): Promise<Apod | null> {
   };
 }
 
+async function fetchFromRssFeed(): Promise<Apod | null> {
+  const res = await fetchWithTimeout(feedUrl, { headers: { 'User-Agent': BROWSER_USER_AGENT } });
+  if (!res.ok) {
+    console.error(`APOD: RSS feed returned ${res.status}`);
+    return null;
+  }
+  const parsed = parseFirstItem(await res.text());
+  if (!parsed) console.error('APOD: RSS feed fetched but no item could be parsed');
+  return parsed;
+}
+
+// With a real NASA_API_KEY configured, api.nasa.gov gets its own quota and is
+// the more reliable source — try it first and fall back to the RSS feed
+// (which needs no key, but sits behind Cloudflare bot protection that can
+// block requests from some hosts) only if that fails. Without a real key,
+// try the RSS feed first since the shared DEMO_KEY is rate-limited to 10
+// requests/hour across every unauthenticated caller on the internet.
+const hasNasaApiKey = Boolean(import.meta.env.NASA_API_KEY);
+const [primary, secondary] = hasNasaApiKey
+  ? [fetchFromNasaApi, fetchFromRssFeed]
+  : [fetchFromRssFeed, fetchFromNasaApi];
+
 let apod: Apod | null = null;
 try {
-  const res = await fetchWithTimeout(feedUrl, { headers: { 'User-Agent': BROWSER_USER_AGENT } });
-  if (res.ok) {
-    apod = parseFirstItem(await res.text());
-    if (!apod) console.error('APOD: RSS feed fetched but no item could be parsed');
-  } else {
-    console.error(`APOD: RSS feed returned ${res.status}`);
-  }
+  apod = await primary();
 } catch (err) {
-  console.error('APOD: RSS feed fetch failed', err);
+  console.error('APOD: primary source failed', err);
 }
 
 if (!apod) {
   try {
-    apod = await fetchFromNasaApi();
+    apod = await secondary();
   } catch (err) {
-    console.error('APOD: NASA API fallback failed', err);
+    console.error('APOD: fallback source failed', err);
   }
 }
 
