@@ -1,37 +1,96 @@
 ---
 import { Image } from 'astro:assets';
-// NASA Astronomy Picture of the Day: https://apod.nasa.gov/apod/astropix.html
-// Fetched at build time. Set NASA_API_KEY in the environment for a higher rate
-// limit than the shared DEMO_KEY (get one free at https://api.nasa.gov).
-const apiKey = import.meta.env.NASA_API_KEY || 'DEMO_KEY';
+// NASA Astronomy Picture of the Day, via the community-run RSS mirror at
+// https://apod.com/feed.rss (https://github.com/etabits/apodrss). The
+// official api.nasa.gov/planetary/apod endpoint shares a DEMO_KEY rate
+// limit across every unauthenticated caller on the internet, which made
+// this section fail intermittently at build time. The RSS feed needs no
+// key and lists the most recent entries with the latest first.
+const feedUrl = 'https://apod.com/feed.rss';
 
 interface Apod {
   title: string;
   explanation: string;
   url: string;
-  hdurl?: string;
   media_type: 'image' | 'video';
   date: string;
+  permalink: string;
   copyright?: string;
+}
+
+function tagContent(xml: string, tag: string): string | null {
+  const match = xml.match(new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`));
+  if (!match) return null;
+  const cdata = match[1].match(/^<!\[CDATA\[([\s\S]*)\]\]>$/);
+  return cdata ? cdata[1] : match[1];
+}
+
+const HTML_ENTITIES: Record<string, string> = {
+  '&nbsp;': ' ',
+  '&amp;': '&',
+  '&lt;': '<',
+  '&gt;': '>',
+  '&quot;': '"',
+  '&#39;': "'",
+};
+
+function stripHtml(html: string): string {
+  const withoutMedia = html.replace(/^\s*<(img|iframe)\b[^>]*>\s*(<br\s*\/?>)?/i, '');
+  const withoutLabel = withoutMedia.replace(/<b>\s*Explanation:\s*<\/b>/i, '');
+  const textOnly = withoutLabel.replace(/<[^>]+>/g, ' ');
+  const decoded = textOnly.replace(/&[a-z#0-9]+;/gi, (entity) => HTML_ENTITIES[entity] ?? entity);
+  return decoded.replace(/\s+/g, ' ').replace(/\s+([.,;:])/g, '$1').trim();
+}
+
+function parseFirstItem(rss: string): Apod | null {
+  const itemMatch = rss.match(/<item>([\s\S]*?)<\/item>/);
+  if (!itemMatch) return null;
+  const item = itemMatch[1];
+
+  const title = tagContent(item, 'title');
+  const link = tagContent(item, 'link');
+  const contentEncoded = tagContent(item, 'content:encoded');
+  if (!title || !link || !contentEncoded) return null;
+
+  const dateMatch = link.match(/ap(\d{2})(\d{2})(\d{2})\.html/);
+  const date = dateMatch ? `20${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}` : '';
+
+  const iframeMatch = contentEncoded.match(/<iframe[^>]+src="([^"]+)"/i);
+  const enclosureMatch = item.match(/<enclosure\s+url="([^"]+)"/);
+
+  const creators = [...item.matchAll(/<dc:creator>([\s\S]*?)<\/dc:creator>/g)].map((m) => m[1].trim());
+
+  return {
+    title,
+    explanation: stripHtml(contentEncoded),
+    url: iframeMatch ? iframeMatch[1] : enclosureMatch?.[1] ?? link,
+    media_type: iframeMatch ? 'video' : 'image',
+    date,
+    permalink: link,
+    copyright: creators.length > 0 ? creators.join(', ') : undefined,
+  };
 }
 
 let apod: Apod | null = null;
 try {
-  const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
+  const res = await fetch(feedUrl);
   if (res.ok) {
-    apod = await res.json();
+    apod = parseFirstItem(await res.text());
   }
 } catch {
   apod = null;
 }
 
-// The APOD payload carries no dimensions, and an <img> without them shifts the
-// page as it decodes. Read them out of the file header at build time — a ranged
-// request is enough to reach the JPEG SOF / PNG IHDR marker.
-function readJpegOrPngSize(buffer: Uint8Array): { width: number; height: number } | null {
+// The feed carries no image dimensions, and an <img> without them shifts
+// the page as it decodes. Read them out of the file header at build time —
+// a ranged request is enough to reach the JPEG SOF / PNG IHDR / GIF header.
+function readImageSize(buffer: Uint8Array): { width: number; height: number } | null {
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
   if (buffer[0] === 0x89 && buffer[1] === 0x50) {
     return { width: view.getUint32(16), height: view.getUint32(20) };
+  }
+  if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) {
+    return { width: view.getUint16(6, true), height: view.getUint16(8, true) };
   }
   if (buffer[0] !== 0xff || buffer[1] !== 0xd8) return null;
   let offset = 2;
@@ -55,27 +114,12 @@ if (apod?.media_type === 'image') {
   try {
     const res = await fetch(apod.url, { headers: { Range: 'bytes=0-131071' } });
     if (res.ok) {
-      apodSize = readJpegOrPngSize(new Uint8Array(await res.arrayBuffer()));
+      apodSize = readImageSize(new Uint8Array(await res.arrayBuffer()));
     }
   } catch {
     apodSize = null;
   }
 }
-
-// APOD's explanation field regularly ends with a self-promotional sentence
-// (a link to further reading, a "Follow APOD on" plug, etc.) that reads as
-// noise once we're excerpting rather than embedding the full write-up —
-// drop any trailing sentence that contains a URL before it's clamped.
-const explanationSentences = apod?.explanation.trim().split(/(?<=[.!?])\s+/) ?? [];
-while (explanationSentences.length > 1 && /https?:\/\//.test(explanationSentences.at(-1)!)) {
-  explanationSentences.pop();
-}
-const explanation = explanationSentences.join(' ');
-
-// Permalink format NASA has used for every daily APOD page since 1995.
-const apodPermalink = apod
-  ? `https://apod.nasa.gov/apod/ap${apod.date.replace(/-/g, '').slice(2)}.html`
-  : undefined;
 ---
 
 {
@@ -110,7 +154,7 @@ const apodPermalink = apod
         </p>
         <div class="card mt-8 grid gap-8 md:grid-cols-2 md:items-center">
           {apod.media_type === 'image' ? (
-            <a href={apod.hdurl ?? apod.url} target="_blank" rel="noopener noreferrer">
+            <a href={apod.permalink} target="_blank" rel="noopener noreferrer">
               {apodSize ? (
                 <Image
                   src={apod.url}
@@ -149,9 +193,9 @@ const apodPermalink = apod
           <div>
             <p class="text-sm tabular-nums text-ink-muted">{apod.date}</p>
             <h3 class="font-display mt-1 text-xl text-nebula-teal">{apod.title}</h3>
-            <p class="mt-3 line-clamp-3 text-ink-muted">{explanation}</p>
+            <p class="mt-3 line-clamp-3 text-ink-muted">{apod.explanation}</p>
             <a
-              href={apodPermalink}
+              href={apod.permalink}
               target="_blank"
               rel="noopener noreferrer"
               class="mt-2 inline-block text-sm text-nebula-teal hover:underline"
@@ -159,7 +203,7 @@ const apodPermalink = apod
               Read the full description on APOD ↗
             </a>
             {apod.copyright && (
-              <p class="mt-4 text-sm text-ink-muted">© {apod.copyright.trim()}</p>
+              <p class="mt-4 text-sm text-ink-muted">© {apod.copyright}</p>
             )}
           </div>
         </div>
