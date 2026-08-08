@@ -167,7 +167,10 @@ if (!apod) {
   }
 }
 
-const showDebug = import.meta.env.CONTEXT !== 'production' && debugMessages.length > 0;
+// TEMPORARY: showing on production too while diagnosing a persistent
+// failure even with a real NASA_API_KEY set. Revert to non-production-only
+// once the cause is confirmed — see conversation with Claude for context.
+const showDebug = debugMessages.length > 0;
 
 // The feed carries no image dimensions, and an <img> without them shifts
 // the page as it decodes. Read them out of the file header at build time —
