@@ -99,11 +99,23 @@ interface NasaApodResponse {
   copyright?: string;
 }
 
+// Diagnostics for when both sources fail — surfaced right on the page for
+// any non-production build (Netlify sets CONTEXT to deploy-preview /
+// branch-deploy / dev), since digging through an authenticated build log
+// is slower than just looking at the rendered page.
+const debugMessages: string[] = [];
+function logError(message: string, err?: unknown) {
+  const detail = err instanceof Error ? err.message : err ? String(err) : '';
+  const line = detail ? `${message}: ${detail}` : message;
+  console.error(`APOD: ${line}`);
+  debugMessages.push(line);
+}
+
 async function fetchFromNasaApi(): Promise<Apod | null> {
   const apiKey = import.meta.env.NASA_API_KEY || 'DEMO_KEY';
   const res = await fetchWithTimeout(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
   if (!res.ok) {
-    console.error(`APOD: NASA API fallback returned ${res.status}`);
+    logError(`NASA API returned ${res.status} ${res.statusText}`);
     return null;
   }
   const data: NasaApodResponse = await res.json();
@@ -121,11 +133,11 @@ async function fetchFromNasaApi(): Promise<Apod | null> {
 async function fetchFromRssFeed(): Promise<Apod | null> {
   const res = await fetchWithTimeout(feedUrl, { headers: { 'User-Agent': BROWSER_USER_AGENT } });
   if (!res.ok) {
-    console.error(`APOD: RSS feed returned ${res.status}`);
+    logError(`RSS feed returned ${res.status} ${res.statusText}`);
     return null;
   }
   const parsed = parseFirstItem(await res.text());
-  if (!parsed) console.error('APOD: RSS feed fetched but no item could be parsed');
+  if (!parsed) logError('RSS feed fetched but no item could be parsed');
   return parsed;
 }
 
@@ -144,16 +156,18 @@ let apod: Apod | null = null;
 try {
   apod = await primary();
 } catch (err) {
-  console.error('APOD: primary source failed', err);
+  logError('primary source threw', err);
 }
 
 if (!apod) {
   try {
     apod = await secondary();
   } catch (err) {
-    console.error('APOD: fallback source failed', err);
+    logError('fallback source threw', err);
   }
 }
+
+const showDebug = import.meta.env.CONTEXT !== 'production' && debugMessages.length > 0;
 
 // The feed carries no image dimensions, and an <img> without them shifts
 // the page as it decodes. Read them out of the file header at build time —
@@ -203,6 +217,11 @@ if (apod?.media_type === 'image') {
         <h2 class="section-heading">Astronomy Picture of the Day</h2>
         <div class="card mt-8">
           <p class="text-ink-muted">APOD unavailable — check back tomorrow.</p>
+          {showDebug && (
+            <pre class="mt-4 overflow-x-auto whitespace-pre-wrap text-left text-xs text-ink-muted/70">
+              {debugMessages.join('\n')}
+            </pre>
+          )}
         </div>
       </div>
     </section>
