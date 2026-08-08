@@ -125,6 +125,24 @@ const skyTargets = defineCollection({
   }),
 });
 
+const lectureVideos = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/lecture-videos' }),
+  schema: z.object({
+    // ISO 'YYYY-MM-DD'. Drives sort order, year (season) grouping, and the
+    // displayed date — same convention as press-releases/newsletters.
+    date: z.string(),
+    title: z.string(),
+    speaker: z.string(),
+    // e.g. "PAS member", "Lowell Observatory", "ASU" — shown alongside the
+    // speaker's name.
+    affiliation: z.string().optional(),
+    summary: z.string().optional(),
+    // Full URL to the recording (Google Drive, YouTube, etc). Optional so a
+    // lecture can be listed before its video is uploaded/linked.
+    videoUrl: z.string().optional(),
+  }),
+});
+
 const gallery = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/gallery' }),
   schema: ({ image }) =>
@@ -204,6 +222,7 @@ const siteSettings = defineCollection({
 export const collections = {
   'press-releases': pressReleases,
   newsletters,
+  'lecture-videos': lectureVideos,
   officers,
   'past-presidents': pastPresidents,
   'career-faqs': careerFaqs,
