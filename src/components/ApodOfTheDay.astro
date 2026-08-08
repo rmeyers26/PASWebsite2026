@@ -6,7 +6,25 @@ import { Image } from 'astro:assets';
 // limit across every unauthenticated caller on the internet, which made
 // this section fail intermittently at build time. The RSS feed needs no
 // key and lists the most recent entries with the latest first.
+//
+// Some hosts' build servers get blocked or challenged by Cloudflare (which
+// fronts apod.com) when the request looks like a bot, so this sends a
+// browser-like User-Agent and falls back to the official NASA endpoint if
+// the feed can't be reached at all.
 const feedUrl = 'https://apod.com/feed.rss';
+const FETCH_TIMEOUT_MS = 8000;
+const BROWSER_USER_AGENT =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+
+async function fetchWithTimeout(url: string, init?: RequestInit): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 interface Apod {
   title: string;
@@ -71,14 +89,54 @@ function parseFirstItem(rss: string): Apod | null {
   };
 }
 
+interface NasaApodResponse {
+  title: string;
+  explanation: string;
+  url: string;
+  hdurl?: string;
+  media_type: 'image' | 'video';
+  date: string;
+  copyright?: string;
+}
+
+async function fetchFromNasaApi(): Promise<Apod | null> {
+  const apiKey = import.meta.env.NASA_API_KEY || 'DEMO_KEY';
+  const res = await fetchWithTimeout(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
+  if (!res.ok) {
+    console.error(`APOD: NASA API fallback returned ${res.status}`);
+    return null;
+  }
+  const data: NasaApodResponse = await res.json();
+  return {
+    title: data.title,
+    explanation: data.explanation,
+    url: data.media_type === 'image' ? (data.hdurl ?? data.url) : data.url,
+    media_type: data.media_type,
+    date: data.date,
+    permalink: `https://apod.nasa.gov/apod/ap${data.date.replace(/-/g, '').slice(2)}.html`,
+    copyright: data.copyright?.trim(),
+  };
+}
+
 let apod: Apod | null = null;
 try {
-  const res = await fetch(feedUrl);
+  const res = await fetchWithTimeout(feedUrl, { headers: { 'User-Agent': BROWSER_USER_AGENT } });
   if (res.ok) {
     apod = parseFirstItem(await res.text());
+    if (!apod) console.error('APOD: RSS feed fetched but no item could be parsed');
+  } else {
+    console.error(`APOD: RSS feed returned ${res.status}`);
   }
-} catch {
-  apod = null;
+} catch (err) {
+  console.error('APOD: RSS feed fetch failed', err);
+}
+
+if (!apod) {
+  try {
+    apod = await fetchFromNasaApi();
+  } catch (err) {
+    console.error('APOD: NASA API fallback failed', err);
+  }
 }
 
 // The feed carries no image dimensions, and an <img> without them shifts
