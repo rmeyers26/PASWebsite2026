@@ -120,55 +120,13 @@ const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
     <Footer siteSettings={siteSettings} />
     <BackToTop />
 
-    <!-- Inline + data-astro-rerun so this executes again after every view
-         transition; a bundled module script only ever runs once per document.
-         The hidden state is applied here rather than in the stylesheet, so
-         content is never hidden from visitors without JS. -->
-    <script is:inline data-astro-rerun>
-      (() => {
-        const targets = document.querySelectorAll('main section:not([data-hero])');
-        if (!targets.length) return;
-
-        const revealAll = () => targets.forEach((el) => el.classList.add('is-revealed'));
-
-        if (
-          window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-          !('IntersectionObserver' in window)
-        ) {
-          revealAll();
-          return;
-        }
-
-        window.__pasReveal?.disconnect();
-        const observer = new IntersectionObserver(
-          (entries, obs) => {
-            for (const entry of entries) {
-              if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-revealed');
-              obs.unobserve(entry.target); // reveal once, never re-hide on scroll up
-            }
-          },
-          { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
-        );
-        window.__pasReveal = observer;
-
-        targets.forEach((el) => {
-          el.classList.add('reveal');
-          observer.observe(el);
-        });
-
-        // Belt and braces: anything already on screen is revealed synchronously,
-        // so a transition that arms the observer mid-layout can never strand
-        // content at opacity 0.
-        requestAnimationFrame(() => {
-          targets.forEach((el) => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-              el.classList.add('is-revealed');
-            }
-          });
-        });
-      })();
+    <!-- The hidden state is applied here rather than in the stylesheet, so
+         content is never hidden from visitors without JS. Re-runs on every
+         view transition via astro:page-load, same as every other client
+         script on the site (see src/scripts/scroll-reveal.ts). -->
+    <script>
+      import { initScrollReveal } from '../scripts/scroll-reveal';
+      initScrollReveal();
     </script>
   </body>
 </html>

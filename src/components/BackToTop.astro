@@ -93,30 +93,6 @@ const isHomepage = Astro.url.pathname === '/';
 </style>
 
 <script>
-  // Both buttons are swapped out with the rest of the DOM on every
-  // view-transition navigation, so visibility + click handling needs
-  // rebinding each time. window survives navigations, so its scroll
-  // listener is registered once and re-queries the current buttons on
-  // every scroll — the same split NavBar.astro uses for its document-level
-  // listeners.
-  function updateVisibility() {
-    const isVisible = window.scrollY > 600;
-    document.getElementById('back-to-top')?.classList.toggle('is-visible', isVisible);
-    document.getElementById('back-home')?.classList.toggle('is-visible', isVisible);
-  }
-
-  function bindBackToTop() {
-    const button = document.getElementById('back-to-top');
-    if (!button) return;
-
-    updateVisibility();
-    button.addEventListener('click', () => {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-    });
-  }
-
-  window.addEventListener('scroll', updateVisibility, { passive: true });
-  bindBackToTop();
-  document.addEventListener('astro:page-load', bindBackToTop);
+  import { initBackToTop } from '../scripts/back-to-top';
+  initBackToTop();
 </script>
