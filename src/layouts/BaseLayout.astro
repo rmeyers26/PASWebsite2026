@@ -1,5 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
 import Starfield from '../components/Starfield.astro';
@@ -21,13 +22,22 @@ import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal
 interface Props {
   title: string;
   description: string;
-  image?: string;
+  /** Defaults to the club logo. Pass a page's own hero photo (the same
+   *  ImageMetadata already imported for its <Hero>) so shares of that page
+   *  render an actual photograph instead of a 72px logo on every card —
+   *  previously every one of the 14+ pages shared the same logo OG image. */
+  image?: ImageMetadata | string;
 }
 
 const { title, description, image = '/images/pas-logo.png' } = Astro.props;
 const pageTitle = `${title} · Phoenix Astronomical Society`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const imageURL = new URL(image, Astro.site);
+// Resized to the standard 1200×630 OG/Twitter card ratio rather than shipping
+// a full 1440px hero source — social platforms fetch this on every unfurl,
+// so it stays a static, cacheable, purpose-sized asset either way.
+const ogImageSrc =
+  typeof image === 'string' ? image : (await getImage({ src: image, width: 1200, height: 630 })).src;
+const imageURL = new URL(ogImageSrc, Astro.site);
 
 // Site-wide org identity lives in src/content/site-settings/site-settings.json
 // (managed via the Sveltia CMS) — see src/content.config.ts for the schema.

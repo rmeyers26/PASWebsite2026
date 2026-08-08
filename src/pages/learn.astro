@@ -71,6 +71,18 @@ const kidsResources = [
 const careerFaqEntry = (await getEntry('career-faqs', 'data'))!;
 const careerFaqs = careerFaqEntry.data.faqs;
 
+// FAQPage JSON-LD for the career FAQ below — the review flagged this as
+// substantive, well-formed Q&A content getting zero SEO credit for it.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: careerFaqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
 const resourceGroups = [
   {
     title: 'Plan Your Observing',
@@ -127,7 +139,9 @@ const careerLinks = [
 <BaseLayout
   title="Learn Astronomy"
   description="Beginner-friendly astronomy resources from the Phoenix Astronomical Society — a kids' corner, answers about astronomy careers, and a curated set of links for observers of every level."
+  image={heroPhoto}
 >
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <Hero
     image={heroPhoto}
     alt="A PAS member showing visitors a telescope setup at a daytime outreach event"
