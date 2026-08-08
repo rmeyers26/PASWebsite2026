@@ -12,8 +12,20 @@ function boot() {
   teardown = null;
 
   const section = document.getElementById('space-hero');
-  const canvas = document.getElementById('space-hero-canvas') as HTMLCanvasElement | null;
-  if (!section || !canvas) return;
+  const existingCanvas = document.getElementById('space-hero-canvas') as HTMLCanvasElement | null;
+  if (!section || !existingCanvas) return;
+
+  // Astro's view-transition swap morphs unchanged elements in place rather
+  // than replacing them, so this exact <canvas> node — and its WebGL
+  // context — survives across navigations even though it isn't marked
+  // transition:persist. A disposed WebGLRenderer can leave global GL state
+  // set on that context (three.js sets UNPACK_FLIP_Y_WEBGL for CanvasTexture
+  // uploads and never resets it), which a new WebGLRenderer on the same
+  // context then inherits, breaking its placeholder 3D/array texture setup
+  // (Chrome logs "texImage3D: FLIP_Y or PREMULTIPLY_ALPHA isn't allowed for
+  // uploading 3D textures"). Cloning the node guarantees a pristine context.
+  const canvas = existingCanvas.cloneNode(false) as HTMLCanvasElement;
+  existingCanvas.replaceWith(canvas);
 
   // three.js is ~124KB gzipped and cannot be meaningfully tree-shaken —
   // WebGLRenderer alone pulls in most of the library. The hero has a CSS
