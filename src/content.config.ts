@@ -184,6 +184,11 @@ const siteSettings = defineCollection({
     foundingYear: z.string(),
     description: z.string(),
     logo: z.string(),
+    // CMS-uploaded photos of the physical membership add-ons, shown next to
+    // their line items on the join page. Plain string paths, not image() —
+    // see the officers.photo comment above for why.
+    nameBadgePhoto: z.string().optional(),
+    patchPhoto: z.string().optional(),
     email: z.string(),
     astronomyQuestionsEmail: z.string(),
     webmasterEmail: z.string(),

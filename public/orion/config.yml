@@ -196,6 +196,8 @@ collections:
           - { label: "Founding Year", name: foundingYear, widget: string }
           - { label: "Description", name: description, widget: text }
           - { label: "Logo Path", name: logo, widget: string, hint: "Path under public/, e.g. /images/pas-logo.png — not a file upload, this must match an existing file." }
+          - { label: "Name Badge Photo", name: nameBadgePhoto, widget: image, required: false, hint: "Photo of the name badge shown on the Join page." }
+          - { label: "Patch Photo", name: patchPhoto, widget: image, required: false, hint: "Photo of the embroidered patch/logo shown on the Join page." }
           - { label: "General Email", name: email, widget: string }
           - { label: "Astronomy Questions Email", name: astronomyQuestionsEmail, widget: string }
           - { label: "Webmaster Email", name: webmasterEmail, widget: string }
