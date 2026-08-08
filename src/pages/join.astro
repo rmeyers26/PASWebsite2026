@@ -66,6 +66,9 @@ const addOns = [
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Membership Tiers</h2>
       <p class="mt-3 text-ink-muted">Recurring memberships are annual, January through December.</p>
+      <p class="mt-4 inline-flex items-center gap-2 rounded-full border border-nebula-amber/40 bg-nebula-amber/10 px-4 py-1.5 text-sm text-nebula-amber">
+        <span aria-hidden="true">&#9888;</span> Test mode — payment buttons below are a UI preview only. No PayPal account is connected and no charges occur.
+      </p>
       <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {
           membershipTiers.map((tier) =>
@@ -74,11 +77,27 @@ const addOns = [
                 <span class="glass-badge">Most Common</span>
                 <p class="mt-4 text-ink-primary">{tier.name}</p>
                 <p class="mt-1 font-display text-2xl text-nebula-amber">{tier.price}</p>
+                <button
+                  type="button"
+                  class="paypal-test-btn mt-4 w-full"
+                  data-tier={tier.name}
+                  data-price={tier.price}
+                >
+                  Pay with PayPal
+                </button>
               </div>
             ) : (
               <div class="card">
                 <p class="text-ink-primary">{tier.name}</p>
                 <p class="mt-1 font-display text-2xl text-nebula-amber">{tier.price}</p>
+                <button
+                  type="button"
+                  class="paypal-test-btn mt-4 w-full"
+                  data-tier={tier.name}
+                  data-price={tier.price}
+                >
+                  Pay with PayPal
+                </button>
               </div>
             ),
           )
@@ -111,4 +130,92 @@ const addOns = [
       <a href="mailto:membership@pasaz.org" class="btn-primary mt-8">Email membership@pasaz.org</a>
     </div>
   </section>
+
+  <div
+    id="paypal-test-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 px-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="paypal-test-modal-title"
+  >
+    <div class="w-full max-w-sm rounded-lg border border-subtle bg-space-card p-6 shadow-xl">
+      <p class="inline-flex items-center gap-2 rounded-full border border-nebula-amber/40 bg-nebula-amber/10 px-3 py-1 text-xs text-nebula-amber">
+        TEST MODE — no PayPal integration yet
+      </p>
+      <h3 id="paypal-test-modal-title" class="font-display mt-4 text-lg text-ink-primary">
+        Simulated PayPal Checkout
+      </h3>
+      <p class="mt-2 text-ink-muted">
+        <span id="paypal-test-tier">Membership</span> — <span id="paypal-test-price">$0</span>/yr
+      </p>
+      <p class="mt-3 text-sm text-ink-muted">
+        This is a placeholder for the real PayPal button flow. Nothing is charged and no membership is created.
+      </p>
+      <div class="mt-6 flex flex-col gap-2 sm:flex-row-reverse">
+        <button type="button" id="paypal-test-simulate" class="btn-primary">Simulate Successful Payment</button>
+        <button type="button" id="paypal-test-cancel" class="btn-secondary">Cancel</button>
+      </div>
+      <p id="paypal-test-result" class="mt-4 hidden text-sm text-nebula-teal" role="status"></p>
+    </div>
+  </div>
 </BaseLayout>
+
+<style>
+  .paypal-test-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #ffc439;
+    color: #1a1a1a;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    transition: filter 0.15s ease;
+  }
+  .paypal-test-btn:hover {
+    filter: brightness(0.95);
+  }
+</style>
+
+<script>
+  const modal = document.getElementById('paypal-test-modal');
+  const tierLabel = document.getElementById('paypal-test-tier');
+  const priceLabel = document.getElementById('paypal-test-price');
+  const result = document.getElementById('paypal-test-result');
+  const simulateBtn = document.getElementById('paypal-test-simulate');
+  const cancelBtn = document.getElementById('paypal-test-cancel');
+
+  function openModal(tier: string, price: string) {
+    if (!modal || !tierLabel || !priceLabel || !result) return;
+    tierLabel.textContent = tier;
+    priceLabel.textContent = price;
+    result.classList.add('hidden');
+    result.textContent = '';
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.paypal-test-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      openModal(button.dataset.tier ?? 'Membership', button.dataset.price ?? '$0');
+    });
+  });
+
+  cancelBtn?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  simulateBtn?.addEventListener('click', () => {
+    if (!result) return;
+    result.textContent = 'Simulated payment successful. (No real transaction occurred.)';
+    result.classList.remove('hidden');
+  });
+</script>
