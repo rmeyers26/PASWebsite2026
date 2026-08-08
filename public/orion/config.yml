@@ -57,6 +57,20 @@ collections:
       - { label: "Summary", name: summary, widget: text, required: false }
       - { label: "PDF", name: pdf, widget: file, media_folder: "public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
 
+  - name: lecture-videos
+    label: "Previous Lectures"
+    folder: "src/content/lecture-videos"
+    format: json
+    create: true
+    slug: "{{date}}-lecture"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Lecture Title", name: title, widget: string, hint: "e.g. \"Automating Your Telescope for Astrophotography\"" }
+      - { label: "Speaker", name: speaker, widget: string }
+      - { label: "Affiliation", name: affiliation, widget: string, required: false, hint: "e.g. \"PAS member\", \"Lowell Observatory\", \"ASU\"" }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      - { label: "Video URL", name: videoUrl, widget: string, required: false, hint: "Full link to the recording (Google Drive, YouTube, etc). Leave blank until a link is available." }
+
   - name: officers
     label: "Officers"
     folder: "src/content/officers"
