@@ -21,7 +21,26 @@ const labels: Record<string, string> = {
 
 const pathname = Astro.url.pathname;
 const segments = pathname.split('/').filter(Boolean);
+
+// BreadcrumbList JSON-LD alongside the visible <ol> below — same trail, so
+// Google can show it in search results instead of the raw URL. Astro.site
+// is configured in astro.config.mjs, so this is always an absolute URL.
+const breadcrumbSchema = segments.length > 0 && {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).toString() },
+    ...segments.map((segment, index) => ({
+      '@type': 'ListItem',
+      position: index + 2,
+      name: labels[segment] ?? segment,
+      item: new URL('/' + segments.slice(0, index + 1).join('/'), Astro.site).toString(),
+    })),
+  ],
+};
 ---
+
+{breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
 
 {
   segments.length > 0 && (
