@@ -313,6 +313,27 @@ const loanerScopes = defineCollection({
   }),
 });
 
+const scholarshipWinners = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/scholarship-winners' }),
+  schema: z.object({
+    // Groups winners for the scholarship page and drives sort order (most
+    // recent year first) — one file per year, not one per winner.
+    year: z.string().trim().regex(/^\d{4}$/, 'must be a four-digit year, e.g. 2026'),
+    winners: z
+      .array(
+        z.object({
+          name: text,
+          school: text,
+          amount: optional(text),
+          description: optional(text),
+          photo: optional(publicPath),
+        }),
+      )
+      .min(1, 'needs at least one winner')
+      .max(3, 'at most 3 winners per year'),
+  }),
+});
+
 const siteSettings = defineCollection({
   loader: singleton('src/content/site-settings/site-settings.json'),
   schema: z.object({
@@ -375,6 +396,7 @@ export const collections = {
   gallery,
   'special-interest-groups': specialInterestGroups,
   'loaner-scopes': loanerScopes,
+  'scholarship-winners': scholarshipWinners,
   'site-settings': siteSettings,
   membership,
 };
