@@ -204,6 +204,30 @@ collections:
             fields:
               - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
 
+  - name: membership
+    label: "Membership Pricing"
+    files:
+      - name: pricing
+        label: "Membership Pricing"
+        file: "src/content/membership/membership.json"
+        fields:
+          - name: tiers
+            label: "Membership Tiers"
+            widget: list
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Individual Membership'" }
+              - { label: "Annual Price ($)", name: price, widget: number, value_type: float, min: 0 }
+              - { label: "Most Common (badge)", name: featured, widget: boolean, required: false, default: false, hint: "Highlights this tier with a 'Most Common' badge on the Join page. Should be true on at most one tier." }
+          - name: addOns
+            label: "Optional Add-Ons"
+            widget: list
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Name Badge'" }
+              - { label: "Price ($)", name: price, widget: number, value_type: float, min: 0 }
+              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of the add-on shown on the Join page." }
+
   - name: site-settings
     label: "Site Settings"
     files:
@@ -216,8 +240,6 @@ collections:
           - { label: "Founding Year", name: foundingYear, widget: string }
           - { label: "Description", name: description, widget: text }
           - { label: "Logo Path", name: logo, widget: string, hint: "Path under public/, e.g. /images/pas-logo.png — not a file upload, this must match an existing file." }
-          - { label: "Name Badge Photo", name: nameBadgePhoto, widget: image, required: false, hint: "Photo of the name badge shown on the Join page." }
-          - { label: "Patch Photo", name: patchPhoto, widget: image, required: false, hint: "Photo of the embroidered patch/logo shown on the Join page." }
           - { label: "General Email", name: email, widget: string }
           - { label: "Astronomy Questions Email", name: astronomyQuestionsEmail, widget: string }
           - { label: "Webmaster Email", name: webmasterEmail, widget: string }

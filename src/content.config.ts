@@ -322,11 +322,6 @@ const siteSettings = defineCollection({
     foundingYear: z.string().trim().regex(/^\d{4}$/, 'must be a four-digit year, e.g. 1948'),
     description: text,
     logo: publicPath,
-    // CMS-uploaded photos of the physical membership add-ons, shown next to
-    // their line items on the join page. Plain string paths, not image() —
-    // see the officers.photo comment above for why.
-    nameBadgePhoto: optional(publicPath),
-    patchPhoto: optional(publicPath),
     email: z.email('must be a valid email address'),
     astronomyQuestionsEmail: z.email('must be a valid email address'),
     webmasterEmail: z.email('must be a valid email address'),
@@ -337,6 +332,34 @@ const siteSettings = defineCollection({
       threads: externalUrl,
       youtube: externalUrl,
     }),
+  }),
+});
+
+const membership = defineCollection({
+  loader: singleton('src/content/membership/membership.json'),
+  schema: z.object({
+    tiers: z.array(
+      z.object({
+        name: text,
+        // Annual dues in whole dollars — the join page formats this with a
+        // leading '$' rather than storing the symbol in content.
+        price: z.number().nonnegative('must not be negative'),
+        // Highlights this tier with a "Most Common" badge. Should be true on
+        // at most one tier; the join page just highlights whichever it finds
+        // first if more than one is checked.
+        featured: z.boolean().optional(),
+      }),
+    ),
+    addOns: z.array(
+      z.object({
+        name: text,
+        price: z.number().nonnegative('must not be negative'),
+        // CMS-uploaded photo of the physical add-on, shown next to its line
+        // item on the join page. Plain string path, not image() — see the
+        // officers.photo comment above for why.
+        photo: optional(publicPath),
+      }),
+    ),
   }),
 });
 
@@ -353,4 +376,5 @@ export const collections = {
   'special-interest-groups': specialInterestGroups,
   'loaner-scopes': loanerScopes,
   'site-settings': siteSettings,
+  membership,
 };

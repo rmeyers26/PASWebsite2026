@@ -1,0 +1,13 @@
+{
+  "tiers": [
+    { "name": "Individual Membership", "price": 30, "featured": true },
+    { "name": "Family Membership", "price": 36 },
+    { "name": "Student Membership", "price": 16 },
+    { "name": "Lifetime Member", "price": 500 },
+    { "name": "Lifetime Member 65+", "price": 250 }
+  ],
+  "addOns": [
+    { "name": "Name Badge", "price": 20, "photo": "/images/uploads/membership-name-badge.png" },
+    { "name": "Embroidered Logo", "price": 10, "photo": "/images/uploads/membership-patch.png" }
+  ]
+}

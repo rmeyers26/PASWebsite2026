@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import heroPhoto from '../assets/images/star-tours-event-crowd.jpg';
 
-const siteSettings = (await getEntry('site-settings', 'data'))!.data;
+const { tiers: membershipTiers, addOns } = (await getEntry('membership', 'data'))!.data;
 
 // From PAStimes, August 2026 (Vol. 77, Issue #12), "Benefits of PAS
 // Membership" — the club's own published list, lightly tightened for a
@@ -23,18 +23,8 @@ const benefits = [
   'Take on a leadership role — committee chair or officer',
 ];
 
-const membershipTiers = [
-  { name: 'Individual Membership', price: '$30', featured: true },
-  { name: 'Family Membership', price: '$36' },
-  { name: 'Student Membership', price: '$16' },
-  { name: 'Lifetime Member', price: '$500' },
-  { name: 'Lifetime Member 65+', price: '$250' },
-];
-
-const addOns = [
-  { name: 'Name Badge', price: '$20', photo: siteSettings.nameBadgePhoto },
-  { name: 'Embroidered Logo', price: '$10', photo: siteSettings.patchPhoto },
-];
+// CMS prices are plain numbers (dollars); the '$' lives here, not in content.
+const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : price.toFixed(2)}`;
 ---
 
 <BaseLayout
@@ -90,7 +80,7 @@ const addOns = [
                 />
                 {tier.featured && <span class="glass-badge">Most Common</span>}
                 <p class="mt-4 text-ink-primary">{tier.name}</p>
-                <p class="mt-1 font-display text-2xl text-nebula-amber">{tier.price}</p>
+                <p class="mt-1 font-display text-2xl text-nebula-amber">{formatPrice(tier.price)}</p>
               </label>
             ))
           }
@@ -108,7 +98,7 @@ const addOns = [
                   )}
                   <span class="text-ink-muted">{item.name}</span>
                 </span>
-                <span class="font-display text-ink-primary">{item.price}</span>
+                <span class="font-display text-ink-primary">{formatPrice(item.price)}</span>
               </label>
             ))
           }
