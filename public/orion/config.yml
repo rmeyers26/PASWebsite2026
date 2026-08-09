@@ -43,7 +43,10 @@ collections:
       - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Title", name: title, widget: string, required: false, hint: "Leave blank for older releases without a known headline yet." }
       - { label: "Summary", name: summary, widget: text, required: false }
-      - { label: "PDF", name: pdf, widget: file, media_folder: "public/press-releases", public_folder: "/press-releases", hint: "Upload into the correct /YYYY subfolder to match the site's existing URL structure." }
+      # Leading slash on media_folder is load-bearing: without it the path is
+      # resolved relative to this collection's folder, and uploads land in
+      # src/content/press-releases/public/... instead of public/.
+      - { label: "PDF", name: pdf, widget: file, media_folder: "/public/press-releases", public_folder: "/press-releases", hint: "Upload into the correct /YYYY subfolder to match the site's existing URL structure." }
 
   - name: newsletters
     label: "Newsletters"
@@ -55,7 +58,24 @@ collections:
       - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Title", name: title, widget: string, required: false, hint: "e.g. \"August 2026 Newsletter\". Leave blank for older issues without a known title yet." }
       - { label: "Summary", name: summary, widget: text, required: false }
-      - { label: "PDF", name: pdf, widget: file, media_folder: "public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
+      # See the press-releases PDF field above for why media_folder is
+      # slash-prefixed — the August 2026 issue was uploaded before this fix
+      # and landed in src/content/newsletters/public/.
+      - { label: "PDF", name: pdf, widget: file, media_folder: "/public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
+
+  - name: lecture-videos
+    label: "Previous Lectures"
+    folder: "src/content/lecture-videos"
+    format: json
+    create: true
+    slug: "{{date}}-lecture"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Lecture Title", name: title, widget: string, hint: "e.g. \"Automating Your Telescope for Astrophotography\"" }
+      - { label: "Speaker", name: speaker, widget: string }
+      - { label: "Affiliation", name: affiliation, widget: string, required: false, hint: "e.g. \"PAS member\", \"Lowell Observatory\", \"ASU\"" }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      - { label: "Video URL", name: videoUrl, widget: string, required: false, hint: "Full link to the recording (Google Drive, YouTube, etc). Leave blank until a link is available." }
 
   - name: officers
     label: "Officers"
@@ -196,6 +216,8 @@ collections:
           - { label: "Founding Year", name: foundingYear, widget: string }
           - { label: "Description", name: description, widget: text }
           - { label: "Logo Path", name: logo, widget: string, hint: "Path under public/, e.g. /images/pas-logo.png — not a file upload, this must match an existing file." }
+          - { label: "Name Badge Photo", name: nameBadgePhoto, widget: image, required: false, hint: "Photo of the name badge shown on the Join page." }
+          - { label: "Patch Photo", name: patchPhoto, widget: image, required: false, hint: "Photo of the embroidered patch/logo shown on the Join page." }
           - { label: "General Email", name: email, widget: string }
           - { label: "Astronomy Questions Email", name: astronomyQuestionsEmail, widget: string }
           - { label: "Webmaster Email", name: webmasterEmail, widget: string }

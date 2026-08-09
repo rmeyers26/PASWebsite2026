@@ -1,11 +1,95 @@
 ---
 import { Image } from 'astro:assets';
-// NASA Astronomy Picture of the Day: https://apod.nasa.gov/apod/astropix.html
-// Fetched at build time. Set NASA_API_KEY in the environment for a higher rate
-// limit than the shared DEMO_KEY (get one free at https://api.nasa.gov).
-const apiKey = import.meta.env.NASA_API_KEY || 'DEMO_KEY';
+// NASA Astronomy Picture of the Day, via the community-run RSS mirror at
+// https://apod.com/feed.rss (https://github.com/etabits/apodrss). The
+// official api.nasa.gov/planetary/apod endpoint shares a DEMO_KEY rate
+// limit across every unauthenticated caller on the internet, which made
+// this section fail intermittently at build time. The RSS feed needs no
+// key and lists the most recent entries with the latest first.
+//
+// Some hosts' build servers get blocked or challenged by Cloudflare (which
+// fronts apod.com) when the request looks like a bot, so this sends a
+// browser-like User-Agent and falls back to the official NASA endpoint if
+// the feed can't be reached at all.
+const feedUrl = 'https://apod.com/feed.rss';
+const FETCH_TIMEOUT_MS = 20000;
+const BROWSER_USER_AGENT =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+
+async function fetchWithTimeout(url: string, init?: RequestInit): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 interface Apod {
+  title: string;
+  explanation: string;
+  url: string;
+  media_type: 'image' | 'video';
+  date: string;
+  permalink: string;
+  copyright?: string;
+}
+
+function tagContent(xml: string, tag: string): string | null {
+  const match = xml.match(new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`));
+  if (!match) return null;
+  const cdata = match[1].match(/^<!\[CDATA\[([\s\S]*)\]\]>$/);
+  return cdata ? cdata[1] : match[1];
+}
+
+const HTML_ENTITIES: Record<string, string> = {
+  '&nbsp;': ' ',
+  '&amp;': '&',
+  '&lt;': '<',
+  '&gt;': '>',
+  '&quot;': '"',
+  '&#39;': "'",
+};
+
+function stripHtml(html: string): string {
+  const withoutMedia = html.replace(/^\s*<(img|iframe)\b[^>]*>\s*(<br\s*\/?>)?/i, '');
+  const withoutLabel = withoutMedia.replace(/<b>\s*Explanation:\s*<\/b>/i, '');
+  const textOnly = withoutLabel.replace(/<[^>]+>/g, ' ');
+  const decoded = textOnly.replace(/&[a-z#0-9]+;/gi, (entity) => HTML_ENTITIES[entity] ?? entity);
+  return decoded.replace(/\s+/g, ' ').replace(/\s+([.,;:])/g, '$1').trim();
+}
+
+function parseFirstItem(rss: string): Apod | null {
+  const itemMatch = rss.match(/<item>([\s\S]*?)<\/item>/);
+  if (!itemMatch) return null;
+  const item = itemMatch[1];
+
+  const title = tagContent(item, 'title');
+  const link = tagContent(item, 'link');
+  const contentEncoded = tagContent(item, 'content:encoded');
+  if (!title || !link || !contentEncoded) return null;
+
+  const dateMatch = link.match(/ap(\d{2})(\d{2})(\d{2})\.html/);
+  const date = dateMatch ? `20${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}` : '';
+
+  const iframeMatch = contentEncoded.match(/<iframe[^>]+src="([^"]+)"/i);
+  const enclosureMatch = item.match(/<enclosure\s+url="([^"]+)"/);
+
+  const creators = [...item.matchAll(/<dc:creator>([\s\S]*?)<\/dc:creator>/g)].map((m) => m[1].trim());
+
+  return {
+    title,
+    explanation: stripHtml(contentEncoded),
+    url: iframeMatch ? iframeMatch[1] : enclosureMatch?.[1] ?? link,
+    media_type: iframeMatch ? 'video' : 'image',
+    date,
+    permalink: link,
+    copyright: creators.length > 0 ? creators.join(', ') : undefined,
+  };
+}
+
+interface NasaApodResponse {
   title: string;
   explanation: string;
   url: string;
@@ -15,23 +99,93 @@ interface Apod {
   copyright?: string;
 }
 
-let apod: Apod | null = null;
-try {
-  const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
-  if (res.ok) {
-    apod = await res.json();
-  }
-} catch {
-  apod = null;
+// Diagnostics for when both sources fail — surfaced right on the page for
+// any non-production build (Netlify sets CONTEXT to deploy-preview /
+// branch-deploy / dev), since digging through an authenticated build log
+// is slower than just looking at the rendered page.
+const debugMessages: string[] = [];
+function logError(message: string, err?: unknown) {
+  const detail = err instanceof Error ? err.message : err ? String(err) : '';
+  const line = detail ? `${message}: ${detail}` : message;
+  console.error(`APOD: ${line}`);
+  debugMessages.push(line);
 }
 
-// The APOD payload carries no dimensions, and an <img> without them shifts the
-// page as it decodes. Read them out of the file header at build time — a ranged
-// request is enough to reach the JPEG SOF / PNG IHDR marker.
-function readJpegOrPngSize(buffer: Uint8Array): { width: number; height: number } | null {
+async function fetchFromNasaApi(): Promise<Apod | null> {
+  const apiKey = import.meta.env.NASA_API_KEY || 'DEMO_KEY';
+  const res = await fetchWithTimeout(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
+  if (!res.ok) {
+    logError(`NASA API returned ${res.status} ${res.statusText}`);
+    return null;
+  }
+  const data: NasaApodResponse = await res.json();
+  return {
+    title: data.title,
+    explanation: data.explanation,
+    url: data.media_type === 'image' ? (data.hdurl ?? data.url) : data.url,
+    media_type: data.media_type,
+    date: data.date,
+    permalink: `https://apod.nasa.gov/apod/ap${data.date.replace(/-/g, '').slice(2)}.html`,
+    copyright: data.copyright?.trim(),
+  };
+}
+
+async function fetchFromRssFeed(): Promise<Apod | null> {
+  const res = await fetchWithTimeout(feedUrl, { headers: { 'User-Agent': BROWSER_USER_AGENT } });
+  if (!res.ok) {
+    logError(`RSS feed returned ${res.status} ${res.statusText}`);
+    return null;
+  }
+  const parsed = parseFirstItem(await res.text());
+  if (!parsed) logError('RSS feed fetched but no item could be parsed');
+  return parsed;
+}
+
+// With a real NASA_API_KEY configured, api.nasa.gov gets its own quota and is
+// the more reliable source — try it first and fall back to the RSS feed
+// (which needs no key, but sits behind Cloudflare bot protection that can
+// block requests from some hosts) only if that fails. Without a real key,
+// try the RSS feed first since the shared DEMO_KEY is rate-limited to 10
+// requests/hour across every unauthenticated caller on the internet.
+const hasNasaApiKey = Boolean(import.meta.env.NASA_API_KEY);
+const [primary, secondary] = hasNasaApiKey
+  ? [fetchFromNasaApi, fetchFromRssFeed]
+  : [fetchFromRssFeed, fetchFromNasaApi];
+
+let apod: Apod | null = null;
+// A timeout abort on the NASA API is a transient hiccup, not a real
+// failure — worth one retry before giving up on it. Retrying the RSS feed
+// is pointless when it's the primary (no key configured): a Cloudflare 403
+// won't resolve itself a second time in the same build.
+const primaryAttempts = hasNasaApiKey ? 2 : 1;
+for (let attempt = 0; attempt < primaryAttempts && !apod; attempt++) {
+  try {
+    apod = await primary();
+  } catch (err) {
+    logError(attempt === 0 ? 'primary source threw' : 'primary source threw again', err);
+  }
+}
+
+if (!apod) {
+  try {
+    apod = await secondary();
+  } catch (err) {
+    logError('fallback source threw', err);
+  }
+}
+
+const showDebug = import.meta.env.CONTEXT !== 'production' && debugMessages.length > 0;
+
+// The feed carries no image dimensions, and an <img> without them shifts
+// the page as it decodes. Read them out of the file header at build time —
+// a ranged request is enough to reach the JPEG SOF / PNG IHDR / GIF header.
+function readImageSize(buffer: Uint8Array): { width: number; height: number } | null {
   const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
   if (buffer[0] === 0x89 && buffer[1] === 0x50) {
     return { width: view.getUint32(16), height: view.getUint32(20) };
+  }
+  if (buffer[0] === 0x47 && buffer[1] === 0x49 && buffer[2] === 0x46) {
+    return { width: view.getUint16(6, true), height: view.getUint16(8, true) };
   }
   if (buffer[0] !== 0xff || buffer[1] !== 0xd8) return null;
   let offset = 2;
@@ -55,27 +209,12 @@ if (apod?.media_type === 'image') {
   try {
     const res = await fetch(apod.url, { headers: { Range: 'bytes=0-131071' } });
     if (res.ok) {
-      apodSize = readJpegOrPngSize(new Uint8Array(await res.arrayBuffer()));
+      apodSize = readImageSize(new Uint8Array(await res.arrayBuffer()));
     }
   } catch {
     apodSize = null;
   }
 }
-
-// APOD's explanation field regularly ends with a self-promotional sentence
-// (a link to further reading, a "Follow APOD on" plug, etc.) that reads as
-// noise once we're excerpting rather than embedding the full write-up —
-// drop any trailing sentence that contains a URL before it's clamped.
-const explanationSentences = apod?.explanation.trim().split(/(?<=[.!?])\s+/) ?? [];
-while (explanationSentences.length > 1 && /https?:\/\//.test(explanationSentences.at(-1)!)) {
-  explanationSentences.pop();
-}
-const explanation = explanationSentences.join(' ');
-
-// Permalink format NASA has used for every daily APOD page since 1995.
-const apodPermalink = apod
-  ? `https://apod.nasa.gov/apod/ap${apod.date.replace(/-/g, '').slice(2)}.html`
-  : undefined;
 ---
 
 {
@@ -85,6 +224,11 @@ const apodPermalink = apod
         <h2 class="section-heading">Astronomy Picture of the Day</h2>
         <div class="card mt-8">
           <p class="text-ink-muted">APOD unavailable — check back tomorrow.</p>
+          {showDebug && (
+            <pre class="mt-4 overflow-x-auto whitespace-pre-wrap text-left text-xs text-ink-muted/70">
+              {debugMessages.join('\n')}
+            </pre>
+          )}
         </div>
       </div>
     </section>
@@ -110,7 +254,7 @@ const apodPermalink = apod
         </p>
         <div class="card mt-8 grid gap-8 md:grid-cols-2 md:items-center">
           {apod.media_type === 'image' ? (
-            <a href={apod.hdurl ?? apod.url} target="_blank" rel="noopener noreferrer">
+            <a href={apod.permalink} target="_blank" rel="noopener noreferrer">
               {apodSize ? (
                 <Image
                   src={apod.url}
@@ -149,9 +293,9 @@ const apodPermalink = apod
           <div>
             <p class="text-sm tabular-nums text-ink-muted">{apod.date}</p>
             <h3 class="font-display mt-1 text-xl text-nebula-teal">{apod.title}</h3>
-            <p class="mt-3 line-clamp-3 text-ink-muted">{explanation}</p>
+            <p class="mt-3 line-clamp-3 text-ink-muted">{apod.explanation}</p>
             <a
-              href={apodPermalink}
+              href={apod.permalink}
               target="_blank"
               rel="noopener noreferrer"
               class="mt-2 inline-block text-sm text-nebula-teal hover:underline"
@@ -159,7 +303,7 @@ const apodPermalink = apod
               Read the full description on APOD ↗
             </a>
             {apod.copyright && (
-              <p class="mt-4 text-sm text-ink-muted">© {apod.copyright.trim()}</p>
+              <p class="mt-4 text-sm text-ink-muted">© {apod.copyright}</p>
             )}
           </div>
         </div>

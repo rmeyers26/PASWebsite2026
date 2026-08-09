@@ -127,7 +127,7 @@ const starPartySchema = {
     </div>
   </section>
 
-  <section class="border-t border-subtle">
+  <section id="where-we-meet" class="border-t border-subtle">
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Where We Meet</h2>
 
@@ -135,6 +135,10 @@ const starPartySchema = {
       <p class="mt-3 text-ink-muted">
         Held on the <strong class="font-semibold text-ink-primary">1st Thursday of every month</strong> at{' '}
         <strong class="font-semibold text-ink-primary">7:00 pm</strong>, at Paradise Valley Community College:
+      </p>
+      <p class="mt-3 text-ink-muted">
+        Missed a talk? Browse recordings of past speakers on our{' '}
+        <a href="/lecture-videos" class="text-nebula-teal hover:underline">Previous Lectures</a> page.
       </p>
       <address class="mt-4 not-italic text-ink-primary">
         PVCC Building Q — Conference Center, Classroom 120A<br />
@@ -206,48 +210,8 @@ const starPartySchema = {
     // finishes downloading and executing — a classic render-blocking
     // third-party request, and the one piece of this page an audit would
     // actually flag.
-    function initLazyEmbeds() {
-      const targets = document.querySelectorAll<HTMLIFrameElement>('iframe[data-embed-src]');
-      if (!targets.length) return;
-
-      let resizerRequested = false;
-      function loadBookwhenResizer() {
-        if (resizerRequested) return;
-        resizerRequested = true;
-        const script = document.createElement('script');
-        script.src = 'https://cdn.bookwhen.com/js/iframe_resizer.js';
-        document.body.appendChild(script);
-      }
-
-      function activate(iframe: HTMLIFrameElement) {
-        if (iframe.src) return; // already activated — astro:page-load can re-run this
-        const src = iframe.dataset.embedSrc;
-        if (!src) return;
-        iframe.src = src;
-        if (iframe.dataset.embedGroup === 'bookwhen') loadBookwhenResizer();
-      }
-
-      if (!('IntersectionObserver' in window)) {
-        targets.forEach(activate);
-        return;
-      }
-
-      const observer = new IntersectionObserver(
-        (entries, obs) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            activate(entry.target as HTMLIFrameElement);
-            obs.unobserve(entry.target);
-          }
-        },
-        { rootMargin: '300px 0px' },
-      );
-
-      targets.forEach((el) => observer.observe(el));
-    }
-
+    import { initLazyEmbeds } from '../scripts/events-lazy-embeds';
     initLazyEmbeds();
-    document.addEventListener('astro:page-load', initLazyEmbeds);
   </script>
 
   <section class="border-t border-subtle bg-space-card/40">

@@ -1,0 +1,20 @@
+---
+import type { PdfArchiveListEntry } from '../lib/pdfArchive';
+import PdfArchiveItem from './PdfArchiveItem.astro';
+
+interface Props {
+  entries: PdfArchiveListEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ul class="mt-6 space-y-4">
+  {
+    entries.map((entry) => (
+      <li class="border-b border-subtle pb-4">
+        <PdfArchiveItem entry={entry} />
+      </li>
+    ))
+  }
+</ul>
