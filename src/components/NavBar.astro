@@ -224,8 +224,8 @@ const isActive = (item: NavItem) =>
                   <a
                     href={item.href}
                     class:list={[
-                      'block rounded-xl px-3 py-2.5 font-semibold transition hover:bg-white/5',
-                      isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
+                      'block rounded-xl px-3 py-2.5 font-display text-lg font-bold transition hover:bg-white/5',
+                      isActive(item) ? 'text-nebula-teal' : 'text-nebula-amber',
                     ]}
                     aria-current={isActive(item) ? 'page' : undefined}
                   >
