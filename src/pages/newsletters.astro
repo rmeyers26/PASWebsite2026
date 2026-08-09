@@ -53,17 +53,28 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
   timeZone: 'UTC',
 });
 
+const monthYearFormat = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
 // Newest first, then grouped into years in that same order, so the year headings
 // come out descending without a separately maintained list of years.
 const sorted = [...issues].sort((a, b) => b.date.localeCompare(a.date));
 
-const byYear = new Map<string, (Issue & { size?: string; displayDate: string })[]>();
+const byYear = new Map<string, (Issue & { size?: string; displayDate: string; displayTitle: string })[]>();
 for (const issue of sorted) {
   const year = issue.date.slice(0, 4);
+  const isoDate = new Date(`${issue.date}T00:00:00Z`);
   const entry = {
     ...issue,
     size: fileSize(issue.file),
-    displayDate: dateFormat.format(new Date(`${issue.date}T00:00:00Z`)),
+    displayDate: dateFormat.format(isoDate),
+    // Editors leave Title blank for most issues — "PAStimes <Month> <Year>"
+    // from the Date field is the naming convention, so derive it instead of
+    // relying on everyone typing it the same way each month.
+    displayTitle: issue.title ?? `PAStimes ${monthYearFormat.format(isoDate)}`,
   };
   byYear.set(year, [...(byYear.get(year) ?? []), entry]);
 }
@@ -100,15 +111,13 @@ const latest = latestIssues[0];
                 type="application/pdf"
                 class="text-xl font-semibold text-ink-primary hover:text-nebula-teal"
               >
-                {latest.title ?? <time datetime={latest.date}>{latest.displayDate}</time>}
+                {latest.displayTitle}
               </a>
               <span class="text-sm text-ink-muted">PDF{latest.size ? ` · ${latest.size}` : ''}</span>
             </div>
-            {latest.title && (
-              <time datetime={latest.date} class="mt-1 block text-sm text-nebula-teal">
-                {latest.displayDate}
-              </time>
-            )}
+            <time datetime={latest.date} class="mt-1 block text-sm text-nebula-teal">
+              {latest.displayDate}
+            </time>
             {latest.summary && <p class="mt-2 text-ink-muted">{latest.summary}</p>}
           </div>
         </div>
@@ -155,17 +164,13 @@ const latest = latestIssues[0];
                               type="application/pdf"
                               class="font-semibold text-ink-primary hover:text-nebula-teal"
                             >
-                              {issue.title ?? <time datetime={issue.date}>{issue.displayDate}</time>}
+                              {issue.displayTitle}
                             </a>
                             <span class="text-sm text-ink-muted">PDF{issue.size ? ` · ${issue.size}` : ''}</span>
                           </div>
-                          {/* Only a second line when the link text is the headline —
-                              otherwise the date would be printed twice. */}
-                          {issue.title && (
-                            <time datetime={issue.date} class="mt-1 block text-sm text-nebula-teal">
-                              {issue.displayDate}
-                            </time>
-                          )}
+                          <time datetime={issue.date} class="mt-1 block text-sm text-nebula-teal">
+                            {issue.displayDate}
+                          </time>
                           {issue.summary && <p class="mt-2 text-ink-muted">{issue.summary}</p>}
                         </li>
                       ))}

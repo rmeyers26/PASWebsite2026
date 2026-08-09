@@ -53,7 +53,7 @@ collections:
     slug: "{{date}}-newsletter"
     fields:
       - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "Title", name: title, widget: string, required: false, hint: "e.g. \"August 2026 Newsletter\". Leave blank for older issues without a known title yet." }
+      - { label: "Title", name: title, widget: string, required: false, default: "PAStimes ", hint: "e.g. \"PAStimes August 2026\". Leave as-is (or blank) to auto-generate that from the Date field instead." }
       - { label: "Summary", name: summary, widget: text, required: false }
       - { label: "PDF", name: pdf, widget: file, media_folder: "public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
 
