@@ -204,6 +204,27 @@ collections:
             fields:
               - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
 
+  - name: scholarship-winners
+    label: "Scholarship Winners"
+    folder: "src/content/scholarship-winners"
+    format: json
+    create: true
+    slug: "{{fields.year}}-scholarship-winners"
+    fields:
+      - { label: "Year", name: year, widget: string, hint: "Four-digit year, e.g. 2026" }
+      - name: winners
+        label: "Winners"
+        widget: list
+        min: 1
+        max: 3
+        summary: "{{fields.name}}"
+        fields:
+          - { label: "Student Name", name: name, widget: string }
+          - { label: "School / College", name: school, widget: string }
+          - { label: "Scholarship Amount", name: amount, widget: string, required: false, hint: "e.g. \"$1,000\" — optional" }
+          - { label: "Description / Accomplishment", name: description, widget: text, required: false }
+          - { label: "Photo", name: photo, widget: image, required: false }
+
   - name: site-settings
     label: "Site Settings"
     files:
