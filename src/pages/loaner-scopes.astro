@@ -59,7 +59,19 @@ const requestFields = [
               ) : (
                 <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
               )}
-              {item.name}
+              <span>
+                {item.name}
+                {item.manufacturerUrl && (
+                  <a
+                    href={item.manufacturerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ml-2 text-sm text-nebula-teal hover:underline"
+                  >
+                    Manufacturer site
+                  </a>
+                )}
+              </span>
             </li>
           ))
         }
