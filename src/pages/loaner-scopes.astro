@@ -53,13 +53,25 @@ const requestFields = [
                 <img
                   src={item.photo}
                   alt=""
-                  class="h-12 w-12 flex-none rounded object-cover"
+                  class="h-24 w-24 flex-none rounded object-cover"
                   loading="lazy"
                 />
               ) : (
                 <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
               )}
-              {item.name}
+              <span>
+                {item.name}
+                {item.manufacturerUrl && (
+                  <a
+                    href={item.manufacturerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ml-2 text-sm text-nebula-teal hover:underline"
+                  >
+                    Manufacturer site
+                  </a>
+                )}
+              </span>
             </li>
           ))
         }
