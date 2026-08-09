@@ -1,0 +1,306 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+import telescopesAtDusk from '../assets/images/star-tours-corporate-event.jpg';
+import lectureMeeting from '../assets/images/events-lecture-meeting.jpg';
+import lowellObservatoryTour from '../assets/images/events-lowell-observatory-tour.jpg';
+
+const organizer = { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' };
+
+// The Lecture Series has a fixed, page-published rule ("1st Thursday of
+// every month, 7:00 pm"), so it's encoded exactly via eventSchedule's
+// byMonthWeek — Google's documented pattern for "nth weekday of month"
+// recurrence. Star Parties are deliberately NOT given the same treatment:
+// their dates are calendar-driven with no fixed weekday (see copy below),
+// so asserting a recurrence rule for them would be inaccurate structured
+// data. It still gets a valid Event entry — organizer, venue, description
+// — just without a fabricated schedule or startDate, which means it won't
+// itself qualify for Google's Event rich result until real per-occurrence
+// dates are pulled from Bookwhen (see the review's Phase-2 note on that).
+const lectureSeriesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'PAS Monthly Lecture Series',
+  description: 'Guest speakers and member talks on observing, astrophotography, and current research.',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  organizer,
+  location: {
+    '@type': 'Place',
+    name: 'Paradise Valley Community College — Building Q, Conference Center, Classroom 120A',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '17811 North 32nd Street',
+      addressLocality: 'Phoenix',
+      addressRegion: 'AZ',
+      postalCode: '85032',
+      addressCountry: 'US',
+    },
+  },
+  eventSchedule: {
+    '@type': 'Schedule',
+    repeatFrequency: 'P1M',
+    byDay: 'https://schema.org/Thursday',
+    byMonthWeek: 1,
+    startTime: '19:00',
+    scheduleTimezone: 'America/Phoenix',
+  },
+};
+
+const starPartySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'PAS Public Star Party',
+  description:
+    'Free, open-air observing at Apache Wash Trailhead, away from city light pollution. Gate closes at 7:00 pm; see the calendar above for each date.',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  isAccessibleForFree: true,
+  organizer,
+  location: {
+    '@type': 'Place',
+    name: 'Apache Wash Trailhead',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '1600 E Sonoran Desert Dr',
+      addressLocality: 'Phoenix',
+      addressRegion: 'AZ',
+      postalCode: '85085',
+      addressCountry: 'US',
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Events"
+  description="Upcoming PAS meetings, public star parties, and observing nights in the Phoenix area."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(lectureSeriesSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(starPartySchema)} />
+  <Hero
+    image={telescopesAtDusk}
+    alt="PAS members and telescopes set up on an outdoor terrace at dusk, ready for an observing session"
+    eyebrow="Events"
+    title="When Is the Next Observing Session?"
+    subtitle="Public star parties, monthly meetings, and special events — all in one place."
+    tone="dark"
+    focalPoint="50% 60%"
+  />
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Upcoming Events</h2>
+    <p class="mt-4 text-ink-muted">
+      Our full events calendar — meetings, public star parties, and observing nights — is kept up to date on
+      Bookwhen. Browse and reserve a spot below, or{' '}
+      <a href="https://bookwhen.com/pas-event-calendar#focus=ev-s4pyi-20260701000000" target="_blank" rel="noopener noreferrer" class="underline decoration-nebula-teal underline-offset-4">
+        open the calendar in a new tab</a>.
+    </p>
+    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <Image
+        src={lectureMeeting}
+        alt="PAS members sharing a meal before the monthly Lecture Series meeting, screens showing the meeting agenda"
+        width={1000}
+        class="w-full object-cover"
+        loading="lazy"
+      />
+      <figcaption class="px-4 py-3 text-sm text-ink-muted">
+        Members gather before a monthly Lecture Series meeting.
+      </figcaption>
+    </figure>
+    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
+      <iframe
+        data-embed-src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
+        data-embed-group="bookwhen"
+        title="PAS Events Calendar"
+        class="block min-h-[400px] w-full border-0"
+      ></iframe>
+      <noscript>
+        <iframe
+          src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
+          title="PAS Events Calendar"
+          class="block min-h-[400px] w-full border-0"
+        ></iframe>
+      </noscript>
+    </div>
+  </section>
+
+  <section id="where-we-meet" class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Where We Meet</h2>
+
+      <h3 class="font-display mt-8 text-lg text-nebula-teal">Monthly Lecture Series</h3>
+      <p class="mt-3 text-ink-muted">
+        Held on the <strong class="font-semibold text-ink-primary">1st Thursday of every month</strong> at{' '}
+        <strong class="font-semibold text-ink-primary">7:00 pm</strong>, at Paradise Valley Community College:
+      </p>
+      <p class="mt-3 text-ink-muted">
+        Missed a talk? Browse recordings of past speakers on our{' '}
+        <a href="/lecture-videos" class="text-nebula-teal hover:underline">Previous Lectures</a> page.
+      </p>
+      <address class="mt-4 not-italic text-ink-primary">
+        PVCC Building Q — Conference Center, Classroom 120A<br />
+        17811 North 32nd Street<br />
+        Phoenix, AZ 85032
+      </address>
+      <div class="mt-6 overflow-hidden rounded-lg border border-subtle">
+        <iframe
+          data-embed-src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
+          title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
+          class="block h-[320px] w-full border-0"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <noscript>
+          <iframe
+            src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
+            title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
+            class="block h-[320px] w-full border-0"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </noscript>
+      </div>
+
+      <h3 class="font-display mt-12 text-lg text-nebula-violet">Public Star Parties</h3>
+      <p class="mt-3 text-ink-muted">Held at Apache Wash Trailhead, away from city light pollution:</p>
+      <address class="mt-4 not-italic text-ink-primary">
+        Apache Wash Trailhead<br />
+        1600 E Sonoran Desert Dr<br />
+        Phoenix, AZ 85085
+      </address>
+      <p class="mt-4 text-ink-muted">
+        <strong class="font-semibold text-ink-primary">Gate closes at 7:00 pm</strong> — no entry after that
+        time, though you can exit anytime until 11:00 pm. Parking is paved; restrooms are rustic, with no
+        running water, so bring your own water, snacks, and a chair.
+      </p>
+      <p class="mt-4 text-sm text-ink-muted">
+        Check each star party on the calendar above for its exact date and time.
+      </p>
+      <div class="mt-6 overflow-hidden rounded-lg border border-subtle">
+        <iframe
+          data-embed-src="https://maps.google.com/maps?q=Apache+Wash+Trailhead,+1600+E+Sonoran+Desert+Dr,+Phoenix,+AZ+85085&output=embed"
+          title="Map showing Apache Wash Trailhead, 1600 E Sonoran Desert Dr, Phoenix, AZ 85085"
+          class="block h-[320px] w-full border-0"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <noscript>
+          <iframe
+            src="https://maps.google.com/maps?q=Apache+Wash+Trailhead,+1600+E+Sonoran+Desert+Dr,+Phoenix,+AZ+85085&output=embed"
+            title="Map showing Apache Wash Trailhead, 1600 E Sonoran Desert Dr, Phoenix, AZ 85085"
+            class="block h-[320px] w-full border-0"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </noscript>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // All three third-party embeds (the Bookwhen calendar iframe, its two
+    // Google Maps neighbors, and the Bookwhen resizer script that makes the
+    // calendar iframe auto-height) are deferred behind IntersectionObserver
+    // rather than the browser's native loading="lazy" — native lazy-loading
+    // uses a large "near viewport" heuristic (traditionally over 1000px) that
+    // this page's embeds, sitting close to the top of a mostly-text page,
+    // clear almost immediately after load anyway. The resizer <script> in
+    // particular had no equivalent at all before this: loading="lazy" only
+    // applies to iframes/images, and a plain <script src> with neither defer
+    // nor async blocks HTML parsing at that point in the document until it
+    // finishes downloading and executing — a classic render-blocking
+    // third-party request, and the one piece of this page an audit would
+    // actually flag.
+    import { initLazyEmbeds } from '../scripts/events-lazy-embeds';
+    initLazyEmbeds();
+  </script>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">What to Bring</h2>
+      <ul class="mt-6 list-disc space-y-3 pl-5 text-ink-muted">
+        <li>A red flashlight (preserves night vision — white light is discouraged at star parties)</li>
+        <li>Warm layers — desert nights get cold, even in summer</li>
+        <li>A folding chair for comfortable viewing</li>
+        <li>Your own telescope or binoculars, if you have them — not required, PAS members bring plenty</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Star Party Etiquette</h2>
+      <p class="mt-4 text-ink-muted">
+        A few courtesies, mostly common sense, that keep a star party enjoyable for everyone observing
+        alongside you:
+      </p>
+      <ul class="mt-6 list-disc space-y-3 pl-5 text-ink-muted">
+        <li>Skip white light — use red light, and sparingly. If you must use white light, warn people first.</li>
+        <li>Dim your phone or tablet screen; it's brighter than you think once your eyes adjust.</li>
+        <li>
+          Mind your car — no backup or interior lights near the observing area, and park so you can leave
+          without using your headlights.
+        </li>
+        <li>No telescope? Park a bit farther out so there's room for those hauling heavy gear.</li>
+        <li>Drive slowly to keep the dust down.</li>
+        <li>Never touch someone else's equipment — especially glass optics — without asking first.</li>
+        <li>Watch your step (without a flashlight), and mind any power cords on the ground.</li>
+        <li>Don't litter.</li>
+        <li>
+          New to this? Let the astronomers enjoy the sky rather than monopolizing their time — except at
+          events built specifically for beginners and the public.
+        </li>
+        <li>Give astrophotographers extra space and quiet; a stray light or bump can ruin a long exposure.</li>
+        <li>Keep your voice down — astronomy is a quiet, peaceful hobby.</li>
+        <li>Bringing kids or pets? Keep them quiet and under control, and pets on a leash.</li>
+        <li>Music, if it's welcome at all, is a headphones-only affair for most people's taste.</li>
+        <li>Smokers should stay downwind of both people and telescopes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Telescope Workshops</h2>
+      <p class="mt-4 text-ink-muted">
+        Can't find anything in your telescope, or need help picking one out? PAS members run free, public
+        telescope workshops throughout the year.
+      </p>
+      <a href="/telescope-workshops" class="btn-secondary mt-6">Learn More</a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Special Events</h2>
+    <p class="mt-4 text-ink-muted">
+      Beyond our regular meetings and star parties, PAS members take part in special trips and events throughout
+      the year — like a private group tour of Lowell Observatory's Richard F. Caris Dark Sky Planetarium in
+      Flagstaff.
+    </p>
+    <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+      <Image
+        src={lowellObservatoryTour}
+        alt="PAS members on a private tour of Lowell Observatory's Richard F. Caris Dark Sky Planetarium rooftop deck"
+        width={1000}
+        loading="lazy"
+        class="w-full object-cover"
+      />
+      <figcaption class="px-4 py-3 text-sm text-ink-muted">
+        PAS members on a private tour of Lowell Observatory's Dark Sky Planetarium.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">School & Scout Group Visits</h2>
+      <p class="mt-4 text-ink-muted">
+        PAS brings telescopes and presenters to schools, scout troops, and community organizations for hands-on
+        astronomy outreach, through our Star Tours program.
+      </p>
+      <div class="mt-6">
+        <PlaceholderNote label="A self-serve online request form is planned for a future phase. Until then, Star Tours events are booked by email." />
+      </div>
+      <a href="/star-tours" class="btn-secondary mt-6">See Star Tours Details</a>
+    </div>
+  </section>
+</BaseLayout>

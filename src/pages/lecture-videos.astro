@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+
+type Lecture = {
+  date: string;
+  title: string;
+  speaker: string;
+  affiliation?: string;
+  summary?: string;
+  videoUrl?: string;
+};
+
+// Content lives in src/content/lecture-videos/ (one JSON file per lecture,
+// managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+const lectureEntries = await getCollection('lecture-videos');
+const lectures: Lecture[] = lectureEntries.map((entry) => ({
+  date: entry.data.date,
+  title: entry.data.title,
+  speaker: entry.data.speaker,
+  affiliation: entry.data.affiliation,
+  summary: entry.data.summary,
+  videoUrl: entry.data.videoUrl,
+}));
+
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'long',
+  // The dates are calendar days, not instants. Without this they parse as UTC
+  // midnight and render as the previous day for anyone west of Greenwich — us.
+  timeZone: 'UTC',
+});
+
+// PAS lecture seasons run September–August, not the calendar year, so a
+// video is grouped with the season it aired in rather than its raw year —
+// e.g. a May 2022 lecture belongs to the "2021–2022 Season" alongside the
+// September 2021 lectures, matching how the club's own archive was labeled.
+function seasonLabel(date: string): string {
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(5, 7));
+  const startYear = month >= 9 ? year : year - 1;
+  return `${startYear}–${startYear + 1} Season`;
+}
+
+// Newest first, then grouped into seasons in that same order, so the season
+// headings come out descending without a separately maintained list. This is
+// also the server-rendered fallback shown before (or without) client JS.
+const sorted = [...lectures].sort((a, b) => b.date.localeCompare(a.date));
+
+type DisplayLecture = Lecture & { displayDate: string; season: string };
+const displayLectures: DisplayLecture[] = sorted.map((lecture) => ({
+  ...lecture,
+  displayDate: dateFormat.format(new Date(`${lecture.date}T00:00:00Z`)),
+  season: seasonLabel(lecture.date),
+}));
+
+const bySeason = new Map<string, DisplayLecture[]>();
+for (const lecture of displayLectures) {
+  bySeason.set(lecture.season, [...(bySeason.get(lecture.season) ?? []), lecture]);
+}
+const seasons = [...bySeason.entries()];
+
+// Fed to the client-side search/sort script below — same data already
+// computed for the SSR fallback, just serialized once instead of
+// re-derived in JS. Escaped so a title/speaker containing "</script>"
+// can't break out of the embedding tag.
+const lectureDataJson = JSON.stringify(displayLectures).replace(/<\/script/gi, '<\\/script');
+---
+
+<BaseLayout
+  title="Previous Lectures"
+  description="Recordings of past guest lecturer talks from the Phoenix Astronomical Society's Monthly Lecture Series."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      Lecture Series
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Previous Lectures</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      Recordings of past guest speakers and member talks from our{' '}
+      <a href="/events#where-we-meet" class="text-nebula-teal hover:underline">Monthly Lecture Series</a>{' '}
+      — astrophotography, planetary science, and current research from PAS members and visiting researchers.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      {
+        seasons.length === 0 ? (
+          <p class="text-ink-muted">
+            Lecture recordings will be posted here as they become available. In the meantime, see our{' '}
+            <a href="/events" class="text-nebula-teal hover:underline">
+              upcoming events
+            </a>{' '}
+            for the next Lecture Series meeting.
+          </p>
+        ) : (
+          <>
+            <script type="application/json" id="lecture-data" set:html={lectureDataJson} />
+
+            <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div class="flex-1">
+                <label for="lecture-search" class="block text-sm font-medium text-ink-primary">
+                  Search
+                </label>
+                <input
+                  type="search"
+                  id="lecture-search"
+                  placeholder="Search by title or speaker…"
+                  class="mt-2 w-full rounded-lg border border-subtle bg-space-base px-4 py-2 text-ink-primary placeholder:text-ink-muted focus:border-nebula-teal focus:outline-none"
+                />
+              </div>
+              <div class="sm:w-56">
+                <label for="lecture-sort" class="block text-sm font-medium text-ink-primary">
+                  Sort by
+                </label>
+                <select
+                  id="lecture-sort"
+                  class="mt-2 w-full rounded-lg border border-subtle bg-space-base px-4 py-2 text-ink-primary focus:border-nebula-teal focus:outline-none"
+                >
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                  <option value="speaker">Speaker (A–Z)</option>
+                  <option value="title">Title (A–Z)</option>
+                </select>
+              </div>
+            </div>
+
+            <p id="lecture-count" class="mb-6 text-sm text-ink-muted" aria-live="polite">
+              {displayLectures.length} lecture{displayLectures.length === 1 ? '' : 's'}
+            </p>
+
+            <p id="lecture-empty" hidden class="text-ink-muted">
+              No lectures match your search.
+            </p>
+
+            <div id="lecture-list" class="space-y-14">
+              {seasons.map(([season, entries]) => (
+                <div class="lecture-season">
+                  <h2 class="section-heading">{season}</h2>
+                  <ul class="mt-6 space-y-6">
+                    {entries.map((lecture) => (
+                      <li class="border-b border-subtle pb-6">
+                        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                          {lecture.videoUrl ? (
+                            // Recordings live on Google Drive/YouTube, not this
+                            // site, so this link leaves — new tab plus the ↗
+                            // this site reserves for external destinations.
+                            <a
+                              href={lecture.videoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="font-semibold text-ink-primary hover:text-nebula-teal"
+                            >
+                              {lecture.title} ↗
+                            </a>
+                          ) : (
+                            <span class="font-semibold text-ink-primary">{lecture.title}</span>
+                          )}
+                        </div>
+                        <p class="mt-1 text-sm text-ink-muted">
+                          {lecture.speaker}
+                          {lecture.affiliation ? `, ${lecture.affiliation}` : ''} ·{' '}
+                          <time datetime={lecture.date}>{lecture.displayDate}</time>
+                        </p>
+                        {lecture.summary && <p class="mt-2 text-ink-muted">{lecture.summary}</p>}
+                        {!lecture.videoUrl && (
+                          <p class="mt-2 text-sm italic text-ink-muted">Recording link coming soon.</p>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </>
+        )
+      }
+    </div>
+  </section>
+
+  <script>
+    import { initLectureSearch } from '../scripts/lecture-search';
+    initLectureSearch();
+  </script>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <PlaceholderNote
+      label="Seasons 2020-2021 through 2023-2024 are listed here from the club's prior lecture archive, with recording links carried over for every lecture where one existed on the old site. Four talks never had a recording posted (Sept 2020, Feb 2022, Sept 2023, Nov 2023) — add their links via the CMS if they turn up. The 2024-2025 and later seasons also still need to be added. Remove this note once the archive is current."
+    />
+  </section>
+</BaseLayout>

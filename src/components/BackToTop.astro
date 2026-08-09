@@ -1,0 +1,98 @@
+---
+// Fixed floating button(s), hidden until the visitor has scrolled down a
+// screen or so. The header is already sticky and stays visible the whole
+// way down every page, but a small logo in a thin bar is easy to miss —
+// this is the explicit, unmissable way back up, especially useful on the
+// site's longer pages (/history, /learn, /sky-conditions, /press-releases).
+//
+// On every page except the homepage itself, a second button sits above it
+// for a direct one-tap way home — "scroll to the top of this page" and
+// "go home" are different intents (rereading a long article's start vs.
+// actually leaving it), so both get their own control rather than
+// collapsing into one that guesses which you meant.
+const isHomepage = Astro.url.pathname === '/';
+---
+
+{
+  !isHomepage && (
+    <a
+      href="/"
+      id="back-home"
+      aria-label="Back to home"
+      class="back-to-top back-home fixed right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-strong bg-space-modal/90 text-ink-primary opacity-0 backdrop-blur-xl transition duration-300 hover:border-nebula-teal hover:text-nebula-teal hover:shadow-glow-teal"
+    >
+      <svg
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M3 11.5 12 4l9 7.5" />
+        <path d="M5.5 9.5V20h13V9.5" />
+      </svg>
+    </a>
+  )
+}
+
+<button
+  id="back-to-top"
+  type="button"
+  aria-label="Back to top"
+  class="back-to-top back-up fixed right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-strong bg-space-modal/90 text-ink-primary opacity-0 backdrop-blur-xl transition duration-300 hover:border-nebula-teal hover:text-nebula-teal hover:shadow-glow-teal"
+>
+  <svg
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <line x1="12" y1="19" x2="12" y2="5" />
+    <polyline points="5 12 12 5 19 12" />
+  </svg>
+</button>
+
+<style>
+  /* calc()'d rather than a plain bottom-6, so the button clears the iOS
+     home-indicator / Android gesture-nav safe area on real devices instead
+     of sitting flush against (or under) it — invisible in any desktop or
+     simulator viewport that doesn't model a real safe-area-inset-bottom. */
+  .back-to-top {
+    pointer-events: none;
+    transform: translateY(0.5rem);
+    bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+
+  .back-home {
+    bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  }
+
+  .back-to-top.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .back-to-top {
+      transition: opacity 0.3s ease;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { initBackToTop } from '../scripts/back-to-top';
+  initBackToTop();
+</script>

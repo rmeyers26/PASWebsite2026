@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+import PdfArchiveList from '../components/PdfArchiveList.astro';
+import ArchiveEmptyState from '../components/ArchiveEmptyState.astro';
+import { groupPdfArchiveByYear, type PdfArchiveEntry } from '../lib/pdfArchive';
+
+// Content lives in src/content/press-releases/ (one JSON file per release,
+// managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+const releaseEntries = await getCollection('press-releases');
+const releases: PdfArchiveEntry[] = releaseEntries.map((entry) => ({
+  date: entry.data.date,
+  title: entry.data.title,
+  summary: entry.data.summary,
+  file: entry.data.pdf,
+}));
+
+const years = groupPdfArchiveByYear(releases, 'press-releases');
+---
+
+<BaseLayout
+  title="Press Releases"
+  description="Official press releases from the Phoenix Astronomical Society, available to read and download as PDFs."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      Newsroom
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Press Releases</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      Official announcements from the Phoenix Astronomical Society — club news, public events, and outreach
+      milestones. Every release is posted here as a PDF you can read or download.
+    </p>
+    <p class="mx-auto mt-4 max-w-2xl text-ink-muted">
+      Members of the media are welcome to contact us at{' '}
+      <a href="mailto:info@pasaz.org" class="text-nebula-teal hover:underline">info@pasaz.org</a> for interviews,
+      photographs, or background on the club.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      {
+        years.length === 0 ? (
+          <ArchiveEmptyState label="Press releases" />
+        ) : (
+          <div class="space-y-14">
+            {years.map(([year, entries]) => (
+              <div>
+                <h2 class="section-heading">{year}</h2>
+                <PdfArchiveList entries={entries} />
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <PlaceholderNote
+      label="Every release from the club's Drive archive is listed here, but the PDF files themselves still need to be added under public/press-releases/<year>/ (the Drive folders have downloads disabled), and each entry needs its real headline and a short summary. Remove this note once both are done."
+    />
+  </section>
+</BaseLayout>

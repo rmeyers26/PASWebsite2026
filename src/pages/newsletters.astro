@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PlaceholderNote from '../components/PlaceholderNote.astro';
+import PdfArchiveList from '../components/PdfArchiveList.astro';
+import PdfArchiveItem from '../components/PdfArchiveItem.astro';
+import ArchiveEmptyState from '../components/ArchiveEmptyState.astro';
+import { groupPdfArchiveByYear, type PdfArchiveEntry } from '../lib/pdfArchive';
+
+// Content lives in src/content/newsletters/ (one JSON file per issue,
+// managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+const issueEntries = await getCollection('newsletters');
+const issues: PdfArchiveEntry[] = issueEntries.map((entry) => ({
+  date: entry.data.date,
+  title: entry.data.title,
+  summary: entry.data.summary,
+  file: entry.data.pdf,
+}));
+
+const years = groupPdfArchiveByYear(issues, 'newsletters');
+const [, latestIssues] = years[0] ?? [undefined, []];
+const latest = latestIssues[0];
+---
+
+<BaseLayout
+  title="Newsletters"
+  description="Read the Phoenix Astronomical Society's monthly newsletter and browse the historical archive of past issues."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      Newsletters
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Newsletters</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      The Phoenix Astronomical Society's monthly newsletter — club news, upcoming events, and member updates.
+      Every issue is posted here as a PDF you can read or download, along with the full historical archive.
+    </p>
+  </section>
+
+  {
+    latest && (
+      <section class="border-t border-subtle bg-space-card/40">
+        <div class="mx-auto max-w-4xl px-6 py-16">
+          <h2 class="section-heading">Latest Issue</h2>
+          <div class="mt-6 border-b border-subtle pb-6">
+            <PdfArchiveItem
+              entry={latest}
+              titleClass="text-xl font-semibold text-ink-primary hover:text-nebula-teal"
+            />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Archive</h2>
+      {
+        years.length === 0 ? (
+          <ArchiveEmptyState label="Newsletters" class="mt-6" />
+        ) : (
+          <div class="mt-6 space-y-14">
+            {years.map(([year, entries], yearIndex) => {
+              // The latest issue already has its own section above, so skip it
+              // here without hiding the rest of its year's issues.
+              const listed = yearIndex === 0 ? entries.slice(1) : entries;
+              return (
+                listed.length > 0 && (
+                  <div>
+                    <h3 class="text-lg font-semibold text-ink-primary">{year}</h3>
+                    <PdfArchiveList entries={listed} />
+                  </div>
+                )
+              );
+            })}
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <PlaceholderNote label="Newsletter issues are managed from the CMS (Content > Newsletters) — add a new issue there each month, and older issues can be uploaded to build out the historical archive. Remove this note once the archive is populated." />
+  </section>
+</BaseLayout>

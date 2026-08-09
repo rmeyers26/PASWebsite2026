@@ -1,0 +1,411 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Fetched at build time — same tradeoff as ApodOfTheDay's NASA fetch: accurate
+// as of the last deploy, not live for the visitor, but this is a static site
+// with no backend to run a client-safe proxy through, and Bookwhen's feed
+// doesn't advertise CORS headers for a browser-side fetch anyway. Falls back
+// to the static "4th Monday" copy below on any failure, same as ApodOfTheDay
+// falls back to "check back tomorrow."
+const ASIG_ICS_FEED = 'https://feeds.bookwhen.com/ical/i10eo6xdwmd8/zzbv6z/public.ics';
+
+interface AsigMeeting {
+  summary: string;
+  start: Date;
+  allDay: boolean;
+  location?: string;
+  url?: string;
+}
+
+function unfoldIcs(raw: string): string {
+  // RFC 5545 line folding: a line starting with a space/tab continues the
+  // previous line. Must be undone before any field can be parsed reliably.
+  return raw.replace(/\r\n/g, '\n').replace(/\n[ \t]/g, '');
+}
+
+function parseIcsDate(value: string, allDay: boolean): Date {
+  const y = Number(value.slice(0, 4));
+  const mo = Number(value.slice(4, 6)) - 1;
+  const d = Number(value.slice(6, 8));
+  // Arizona doesn't observe DST, so America/Phoenix is a fixed UTC-7 — no
+  // timezone database needed to convert this correctly. Both branches build
+  // an absolute UTC instant that represents Phoenix wall-clock time, so
+  // display code can always format with timeZone: 'America/Phoenix' and get
+  // the right y/mo/d back, regardless of which branch produced the Date —
+  // an earlier version constructed the all-day branch in the *build
+  // server's* local time instead, which silently displayed the wrong day
+  // whenever the build ran outside America/Phoenix.
+  if (allDay) return new Date(Date.UTC(y, mo, d, 7, 0, 0));
+  const h = Number(value.slice(9, 11));
+  const mi = Number(value.slice(11, 13));
+  const s = Number(value.slice(13, 15));
+  return new Date(Date.UTC(y, mo, d, h + 7, mi, s));
+}
+
+const UPCOMING_MEETING_COUNT = 4;
+
+let upcomingAsigMeetings: AsigMeeting[] = [];
+try {
+  const res = await fetch(ASIG_ICS_FEED);
+  if (res.ok) {
+    const text = unfoldIcs(await res.text());
+    const meetings: AsigMeeting[] = [];
+    for (const block of text.split('BEGIN:VEVENT').slice(1)) {
+      const summaryMatch = block.match(/^SUMMARY:(.+)$/m);
+      const summary = summaryMatch?.[1].trim().replace(/\\,/g, ',');
+      if (!summary || !/^ASIG\b/i.test(summary)) continue;
+
+      const dtstartMatch = block.match(/^DTSTART[^:]*:(\d{8}(?:T\d{6})?)/m);
+      if (!dtstartMatch) continue;
+      const allDay = !dtstartMatch[1].includes('T');
+      const start = parseIcsDate(dtstartMatch[1], allDay);
+
+      const locationMatch = block.match(/^LOCATION:(.+)$/m);
+      const urlMatch = block.match(/^URL(?:;[^:]*)?:(.+)$/m);
+      meetings.push({
+        summary: summary.replace(/^ASIG\s*/i, '').trim(),
+        start,
+        allDay,
+        location: locationMatch?.[1].trim().replace(/\\,/g, ','),
+        url: urlMatch?.[1].trim(),
+      });
+    }
+    meetings.sort((a, b) => a.start.getTime() - b.start.getTime());
+    upcomingAsigMeetings = meetings
+      .filter((m) => m.start.getTime() >= Date.now() - 12 * 60 * 60 * 1000)
+      .slice(0, UPCOMING_MEETING_COUNT);
+  }
+} catch {
+  upcomingAsigMeetings = [];
+}
+
+// One Event per upcoming meeting, same pattern as the two separate Event
+// blocks on /events (Lecture Series + Star Party) rather than one array —
+// simpler for a scraper to pick up and matches the site's existing convention.
+const asigMeetingSchemas = upcomingAsigMeetings.map((meeting) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `PAS ASIG — ${meeting.summary}`,
+  startDate: meeting.start.toISOString(),
+  eventAttendanceMode: meeting.location?.toLowerCase().includes('zoom')
+    ? 'https://schema.org/OnlineEventAttendanceMode'
+    : 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  organizer: { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' },
+  location: meeting.location ? { '@type': 'Place', name: meeting.location } : undefined,
+  url: meeting.url,
+}));
+
+const whatWeDo = [
+  {
+    title: '1. Learn Astrophotography',
+    items: [
+      'Camera and telescope fundamentals',
+      'Choosing equipment',
+      'Mount setup and polar alignment',
+      'Planning imaging sessions',
+      'Image acquisition techniques',
+    ],
+  },
+  {
+    title: '2. Image Processing',
+    items: [
+      'Stacking images',
+      'Calibration (darks, flats, bias)',
+      'Noise reduction',
+      'Color calibration',
+      'Sharpening and deconvolution',
+      'Final image finishing',
+    ],
+    note: 'Software covered includes PixInsight, Siril, Astro Pixel Processor (APP), Photoshop, and GraXpert.',
+  },
+  {
+    title: '3. Equipment Workshops',
+    items: [
+      'Telescopes, mounts, and cameras',
+      'Filters and auto focusers',
+      'Guiding systems and dew control',
+      'ASIAIR and N.I.N.A.',
+      'Mini PCs',
+    ],
+  },
+  {
+    title: '4. Monthly Show & Tell',
+    items: ['Recent images', 'Processing techniques', 'Successes, challenges, and lessons learned'],
+    note: 'Everyone learns from real-world experience.',
+  },
+  {
+    title: '5. Beginner Training',
+    items: [
+      'What equipment to buy',
+      'Budget-friendly setups',
+      'First image workflow',
+      'Common mistakes',
+      'Step-by-step guidance',
+    ],
+    note: 'No experience required.',
+  },
+  {
+    title: '6. Advanced Techniques',
+    items: [
+      'Narrowband imaging',
+      'Mosaic projects',
+      'Multi-night imaging',
+      'High Dynamic Range (HDR)',
+      'Planetary, solar, lunar, and comet imaging',
+    ],
+  },
+  {
+    title: '7. Software Demonstrations',
+    items: ['N.I.N.A.', 'PixInsight', 'Siril', 'ASIAIR', 'PHD2 Guiding', 'Stellarium', 'SkySafari'],
+  },
+  {
+    title: '8. Image Critiques',
+    items: ['Composition', 'Focus', 'Star quality', 'Color balance', 'Processing improvements'],
+    note: 'Friendly, constructive reviews.',
+  },
+  {
+    title: '9. Imaging Challenges',
+    items: ['Galaxies', 'Nebulae', 'Moon', 'Planetary', 'Wide-field Milky Way', 'Constellations', 'Comets'],
+    note: 'Optional monthly themes.',
+  },
+  {
+    title: '10. Field Imaging Nights',
+    items: [
+      'Set up together at dark-sky locations',
+      'Assist with equipment',
+      'Troubleshoot problems',
+      'Capture data',
+      'Learn from experienced imagers',
+    ],
+  },
+  {
+    title: '11. Guest Speakers',
+    items: [
+      'Professional astrophotographers',
+      'Equipment experts',
+      'Software developers',
+      'PAS members',
+      'Visiting astronomers',
+    ],
+  },
+  {
+    title: '12. Member Support',
+    items: [
+      'Equipment recommendations',
+      'Troubleshooting',
+      'Processing questions',
+      'Workflow improvements',
+      'New technology',
+    ],
+  },
+];
+
+const whoShouldJoin = [
+  'Complete beginners',
+  'DSLR and mirrorless camera users',
+  'Smart telescope owners (Seestar, Dwarf, Unistellar, etc.)',
+  'Deep-sky imagers',
+  'Planetary imagers',
+  'Solar imagers',
+  'Experienced astrophotographers who enjoy sharing their knowledge',
+];
+
+const whatYoullGain = [
+  'Learn faster through shared experience',
+  'Avoid costly equipment mistakes',
+  'Improve your images and processing skills',
+  'Stay current with the latest equipment and software',
+  'Build friendships with fellow astronomy enthusiasts',
+  'Gain confidence in every stage of the imaging process',
+  'Inspire others through your work',
+];
+---
+
+<BaseLayout
+  title="Astro Imaging Special Interest Group"
+  description="PAS ASIG: a members-only group for learning, practicing, and mastering astronomical imaging, meeting monthly at PVCC."
+>
+  {asigMeetingSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-violet shadow-glow-violet" />
+      Special Interest Group
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">
+      Astro Imaging Special Interest Group <span class="text-ink-muted">(ASIG)</span>
+    </h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      To help members learn, practice, and master the art and science of astronomical imaging through
+      education, collaboration, and hands-on experience.
+    </p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <h2 class="section-heading">Meetings</h2>
+      <p class="mt-4 text-ink-muted">
+        Held on the <strong class="font-semibold text-ink-primary">4th Monday of every month</strong> at{' '}
+        <strong class="font-semibold text-ink-primary">7:00 pm</strong>, at Paradise Valley Community College:
+      </p>
+      <address class="mt-4 not-italic text-ink-primary">
+        PVCC Building Q — Conference Center, Classroom 120A<br />
+        17811 North 32nd Street<br />
+        Phoenix, AZ 85032
+      </address>
+
+      {upcomingAsigMeetings.length > 0 && (
+        <div class="card mt-6">
+          <p class="text-sm font-semibold uppercase tracking-wide text-nebula-violet">Upcoming Meetings</p>
+          <ul class="mt-4 divide-y divide-subtle">
+            {upcomingAsigMeetings.map((meeting, index) => (
+              <li class:list={['py-4 first:pt-0 last:pb-0']}>
+                <p class="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-lg text-ink-primary">
+                  {meeting.start.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    timeZone: 'America/Phoenix',
+                  })}
+                  {!meeting.allDay && (
+                    <>
+                      {' at '}
+                      {meeting.start.toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        timeZone: 'America/Phoenix',
+                      })}
+                    </>
+                  )}
+                  {index === 0 && (
+                    <span class="rounded-full bg-nebula-violet/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-nebula-violet">
+                      Next
+                    </span>
+                  )}
+                </p>
+                {meeting.summary && <p class="mt-1 text-ink-muted">{meeting.summary}</p>}
+                {meeting.location && (
+                  <p class="mt-2 text-sm text-ink-muted">
+                    📍 {meeting.location}
+                    {meeting.location.toLowerCase().includes('zoom') && ' — online, not at PVCC'}
+                  </p>
+                )}
+                {meeting.url && (
+                  <p class="mt-2">
+                    <a
+                      href={meeting.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm font-semibold text-nebula-teal hover:underline"
+                    >
+                      Sign up on Bookwhen →
+                    </a>
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div class="mt-6 overflow-hidden rounded-lg border border-subtle">
+        <iframe
+          src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
+          title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
+          class="block h-[320px] w-full border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <p class="mt-6 text-ink-muted">
+        Meetings feature presentations, demonstrations, member image sharing, and plenty of time for
+        questions and discussion.
+      </p>
+      <p class="mt-6 text-sm text-ink-muted">
+        <span aria-hidden="true">*</span> PAS membership is required to take part in ASIG — see{' '}
+        <a href="/join" class="text-nebula-teal hover:underline">Join PAS</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <h2 class="section-heading">What We Do</h2>
+    <p class="mt-3 max-w-2xl text-ink-muted">
+      Twelve ways ASIG members learn from and support each other, month after month.
+    </p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        whatWeDo.map((section) => (
+          <div class="card">
+            <h3 class="font-display text-lg text-nebula-violet">{section.title}</h3>
+            <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-ink-muted">
+              {section.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            {section.note && <p class="mt-3 text-sm text-ink-muted italic">{section.note}</p>}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Who Should Join?</h2>
+      <p class="mt-4 max-w-2xl text-ink-muted">The group welcomes:</p>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+        {
+          whoShouldJoin.map((item) => (
+            <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">What You'll Gain</h2>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      {
+        whatYoullGain.map((item) => (
+          <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
+            <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-3xl px-6 py-24 text-center">
+      <span class="glass-badge mb-6">
+        <span class="h-1.5 w-1.5 rounded-full bg-nebula-violet shadow-glow-violet" />
+        Our Philosophy
+      </span>
+      <p class="font-display text-d3 tracking-tight text-ink-primary">
+        Learn. Capture. Process. Share. Inspire.
+      </p>
+      <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+        Whether you're taking your very first image of the Moon with a smart telescope or creating a
+        multi-night deep-sky mosaic with advanced equipment, ASIG offers a welcoming community where members
+        learn together, solve challenges together, and celebrate each other's achievements. Join us on the
+        4th Monday of every month at 7:00 pm at PVCC and discover just how rewarding astrophotography can be.
+      </p>
+      <p class="mx-auto mt-4 max-w-2xl text-ink-muted">
+        See what ASIG members have already captured in the <a href="/gallery" class="text-nebula-teal hover:underline">member gallery</a>.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="/join" class="btn-primary">Join PAS</a>
+        <a href="/gallery" class="btn-secondary">See the Gallery</a>
+        <a href="/contact" class="btn-secondary">Ask About ASIG</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,2114 @@
+{
+  "targets": [
+    {
+      "name": "M1 (Crab Nebula)",
+      "type": "Supernova Remnant",
+      "constellation": "Taurus",
+      "magnitude": "8.4",
+      "size": "6' x 4'",
+      "rise": "4:30 PM",
+      "set": "6:30 AM",
+      "month": "January"
+    },
+    {
+      "name": "M42 (Orion Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Orion",
+      "magnitude": "4.0",
+      "size": "60' x 60'",
+      "rise": "5:30 PM",
+      "set": "4:00 AM",
+      "month": "January"
+    },
+    {
+      "name": "NGC 2392 (Eskimo Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Gemini",
+      "magnitude": "9.2",
+      "size": "0.8'",
+      "rise": "5:00 PM",
+      "set": "9:00 AM",
+      "month": "January"
+    },
+    {
+      "name": "NGC 7662 (Blue Snowball)",
+      "type": "Planetary Nebula",
+      "constellation": "Andromeda",
+      "magnitude": "8.3",
+      "size": "0.5'",
+      "rise": "4:00 AM",
+      "set": "11:30 PM",
+      "month": "January"
+    },
+    {
+      "name": "M31 (Andromeda Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Andromeda",
+      "magnitude": "3.4",
+      "size": "180' x 60'",
+      "rise": "11:00 AM",
+      "set": "2:00 AM",
+      "month": "January"
+    },
+    {
+      "name": "M33 (Triangulum Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Triangulum",
+      "magnitude": "5.7",
+      "size": "70' x 40'",
+      "rise": "9:00 PM",
+      "set": "4:00 AM",
+      "month": "January"
+    },
+    {
+      "name": "M81 & M82 (Bode's Galaxy)",
+      "type": "Galaxies",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9 & 8.4",
+      "size": "21' x 10' & 11' x 4'",
+      "rise": "7:30 PM",
+      "set": "11:00 AM",
+      "month": "January"
+    },
+    {
+      "name": "Double Cluster (NGC 869/884)",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "4.3 & 4.4",
+      "size": "30'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "January"
+    },
+    {
+      "name": "M35",
+      "type": "Open Cluster",
+      "constellation": "Gemini",
+      "magnitude": "5.3",
+      "size": "28'",
+      "rise": "5:00 PM",
+      "set": "7:30 AM",
+      "month": "January"
+    },
+    {
+      "name": "M36",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.0",
+      "size": "12'",
+      "rise": "4:00 PM",
+      "set": "6:30 AM",
+      "month": "January"
+    },
+    {
+      "name": "M37",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "5.6",
+      "size": "24'",
+      "rise": "4:00 PM",
+      "set": "6:30 AM",
+      "month": "January"
+    },
+    {
+      "name": "M38",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.4",
+      "size": "21'",
+      "rise": "4:00 PM",
+      "set": "6:30 AM",
+      "month": "January"
+    },
+    {
+      "name": "M41",
+      "type": "Open Cluster",
+      "constellation": "Canis Major",
+      "magnitude": "4.5",
+      "size": "38'",
+      "rise": "7:30 PM",
+      "set": "5:30 AM",
+      "month": "January"
+    },
+    {
+      "name": "M44 (Beehive Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cancer",
+      "magnitude": "3.1",
+      "size": "95'",
+      "rise": "7:30 PM",
+      "set": "9:00 AM",
+      "month": "January"
+    },
+    {
+      "name": "M45 (Pleiades)",
+      "type": "Open Cluster",
+      "constellation": "Taurus",
+      "magnitude": "1.6",
+      "size": "1.5°",
+      "rise": "2:00 PM",
+      "set": "4:30 AM",
+      "month": "January"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "January"
+    },
+    {
+      "name": "Achird (Eta Cassiopeiae)",
+      "type": "Double Star",
+      "constellation": "Cassiopeia",
+      "magnitude": "3.5 / 7.5",
+      "size": "12'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "January"
+    },
+    {
+      "name": "Castor",
+      "type": "Double Star",
+      "constellation": "Gemini",
+      "magnitude": "1.6",
+      "size": "5\"",
+      "rise": "5:30 PM",
+      "set": "9:00 AM",
+      "month": "January"
+    },
+    {
+      "name": "M1 (Crab Nebula)",
+      "type": "Supernova Remnant",
+      "constellation": "Taurus",
+      "magnitude": "8.4",
+      "size": "6' x 4'",
+      "rise": "1:30 PM",
+      "set": "3:30 AM",
+      "month": "February"
+    },
+    {
+      "name": "M42 (Orion Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Orion",
+      "magnitude": "4.0",
+      "size": "60' x 60'",
+      "rise": "2:30 PM",
+      "set": "3:00 AM",
+      "month": "February"
+    },
+    {
+      "name": "NGC 2392 (Eskimo Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Gemini",
+      "magnitude": "9.2",
+      "size": "0.8'",
+      "rise": "3:00 PM",
+      "set": "5:00 AM",
+      "month": "February"
+    },
+    {
+      "name": "NGC 7662 (Blue Snowball)",
+      "type": "Planetary Nebula",
+      "constellation": "Andromeda",
+      "magnitude": "8.3",
+      "size": "0.5'",
+      "rise": "6:00 AM",
+      "set": "10:30 PM",
+      "month": "February"
+    },
+    {
+      "name": "M31 (Andromeda Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Andromeda",
+      "magnitude": "3.4",
+      "size": "180' x 60'",
+      "rise": "9:30 AM",
+      "set": "10:30 PM",
+      "month": "February"
+    },
+    {
+      "name": "M33 (Triangulum Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Triangulum",
+      "magnitude": "5.7",
+      "size": "70' x 40'",
+      "rise": "9:00 AM",
+      "set": "12:05 AM",
+      "month": "February"
+    },
+    {
+      "name": "M81 & M82 (Bode's Galaxy)",
+      "type": "Galaxies",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9 & 8.4",
+      "size": "21' x 10' & 11' x 4'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "February"
+    },
+    {
+      "name": "Double Cluster (NGC 869/884)",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "4.3 & 4.4",
+      "size": "30'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "February"
+    },
+    {
+      "name": "M35",
+      "type": "Open Cluster",
+      "constellation": "Gemini",
+      "magnitude": "5.3",
+      "size": "28'",
+      "rise": "1:30 PM",
+      "set": "5:00 AM",
+      "month": "February"
+    },
+    {
+      "name": "M36",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.0",
+      "size": "12'",
+      "rise": "12:30 PM",
+      "set": "4:30 AM",
+      "month": "February"
+    },
+    {
+      "name": "M37",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "5.6",
+      "size": "24'",
+      "rise": "1:00 PM",
+      "set": "5:00 AM",
+      "month": "February"
+    },
+    {
+      "name": "M38",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.4",
+      "size": "21'",
+      "rise": "12:00 PM",
+      "set": "4:00 AM",
+      "month": "February"
+    },
+    {
+      "name": "M41",
+      "type": "Open Cluster",
+      "constellation": "Canis Major",
+      "magnitude": "4.5",
+      "size": "38'",
+      "rise": "4:00 PM",
+      "set": "3:30 AM",
+      "month": "February"
+    },
+    {
+      "name": "M44 (Beehive Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cancer",
+      "magnitude": "3.1",
+      "size": "95'",
+      "rise": "5:00 PM",
+      "set": "6:30 AM",
+      "month": "February"
+    },
+    {
+      "name": "M45 (Pleiades)",
+      "type": "Open Cluster",
+      "constellation": "Taurus",
+      "magnitude": "1.6",
+      "size": "1.5°",
+      "rise": "11:30 AM",
+      "set": "2:00 AM",
+      "month": "February"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "February"
+    },
+    {
+      "name": "NGC 2362 (Tau Canis Majoris Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Canis Major",
+      "magnitude": "3.8",
+      "size": "5'",
+      "rise": "5:00 PM",
+      "set": "3:30 AM",
+      "month": "February"
+    },
+    {
+      "name": "Achird (Eta Cassiopeiae)",
+      "type": "Double Star",
+      "constellation": "Cassiopeia",
+      "magnitude": "3.5 / 7.5",
+      "size": "12'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "February"
+    },
+    {
+      "name": "Castor",
+      "type": "Double Star",
+      "constellation": "Gemini",
+      "magnitude": "1.6",
+      "size": "5\"",
+      "rise": "2:30 PM",
+      "set": "6:00 AM",
+      "month": "February"
+    },
+    {
+      "name": "M42 (Orion Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Orion",
+      "magnitude": "4.0",
+      "size": "60' x 60'",
+      "rise": "1:00 PM",
+      "set": "2:00 AM",
+      "month": "March"
+    },
+    {
+      "name": "NGC 2392 (Eskimo Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Gemini",
+      "magnitude": "9.2",
+      "size": "0.8'",
+      "rise": "2:00 PM",
+      "set": "4:30 AM",
+      "month": "March"
+    },
+    {
+      "name": "NGC 3242 (Ghost of Jupiter)",
+      "type": "Planetary Nebula",
+      "constellation": "Hydra",
+      "magnitude": "7.3",
+      "size": "25\"",
+      "rise": "7:45 PM",
+      "set": "6:30 AM",
+      "month": "March"
+    },
+    {
+      "name": "M31 (Andromeda Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Andromeda",
+      "magnitude": "3.4",
+      "size": "180' x 60'",
+      "rise": "8:00 AM",
+      "set": "9:30 PM",
+      "month": "March"
+    },
+    {
+      "name": "M104 (Sombrero Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Virgo",
+      "magnitude": "8.0",
+      "size": "9' x 4'",
+      "rise": "10:15 PM",
+      "set": "8:30 AM",
+      "month": "March"
+    },
+    {
+      "name": "M51 (Whirlpool Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Canes Venatici",
+      "magnitude": "8.4",
+      "size": "11' x 7'",
+      "rise": "6:30 PM",
+      "set": "9:45 AM",
+      "month": "March"
+    },
+    {
+      "name": "M81 & M82 (Bode's Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9 & 8.4",
+      "size": "21' x 10' & 11' x 4'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "March"
+    },
+    {
+      "name": "M3",
+      "type": "Globular Cluster",
+      "constellation": "Canes Venatici",
+      "magnitude": "6.1",
+      "size": "18'",
+      "rise": "8:00 PM",
+      "set": "10:00 AM",
+      "month": "March"
+    },
+    {
+      "name": "M13 (Hercules Cluster)",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "5.8",
+      "size": "20'",
+      "rise": "9:45 PM",
+      "set": "11:00 AM",
+      "month": "March"
+    },
+    {
+      "name": "Double Cluster (NGC 869/884)",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "4.3 & 4.4",
+      "size": "30'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "March"
+    },
+    {
+      "name": "M35",
+      "type": "Open Cluster",
+      "constellation": "Gemini",
+      "magnitude": "5.3",
+      "size": "28'",
+      "rise": "1:30 PM",
+      "set": "4:00 AM",
+      "month": "March"
+    },
+    {
+      "name": "M37",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "5.6",
+      "size": "24'",
+      "rise": "11:00 AM",
+      "set": "2:30 AM",
+      "month": "March"
+    },
+    {
+      "name": "M41",
+      "type": "Open Cluster",
+      "constellation": "Canis Major",
+      "magnitude": "4.5",
+      "size": "38'",
+      "rise": "2:00 PM",
+      "set": "1:30 AM",
+      "month": "March"
+    },
+    {
+      "name": "M44 (Beehive Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cancer",
+      "magnitude": "3.1",
+      "size": "95'",
+      "rise": "3:30 PM",
+      "set": "5:30 AM",
+      "month": "March"
+    },
+    {
+      "name": "M45 (Pleiades)",
+      "type": "Open Cluster",
+      "constellation": "Taurus",
+      "magnitude": "1.6",
+      "size": "1.5°",
+      "rise": "10:30 AM",
+      "set": "12:45 AM",
+      "month": "March"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "March"
+    },
+    {
+      "name": "NGC 2362 (Tau Canis Majoris Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Canis Major",
+      "magnitude": "3.8",
+      "size": "5'",
+      "rise": "3:30 PM",
+      "set": "1:00 AM",
+      "month": "March"
+    },
+    {
+      "name": "Achird (Eta Cassiopeiae)",
+      "type": "Double Star",
+      "constellation": "Cassiopeia",
+      "magnitude": "3.5 / 7.5",
+      "size": "12'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "March"
+    },
+    {
+      "name": "Castor",
+      "type": "Double Star",
+      "constellation": "Gemini",
+      "magnitude": "1.6",
+      "size": "5\"",
+      "rise": "1:00 PM",
+      "set": "4:00 AM",
+      "month": "March"
+    },
+    {
+      "name": "Beta Monocerotis",
+      "type": "Triple Star",
+      "constellation": "Monoceros",
+      "magnitude": "4.7, 5.2, 6.1",
+      "size": "5\"",
+      "rise": "2:00 PM",
+      "set": "1:00 AM",
+      "month": "March"
+    },
+    {
+      "name": "M42 (Orion Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Orion",
+      "magnitude": "4.0",
+      "size": "60' x 60'",
+      "rise": "11:30 AM",
+      "set": "12:30 AM",
+      "month": "April"
+    },
+    {
+      "name": "NGC 2392 (Eskimo Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Gemini",
+      "magnitude": "9.2",
+      "size": "0.8'",
+      "rise": "11:30 AM",
+      "set": "1:30 AM",
+      "month": "April"
+    },
+    {
+      "name": "NGC 3242 (Ghost of Jupiter)",
+      "type": "Planetary Nebula",
+      "constellation": "Hydra",
+      "magnitude": "7.3",
+      "size": "25\"",
+      "rise": "4:00 PM",
+      "set": "2:30 AM",
+      "month": "April"
+    },
+    {
+      "name": "M104 (Sombrero Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Virgo",
+      "magnitude": "8.0",
+      "size": "9' x 4'",
+      "rise": "8:30 PM",
+      "set": "7:30 AM",
+      "month": "April"
+    },
+    {
+      "name": "M51 (Whirlpool Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Canes Venatici",
+      "magnitude": "8.4",
+      "size": "11' x 7'",
+      "rise": "6:00 PM",
+      "set": "8:30 AM",
+      "month": "April"
+    },
+    {
+      "name": "M65, M66, NGC 3628 (Leo Triplet)",
+      "type": "Galaxies",
+      "constellation": "Leo",
+      "magnitude": "9.3, 8.9, 10.2",
+      "size": "9' x 2' & 9' x 4'",
+      "rise": "2:30 PM",
+      "set": "5:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "M81 & M82 (Bode's Galaxy)",
+      "type": "Galaxies",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9 & 8.4",
+      "size": "21' x 10' & 11' x 4'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "April"
+    },
+    {
+      "name": "M3",
+      "type": "Globular Cluster",
+      "constellation": "Canes Venatici",
+      "magnitude": "6.1",
+      "size": "18'",
+      "rise": "6:30 PM",
+      "set": "8:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "M5",
+      "type": "Globular Cluster",
+      "constellation": "Serpens",
+      "magnitude": "5.6",
+      "size": "23'",
+      "rise": "10:00 PM",
+      "set": "10:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "M13 (Hercules Cluster)",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "5.8",
+      "size": "20'",
+      "rise": "9:30 PM",
+      "set": "11:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "Double Cluster (NGC 869/884)",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "4.3 & 4.4",
+      "size": "30'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "April"
+    },
+    {
+      "name": "M35",
+      "type": "Open Cluster",
+      "constellation": "Gemini",
+      "magnitude": "5.3",
+      "size": "28'",
+      "rise": "11:00 AM",
+      "set": "2:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "M37",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "5.6",
+      "size": "24'",
+      "rise": "11:00 AM",
+      "set": "2:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "M41",
+      "type": "Open Cluster",
+      "constellation": "Canis Major",
+      "magnitude": "4.5",
+      "size": "38'",
+      "rise": "12:30 PM",
+      "set": "10:30 PM",
+      "month": "April"
+    },
+    {
+      "name": "M44 (Beehive Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cancer",
+      "magnitude": "3.1",
+      "size": "95'",
+      "rise": "1:30 PM",
+      "set": "4:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "M45 (Pleiades)",
+      "type": "Open Cluster",
+      "constellation": "Taurus",
+      "magnitude": "1.6",
+      "size": "1.5°",
+      "rise": "9:30 AM",
+      "set": "11:00 PM",
+      "month": "April"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "April"
+    },
+    {
+      "name": "NGC 2362 (Tau Canis Majoris Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Canis Major",
+      "magnitude": "3.8",
+      "size": "5'",
+      "rise": "1:30 PM",
+      "set": "11:00 PM",
+      "month": "April"
+    },
+    {
+      "name": "Achird (Eta Cassiopeiae)",
+      "type": "Double Star",
+      "constellation": "Cassiopeia",
+      "magnitude": "3.5 / 7.5",
+      "size": "12'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "April"
+    },
+    {
+      "name": "Castor",
+      "type": "Double Star",
+      "constellation": "Gemini",
+      "magnitude": "1.6",
+      "size": "5\"",
+      "rise": "11:00 AM",
+      "set": "2:00 AM",
+      "month": "April"
+    },
+    {
+      "name": "Beta Monocerotis",
+      "type": "Triple Star",
+      "constellation": "Monoceros",
+      "magnitude": "4.7, 5.2, 6.1",
+      "size": "5\"",
+      "rise": "11:30 AM",
+      "set": "11:00 PM",
+      "month": "April"
+    },
+    {
+      "name": "NGC 2392 (Eskimo Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Gemini",
+      "magnitude": "9.2",
+      "size": "0.8'",
+      "rise": "9:30 AM",
+      "set": "11:30 PM",
+      "month": "May"
+    },
+    {
+      "name": "NGC 3242 (Ghost of Jupiter)",
+      "type": "Planetary Nebula",
+      "constellation": "Hydra",
+      "magnitude": "7.3",
+      "size": "25\"",
+      "rise": "2:00 PM",
+      "set": "12:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "NGC 6543 (Cat's Eye Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Draco",
+      "magnitude": "8.1",
+      "size": "0.4' x 0.3'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "May"
+    },
+    {
+      "name": "NGC 6826 (Blinking Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "8.8",
+      "size": "2.1'",
+      "rise": "7:00 PM",
+      "set": "2:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "M57 (Ring Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Lyra",
+      "magnitude": "8.8",
+      "size": "1.5' x 1'",
+      "rise": "10:30 PM",
+      "set": "9:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "M104 (Sombrero Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Virgo",
+      "magnitude": "8.0",
+      "size": "9' x 4'",
+      "rise": "5:15 PM",
+      "set": "4:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "M51 (Whirlpool Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Canes Venatici",
+      "magnitude": "8.4",
+      "size": "11' x 7'",
+      "rise": "4:30 PM",
+      "set": "7:00 AM",
+      "month": "May"
+    },
+    {
+      "name": "M65, M66, NGC 3628 (Leo Triplet)",
+      "type": "Galaxies",
+      "constellation": "Leo",
+      "magnitude": "9.3, 8.9, 10.2",
+      "size": "9' x 2' & 9' x 4'",
+      "rise": "1:30 PM",
+      "set": "3:00 AM",
+      "month": "May"
+    },
+    {
+      "name": "M81 & M82 (Bode's Galaxy)",
+      "type": "Galaxies",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9 & 8.4",
+      "size": "21' x 10' & 11' x 4'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "May"
+    },
+    {
+      "name": "M86 (Markarian's Chain)",
+      "type": "Galaxies",
+      "constellation": "Virgo",
+      "magnitude": "8.8",
+      "size": "11.5' x 8.4'",
+      "rise": "2:45 PM",
+      "set": "4:00 AM",
+      "month": "May"
+    },
+    {
+      "name": "M3",
+      "type": "Globular Cluster",
+      "constellation": "Canes Venatici",
+      "magnitude": "6.1",
+      "size": "18'",
+      "rise": "4:30 PM",
+      "set": "5:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "M5",
+      "type": "Globular Cluster",
+      "constellation": "Serpens",
+      "magnitude": "5.6",
+      "size": "23'",
+      "rise": "7:30 PM",
+      "set": "7:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "M10",
+      "type": "Globular Cluster",
+      "constellation": "Ophiuchus",
+      "magnitude": "6.4",
+      "size": "20'",
+      "rise": "8:30 PM",
+      "set": "7:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "M13 (Hercules Cluster)",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "5.8",
+      "size": "20'",
+      "rise": "8:30 PM",
+      "set": "10:00 AM",
+      "month": "May"
+    },
+    {
+      "name": "M92",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "6.3",
+      "size": "14'",
+      "rise": "8:30 PM",
+      "set": "7:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "M44 (Beehive Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cancer",
+      "magnitude": "3.1",
+      "size": "95'",
+      "rise": "11:30 AM",
+      "set": "1:30 AM",
+      "month": "May"
+    },
+    {
+      "name": "Castor",
+      "type": "Double Star",
+      "constellation": "Gemini",
+      "magnitude": "1.6",
+      "size": "5\"",
+      "rise": "9:00 AM",
+      "set": "12:00 AM",
+      "month": "May"
+    },
+    {
+      "name": "Albireo",
+      "type": "Double Star",
+      "constellation": "Cygnus",
+      "magnitude": "3.1 & 5.1",
+      "size": "35\"",
+      "rise": "10:15 PM",
+      "set": "11:00 AM",
+      "month": "May"
+    },
+    {
+      "name": "Double Double Epsilon Lyrae",
+      "type": "Double Star",
+      "constellation": "Lyra",
+      "magnitude": "5 & 6",
+      "size": "3.5\"",
+      "rise": "7:15 PM",
+      "set": "12:00 PM",
+      "month": "May"
+    },
+    {
+      "name": "M8 (Lagoon Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Sagittarius",
+      "magnitude": "6.0",
+      "size": "90' x 40'",
+      "rise": "9:40 PM",
+      "set": "7:15 AM",
+      "month": "June"
+    },
+    {
+      "name": "M17 (Swan / Omega Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Sagittarius",
+      "magnitude": "6.0",
+      "size": "40' x 7'",
+      "rise": "10:00 PM",
+      "set": "8:15 AM",
+      "month": "June"
+    },
+    {
+      "name": "NGC 3242 (Ghost of Jupiter)",
+      "type": "Planetary Nebula",
+      "constellation": "Hydra",
+      "magnitude": "7.3",
+      "size": "25\"",
+      "rise": "12:00 PM",
+      "set": "10:00 PM",
+      "month": "June"
+    },
+    {
+      "name": "NGC 6543 (Cat's Eye Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Draco",
+      "magnitude": "8.1",
+      "size": "0.4' x 0.3'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "June"
+    },
+    {
+      "name": "NGC 6826 (Blinking Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "8.8",
+      "size": "2.1'",
+      "rise": "5:00 PM",
+      "set": "12:00 PM",
+      "month": "June"
+    },
+    {
+      "name": "M57 (Ring Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Lyra",
+      "magnitude": "8.8",
+      "size": "1.5' x 1'",
+      "rise": "8:30 PM",
+      "set": "10:30 AM",
+      "month": "June"
+    },
+    {
+      "name": "M104 (Sombrero Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Virgo",
+      "magnitude": "8.0",
+      "size": "9' x 4'",
+      "rise": "2:00 PM",
+      "set": "1:00 AM",
+      "month": "June"
+    },
+    {
+      "name": "M51 (Whirlpool Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Canes Venatici",
+      "magnitude": "8.4",
+      "size": "11' x 7'",
+      "rise": "11:00 AM",
+      "set": "5:30 AM",
+      "month": "June"
+    },
+    {
+      "name": "M65, M66, NGC 3628 (Leo Triplet)",
+      "type": "Galaxies",
+      "constellation": "Leo",
+      "magnitude": "9.3, 8.9, 10.2",
+      "size": "9' x 2' & 9' x 4'",
+      "rise": "11:30 AM",
+      "set": "1:00 AM",
+      "month": "June"
+    },
+    {
+      "name": "M81 & M82 (Bode's Galaxy)",
+      "type": "Galaxies",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9 & 8.4",
+      "size": "21' x 10' & 11' x 4'",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "June"
+    },
+    {
+      "name": "M86 (Markarian's Chain)",
+      "type": "Galaxies",
+      "constellation": "Virgo",
+      "magnitude": "8.8",
+      "size": "11.5' x 8.4'",
+      "rise": "12:45 PM",
+      "set": "2:00 AM",
+      "month": "June"
+    },
+    {
+      "name": "M3",
+      "type": "Globular Cluster",
+      "constellation": "Canes Venatici",
+      "magnitude": "6.1",
+      "size": "18'",
+      "rise": "1:00 PM",
+      "set": "4:00 AM",
+      "month": "June"
+    },
+    {
+      "name": "M5",
+      "type": "Globular Cluster",
+      "constellation": "Serpens",
+      "magnitude": "5.6",
+      "size": "23'",
+      "rise": "4:00 PM",
+      "set": "5:30 AM",
+      "month": "June"
+    },
+    {
+      "name": "M10",
+      "type": "Globular Cluster",
+      "constellation": "Ophiuchus",
+      "magnitude": "6.4",
+      "size": "20'",
+      "rise": "6:30 PM",
+      "set": "6:30 AM",
+      "month": "June"
+    },
+    {
+      "name": "M13 (Hercules Cluster)",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "5.8",
+      "size": "20'",
+      "rise": "5:30 PM",
+      "set": "7:30 AM",
+      "month": "June"
+    },
+    {
+      "name": "M22",
+      "type": "Globular Cluster",
+      "constellation": "Sagittarius",
+      "magnitude": "5.1",
+      "size": "32'",
+      "rise": "9:30 PM",
+      "set": "7:30 AM",
+      "month": "June"
+    },
+    {
+      "name": "M6 (Butterfly Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Scorpius",
+      "magnitude": "4.2",
+      "size": "25'",
+      "rise": "9:00 PM",
+      "set": "6:15 AM",
+      "month": "June"
+    },
+    {
+      "name": "M11 (Wild Duck Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Scutum",
+      "magnitude": "5.8",
+      "size": "14'",
+      "rise": "9:45 PM",
+      "set": "9:00 AM",
+      "month": "June"
+    },
+    {
+      "name": "M44 (Beehive Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cancer",
+      "magnitude": "3.1",
+      "size": "95'",
+      "rise": "8:30 AM",
+      "set": "10:30 PM",
+      "month": "June"
+    },
+    {
+      "name": "Albireo",
+      "type": "Double Star",
+      "constellation": "Cygnus",
+      "magnitude": "3.1 & 5.1",
+      "size": "35\"",
+      "rise": "8:45 PM",
+      "set": "10:15 AM",
+      "month": "June"
+    },
+    {
+      "name": "Double Double Epsilon Lyrae",
+      "type": "Double Star",
+      "constellation": "Lyra",
+      "magnitude": "5 & 6",
+      "size": "3.5\"",
+      "rise": "8:15 PM",
+      "set": "10:30 AM",
+      "month": "June"
+    },
+    {
+      "name": "Mizar & Alcor",
+      "type": "Double Star",
+      "constellation": "Ursa Major",
+      "magnitude": "2.2 & 4.0",
+      "size": "14.4\"",
+      "rise": "Circumpolar",
+      "set": "Circumpolar",
+      "month": "June"
+    },
+    {
+      "name": "M8 (Lagoon Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Sagittarius",
+      "magnitude": "6.0",
+      "size": "90' x 40'",
+      "rise": "1:30 PM",
+      "set": "10:30 PM",
+      "month": "September"
+    },
+    {
+      "name": "M17 (Swan Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Sagittarius",
+      "magnitude": "6.0",
+      "size": "20'",
+      "rise": "2:00 PM",
+      "set": "11:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "NGC 7000 (North America Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "4.0",
+      "size": "120'",
+      "rise": "2:30 PM",
+      "set": "12:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "IC 5146 (Cocoon Nebula)",
+      "type": "Emission/Reflection Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "7.2",
+      "size": "10'",
+      "rise": "8:00 PM",
+      "set": "7:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "NGC 6888 (Crescent Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "7.4",
+      "size": "18' x 12'",
+      "rise": "5:00 PM",
+      "set": "2:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M27 (Dumbbell Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Vulpecula",
+      "magnitude": "7.5",
+      "size": "8'",
+      "rise": "3:00 PM",
+      "set": "1:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M57 (Ring Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Lyra",
+      "magnitude": "8.8",
+      "size": "1.4'",
+      "rise": "2:00 PM",
+      "set": "11:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "M76 (Little Dumbbell Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Perseus",
+      "magnitude": "10.1",
+      "size": "2.7' x 1.8'",
+      "rise": "10:00 PM",
+      "set": "10:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M31 (Andromeda Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Andromeda",
+      "magnitude": "3.4",
+      "size": "180' x 60'",
+      "rise": "7:00 PM",
+      "set": "6:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M33 (Triangulum Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Triangulum",
+      "magnitude": "5.7",
+      "size": "70' x 40'",
+      "rise": "8:00 PM",
+      "set": "7:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M81 (Bode's Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9",
+      "size": "21' x 10'",
+      "rise": "1:00 AM",
+      "set": "10:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M82 (Cigar Galaxy)",
+      "type": "Starburst Galaxy",
+      "constellation": "Ursa Major",
+      "magnitude": "8.4",
+      "size": "11' x 4'",
+      "rise": "1:00 AM",
+      "set": "10:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M101 (Pinwheel Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Ursa Major",
+      "magnitude": "7.9",
+      "size": "28'",
+      "rise": "12:00 AM",
+      "set": "10:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M2",
+      "type": "Globular Cluster",
+      "constellation": "Aquarius",
+      "magnitude": "6.5",
+      "size": "16'",
+      "rise": "6:00 PM",
+      "set": "3:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M13 (Hercules Cluster)",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "5.8",
+      "size": "20'",
+      "rise": "12:00 PM",
+      "set": "9:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "M15",
+      "type": "Globular Cluster",
+      "constellation": "Pegasus",
+      "magnitude": "6.2",
+      "size": "12'",
+      "rise": "6:00 PM",
+      "set": "4:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M22",
+      "type": "Globular Cluster",
+      "constellation": "Sagittarius",
+      "magnitude": "5.1",
+      "size": "24'",
+      "rise": "1:30 PM",
+      "set": "10:30 PM",
+      "month": "September"
+    },
+    {
+      "name": "M92",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "6.5",
+      "size": "14'",
+      "rise": "12:00 PM",
+      "set": "9:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "M6 (Butterfly Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Scorpius",
+      "magnitude": "4.2",
+      "size": "25'",
+      "rise": "1:00 PM",
+      "set": "10:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "M7 (Ptolemy's Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Scorpius",
+      "magnitude": "3.3",
+      "size": "80'",
+      "rise": "1:00 PM",
+      "set": "10:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "M11 (Wild Duck Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Scutum",
+      "magnitude": "6.3",
+      "size": "14'",
+      "rise": "2:00 PM",
+      "set": "11:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "8:00 PM",
+      "set": "7:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "Albireo (Beta Cygni)",
+      "type": "Double Star",
+      "constellation": "Cygnus",
+      "magnitude": "3.1 & 5.1",
+      "size": "35\"",
+      "rise": "12:00 PM",
+      "set": "10:00 PM",
+      "month": "September"
+    },
+    {
+      "name": "Epsilon Lyrae (Double Double)",
+      "type": "Double Star",
+      "constellation": "Lyra",
+      "magnitude": "4.7 & 6.2, 5.3 & 5.4",
+      "size": "3.5\"",
+      "rise": "12:25 PM",
+      "set": "5:00 AM",
+      "month": "September"
+    },
+    {
+      "name": "M13 (Hercules Cluster)",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "5.8",
+      "size": "20'",
+      "rise": "12:00 PM",
+      "set": "1:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M92",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "6.5",
+      "size": "14'",
+      "rise": "1:00 PM",
+      "set": "1:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M15",
+      "type": "Globular Cluster",
+      "constellation": "Pegasus",
+      "magnitude": "6.2",
+      "size": "12'",
+      "rise": "1:00 PM",
+      "set": "3:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M2",
+      "type": "Globular Cluster",
+      "constellation": "Aquarius",
+      "magnitude": "6.5",
+      "size": "16'",
+      "rise": "1:00 PM",
+      "set": "4:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M27 (Dumbbell Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Vulpecula",
+      "magnitude": "7.5",
+      "size": "8'",
+      "rise": "2:00 PM",
+      "set": "11:00 PM",
+      "month": "October"
+    },
+    {
+      "name": "M57 (Ring Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Lyra",
+      "magnitude": "8.8",
+      "size": "1.4'",
+      "rise": "2:00 PM",
+      "set": "12:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "NGC 7009 (Saturn Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Aquarius",
+      "magnitude": "8.0",
+      "size": "0.5'",
+      "rise": "1:00 PM",
+      "set": "11:00 PM",
+      "month": "October"
+    },
+    {
+      "name": "NGC 6826 (Blinking Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "8.8",
+      "size": "2.1'",
+      "rise": "10:00 AM",
+      "set": "6:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "NGC 7662 (Snowball Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Andromeda",
+      "magnitude": "8.3",
+      "size": "0.5'",
+      "rise": "3:00 PM",
+      "set": "8:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M31 (Andromeda Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Andromeda",
+      "magnitude": "3.4",
+      "size": "180' x 60'",
+      "rise": "4:00 PM",
+      "set": "8:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M33 (Triangulum Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Triangulum",
+      "magnitude": "5.7",
+      "size": "70' x 40'",
+      "rise": "6:00 PM",
+      "set": "9:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M52",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.9",
+      "size": "13'",
+      "rise": "6:00 PM",
+      "set": "9:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M103",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "7.4",
+      "size": "6'",
+      "rise": "6:00 PM",
+      "set": "9:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "Double Cluster (NGC 869/884)",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "4.3 & 4.4",
+      "size": "30'",
+      "rise": "7:00 PM",
+      "set": "8:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M45 (Pleiades)",
+      "type": "Open Cluster",
+      "constellation": "Taurus",
+      "magnitude": "1.6",
+      "size": "1.5°",
+      "rise": "9:00 PM",
+      "set": "11:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M34",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "5.5",
+      "size": "35'",
+      "rise": "8:00 PM",
+      "set": "10:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M11 (Wild Duck Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Scutum",
+      "magnitude": "6.3",
+      "size": "14'",
+      "rise": "10:00 AM",
+      "set": "7:00 PM",
+      "month": "October"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "7:00 PM",
+      "set": "9:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "Albireo",
+      "type": "Double Star",
+      "constellation": "Cygnus",
+      "magnitude": "3.1 / 5.1",
+      "size": "35\"",
+      "rise": "1:00 PM",
+      "set": "9:00 PM",
+      "month": "October"
+    },
+    {
+      "name": "Epsilon Lyrae (Double Double)",
+      "type": "Double Star",
+      "constellation": "Lyra",
+      "magnitude": "4.7 / 4.7",
+      "size": "3.5\"",
+      "rise": "2:00 PM",
+      "set": "10:00 PM",
+      "month": "October"
+    },
+    {
+      "name": "Almach (Gamma Andromedae)",
+      "type": "Double Star",
+      "constellation": "Andromeda",
+      "magnitude": "2.3 / 5.1",
+      "size": "9.6\"",
+      "rise": "4:00 PM",
+      "set": "8:00 AM",
+      "month": "October"
+    },
+    {
+      "name": "M13 (Hercules Cluster)",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "5.8",
+      "size": "20'",
+      "rise": "6:30 AM",
+      "set": "10:30 PM",
+      "month": "November"
+    },
+    {
+      "name": "M92",
+      "type": "Globular Cluster",
+      "constellation": "Hercules",
+      "magnitude": "6.5",
+      "size": "14'",
+      "rise": "6:30 AM",
+      "set": "11:45 PM",
+      "month": "November"
+    },
+    {
+      "name": "M15",
+      "type": "Globular Cluster",
+      "constellation": "Pegasus",
+      "magnitude": "6.2",
+      "size": "12'",
+      "rise": "1:30 PM",
+      "set": "12:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "M2",
+      "type": "Globular Cluster",
+      "constellation": "Aquarius",
+      "magnitude": "6.5",
+      "size": "16'",
+      "rise": "1:30 PM",
+      "set": "1:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "M42 (Orion Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Orion",
+      "magnitude": "4.0",
+      "size": "66' x 60'",
+      "rise": "9:00 PM",
+      "set": "12:30 PM",
+      "month": "November"
+    },
+    {
+      "name": "M27 (Dumbbell Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Vulpecula",
+      "magnitude": "7.5",
+      "size": "8'",
+      "rise": "11:00 AM",
+      "set": "1:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "M57 (Ring Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Lyra",
+      "magnitude": "8.8",
+      "size": "1.4'",
+      "rise": "9:00 AM",
+      "set": "12:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "NGC 7009 (Saturn Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Aquarius",
+      "magnitude": "8.0",
+      "size": "0.5'",
+      "rise": "1:30 PM",
+      "set": "12:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "NGC 6826 (Blinking Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "8.8",
+      "size": "2.1'",
+      "rise": "8:00 AM",
+      "set": "3:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "NGC 7662 (Snowball Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Andromeda",
+      "magnitude": "8.3",
+      "size": "0.5'",
+      "rise": "1:00 PM",
+      "set": "6:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "M31 (Andromeda Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Andromeda",
+      "magnitude": "3.4",
+      "size": "180' x 60'",
+      "rise": "11:30 AM",
+      "set": "2:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "M33 (Triangulum Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Triangulum",
+      "magnitude": "5.7",
+      "size": "70' x 40'",
+      "rise": "1:00 PM",
+      "set": "4:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "M52",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.9",
+      "size": "13'",
+      "rise": "1:00 PM",
+      "set": "2:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "M103",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "7.4",
+      "size": "6'",
+      "rise": "2:30 PM",
+      "set": "4:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "Double Cluster (NGC 869/884)",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "4.3 & 4.4",
+      "size": "30'",
+      "rise": "3:30 PM",
+      "set": "7:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "M45 (Pleiades)",
+      "type": "Open Cluster",
+      "constellation": "Taurus",
+      "magnitude": "1.6",
+      "size": "1.5°",
+      "rise": "5:00 PM",
+      "set": "9:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "M34",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "5.5",
+      "size": "35'",
+      "rise": "3:30 PM",
+      "set": "6:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "M36",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.0",
+      "size": "12'",
+      "rise": "7:30 PM",
+      "set": "11:30 AM",
+      "month": "November"
+    },
+    {
+      "name": "M37",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "5.6",
+      "size": "24'",
+      "rise": "7:00 PM",
+      "set": "11:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "M38",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.4",
+      "size": "21'",
+      "rise": "8:00 PM",
+      "set": "12:00 PM",
+      "month": "November"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "3:00 PM",
+      "set": "5:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "Albireo",
+      "type": "Double Star",
+      "constellation": "Cygnus",
+      "magnitude": "3.1 / 5.1",
+      "size": "35\"",
+      "rise": "10:00 AM",
+      "set": "1:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "Epsilon Lyrae (Double Double)",
+      "type": "Double Star",
+      "constellation": "Lyra",
+      "magnitude": "4.7 / 4.7",
+      "size": "3.5\"",
+      "rise": "8:00 AM",
+      "set": "1:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "Almach (Gamma Andromedae)",
+      "type": "Double Star",
+      "constellation": "Andromeda",
+      "magnitude": "2.3 / 5.1",
+      "size": "9.6\"",
+      "rise": "4:00 PM",
+      "set": "8:00 AM",
+      "month": "November"
+    },
+    {
+      "name": "Achird (Eta Cassiopeiae)",
+      "type": "Double Star",
+      "constellation": "Cassiopeia",
+      "magnitude": "3.5 / 7.5",
+      "size": "12'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "November"
+    },
+    {
+      "name": "M1 (Crab Nebula)",
+      "type": "Supernova Remnant",
+      "constellation": "Taurus",
+      "magnitude": "8.4",
+      "size": "6' x 4'",
+      "rise": "7:30 PM",
+      "set": "7:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "M2",
+      "type": "Globular Cluster",
+      "constellation": "Aquarius",
+      "magnitude": "6.5",
+      "size": "16'",
+      "rise": "10:30 AM",
+      "set": "10:30 PM",
+      "month": "December"
+    },
+    {
+      "name": "M42 (Orion Nebula)",
+      "type": "Emission Nebula",
+      "constellation": "Orion",
+      "magnitude": "4.0",
+      "size": "60' x 60'",
+      "rise": "7:00 PM",
+      "set": "7:00 PM",
+      "month": "December"
+    },
+    {
+      "name": "M27 (Dumbbell Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Vulpecula",
+      "magnitude": "7.5",
+      "size": "8'",
+      "rise": "3:00 PM",
+      "set": "1:00 AM",
+      "month": "December"
+    },
+    {
+      "name": "M57 (Ring Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Lyra",
+      "magnitude": "8.8",
+      "size": "1.4'",
+      "rise": "5:00 PM",
+      "set": "3:00 AM",
+      "month": "December"
+    },
+    {
+      "name": "NGC 2392 (Eskimo Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Gemini",
+      "magnitude": "9.2",
+      "size": "0.8'",
+      "rise": "10:30 PM",
+      "set": "10:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "NGC 6826 (Blinking Nebula)",
+      "type": "Planetary Nebula",
+      "constellation": "Cygnus",
+      "magnitude": "8.8",
+      "size": "2.1'",
+      "rise": "5:00 AM",
+      "set": "12:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "NGC 7662 (Blue Snowball)",
+      "type": "Planetary Nebula",
+      "constellation": "Andromeda",
+      "magnitude": "8.3",
+      "size": "0.5'",
+      "rise": "10:00 AM",
+      "set": "3:00 AM",
+      "month": "December"
+    },
+    {
+      "name": "M31 (Andromeda Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Andromeda",
+      "magnitude": "3.4",
+      "size": "180' x 60'",
+      "rise": "11:00 AM",
+      "set": "1:00 AM",
+      "month": "December"
+    },
+    {
+      "name": "M33 (Triangulum Galaxy)",
+      "type": "Spiral Galaxy",
+      "constellation": "Triangulum",
+      "magnitude": "5.7",
+      "size": "70' x 40'",
+      "rise": "1:00 PM",
+      "set": "4:00 AM",
+      "month": "December"
+    },
+    {
+      "name": "M81 & M82 (Bode's Galaxy)",
+      "type": "Galaxy",
+      "constellation": "Ursa Major",
+      "magnitude": "6.9 & 8.4",
+      "size": "21' x 10' & 11' x 4'",
+      "rise": "12:30 AM",
+      "set": "2:30 PM",
+      "month": "December"
+    },
+    {
+      "name": "Double Cluster (NGC 869/884)",
+      "type": "Open Cluster",
+      "constellation": "Perseus",
+      "magnitude": "4.3 & 4.4",
+      "size": "30'",
+      "rise": "5:00 PM",
+      "set": "5:00 AM",
+      "month": "December"
+    },
+    {
+      "name": "M35",
+      "type": "Open Cluster",
+      "constellation": "Gemini",
+      "magnitude": "5.3",
+      "size": "28'",
+      "rise": "8:00 PM",
+      "set": "8:00 AM",
+      "month": "December"
+    },
+    {
+      "name": "M36",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.0",
+      "size": "12'",
+      "rise": "7:30 PM",
+      "set": "7:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "M37",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "5.6",
+      "size": "24'",
+      "rise": "7:30 PM",
+      "set": "7:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "M38",
+      "type": "Open Cluster",
+      "constellation": "Auriga",
+      "magnitude": "6.4",
+      "size": "21'",
+      "rise": "7:30 PM",
+      "set": "7:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "M44 (Beehive Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cancer",
+      "magnitude": "3.1",
+      "size": "95'",
+      "rise": "10:30 PM",
+      "set": "10:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "M45 (Pleiades)",
+      "type": "Open Cluster",
+      "constellation": "Taurus",
+      "magnitude": "1.6",
+      "size": "1.5°",
+      "rise": "1:30 PM",
+      "set": "1:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "NGC 457 (Owl Cluster)",
+      "type": "Open Cluster",
+      "constellation": "Cassiopeia",
+      "magnitude": "6.4",
+      "size": "13'",
+      "rise": "5:30 PM",
+      "set": "5:30 AM",
+      "month": "December"
+    },
+    {
+      "name": "Albireo",
+      "type": "Double Star",
+      "constellation": "Cygnus",
+      "magnitude": "3.1 / 5.1",
+      "size": "35\"",
+      "rise": "7:00 AM",
+      "set": "10:00 PM",
+      "month": "December"
+    },
+    {
+      "name": "Epsilon Lyrae (Double Double)",
+      "type": "Double Star",
+      "constellation": "Lyra",
+      "magnitude": "4.7 / 4.7",
+      "size": "3.5\"",
+      "rise": "5:00 AM",
+      "set": "10:00 PM",
+      "month": "December"
+    },
+    {
+      "name": "Achird (Eta Cassiopeiae)",
+      "type": "Double Star",
+      "constellation": "Cassiopeia",
+      "magnitude": "3.5 / 7.5",
+      "size": "12'",
+      "rise": "N/A",
+      "set": "N/A",
+      "month": "December"
+    }
+  ]
+}

@@ -1,0 +1,275 @@
+backend:
+  name: github
+  repo: rmeyers26/paswebsite2026
+  branch: main
+  # Temporary: this site is currently deploying via Netlify (see the PR's
+  # deploy-preview checks), so login uses Netlify's built-in GitHub OAuth
+  # proxy — no separate service to deploy. Requires a GitHub OAuth App
+  # (callback URL https://api.netlify.com/auth/done) with its Client
+  # ID/Secret entered in the Netlify site dashboard's OAuth settings.
+  #
+  # When hosting moves to Cloudflare Pages, swap this block for a
+  # self-hosted `sveltia-cms-auth` Cloudflare Worker instead:
+  #   base_url: https://<your-sveltia-cms-auth-worker>.workers.dev
+  #   auth_endpoint: auth
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Branding for the CMS admin UI itself (not site content) — shows on the
+# login screen, the app header, and the browser tab.
+app_title: "PAS Content Manager"
+logo:
+  src: /images/pas-logo.png
+  show_in_header: true
+
+# Direct-commit workflow, no draft/review step — see the plan's decisions
+# log for why (3 named, low-technical-comfort editors, no distinct reviewer
+# role identified).
+publish_mode: simple
+
+# Default location for anything uploaded through a generic "image" field
+# that isn't scoped to a specific collection folder below.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: press-releases
+    label: "Press Releases"
+    folder: "src/content/press-releases"
+    format: json
+    create: true
+    slug: "{{date}}-press-release"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Title", name: title, widget: string, required: false, hint: "Leave blank for older releases without a known headline yet." }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      # Leading slash on media_folder is load-bearing: without it the path is
+      # resolved relative to this collection's folder, and uploads land in
+      # src/content/press-releases/public/... instead of public/.
+      - { label: "PDF", name: pdf, widget: file, media_folder: "/public/press-releases", public_folder: "/press-releases", hint: "Upload into the correct /YYYY subfolder to match the site's existing URL structure." }
+
+  - name: newsletters
+    label: "Newsletters"
+    folder: "src/content/newsletters"
+    format: json
+    create: true
+    slug: "{{date}}-newsletter"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Title", name: title, widget: string, required: false, hint: "e.g. \"August 2026 Newsletter\". Leave blank for older issues without a known title yet." }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      # See the press-releases PDF field above for why media_folder is
+      # slash-prefixed — the August 2026 issue was uploaded before this fix
+      # and landed in src/content/newsletters/public/.
+      - { label: "PDF", name: pdf, widget: file, media_folder: "/public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
+
+  - name: lecture-videos
+    label: "Previous Lectures"
+    folder: "src/content/lecture-videos"
+    format: json
+    create: true
+    slug: "{{date}}-lecture"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Lecture Title", name: title, widget: string, hint: "e.g. \"Automating Your Telescope for Astrophotography\"" }
+      - { label: "Speaker", name: speaker, widget: string }
+      - { label: "Affiliation", name: affiliation, widget: string, required: false, hint: "e.g. \"PAS member\", \"Lowell Observatory\", \"ASU\"" }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      - { label: "Video URL", name: videoUrl, widget: string, required: false, hint: "Full link to the recording (Google Drive, YouTube, etc). Leave blank until a link is available." }
+
+  - name: officers
+    label: "Officers"
+    folder: "src/content/officers"
+    format: json
+    create: true
+    slug: "{{fields.email}}"
+    fields:
+      - { label: "Role", name: role, widget: string }
+      - { label: "Name", name: name, widget: string }
+      - { label: "Email", name: email, widget: string }
+      - { label: "Display Order", name: order, widget: number, value_type: int, hint: "Controls the order officer cards appear in on the About page." }
+      - { label: "Photo", name: photo, widget: image, required: false }
+
+  - name: gallery
+    label: "Member Gallery"
+    folder: "src/content/gallery"
+    format: json
+    create: true
+    slug: "{{fields.photographer}}-{{fields.subject}}"
+    fields:
+      - { label: "Image", name: photo, widget: image, required: false, hint: "New uploads are not automatically resized — please keep files reasonably sized (under a few MB) before uploading. Leave blank when editing one of the site's original curated photos; only used for new uploads." }
+      - { label: "Alt Text", name: alt, widget: string, hint: "Describe the image for screen readers and search engines — required." }
+      - { label: "Photographer", name: photographer, widget: string }
+      - { label: "Subject", name: subject, widget: string }
+      - { label: "Note", name: note, widget: text }
+      - { label: "Display Order", name: order, widget: number, value_type: int }
+
+  - name: past-presidents
+    label: "Past Presidents"
+    files:
+      - name: list
+        label: "Past Presidents List"
+        file: "src/content/past-presidents/past-presidents.json"
+        fields:
+          - name: presidents
+            label: "Presidents"
+            widget: list
+            summary: "{{fields.years}} — {{fields.name}}"
+            fields:
+              - { label: "Years", name: years, widget: string }
+              - { label: "Name", name: name, widget: string }
+              - { label: "Currently in Office?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting president." }
+              - { label: "Organization", name: org, widget: select, options: ["POA", "PAS"], hint: "POA = Phoenix Observatory Association (pre-1974). PAS = Phoenix Astronomical Society (1974–present)." }
+
+  - name: career-faqs
+    label: "Career FAQs"
+    files:
+      - name: list
+        label: "Career FAQs List"
+        file: "src/content/career-faqs/career-faqs.json"
+        fields:
+          - name: faqs
+            label: "FAQs"
+            widget: list
+            summary: "{{fields.question}}"
+            fields:
+              - { label: "Question", name: question, widget: string }
+              - { label: "Answer", name: answer, widget: text }
+
+  - name: bsig-books
+    label: "BSIG Book List"
+    files:
+      - name: list
+        label: "Book List"
+        file: "src/content/bsig-books/bsig-books.json"
+        fields:
+          - name: books
+            label: "Books"
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: title, widget: string }
+              - { label: "Author", name: author, widget: string }
+
+  - name: sky-targets
+    label: "Sky Targets"
+    files:
+      - name: list
+        label: "Sky Targets List"
+        file: "src/content/sky-targets/sky-targets.json"
+        fields:
+          - name: targets
+            label: "Targets"
+            widget: list
+            summary: "{{fields.month}} — {{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string }
+              - { label: "Type", name: type, widget: string }
+              - { label: "Constellation", name: constellation, widget: string }
+              - { label: "Magnitude", name: magnitude, widget: string, hint: "Free text — some entries list two values, e.g. '6.9 & 8.4'." }
+              - { label: "Apparent Size", name: size, widget: string }
+              - { label: "Rise", name: rise, widget: string }
+              - { label: "Set", name: set, widget: string }
+              - label: "Month"
+                name: month
+                widget: select
+                options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+  - name: special-interest-groups
+    label: "Special Interest Groups"
+    folder: "src/content/special-interest-groups"
+    format: json
+    create: true
+    slug: "{{fields.abbr}}"
+    fields:
+      - { label: "Enabled", name: enabled, widget: boolean, default: true, hint: "Turn off to hide this group from the home page and nav menu without deleting it." }
+      - { label: "Title", name: title, widget: string }
+      - { label: "Abbreviation", name: abbr, widget: string, hint: "e.g. ASIG" }
+      - { label: "Accent Color", name: accent, widget: select, options: ["violet", "teal", "amber"] }
+      - { label: "Description", name: body, widget: text }
+      - { label: "Link", name: url, widget: string, hint: "Internal page (e.g. /asig) or an external URL if the group doesn't have its own page yet." }
+      - { label: "Display Order", name: order, widget: number, value_type: int }
+
+  - name: loaner-scopes
+    label: "Telescope Loan Program"
+    files:
+      - name: list
+        label: "Loaner Equipment"
+        file: "src/content/loaner-scopes/loaner-scopes.json"
+        fields:
+          - name: equipment
+            label: "Equipment"
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
+              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of this telescope/accessory shown on the Telescope Loan Program page." }
+
+  - name: membership
+    label: "Membership Pricing"
+    files:
+      - name: pricing
+        label: "Membership Pricing"
+        file: "src/content/membership/membership.json"
+        fields:
+          - name: tiers
+            label: "Membership Tiers"
+            widget: list
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Individual Membership'" }
+              - { label: "Annual Price ($)", name: price, widget: number, value_type: float, min: 0 }
+              - { label: "Most Common (badge)", name: featured, widget: boolean, required: false, default: false, hint: "Highlights this tier with a 'Most Common' badge on the Join page. Should be true on at most one tier." }
+          - name: addOns
+            label: "Optional Add-Ons"
+            widget: list
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Name Badge'" }
+              - { label: "Price ($)", name: price, widget: number, value_type: float, min: 0 }
+              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of the add-on shown on the Join page." }
+
+  - name: scholarship-winners
+    label: "Scholarship Winners"
+    folder: "src/content/scholarship-winners"
+    format: json
+    create: true
+    slug: "{{fields.year}}-scholarship-winners"
+    fields:
+      - { label: "Year", name: year, widget: string, hint: "Four-digit year, e.g. 2026" }
+      - name: winners
+        label: "Winners"
+        widget: list
+        min: 1
+        max: 3
+        summary: "{{fields.name}}"
+        fields:
+          - { label: "Student Name", name: name, widget: string }
+          - { label: "School / College", name: school, widget: string }
+          - { label: "Scholarship Amount", name: amount, widget: string, required: false, hint: "e.g. \"$1,000\" — optional" }
+          - { label: "Description / Accomplishment", name: description, widget: text, required: false }
+          - { label: "Photo", name: photo, widget: image, required: false }
+
+  - name: site-settings
+    label: "Site Settings"
+    files:
+      - name: main
+        label: "Site Settings"
+        file: "src/content/site-settings/site-settings.json"
+        fields:
+          - { label: "Organization Name", name: orgName, widget: string }
+          - { label: "Short Name", name: alternateName, widget: string }
+          - { label: "Founding Year", name: foundingYear, widget: string }
+          - { label: "Description", name: description, widget: text }
+          - { label: "Logo Path", name: logo, widget: string, hint: "Path under public/, e.g. /images/pas-logo.png — not a file upload, this must match an existing file." }
+          - { label: "General Email", name: email, widget: string }
+          - { label: "Astronomy Questions Email", name: astronomyQuestionsEmail, widget: string }
+          - { label: "Webmaster Email", name: webmasterEmail, widget: string }
+          - name: socials
+            label: "Social Links"
+            widget: object
+            fields:
+              - { label: "Facebook", name: facebook, widget: string }
+              - { label: "Instagram", name: instagram, widget: string }
+              - { label: "Threads", name: threads, widget: string }
+              - { label: "YouTube", name: youtube, widget: string }

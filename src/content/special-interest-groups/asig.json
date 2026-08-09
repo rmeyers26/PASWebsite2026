@@ -1,0 +1,9 @@
+{
+  "title": "Astro Imaging Special Interest Group",
+  "abbr": "ASIG",
+  "accent": "violet",
+  "body": "Learn, practice, and master astronomical imaging — from a first smart-telescope shot of the Moon to multi-night deep-sky mosaics. Meets the 4th Monday of every month, 7:00 pm, at PVCC.",
+  "url": "/asig",
+  "enabled": true,
+  "order": 1
+}

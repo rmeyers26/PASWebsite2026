@@ -1,0 +1,82 @@
+---
+// Immersive 3D hero: rotating Saturn with rings, a cratered moon, a distant spiral galaxy,
+// and a parallax starfield — rendered with three.js on a transparent canvas. All geometry
+// and textures are generated procedurally at runtime (no image assets to fetch), the render
+// loop pauses when the hero scrolls out of view, and prefers-reduced-motion renders a single
+// static frame with no mouse/scroll interactivity.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  /** Rendered as a second line in solid ink rather than gradient — the gradient's
+   *  mid-violet stop lands on a violet sky and loses contrast on a lower line. */
+  titleTail?: string;
+  subtitle?: string;
+}
+
+const { eyebrow = 'Phoenix Astronomical Society', title, titleTail, subtitle } = Astro.props;
+---
+
+<section
+  id="space-hero"
+  data-hero
+  class="relative isolate flex min-h-[92svh] items-center overflow-hidden border-b border-subtle bg-space-base"
+>
+  <div class="hero-fallback-bg absolute inset-0" aria-hidden="true"></div>
+  <canvas id="space-hero-canvas" class="absolute inset-0 h-full w-full opacity-0" aria-hidden="true"></canvas>
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-space-base via-space-base/10 to-transparent"
+  >
+  </div>
+  <div class="hero-text-scrim pointer-events-none absolute inset-0" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
+    {
+      eyebrow && (
+        <span class="glass-badge mb-6">
+          <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+          {eyebrow}
+        </span>
+      )
+    }
+    <h1 class="font-display text-d1 leading-[1.05] tracking-tight">
+      <span class="text-gradient">{title}</span>
+      {titleTail && <span class="block text-ink-primary">{titleTail}</span>}
+    </h1>
+    {subtitle && <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">{subtitle}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  /* Seats the text block against the starfield so body copy never sits directly
+     on bright stars or a nebula edge. */
+  .hero-text-scrim {
+    background: radial-gradient(
+      62% 46% at 50% 50%,
+      rgba(10, 14, 23, 0.82),
+      rgba(10, 14, 23, 0.5) 52%,
+      rgba(10, 14, 23, 0) 78%
+    );
+  }
+
+  .hero-fallback-bg {
+    background:
+      radial-gradient(60% 50% at 78% 18%, rgba(139, 92, 246, 0.28), transparent 60%),
+      radial-gradient(55% 45% at 12% 78%, rgba(45, 212, 191, 0.2), transparent 60%),
+      radial-gradient(40% 35% at 50% 100%, rgba(245, 185, 66, 0.12), transparent 60%),
+      #0a0e17;
+  }
+
+  #space-hero-canvas {
+    display: block;
+    transition: opacity 1.2s ease;
+  }
+
+  #space-hero-canvas.is-ready {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  import { initSpaceHero } from '../scripts/space-hero';
+  initSpaceHero();
+</script>

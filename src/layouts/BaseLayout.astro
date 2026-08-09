@@ -1,0 +1,145 @@
+---
+import { getEntry } from 'astro:content';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import Starfield from '../components/Starfield.astro';
+import BackToTop from '../components/BackToTop.astro';
+import { ClientRouter } from 'astro:transitions';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { ogPages } from '../lib/og-images';
+// Self-hosted variable fonts, Latin subset only — see fonts.css for why not
+// the full @fontsource-variable packages. global.css names these families,
+// so without this import every visitor silently falls back to system-ui.
+import '../styles/fonts.css';
+import '../styles/global.css';
+// Imported directly (not just referenced from fonts.css) so their resolved,
+// hashed URLs are available here for the <link rel="preload"> tags below —
+// without preloading, both fonts are only discovered once the CSS parses,
+// which visibly delays the largest text on the page.
+import spaceGroteskWoff2 from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2';
+import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+// Build-time OG images are generated per route by src/pages/og/[...route].ts
+// from the shared src/lib/og-images.ts config — every page in that config
+// gets its own social card automatically, with no per-page prop needed.
+// Pages not in the config (or an explicit `image` prop) keep the plain logo.
+const routeSlug = Astro.url.pathname.replace(/^\/|\/$/g, '') || 'index';
+const hasGeneratedOgImage = routeSlug in ogPages;
+const defaultImage = hasGeneratedOgImage ? `/og/${routeSlug}.png` : '/images/pas-logo.png';
+
+const { title, description, image = defaultImage } = Astro.props;
+const pageTitle = `${title} · Phoenix Astronomical Society`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+const [imageWidth, imageHeight] =
+  image === defaultImage && hasGeneratedOgImage ? [1200, 630] : [171, 171];
+
+// Site-wide org identity lives in src/content/site-settings/site-settings.json
+// (managed via the Sveltia CMS) — see src/content.config.ts for the schema.
+// Footer.astro reads the same entry, so the two no longer keep separate
+// copies of the name, emails, and social links in sync by hand.
+const siteSettings = (await getEntry('site-settings', 'data'))!.data;
+
+// Organization schema.org markup, present on every page — the documented,
+// low-effort path to a Google Knowledge Panel for "Phoenix Astronomical
+// Society". Kept in this layout (rather than per-page) since the facts it
+// describes (who PAS is) don't vary by page; Event-specific markup lives
+// on /events instead.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteSettings.orgName,
+  alternateName: siteSettings.alternateName,
+  url: Astro.site?.toString(),
+  logo: imageURL.toString(),
+  description: siteSettings.description,
+  foundingDate: siteSettings.foundingYear,
+  email: siteSettings.email,
+  sameAs: [
+    siteSettings.socials.facebook,
+    siteSettings.socials.instagram,
+    siteSettings.socials.threads,
+    siteSettings.socials.youtube,
+  ],
+};
+
+// Plausible: cookieless, no consent banner needed. Unset in most local/dev
+// builds on purpose — nothing here breaks without it, the tag is just
+// omitted.
+const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0e17" />
+    <!-- Generated at build time from public/images/pas-logo.png — the club's
+         real logo, just previously only shipped as one plain PNG with no
+         sizes attribute and no Apple/Android-specific variants. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="preload" as="font" type="font/woff2" href={spaceGroteskWoff2} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interWoff2} crossorigin />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:site_name" content="Phoenix Astronomical Society" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    {
+      plausibleDomain && (
+        <script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" />
+      )
+    }
+    <ClientRouter />
+  </head>
+  <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-space-base focus:px-4 focus:py-2 focus:text-ink-primary focus:outline focus:outline-2 focus:outline-nebula-teal"
+    >
+      Skip to content
+    </a>
+    <Starfield />
+    <NavBar />
+    <main id="main-content" tabindex="-1">
+      <Breadcrumbs />
+      <slot />
+    </main>
+    <Footer siteSettings={siteSettings} />
+    <BackToTop />
+
+    <!-- The hidden state is applied here rather than in the stylesheet, so
+         content is never hidden from visitors without JS. Re-runs on every
+         view transition via astro:page-load, same as every other client
+         script on the site (see src/scripts/scroll-reveal.ts). -->
+    <script>
+      import { initScrollReveal } from '../scripts/scroll-reveal';
+      initScrollReveal();
+    </script>
+  </body>
+</html>

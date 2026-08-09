@@ -1,0 +1,295 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import pasLogo from '../assets/images/pas-logo.png';
+
+type NavLink = { href: string; label: string };
+type NavItem = { label: string; href?: string; children?: NavLink[] };
+
+// Same source as the home page's Special Interest Groups section — an
+// officer disabling a group here via the CMS removes it from the nav too.
+const groupLinks: NavLink[] = (await getCollection('special-interest-groups'))
+  .filter((group) => group.data.enabled)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((group) => ({ href: group.data.url, label: group.data.abbr }));
+
+// Seven top-level entries (six here plus the Join CTA). Grouping keeps the
+// secondary reference pages reachable without competing with Events, Gallery,
+// and Join, and gives /history and /leadership a home in the primary nav.
+const navItems: NavItem[] = [
+  {
+    label: 'About',
+    children: [
+      { href: '/about', label: 'About PAS' },
+      { href: '/history', label: 'History' },
+      { href: '/leadership', label: 'Club Leadership' },
+      { href: '/newsletters', label: 'Newsletters' },
+      { href: '/press-releases', label: 'Press Releases' },
+      { href: '/scholarship', label: 'Scholarship Fund' },
+      { href: '/contact', label: 'Contact' },
+    ],
+  },
+  { label: 'Events', href: '/events' },
+  { label: 'Previous Lectures', href: '/lecture-videos' },
+  { label: 'Gallery', href: '/gallery' },
+  {
+    label: 'Outreach',
+    children: [
+      { href: '/star-tours', label: 'Star Tours' },
+      { href: '/telescope-workshops', label: 'Telescope Workshops' },
+      { href: '/loaner-scopes', label: 'Telescope Loan Program' },
+    ],
+  },
+  {
+    label: 'Learn',
+    children: [
+      { href: '/learn', label: 'Learn Astronomy' },
+      { href: '/sky-conditions', label: 'Sky Conditions' },
+      { href: '/exoplanets', label: 'Exoplanets' },
+    ],
+  },
+  ...(groupLinks.length > 0 ? [{ label: 'Special Interest Groups (SIG)', children: groupLinks }] : []),
+];
+
+// Astro's static build serves subpages with a trailing slash (/events/), so
+// strip it before comparing against the slash-free hrefs above — otherwise no
+// nav item is ever marked active outside the homepage.
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (item: NavItem) =>
+  item.href === currentPath || (item.children?.some((child) => child.href === currentPath) ?? false);
+---
+
+<header class="sticky top-0 z-50 border-b border-subtle bg-space-base/80 backdrop-blur-2xl">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4" aria-label="Primary">
+    <a
+      href="/"
+      class="flex flex-none items-center gap-2.5 font-display text-base tracking-tight text-ink-primary"
+      aria-current={currentPath === '/' ? 'page' : undefined}
+    >
+      <Image
+        src={pasLogo}
+        alt="Phoenix Astronomical Society logo"
+        width={72}
+        height={72}
+        loading="eager"
+        fetchpriority="high"
+        class="h-9 w-9 flex-none"
+      />
+      <span class="hidden whitespace-nowrap sm:inline">Phoenix Astronomical Society</span>
+      <span class="sm:hidden">PAS</span>
+    </a>
+
+    <ul class="hidden items-center gap-2 lg:flex">
+      {
+        navItems.map((item) =>
+          item.children ? (
+            <li class="relative">
+              <details class="nav-disclosure">
+                <summary
+                  class:list={[
+                    'flex cursor-pointer list-none items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:text-nebula-teal [&::-webkit-details-marker]:hidden',
+                    isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
+                  ]}
+                  aria-expanded="false"
+                >
+                  {item.label}
+                  <svg
+                    class="nav-chevron h-3.5 w-3.5 transition-transform"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </summary>
+                <ul class="nav-panel absolute left-0 top-full z-10 mt-2 min-w-56 rounded-2xl border border-subtle bg-space-modal p-2 shadow-2xl">
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        class:list={[
+                          'block whitespace-nowrap rounded-xl px-3 py-2 text-sm transition hover:bg-white/5 hover:text-nebula-teal',
+                          child.href === currentPath ? 'text-nebula-teal' : 'text-ink-primary',
+                        ]}
+                        aria-current={child.href === currentPath ? 'page' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'block whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:text-nebula-teal',
+                  isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
+                ]}
+                aria-current={isActive(item) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ),
+        )
+      }
+    </ul>
+
+    <a
+      href="/join"
+      class="btn-primary hidden flex-none whitespace-nowrap px-5 py-2.5 text-sm lg:inline-flex"
+      aria-current={currentPath === '/join' ? 'page' : undefined}
+    >
+      Join PAS
+    </a>
+
+    <details class="mobile-menu nav-disclosure lg:hidden">
+      <summary
+        class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full text-ink-primary transition hover:text-nebula-teal [&::-webkit-details-marker]:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <svg
+          class="menu-icon-open"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
+        <svg
+          class="menu-icon-close"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="6" y1="6" x2="18" y2="18" />
+          <line x1="18" y1="6" x2="6" y2="18" />
+        </svg>
+      </summary>
+
+      <div
+        class="nav-panel absolute left-4 right-4 top-full mt-2 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-subtle bg-space-modal px-5 py-4 shadow-2xl"
+      >
+        <ul class="flex flex-col gap-1">
+          {
+            navItems.map((item) =>
+              item.children ? (
+                <li class="mt-2 first:mt-0">
+                  <p class="px-1 pb-1 font-display text-lg font-bold text-nebula-amber">
+                    {item.label}
+                  </p>
+                  <ul>
+                    {item.children.map((child) => (
+                      <li>
+                        <a
+                          href={child.href}
+                          class:list={[
+                            'block rounded-xl px-3 py-2.5 transition hover:bg-white/5',
+                            child.href === currentPath ? 'text-nebula-teal' : 'text-ink-primary',
+                          ]}
+                          aria-current={child.href === currentPath ? 'page' : undefined}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li class="mt-2 first:mt-0">
+                  <a
+                    href={item.href}
+                    class:list={[
+                      'block rounded-xl px-3 py-2.5 font-display text-lg font-bold transition hover:bg-white/5',
+                      isActive(item) ? 'text-nebula-teal' : 'text-nebula-amber',
+                    ]}
+                    aria-current={isActive(item) ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ),
+            )
+          }
+        </ul>
+        <a href="/join" class="btn-primary mt-5 w-full">Join PAS</a>
+      </div>
+    </details>
+  </nav>
+</header>
+
+<style>
+  /* <details> gives keyboard support and a working menu with no JS; the script
+     below only layers on the behaviours it lacks. Entry is animated here because
+     the closed state is display:none, which cannot be transitioned. */
+  .nav-panel {
+    animation: nav-panel-in 0.16s ease-out;
+    transform-origin: top;
+  }
+
+  @keyframes nav-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.35rem) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .nav-disclosure[open] .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  .menu-icon-close {
+    display: none;
+  }
+
+  .mobile-menu[open] .menu-icon-open {
+    display: none;
+  }
+
+  .mobile-menu[open] .menu-icon-close {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-panel {
+      animation: none;
+    }
+
+    .nav-chevron {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { initNavDisclosures } from '../scripts/nav-disclosures';
+  initNavDisclosures();
+</script>

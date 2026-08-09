@@ -1,0 +1,375 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import eaaNight from '../assets/images/star-tours-eaa-night.jpg';
+import sampleHelixNebula from '../assets/images/star-tours-sample-helix-nebula.jpg';
+import sampleWhirlpoolGalaxy from '../assets/images/star-tours-sample-whirlpool-galaxy.jpg';
+import sampleComet from '../assets/images/star-tours-sample-comet.jpg';
+import visualChild from '../assets/images/star-tours-visual-child.jpg';
+import eaaOrionMonitor from '../assets/images/star-tours-eaa-orion-monitor.jpg';
+import eventCrowd from '../assets/images/star-tours-event-crowd.jpg';
+import corporateEvent from '../assets/images/star-tours-corporate-event.jpg';
+import presentationNight from '../assets/images/star-tours-presentation-night.jpg';
+import touchMeteorite from '../assets/images/star-tours-touch-meteorite.jpg';
+import operatorRecruitment from '../assets/images/star-tours-operator-recruitment.jpg';
+
+const visualPoints = [
+  'A telescope fitted with an eyepiece, letting each guest observe the target individually.',
+  'The operator sets up an hour early, then acquires, focuses, and tracks targets throughout the event.',
+  'The operator educates guests on what they’re looking at, and answers astronomy questions in the queue.',
+  'Popular targets include the moon, planets in our solar system, star clusters, asterisms, bright reflection and emission nebulae, and large galaxies.',
+  'Each visual telescope can entertain and educate up to 30 guests with limited wait times.',
+  'Typical events view 5–6 targets depending on guest count, light pollution, clouds, and time of year — smaller groups may see up to 15.',
+];
+
+const eaaPoints = [
+  'A high-resolution astronomy camera presents the telescope’s live view on a large monitor, so a whole group can watch together.',
+  'The operator sets up an hour early, then acquires, focuses, and tracks targets throughout the event.',
+  'The operator educates viewers on what they’re looking at, and answers astronomy questions.',
+  'Popular targets include the moon, planets in our solar system, star clusters, colorful nebulae, and galaxies — with visible detail like spiral arms.',
+  'Each EAA telescope may handle up to 40 guests, seated or standing in front of the monitor.',
+  'Typical events include views of 12–15 targets.',
+];
+
+const presentations = [
+  'Meteorite collection presentation',
+  'Traveling the universe by telescope',
+  'How to understand the night sky',
+  'The mathematics of cosmological distances',
+  'The history of our universe',
+];
+
+const bookingInfo = [
+  'Event sponsor',
+  'Name of event',
+  'Brief description of the event',
+  'Date',
+  'Times (start & end)',
+  'Location address',
+  'Number of telescopes (operators) desired',
+  'Additional presenters (e.g. meteorites) desired',
+  "Contact's name, email, and telephone",
+];
+
+const samplePhotos = [
+  { src: sampleHelixNebula, alt: 'The Helix Nebula, a colorful planetary nebula', caption: 'The Helix Nebula' },
+  { src: sampleWhirlpoolGalaxy, alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
+  { src: sampleComet, alt: 'A green comet with a long tail against a starfield', caption: 'A comet, tail streaming' },
+];
+
+const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' });
+
+// Content lives in src/content/sky-targets/sky-targets.json as a flat list
+// (one row per target per month it's visible in), managed via the Sveltia
+// CMS — see src/content.config.ts for the schema. Regroup by month here so
+// the template below (unchanged) still gets one entry per month, in month
+// order, including months with no targets yet.
+const monthOrder = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+const skyTargetsEntry = (await getEntry('sky-targets', 'data'))!;
+const monthlyDsoTargets = monthOrder.map((month) => ({
+  month,
+  targets: skyTargetsEntry.data.targets.filter((t) => t.month === month),
+}));
+---
+
+<BaseLayout
+  title="Star Tours"
+  description="Book a PAS Star Tours event: telescopes, presenters, and hands-on astronomy for schools, scout troops, businesses, and celebrations."
+>
+  <section data-hero class="relative overflow-hidden border-b border-subtle">
+    <Image
+      src={eaaNight}
+      alt="A PAS EAA telescope setup at night under red light, with the Triangulum Galaxy displayed on the monitor and the Phoenix skyline behind"
+      width={1600}
+      loading="eager"
+      fetchpriority="high"
+      class="absolute inset-0 h-full w-full object-cover opacity-60"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20"></div>
+    <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
+      <span class="glass-badge mb-6">
+        <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+        Star Tours
+      </span>
+      <h1 class="font-display text-d1 leading-[1.05] tracking-tight text-ink-primary">
+        What Can Star Tours Do for You?
+      </h1>
+      <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">
+        PAS performs community outreach for public and private groups alike — star parties, educational events,
+        celebrations, and corporate events — brought to you by amateur astronomers with excellent telescope
+        operation and presentation skills.
+      </p>
+      <a href="mailto:startours@pasaz.org" class="btn-primary mt-10 inline-flex">Book an Event</a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <p class="text-ink-muted">
+      These events are offered for a fee based on the type of event, the number of operators/presenters, and the
+      duration of the event. A standardized Star Tours event is two hours, but longer events are welcomed. Our
+      team provides their own telescopes, observing equipment, and materials; larger groups may occasionally
+      require some power or A/V support at the venue.
+    </p>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+      {
+        samplePhotos.map((photo) => (
+          <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+            <Image src={photo.src} alt={photo.alt} width={500} loading="lazy" class="h-40 w-full object-cover" />
+            <figcaption class="px-3 py-2 text-xs text-ink-muted">{photo.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <p class="mt-3 text-sm text-ink-muted">A few examples of what guests may see through the eyepiece or on-screen.</p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Program Offerings</h2>
+      <div class="mt-10 grid gap-8 sm:grid-cols-2">
+        <div class="card">
+          <h3 class="font-display text-xl text-nebula-teal">A Visual Telescope Operator</h3>
+          <p class="mt-2 text-sm text-ink-muted">
+            The personal connection of viewing one-on-one through the eyepiece — an inky black sky covered in
+            shimmering stars, like diamonds on velvet.
+          </p>
+          <ul class="mt-4 space-y-3 text-sm text-ink-muted">
+            {visualPoints.map((point) => <li>• {point}</li>)}
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="font-display text-xl text-nebula-violet">An Electronically Assisted (EAA) Operator</h3>
+          <p class="mt-2 text-sm text-ink-muted">
+            Everyone views at once, easy for young and old alike — with more color and more detail on fainter
+            objects than the eye alone can see.
+          </p>
+          <ul class="mt-4 space-y-3 text-sm text-ink-muted">
+            {eaaPoints.map((point) => <li>• {point}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+        <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+          <Image
+            src={visualChild}
+            alt="A young child looking through a visual telescope eyepiece in daylight"
+            width={800}
+            loading="lazy"
+            class="h-56 w-full object-cover"
+          />
+          <figcaption class="px-4 py-3 text-sm text-ink-muted">
+            A visual telescope makes for a personal, one-on-one view — for any age.
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+          <Image
+            src={eaaOrionMonitor}
+            alt="An EAA telescope live-stacking the Orion Nebula onto a monitor at night"
+            width={800}
+            loading="lazy"
+            class="h-56 w-full object-cover"
+          />
+          <figcaption class="px-4 py-3 text-sm text-ink-muted">
+            An EAA telescope live-stacking the Orion Nebula for the whole group to see at once.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+          <Image
+            src={eventCrowd}
+            alt="A large crowd gathered at dusk among lit cacti for a PAS Star Tours event"
+            width={800}
+            loading="lazy"
+            class="h-56 w-full object-cover"
+          />
+          <figcaption class="px-4 py-3 text-sm text-ink-muted">
+            Star Tours events scale from a single family's backyard to large public gatherings.
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+          <Image
+            src={corporateEvent}
+            alt="Five PAS operators with telescopes at a rooftop resort event at night"
+            width={800}
+            loading="lazy"
+            class="h-56 w-full object-cover"
+          />
+          <figcaption class="px-4 py-3 text-sm text-ink-muted">
+            The PAS operator team at a private rooftop event for a corporate group.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Sample Targets by Month</h2>
+      <p class="mt-4 text-ink-muted">
+        The night sky's deep-sky objects — nebulae, star clusters, galaxies, and double stars — return to the same
+        part of the sky every year, so here's a sense of what a Star Tours event might show depending on the
+        season. (Planets and comets aren't included here since their visibility shifts from year to year.) Rise
+        and set times are approximate for the early-to-mid part of each month and will drift by a few minutes a
+        day as the month goes on.
+      </p>
+      <div class="mt-8 space-y-3">
+        {
+          monthlyDsoTargets.map((entry) => (
+            <details class="group rounded-xl border border-subtle bg-space-card" open={entry.month === currentMonthName}>
+              <summary class="flex cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 font-display text-lg text-ink-primary marker:content-none">
+                <span>{entry.month}</span>
+                {entry.targets.length > 0 && (
+                  <button
+                    type="button"
+                    class="print-month-btn shrink-0 rounded-lg border border-subtle bg-space-base px-3 py-1.5 font-sans text-xs font-medium text-ink-muted transition hover:border-strong hover:text-ink-primary"
+                    data-month={entry.month}
+                  >
+                    Print
+                  </button>
+                )}
+              </summary>
+              <div class="border-t border-subtle px-5 py-4">
+                {entry.targets.length === 0 ? (
+                  <p class="text-sm italic text-ink-muted">Target list coming soon for this month.</p>
+                ) : (
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-ink-muted">
+                      <thead>
+                        <tr class="border-b border-subtle text-xs uppercase tracking-wide text-ink-muted">
+                          <th class="py-2 pr-4 font-medium">Name</th>
+                          <th class="py-2 pr-4 font-medium">Type</th>
+                          <th class="py-2 pr-4 font-medium">Constellation</th>
+                          <th class="py-2 pr-4 font-medium">Magnitude</th>
+                          <th class="py-2 pr-4 font-medium">Apparent Size</th>
+                          <th class="py-2 pr-4 font-medium">Rise</th>
+                          <th class="py-2 pr-4 font-medium">Set</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {entry.targets.map((target) => (
+                          <tr class="border-b border-subtle/50 last:border-0">
+                            <td class="py-2 pr-4 text-ink-primary">{target.name}</td>
+                            <td class="py-2 pr-4">{target.type}</td>
+                            <td class="py-2 pr-4">{target.constellation}</td>
+                            <td class="py-2 pr-4">{target.magnitude}</td>
+                            <td class="py-2 pr-4">{target.size}</td>
+                            <td class="py-2 pr-4">{target.rise}</td>
+                            <td class="py-2 pr-4">{target.set}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import { initStarToursPrint } from '../scripts/star-tours-print';
+    initStarToursPrint();
+  </script>
+
+  <section class="mx-auto max-w-4xl px-6 py-20">
+    <h2 class="section-heading">Astronomy Topic Presentations</h2>
+    <p class="mt-4 text-ink-muted">
+      Various astronomy-related presentations are available that may not require a telescope operator.
+    </p>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+      {
+        presentations.map((item) => (
+          <li class="rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">{item}</li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 text-ink-muted">
+      Have you ever held a rock that floated through the solar system for billions of years? In addition to
+      superb telescope viewing, PAS also brings large, stunning photos of deep sky objects from the Hubble and
+      James Webb telescopes, along with a collection of meteorites found from locations around the globe. We
+      encourage questions and conversation on any astronomical topic — come find out why the North Star never
+      changes position, why the Moon is covered in impact craters while Earth has so few, and how new stars are
+      born from the remnants of supernovae, leaving us all made of stardust. There's something for any age group.
+    </p>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <Image
+          src={presentationNight}
+          alt="A crowd gathered around a lit presentation table at a night Star Tours event"
+          width={800}
+          loading="lazy"
+          class="h-56 w-full object-cover"
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">
+          Guests of all ages gather around a presentation table at a night event.
+        </figcaption>
+      </figure>
+      <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <Image
+          src={touchMeteorite}
+          alt="Kids and presenters at a Touch a Meteorite table, with real meteorite specimens laid out"
+          width={800}
+          loading="lazy"
+          class="h-56 w-full object-cover"
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">
+          "Touch a Meteorite" — hands-on with some of the oldest objects on Earth.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Volunteer as an Operator</h2>
+      <p class="mt-4 text-ink-muted">
+        Do you own a telescope? PAS has a team of telescope owners who visit schools, scout troops, and community
+        events to demonstrate how a telescope works, show guests specific objects in the sky, and share basic
+        terminology and facts about the cosmos — and operators are paid for their demonstrations.
+      </p>
+      <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
+        <Image
+          src={operatorRecruitment}
+          alt="A PAS meeting slide titled 'Do You Own a Telescope? If so... are you ready?' recruiting Star Tours operators"
+          width={1000}
+          loading="lazy"
+          class="w-full object-cover"
+        />
+        <figcaption class="px-4 py-3 text-sm text-ink-muted">
+          PAS recruits telescope-owning members to join the Star Tours operator team.
+        </figcaption>
+      </figure>
+      <a href="mailto:startours@pasaz.org" class="btn-secondary mt-6">Ask About Volunteering</a>
+    </div>
+  </section>
+
+  <section class="border-t border-subtle">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">Book an Event</h2>
+      <p class="mt-4 text-ink-muted">
+        If your organization, business, school, or scout troop is interested in scheduling a private event,
+        contact us at <a href="mailto:startours@pasaz.org" class="text-nebula-teal hover:underline">startours@pasaz.org</a> and
+        include the following:
+      </p>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+        {
+          bookingInfo.map((item) => (
+            <li class="rounded-lg border border-subtle bg-space-card px-5 py-4 text-sm text-ink-muted">{item}</li>
+          ))
+        }
+      </ul>
+      <a href="mailto:startours@pasaz.org" class="btn-primary mt-8">Email startours@pasaz.org</a>
+    </div>
+  </section>
+</BaseLayout>
