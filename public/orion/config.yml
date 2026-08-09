@@ -203,6 +203,7 @@ collections:
             summary: "{{fields.name}}"
             fields:
               - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
+              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of this telescope/accessory shown on the Telescope Loan Program page." }
 
   - name: membership
     label: "Membership Pricing"

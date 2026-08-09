@@ -308,6 +308,9 @@ const loanerScopes = defineCollection({
     equipment: z.array(
       z.object({
         name: text,
+        // CMS uploads land in public/ as a plain URL string — see the
+        // officers.photo comment above for why this isn't image()-typed.
+        photo: optional(publicPath),
       }),
     ),
   }),
