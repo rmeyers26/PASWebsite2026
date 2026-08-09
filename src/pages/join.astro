@@ -86,24 +86,6 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
           }
         </fieldset>
 
-        <h3 class="font-display mt-10 text-lg text-ink-primary">Optional Add-Ons</h3>
-        <div class="mt-4 grid gap-4 sm:grid-cols-2">
-          {
-            addOns.map((item) => (
-              <label class="card addon-option flex items-center justify-between">
-                <span class="flex items-center gap-3">
-                  <input type="checkbox" name="addon" value={item.name} data-price={item.price} />
-                  {item.photo && (
-                    <img src={item.photo} alt="" class="h-12 w-16 flex-none rounded object-contain" />
-                  )}
-                  <span class="text-ink-muted">{item.name}</span>
-                </span>
-                <span class="font-display text-ink-primary">{formatPrice(item.price)}</span>
-              </label>
-            ))
-          }
-        </div>
-
         <h3 class="font-display mt-10 text-lg text-ink-primary">Your Information</h3>
         <fieldset class="mt-4">
           <legend class="text-sm text-ink-muted">Membership Status</legend>
@@ -171,6 +153,24 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
             <label for="phone" class="text-sm text-ink-muted">Phone Number</label>
             <input id="phone" name="phone" type="tel" autocomplete="tel" required class="form-input mt-1" />
           </div>
+        </div>
+
+        <h3 class="font-display mt-10 text-lg text-ink-primary">Optional Add-Ons</h3>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          {
+            addOns.map((item) => (
+              <label class="card addon-option flex items-center justify-between">
+                <span class="flex items-center gap-3">
+                  <input type="checkbox" name="addon" value={item.name} data-price={item.price} />
+                  {item.photo && (
+                    <img src={item.photo} alt="" class="h-12 w-16 flex-none rounded object-contain" />
+                  )}
+                  <span class="text-ink-muted">{item.name}</span>
+                </span>
+                <span class="font-display text-ink-primary">{formatPrice(item.price)}</span>
+              </label>
+            ))
+          }
         </div>
 
         <button type="submit" class="paypal-test-btn mt-10">Pay with PayPal</button>
