@@ -12,7 +12,7 @@ import { Image } from 'astro:assets';
 // browser-like User-Agent and falls back to the official NASA endpoint if
 // the feed can't be reached at all.
 const feedUrl = 'https://apod.com/feed.rss';
-const FETCH_TIMEOUT_MS = 8000;
+const FETCH_TIMEOUT_MS = 20000;
 const BROWSER_USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
@@ -153,10 +153,17 @@ const [primary, secondary] = hasNasaApiKey
   : [fetchFromRssFeed, fetchFromNasaApi];
 
 let apod: Apod | null = null;
-try {
-  apod = await primary();
-} catch (err) {
-  logError('primary source threw', err);
+// A timeout abort on the NASA API is a transient hiccup, not a real
+// failure — worth one retry before giving up on it. Retrying the RSS feed
+// is pointless when it's the primary (no key configured): a Cloudflare 403
+// won't resolve itself a second time in the same build.
+const primaryAttempts = hasNasaApiKey ? 2 : 1;
+for (let attempt = 0; attempt < primaryAttempts && !apod; attempt++) {
+  try {
+    apod = await primary();
+  } catch (err) {
+    logError(attempt === 0 ? 'primary source threw' : 'primary source threw again', err);
+  }
 }
 
 if (!apod) {
