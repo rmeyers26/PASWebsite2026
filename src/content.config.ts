@@ -311,6 +311,8 @@ const loanerScopes = defineCollection({
         // CMS uploads land in public/ as a plain URL string — see the
         // officers.photo comment above for why this isn't image()-typed.
         photo: optional(publicPath),
+        // Link back to the manufacturer's product page for this item.
+        manufacturerUrl: optional(externalUrl),
       }),
     ),
   }),
