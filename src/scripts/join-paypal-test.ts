@@ -7,6 +7,7 @@ function parsePrice(value: string | undefined): number {
 function bindJoinPaypalTest() {
   const form = document.getElementById('membership-form') as HTMLFormElement | null;
   const modal = document.getElementById('paypal-test-modal');
+  const statusField = document.getElementById('paypal-test-status');
   const nameField = document.getElementById('paypal-test-name');
   const addressField = document.getElementById('paypal-test-address');
   const phoneField = document.getElementById('paypal-test-phone');
@@ -26,11 +27,22 @@ function bindJoinPaypalTest() {
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
-    if (!modal || !nameField || !addressField || !phoneField || !tierLabel || !addonsLabel || !priceLabel || !result) {
+    if (
+      !modal ||
+      !statusField ||
+      !nameField ||
+      !addressField ||
+      !phoneField ||
+      !tierLabel ||
+      !addonsLabel ||
+      !priceLabel ||
+      !result
+    ) {
       return;
     }
 
     const data = new FormData(form);
+    const membershipStatus = String(data.get('membershipStatus') ?? '');
     const firstName = String(data.get('firstName') ?? '');
     const lastName = String(data.get('lastName') ?? '');
     const address1 = String(data.get('address1') ?? '');
@@ -46,6 +58,7 @@ function bindJoinPaypalTest() {
     const tierPrice = parsePrice(tierInput?.dataset.price);
     const addonsTotal = addonInputs.reduce((sum, input) => sum + parsePrice(input.dataset.price), 0);
 
+    statusField.textContent = membershipStatus || '—';
     nameField.textContent = `${firstName} ${lastName}`.trim() || '—';
     addressField.textContent = [address1, address2, `${city}, ${state} ${zip}`.trim()]
       .filter(Boolean)
