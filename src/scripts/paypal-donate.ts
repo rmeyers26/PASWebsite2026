@@ -9,8 +9,10 @@ declare global {
 }
 
 const SDK_SCRIPT_ID = 'paypal-hosted-buttons-sdk';
+// disable-funding=venmo,card restricts checkout to the PayPal option only,
+// hiding the Venmo button and the guest credit/debit card form.
 const SDK_URL =
-  'https://www.paypal.com/sdk/js?client-id=BAAyOmGTuZ-xFbzinY-hW7YmZWW5fNliU8fhCDG2_aQvp-3j0TPPvALzmwOfaJBEQrAieCo74_mJ-VoLPM&components=hosted-buttons&enable-funding=venmo&currency=USD';
+  'https://www.paypal.com/sdk/js?client-id=BAAyOmGTuZ-xFbzinY-hW7YmZWW5fNliU8fhCDG2_aQvp-3j0TPPvALzmwOfaJBEQrAieCo74_mJ-VoLPM&components=hosted-buttons&disable-funding=venmo,card&currency=USD';
 const CONTAINER_ID = 'paypal-container-VUTK32FET2578';
 const HOSTED_BUTTON_ID = 'VUTK32FET2578';
 
