@@ -1,0 +1,125 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getStorageUsageReport, type ImageCollectionRef } from '../lib/storageUsage';
+
+// Internal tool for club officers — not linked from NavBar/Footer, same
+// treatment as /orion itself. Figures are computed at build time by
+// reading the CMS upload folders off disk, so they reflect the last
+// deploy, not the current instant (same tradeoff src/lib/pdfArchive.ts
+// already accepts for individual PDF sizes).
+
+// Every collection below shares the single /images/uploads folder (only
+// press-releases/newsletters override the CMS's default media_folder — see
+// public/orion/config.yml), so the Images row needs these photo/image
+// fields to attribute files back to the collection that uploaded them.
+const [galleryEntries, officerEntries, scholarshipEntries, loanerScopes, membership] = await Promise.all([
+  getCollection('gallery'),
+  getCollection('officers'),
+  getCollection('scholarship-winners'),
+  getEntry('loaner-scopes', 'data'),
+  getEntry('membership', 'data'),
+]);
+
+const imageCollectionRefs: ImageCollectionRef[] = [
+  { label: 'Member Gallery', paths: galleryEntries.map((entry) => entry.data.photo) },
+  { label: 'Officers', paths: officerEntries.map((entry) => entry.data.photo) },
+  {
+    label: 'Scholarship Winners',
+    paths: scholarshipEntries.flatMap((entry) => entry.data.winners.map((winner) => winner.photo)),
+  },
+  { label: 'Telescope Loan Program', paths: (loanerScopes?.data.equipment ?? []).map((item) => item.photo) },
+  { label: 'Membership Add-Ons', paths: (membership?.data.addOns ?? []).map((addOn) => addOn.photo) },
+];
+
+const report = getStorageUsageReport(imageCollectionRefs);
+---
+
+<BaseLayout
+  title="Storage Usage"
+  description="Internal tool: how much storage the CMS-uploaded images, press releases, and newsletters are using."
+>
+  <section class="mx-auto max-w-4xl px-6 py-24 text-center">
+    <span class="glass-badge mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      Internal tool
+    </span>
+    <h1 class="font-display text-d2 tracking-tight text-ink-primary">Storage Usage</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
+      How much storage the files uploaded through the CMS (<a
+        href="/orion"
+        class="text-nebula-teal hover:underline">/orion</a
+      >) are using, as of the last deploy.
+    </p>
+    <p class="mx-auto mt-4 text-d4 font-display text-ink-primary">{report.totalSize} total</p>
+  </section>
+
+  <section class="border-t border-subtle bg-space-card/40">
+    <div class="mx-auto max-w-4xl px-6 py-20">
+      <h2 class="section-heading">By folder</h2>
+      <div class="mt-6 overflow-hidden rounded-xl border border-subtle">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-space-card/60 text-ink-muted">
+            <tr>
+              <th class="px-4 py-3 font-medium">Folder</th>
+              <th class="px-4 py-3 font-medium">Files</th>
+              <th class="px-4 py-3 font-medium">Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              report.folders.map((folder) => (
+                <tr class="border-t border-subtle">
+                  <td class="px-4 py-3 text-ink-primary">
+                    {folder.label}
+                    <span class="block text-xs text-ink-muted">{folder.publicPath}</span>
+                  </td>
+                  <td class="px-4 py-3 text-ink-muted">{folder.fileCount}</td>
+                  <td class="px-4 py-3 text-ink-muted">{folder.size}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      {
+        report.folders
+          .filter((folder) => folder.breakdown && folder.breakdown.length > 0)
+          .map((folder) => (
+            <div class="mt-8">
+              <h3 class="text-sm font-medium text-ink-muted">{folder.label} by collection</h3>
+              <ul class="mt-3 divide-y divide-subtle rounded-xl border border-subtle">
+                {folder.breakdown!.map((entry) => (
+                  <li class="flex items-center justify-between px-4 py-3 text-sm">
+                    <span class="text-ink-primary">{entry.label}</span>
+                    <span class="shrink-0 pl-4 text-ink-muted">
+                      {entry.fileCount} file{entry.fileCount === 1 ? '' : 's'} · {entry.size}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-16">
+    <h2 class="section-heading">Largest files</h2>
+    {
+      report.largestFiles.length === 0 ? (
+        <p class="mt-6 text-ink-muted">No files uploaded yet.</p>
+      ) : (
+        <ul class="mt-6 divide-y divide-subtle rounded-xl border border-subtle">
+          {report.largestFiles.map((file) => (
+            <li class="flex items-center justify-between px-4 py-3 text-sm">
+              <span class="truncate text-ink-primary">{file.path}</span>
+              <span class="shrink-0 pl-4 text-ink-muted">{file.size}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>
