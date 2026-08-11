@@ -1,13 +1,38 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getStorageUsageReport } from '../lib/storageUsage';
+import { getStorageUsageReport, type ImageCollectionRef } from '../lib/storageUsage';
 
 // Internal tool for club officers — not linked from NavBar/Footer, same
 // treatment as /orion itself. Figures are computed at build time by
 // reading the CMS upload folders off disk, so they reflect the last
 // deploy, not the current instant (same tradeoff src/lib/pdfArchive.ts
 // already accepts for individual PDF sizes).
-const report = getStorageUsageReport();
+
+// Every collection below shares the single /images/uploads folder (only
+// press-releases/newsletters override the CMS's default media_folder — see
+// public/orion/config.yml), so the Images row needs these photo/image
+// fields to attribute files back to the collection that uploaded them.
+const [galleryEntries, officerEntries, scholarshipEntries, loanerScopes, membership] = await Promise.all([
+  getCollection('gallery'),
+  getCollection('officers'),
+  getCollection('scholarship-winners'),
+  getEntry('loaner-scopes', 'data'),
+  getEntry('membership', 'data'),
+]);
+
+const imageCollectionRefs: ImageCollectionRef[] = [
+  { label: 'Member Gallery', paths: galleryEntries.map((entry) => entry.data.photo) },
+  { label: 'Officers', paths: officerEntries.map((entry) => entry.data.photo) },
+  {
+    label: 'Scholarship Winners',
+    paths: scholarshipEntries.flatMap((entry) => entry.data.winners.map((winner) => winner.photo)),
+  },
+  { label: 'Telescope Loan Program', paths: (loanerScopes?.data.equipment ?? []).map((item) => item.photo) },
+  { label: 'Membership Add-Ons', paths: (membership?.data.addOns ?? []).map((addOn) => addOn.photo) },
+];
+
+const report = getStorageUsageReport(imageCollectionRefs);
 ---
 
 <BaseLayout
@@ -57,6 +82,26 @@ const report = getStorageUsageReport();
           </tbody>
         </table>
       </div>
+
+      {
+        report.folders
+          .filter((folder) => folder.breakdown && folder.breakdown.length > 0)
+          .map((folder) => (
+            <div class="mt-8">
+              <h3 class="text-sm font-medium text-ink-muted">{folder.label} by collection</h3>
+              <ul class="mt-3 divide-y divide-subtle rounded-xl border border-subtle">
+                {folder.breakdown!.map((entry) => (
+                  <li class="flex items-center justify-between px-4 py-3 text-sm">
+                    <span class="text-ink-primary">{entry.label}</span>
+                    <span class="shrink-0 pl-4 text-ink-muted">
+                      {entry.fileCount} file{entry.fileCount === 1 ? '' : 's'} · {entry.size}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+      }
     </div>
   </section>
 
