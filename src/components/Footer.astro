@@ -84,6 +84,9 @@ const year = new Date().getFullYear();
         </a>
       </div>
     </div>
-    <p class="mt-8 border-t border-subtle pt-6">© {year} {siteSettings.orgName}. All rights reserved.</p>
+    <div class="mt-8 flex flex-col gap-3 border-t border-subtle pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {siteSettings.orgName}. All rights reserved.</p>
+      <a href="/privacy-policy" class="hover:text-nebula-teal">Privacy Policy</a>
+    </div>
   </div>
 </footer>
