@@ -274,3 +274,4 @@ collections:
               - { label: "Instagram", name: instagram, widget: string }
               - { label: "Threads", name: threads, widget: string }
               - { label: "YouTube", name: youtube, widget: string }
+          - { label: "Donations Enabled", name: donationsEnabled, widget: boolean, default: true, hint: "Turn off to hide the homepage Donate button and the PayPal button on the Scholarship page." }

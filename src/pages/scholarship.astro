@@ -130,8 +130,14 @@ const highlights = [
         Email {siteSettings.email}
       </a>
 
-      <p class="mt-10 text-sm text-ink-muted">Or donate directly online:</p>
-      <div id="paypal-container-VUTK32FET2578" class="mx-auto mt-4 max-w-xs"></div>
+      {
+        siteSettings.donationsEnabled && (
+          <>
+            <p class="mt-10 text-sm text-ink-muted">Or donate directly online:</p>
+            <div id="paypal-container-VUTK32FET2578" class="mx-auto mt-4 max-w-xs" />
+          </>
+        )
+      }
     </div>
   </section>
 </BaseLayout>

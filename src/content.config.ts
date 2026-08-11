@@ -358,6 +358,10 @@ const siteSettings = defineCollection({
       threads: externalUrl,
       youtube: externalUrl,
     }),
+    // Hides the homepage Donate CTA and the PayPal button on the
+    // scholarship page without touching either page's code — e.g. while the
+    // PayPal account is being set up, or if it ever needs to be paused.
+    donationsEnabled: z.boolean().default(true),
   }),
 });
 
