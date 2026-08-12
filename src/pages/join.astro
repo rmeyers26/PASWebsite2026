@@ -59,122 +59,38 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Membership Tiers</h2>
       <p class="mt-3 text-ink-muted">Recurring memberships are annual, January through December.</p>
-      <p class="mt-4 inline-flex items-center gap-2 rounded-full border border-nebula-amber/40 bg-nebula-amber/10 px-4 py-1.5 text-sm text-nebula-amber">
-        <span aria-hidden="true">&#9888;</span> Test mode — this form is a UI preview only. No PayPal account is connected and no charges occur.
-      </p>
 
-      <form id="membership-form" novalidate>
-        <fieldset class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <legend class="sr-only">Choose a membership tier</legend>
-          {
-            membershipTiers.map((tier, index) => (
-              <label class={`card tier-option ${tier.featured ? 'card-featured' : ''}`}>
-                <input
-                  type="radio"
-                  name="tier"
-                  value={tier.name}
-                  data-price={tier.price}
-                  required
-                  checked={index === 0}
-                  class="tier-option-input"
-                />
-                {tier.featured && <span class="glass-badge">Most Common</span>}
-                <p class="mt-4 text-ink-primary">{tier.name}</p>
-                <p class="mt-1 font-display text-2xl text-nebula-amber">{formatPrice(tier.price)}</p>
-              </label>
-            ))
-          }
-        </fieldset>
-
-        <h3 class="font-display mt-10 text-lg text-ink-primary">Your Information</h3>
-        <fieldset class="mt-4">
-          <legend class="text-sm text-ink-muted">Membership Status</legend>
-          <div class="mt-2 flex flex-wrap gap-3">
-            <label class="status-option">
-              <input type="radio" name="membershipStatus" value="New Membership" required checked />
-              New Membership
-            </label>
-            <label class="status-option">
-              <input type="radio" name="membershipStatus" value="Renew Membership" required />
-              Renew Membership
-            </label>
-          </div>
-        </fieldset>
-        <div class="mt-6 grid gap-4 sm:grid-cols-2">
-          <div>
-            <label for="firstName" class="text-sm text-ink-muted">First Name</label>
-            <input id="firstName" name="firstName" type="text" autocomplete="given-name" required class="form-input mt-1" />
-          </div>
-          <div>
-            <label for="lastName" class="text-sm text-ink-muted">Last Name</label>
-            <input id="lastName" name="lastName" type="text" autocomplete="family-name" required class="form-input mt-1" />
-          </div>
-          <div class="sm:col-span-2">
-            <label for="address1" class="text-sm text-ink-muted">Address Line 1</label>
-            <input id="address1" name="address1" type="text" autocomplete="address-line1" required class="form-input mt-1" />
-          </div>
-          <div class="sm:col-span-2">
-            <label for="address2" class="text-sm text-ink-muted">Address Line 2</label>
-            <input id="address2" name="address2" type="text" autocomplete="address-line2" class="form-input mt-1" />
-          </div>
-          <div>
-            <label for="city" class="text-sm text-ink-muted">City</label>
-            <input id="city" name="city" type="text" autocomplete="address-level2" required class="form-input mt-1" />
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label for="state" class="text-sm text-ink-muted">State</label>
-              <input
-                id="state"
-                name="state"
-                type="text"
-                autocomplete="address-level1"
-                maxlength="2"
-                placeholder="AZ"
-                required
-                class="form-input mt-1 uppercase"
-              />
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          membershipTiers.map((tier) => (
+            <div class={`card tier-option ${tier.featured ? 'card-featured' : ''}`}>
+              {tier.featured && <span class="glass-badge">Most Common</span>}
+              <p class="mt-4 text-ink-primary">{tier.name}</p>
+              <p class="mt-1 font-display text-2xl text-nebula-amber">{formatPrice(tier.price)}</p>
             </div>
-            <div>
-              <label for="zip" class="text-sm text-ink-muted">Zip Code</label>
-              <input
-                id="zip"
-                name="zip"
-                type="text"
-                inputmode="numeric"
-                autocomplete="postal-code"
-                pattern="[0-9]{5}(-[0-9]{4})?"
-                required
-                class="form-input mt-1"
-              />
+          ))
+        }
+      </div>
+
+      <h3 class="font-display mt-10 text-lg text-ink-primary">Optional Add-Ons</h3>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {
+          addOns.map((item) => (
+            <div class="card addon-option flex items-center justify-between">
+              <span class="flex items-center gap-3">
+                {item.photo && (
+                  <img src={item.photo} alt="" class="h-12 w-16 flex-none rounded object-contain" />
+                )}
+                <span class="text-ink-muted">{item.name}</span>
+              </span>
+              <span class="font-display text-ink-primary">{formatPrice(item.price)}</span>
             </div>
-          </div>
-          <div class="sm:col-span-2">
-            <label for="phone" class="text-sm text-ink-muted">Phone Number</label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" required class="form-input mt-1" />
-          </div>
-        </div>
+          ))
+        }
+      </div>
 
-        <h3 class="font-display mt-10 text-lg text-ink-primary">Optional Add-Ons</h3>
-        <div class="mt-4 grid gap-4 sm:grid-cols-2">
-          {
-            addOns.map((item) => (
-              <label class="card addon-option flex items-center justify-between">
-                <span class="flex items-center gap-3">
-                  <input type="checkbox" name="addon" value={item.name} data-price={item.price} />
-                  {item.photo && (
-                    <img src={item.photo} alt="" class="h-12 w-16 flex-none rounded object-contain" />
-                  )}
-                  <span class="text-ink-muted">{item.name}</span>
-                </span>
-                <span class="font-display text-ink-primary">{formatPrice(item.price)}</span>
-              </label>
-            ))
-          }
-        </div>
-
-        <button type="submit" class="paypal-test-btn mt-10">Pay with PayPal</button>
-      </form>
+      <h3 class="font-display mt-10 text-lg text-ink-primary">Apply for Membership</h3>
+      <div class="mt-4" data-paperform-id="pasazmembership" />
     </div>
   </section>
 
@@ -190,107 +106,17 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
       <a href="mailto:membership@pasaz.org" class="btn-primary mt-8">Email membership@pasaz.org</a>
     </div>
   </section>
-
-  <div
-    id="paypal-test-modal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 px-4"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="paypal-test-modal-title"
-  >
-    <div class="w-full max-w-sm rounded-lg border border-subtle bg-space-card p-6 shadow-xl">
-      <p class="inline-flex items-center gap-2 rounded-full border border-nebula-amber/40 bg-nebula-amber/10 px-3 py-1 text-xs text-nebula-amber">
-        TEST MODE — no PayPal integration yet
-      </p>
-      <h3 id="paypal-test-modal-title" class="font-display mt-4 text-lg text-ink-primary">
-        Simulated PayPal Checkout
-      </h3>
-      <dl class="mt-3 space-y-1 text-sm text-ink-muted">
-        <div class="flex justify-between"><dt>Status</dt><dd id="paypal-test-status" class="text-ink-primary">—</dd></div>
-        <div class="flex justify-between"><dt>Name</dt><dd id="paypal-test-name" class="text-ink-primary">—</dd></div>
-        <div class="flex justify-between"><dt>Address</dt><dd id="paypal-test-address" class="text-right text-ink-primary">—</dd></div>
-        <div class="flex justify-between"><dt>Phone</dt><dd id="paypal-test-phone" class="text-ink-primary">—</dd></div>
-        <div class="flex justify-between"><dt>Membership</dt><dd id="paypal-test-tier" class="text-ink-primary">—</dd></div>
-        <div class="flex justify-between"><dt>Add-ons</dt><dd id="paypal-test-addons" class="text-ink-primary">—</dd></div>
-        <div class="flex justify-between border-t border-subtle pt-1 font-display text-ink-primary">
-          <dt>Total</dt><dd id="paypal-test-price">$0</dd>
-        </div>
-      </dl>
-      <p class="mt-3 text-sm text-ink-muted">
-        This is a placeholder for the real PayPal button flow. Nothing is charged and no membership is created.
-      </p>
-      <div class="mt-6 flex flex-col gap-2 sm:flex-row-reverse">
-        <button type="button" id="paypal-test-simulate" class="btn-primary">Simulate Successful Payment</button>
-        <button type="button" id="paypal-test-cancel" class="btn-secondary">Cancel</button>
-      </div>
-      <p id="paypal-test-result" class="mt-4 hidden text-sm text-nebula-teal" role="status"></p>
-    </div>
-  </div>
 </BaseLayout>
 
 <style>
-  .paypal-test-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border-radius: 0.5rem;
-    background-color: #ffc439;
-    color: #1a1a1a;
-    font-weight: 600;
-    padding: 0.6rem 1rem;
-    transition: filter 0.15s ease;
-  }
-  .paypal-test-btn:hover {
-    filter: brightness(0.95);
-  }
-
   .tier-option,
   .addon-option {
     position: relative;
-    cursor: pointer;
     display: block;
-  }
-  .tier-option-input {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
-  .tier-option:has(.tier-option-input:checked),
-  .addon-option:has(input:checked) {
-    outline: 2px solid var(--color-nebula-teal, #2dd4bf);
-    outline-offset: 2px;
-  }
-
-  .status-option {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    border-radius: 9999px;
-    border: 1px solid var(--color-border-subtle, #3a3a4a);
-    padding: 0.4rem 1rem;
-  }
-  .status-option:has(input:checked) {
-    outline: 2px solid var(--color-nebula-teal, #2dd4bf);
-    outline-offset: 2px;
-  }
-
-  .form-input {
-    width: 100%;
-    border-radius: 0.5rem;
-    border: 1px solid var(--color-border-subtle, #3a3a4a);
-    background-color: transparent;
-    padding: 0.55rem 0.75rem;
-    color: inherit;
-  }
-  .form-input:focus {
-    outline: 2px solid var(--color-nebula-teal, #2dd4bf);
-    outline-offset: 1px;
   }
 </style>
 
 <script>
-  import { initJoinPaypalTest } from '../scripts/join-paypal-test';
-  initJoinPaypalTest();
+  import { initJoinPaperformEmbed } from '../scripts/join-paperform-embed';
+  initJoinPaperformEmbed();
 </script>

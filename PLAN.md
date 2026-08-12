@@ -56,7 +56,7 @@ Direct fetches of all peer sites were blocked by bot protection; findings are fr
 6. **Observing Awards** — the all-ages/general gamified achievement program modeled on the Astronomical League's Observing Programs (badges/certificates for milestones like first solar-system tour, 50 objects logged, etc.); PAS Academy's Youth Observing Challenges (Part 2.7) are the age-tiered, student-focused counterpart to this, sharing the same certificate/badge visual system
 7. **Events Calendar** — meetings, star parties, guest speakers, eclipses/meteor showers, filterable by audience (public / members-only / admin, à la SJAA), with add-to-calendar buttons
 8. **Community** — member spotlights, officer bios, "Meeting of the Minds" minutes (kept members-only), a mentorship/buddy-system callout for newcomers
-9. **Join** — clear membership tiers with concrete deliverables listed (à la RASC's handbook/journal/almanac model — for PAS this might be a newsletter, loaner-scope access, dark-sky site access, mentorship), online signup
+9. **Join** — clear membership tiers with concrete deliverables listed (à la RASC's handbook/journal/almanac model — for PAS this might be a newsletter, loaner-scope access, dark-sky site access, mentorship), online signup (already live in production via a Paperform embed — `data-paperform-id="pasazmembership"` — so this is a port, not new build; excluded from the Star Tours/Contact forms-provider decision in Part 2.9)
 10. **About/History** — the 1948 founding story told as a timeline, not a text block
 11. **Contact** — retain existing role-based emails, add a simple contact form
 
