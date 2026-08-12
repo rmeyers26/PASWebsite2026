@@ -2,5 +2,6 @@
   "role": "Vice President",
   "name": "Mark Johnston",
   "email": "vicepresident@pasaz.org",
-  "order": 2
+  "order": 2,
+  "photo": "/images/uploads/mark-johnston.jpg"
 }
