@@ -1,13 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 
-const contacts = [
-  { label: 'General Inquiries', email: 'info@pasaz.org' },
-  { label: 'Astronomy Questions', email: 'astronomy-questions@pasaz.org' },
-  { label: 'School & Scout Star Tours', email: 'startours@pasaz.org' },
-  { label: 'Website Issues', email: 'webmaster@pasaz.org' },
+// Kept as plain labels (no mailto links) so no email address is ever printed
+// in the page source — every inquiry goes through the form below instead,
+// with "reason" telling the recipient which topic it's about.
+const reasons = [
+  'General Inquiries',
+  'Astronomy Questions',
+  'School & Scout Star Tours',
+  'Website Issues',
 ];
+
+// Web3Forms posts back to this same URL with ?submitted=true (see the hidden
+// "redirect" field below) when JavaScript is unavailable, so the confirmation
+// still works without the fetch-based enhancement in contact-form.ts.
+const submitted = Astro.url.searchParams.get('submitted') === 'true';
+const redirectURL = new URL('/contact?submitted=true', Astro.site).toString();
 ---
 
 <BaseLayout title="Contact" description="Get in touch with the Phoenix Astronomical Society.">
@@ -18,32 +26,85 @@ const contacts = [
     </span>
     <h1 class="font-display text-d2 tracking-tight text-ink-primary">Get in Touch</h1>
     <p class="mx-auto mt-6 max-w-xl text-ink-muted">
-      Questions about membership, events, or bringing PAS to your school or scout troop? Reach out below.
+      Questions about membership, events, or bringing PAS to your school or scout troop? Send us a
+      message below and we'll route it to the right person.
     </p>
+    <a href="/star-tours" class="mt-4 inline-block text-sm text-nebula-amber hover:underline">
+      Booking a school or scout visit? See full Star Tours details →
+    </a>
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">
-    <div class="mx-auto max-w-4xl px-6 py-16">
-      <div class="grid gap-6 sm:grid-cols-2">
-        {
-          contacts.map((contact) => (
-            <div class="card">
-              <h2 class="font-display text-lg text-nebula-teal">{contact.label}</h2>
-              <a href={`mailto:${contact.email}`} class="mt-2 inline-block text-ink-muted hover:text-nebula-teal">
-                {contact.email}
-              </a>
-              {contact.label === 'School & Scout Star Tours' && (
-                <a href="/star-tours" class="mt-2 block text-sm text-nebula-amber hover:underline">
-                  See full Star Tours details →
-                </a>
-              )}
-            </div>
-          ))
-        }
-      </div>
-      <div class="mt-8">
-        <PlaceholderNote label="Contact addresses above were found via web research and should be verified as current before launch. A self-serve contact/outreach-request form is planned for Phase 2." />
-      </div>
+    <div class="mx-auto max-w-2xl px-6 py-16">
+      <p
+        id="contact-success-banner"
+        class:list={['mb-8 rounded-lg border border-nebula-teal/40 bg-nebula-teal/10 px-4 py-3 text-center text-nebula-teal', { hidden: !submitted }]}
+        role="status"
+      >
+        Thanks — your message has been sent. We'll be in touch soon.
+      </p>
+
+      <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="grid gap-4">
+        <input type="hidden" name="access_key" value="30186d30-d264-4905-8091-05ff22111402" />
+        <input type="hidden" name="subject" value="New message from the PAS website contact form" />
+        <input type="hidden" name="from_name" value="PAS Website Contact Form" />
+        <input type="hidden" name="redirect" value={redirectURL} />
+        <!-- Honeypot: real visitors never see or fill this in; bots that
+             autofill every field do, and Web3Forms silently drops the
+             submission. See https://docs.web3forms.com for the "botcheck"
+             convention. -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off" />
+
+        <div>
+          <label for="name" class="text-sm text-ink-muted">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required class="form-input mt-1" />
+        </div>
+        <div>
+          <label for="email" class="text-sm text-ink-muted">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required class="form-input mt-1" />
+        </div>
+        <div>
+          <label for="reason" class="text-sm text-ink-muted">What's this about?</label>
+          <select id="reason" name="reason" required class="form-input mt-1">
+            <option value="" selected disabled>Choose one</option>
+            {reasons.map((reason) => <option value={reason}>{reason}</option>)}
+          </select>
+        </div>
+        <div>
+          <label for="message" class="text-sm text-ink-muted">Message</label>
+          <textarea id="message" name="message" rows="5" required class="form-input mt-1"></textarea>
+        </div>
+
+        <p id="contact-form-status" class="hidden text-sm" role="status"></p>
+
+        <button type="submit" class="btn-primary mt-2">Send Message</button>
+      </form>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .form-input {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border-subtle, #3a3a4a);
+    background-color: transparent;
+    padding: 0.55rem 0.75rem;
+    color: inherit;
+  }
+  .form-input:focus {
+    outline: 2px solid var(--color-nebula-teal, #2dd4bf);
+    outline-offset: 1px;
+  }
+  /* The select's options render with the browser's native (light) popup
+     regardless of this rule, but the closed control itself should still
+     match the dark form fields around it. */
+  .form-input option {
+    color: #0a0e17;
+  }
+</style>
+
+<script>
+  import { initContactForm } from '../scripts/contact-form';
+  initContactForm();
+</script>
