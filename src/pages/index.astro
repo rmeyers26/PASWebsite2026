@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
@@ -10,6 +10,8 @@ import milkyWay from '../assets/images/gallery/kris-mlak-milky-way.jpg';
 import soulNebula from '../assets/images/gallery/richard-sauerbrun-soul-nebula.jpg';
 import theSun from '../assets/images/gallery/mark-johnston-sun.jpg';
 import ldn541 from '../assets/images/gallery/caleb-sexton-ldn-541.png';
+
+const siteSettings = (await getEntry('site-settings', 'data'))!.data;
 
 const galleryTeaser = [
   { src: milkyWay, alt: 'The Milky Way arching over a desert mountain silhouette', caption: 'The Milky Way — Kris Mlak', color: true },
@@ -97,7 +99,7 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
     <div class="mt-10 flex flex-wrap justify-center gap-4">
       <a href="/join" class="btn-primary">Join PAS</a>
       <a href="/events" class="btn-secondary">Upcoming Events</a>
-      <a href="/scholarship#donate" class="btn-secondary">Donate</a>
+      {siteSettings.donationsEnabled && <a href="/scholarship#donate" class="btn-secondary">Donate</a>}
     </div>
   </SpaceHero>
 
