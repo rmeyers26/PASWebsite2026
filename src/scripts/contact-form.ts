@@ -16,17 +16,6 @@ function bindContactForm() {
     event.preventDefault();
     if (!form.reportValidity()) return;
 
-    // The hCaptcha widget (web3forms.com/client/script.js) writes its token
-    // into this hidden textarea once solved; it isn't a real form field, so
-    // browser validation can't require it for us.
-    const captchaResponse = form.querySelector<HTMLTextAreaElement>('textarea[name="h-captcha-response"]');
-    if (!captchaResponse?.value) {
-      status.classList.remove('hidden', 'text-nebula-teal');
-      status.classList.add('text-nebula-red');
-      status.textContent = 'Please complete the captcha before sending.';
-      return;
-    }
-
     if (submitBtn) submitBtn.disabled = true;
     status.classList.remove('hidden', 'text-nebula-teal', 'text-nebula-red');
     status.textContent = 'Sending…';
