@@ -112,7 +112,7 @@ Every item here was flagged **Critical** in the evaluation. Nothing in Phase 2�
 |---|---|---|---|
 | **C3.1** Newsletter signup | Footer + `/join` embed, using a zero-maintenance provider (Buttondown or MailerLite free tier) | Easy | 3 hrs |
 | **C3.2** Social links + donate button | Footer additions; donate via Stripe Payment Link or existing 501(c)(3) processor if one exists | Easy | 2 hrs |
-| **C3.3** Replace all `mailto:` flows with real forms | Contact, Star Tours booking, volunteer signup — via a forms provider with a free/cheap tier and zero server maintenance (Formspree, or Netlify/Cloudflare Forms if hosting migrates there) | Moderate | 3 days |
+| **C3.3** Replace remaining `mailto:` flows with real forms | Contact, Star Tours booking, volunteer signup, telescope loaner request — via a forms provider with a free/cheap tier and zero server maintenance (Formspree, or Netlify/Cloudflare Forms if hosting migrates there). `/join` is already excluded from this — it uses the production Paperform embed (see T-1.6) | Moderate | 3 days |
 | **C3.4** Member spotlights / testimonials | New component + 4–6 short interviews with existing members (President, ASIG lead, a newer member, a Star Tours volunteer) | Moderate | 3 days (mostly content, not code) |
 | **C3.5** Speaker profiles for the lecture series | Small content model addition to the events/press collections; retroactively tag past speakers where known | Easy | 2 days |
 | **C3.6** FAQ schema on `/learn` | Wrap the existing 5 career FAQs in `FAQPage` JSON-LD | Easy | 1 hr |
@@ -231,15 +231,10 @@ The following are written to the level of detail an AI coding assistant or junio
 
 ### T-1.6 — `/join` funnel
 
-- **Owner:** Board (decision) → Content → Developer
-- **Decision needed first (not a dev task):** dues amount(s), tiers if any, what's included, whether a payment processor exists or should be added.
-- **Once decided:**
-  - Update `src/pages/join.astro` benefits array with concrete, non-duplicated items (remove the three that are actually free/public).
-  - Add a dues/tiers table.
-  - Add either: (a) a Stripe Payment Link / WildApricot embed, or (b) a clearly-labeled interim flow: "Email membership@pasaz.org with your name and we'll send an invoice" — honest, not apologetic.
-- **Acceptance criteria:** A visitor can state, in one sentence after reading the page, what membership costs and what they get.
-- **Priority:** Critical
-- **Estimated effort:** 1 day dev once the board decision is made.
+- **Status: Done.** The production site (`pasaz.org`, currently on Google Sites) already runs real membership signup through a live Paperform form (`data-paperform-id="pasazmembership"`), handling tiers, add-ons, and payment. `src/pages/join.astro` now embeds that same form directly, replacing the old placeholder mock (a fake "PayPal" modal that never submitted anywhere). Dues table stays as a static, CMS-driven info display (`src/content/membership/membership.json`) above the embed.
+- No further decision needed here — the payment processor question (Stripe Payment Link vs. WildApricot vs. Paperform's own) is already settled in production.
+- **Acceptance criteria:** A visitor can state, in one sentence after reading the page, what membership costs and what they get, and can complete signup without leaving the page.
+- **Priority:** Critical — resolved.
 
 ### T-1.7 — Real event dates in HTML
 
@@ -426,7 +421,7 @@ Already covered in depth in the evaluation (§13 there) — carried into this pl
 Already well-handled by Astro's built-in `<Image>` pipeline — extend the same pattern to every new image added in Phase 2–3 (gallery, testimonials, new heroes). No new tooling needed.
 
 ### Security
-- Add `Content-Security-Policy` headers at the hosting layer restricting script sources to self + the two legitimate third parties (Bookwhen, Astrospheric) — currently both load with no CSP or SRI at all.
+- Add `Content-Security-Policy` headers at the hosting layer restricting script sources to self + the legitimate third parties (Bookwhen, Astrospheric, and now Paperform for the `/join` embed) — currently all load with no CSP or SRI at all.
 - No user-generated content is accepted anywhere yet (forms go to Formspree, not the site's own storage) — keep it that way until there's a real reason to accept uploads directly (e.g., a future gallery submission flow), which would need its own moderation and storage review at that time.
 
 ### CI/CD
