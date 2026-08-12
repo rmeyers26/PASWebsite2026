@@ -75,6 +75,12 @@ const redirectURL = new URL('/contact?submitted=true', Astro.site).toString();
           <textarea id="message" name="message" rows="5" required class="form-input mt-1"></textarea>
         </div>
 
+        <!-- Widget is rendered by Web3Forms' own client script (loaded below),
+             which reads the captcha method configured for this access_key in
+             the Web3Forms dashboard — hCaptcha must be enabled there for this
+             to render anything. See docs.web3forms.com/.../spam-protection/hcaptcha. -->
+        <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
+
         <p id="contact-form-status" class="hidden text-sm" role="status"></p>
 
         <button type="submit" class="btn-primary mt-2">Send Message</button>
@@ -82,6 +88,8 @@ const redirectURL = new URL('/contact?submitted=true', Astro.site).toString();
     </div>
   </section>
 </BaseLayout>
+
+<script src="https://web3forms.com/client/script.js" async defer is:inline></script>
 
 <style>
   .form-input {
