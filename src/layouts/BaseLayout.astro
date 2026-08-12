@@ -69,10 +69,6 @@ const organizationSchema = {
   ],
 };
 
-// Plausible: cookieless, no consent banner needed. Unset in most local/dev
-// builds on purpose — nothing here breaks without it, the tag is just
-// omitted.
-const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
 ---
 
 <!doctype html>
@@ -110,11 +106,6 @@ const plausibleDomain = import.meta.env.PLAUSIBLE_DOMAIN;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
-    {
-      plausibleDomain && (
-        <script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" />
-      )
-    }
     <ClientRouter />
   </head>
   <body>
