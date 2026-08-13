@@ -20,6 +20,20 @@ const issues: PdfArchiveEntry[] = issueEntries.map((entry) => ({
 const years = groupPdfArchiveByYear(issues, 'newsletters');
 const [, latestIssues] = years[0] ?? [undefined, []];
 const latest = latestIssues[0];
+
+// The latest issue has its own section above, so the searchable/sortable
+// archive excludes it — same entries the server-rendered fallback below
+// already lists, just flattened with each entry's year attached so the
+// client script can regroup after filtering.
+const archiveEntries = years.flatMap(([year, entries], yearIndex) =>
+  (yearIndex === 0 ? entries.slice(1) : entries).map((entry) => ({ ...entry, year })),
+);
+
+// Fed to the client-side search/sort script below — same data already
+// computed for the SSR fallback, just serialized once instead of
+// re-derived in JS. Escaped so a title/summary containing "</script>"
+// can't break out of the embedding tag.
+const archiveDataJson = JSON.stringify(archiveEntries).replace(/<\/script/gi, '<\\/script');
 ---
 
 <BaseLayout
@@ -61,25 +75,69 @@ const latest = latestIssues[0];
         years.length === 0 ? (
           <ArchiveEmptyState label="Newsletters" class="mt-6" />
         ) : (
-          <div class="mt-6 space-y-14">
-            {years.map(([year, entries], yearIndex) => {
-              // The latest issue already has its own section above, so skip it
-              // here without hiding the rest of its year's issues.
-              const listed = yearIndex === 0 ? entries.slice(1) : entries;
-              return (
-                listed.length > 0 && (
-                  <div>
-                    <h3 class="text-lg font-semibold text-ink-primary">{year}</h3>
-                    <PdfArchiveList entries={listed} />
-                  </div>
-                )
-              );
-            })}
-          </div>
+          <>
+            <script type="application/json" id="newsletter-data" set:html={archiveDataJson} />
+
+            <div class="mt-10 mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div class="flex-1">
+                <label for="newsletter-search" class="block text-sm font-medium text-ink-primary">
+                  Search
+                </label>
+                <input
+                  type="search"
+                  id="newsletter-search"
+                  placeholder="Search by title or topic…"
+                  class="mt-2 w-full rounded-lg border border-subtle bg-space-base px-4 py-2 text-ink-primary placeholder:text-ink-muted focus:border-nebula-teal focus:outline-none"
+                />
+              </div>
+              <div class="sm:w-56">
+                <label for="newsletter-sort" class="block text-sm font-medium text-ink-primary">
+                  Sort by
+                </label>
+                <select
+                  id="newsletter-sort"
+                  class="mt-2 w-full rounded-lg border border-subtle bg-space-base px-4 py-2 text-ink-primary focus:border-nebula-teal focus:outline-none"
+                >
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                  <option value="title">Title (A–Z)</option>
+                </select>
+              </div>
+            </div>
+
+            <p id="newsletter-count" class="mb-6 text-sm text-ink-muted" aria-live="polite">
+              {archiveEntries.length} issue{archiveEntries.length === 1 ? '' : 's'}
+            </p>
+
+            <p id="newsletter-empty" hidden class="text-ink-muted">
+              No issues match your search.
+            </p>
+
+            <div id="newsletter-list" class="space-y-14">
+              {years.map(([year, entries], yearIndex) => {
+                // The latest issue already has its own section above, so skip it
+                // here without hiding the rest of its year's issues.
+                const listed = yearIndex === 0 ? entries.slice(1) : entries;
+                return (
+                  listed.length > 0 && (
+                    <div>
+                      <h3 class="text-lg font-semibold text-ink-primary">{year}</h3>
+                      <PdfArchiveList entries={listed} />
+                    </div>
+                  )
+                );
+              })}
+            </div>
+          </>
         )
       }
     </div>
   </section>
+
+  <script>
+    import { initNewsletterSearch } from '../scripts/newsletter-search';
+    initNewsletterSearch();
+  </script>
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <PlaceholderNote label="Newsletter issues are managed from the CMS (Content > Newsletters) — add a new issue there each month, and older issues can be uploaded to build out the historical archive. Remove this note once the archive is populated." />
