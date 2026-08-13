@@ -64,7 +64,7 @@ const isActive = (item: NavItem) =>
 
 <header class="sticky top-0 z-50 border-b border-subtle bg-space-base/80 backdrop-blur-2xl">
   <nav
-    class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4"
+    class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-6 py-4"
     aria-label="Primary"
   >
     <a
@@ -85,7 +85,7 @@ const isActive = (item: NavItem) =>
       <span class="sm:hidden">PAS</span>
     </a>
 
-    <ul class="hidden items-center gap-2 lg:flex">
+    <ul class="hidden items-center gap-1 xl:flex">
       {
         navItems.map((item) =>
           item.children ? (
@@ -93,7 +93,7 @@ const isActive = (item: NavItem) =>
               <details class="nav-disclosure">
                 <summary
                   class:list={[
-                    'flex cursor-pointer list-none items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:text-nebula-teal [&::-webkit-details-marker]:hidden',
+                    'flex cursor-pointer list-none items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-medium transition hover:text-nebula-teal [&::-webkit-details-marker]:hidden',
                     isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
                   ]}
                   aria-expanded="false"
@@ -135,7 +135,7 @@ const isActive = (item: NavItem) =>
               <a
                 href={item.href}
                 class:list={[
-                  'block whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition hover:text-nebula-teal',
+                  'block whitespace-nowrap rounded-full px-2.5 py-2 text-sm font-medium transition hover:text-nebula-teal',
                   isActive(item) ? 'text-nebula-teal' : 'text-ink-primary',
                 ]}
                 aria-current={isActive(item) ? 'page' : undefined}
@@ -173,13 +173,13 @@ const isActive = (item: NavItem) =>
 
     <a
       href="/join"
-      class="btn-primary hidden flex-none px-5 py-2.5 text-sm whitespace-nowrap lg:inline-flex"
+      class="btn-primary hidden flex-none px-4 py-2.5 text-sm whitespace-nowrap xl:inline-flex"
       aria-current={currentPath === '/join' ? 'page' : undefined}
     >
       Join PAS
     </a>
 
-    <details class="mobile-menu nav-disclosure lg:hidden">
+    <details class="mobile-menu nav-disclosure xl:hidden">
       <summary
         class="flex size-11 cursor-pointer list-none items-center justify-center rounded-full text-ink-primary transition hover:text-nebula-teal [&::-webkit-details-marker]:hidden"
         aria-label="Open menu"
