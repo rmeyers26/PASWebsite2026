@@ -80,6 +80,23 @@ const kidsResources = [
 const careerFaqEntry = (await getEntry('career-faqs', 'data'))!;
 const careerFaqs = careerFaqEntry.data.faqs;
 
+// Same question/answer pairs rendered below as the visible FAQ — mapped into
+// schema.org's FAQPage shape so the section is eligible for Google's FAQ rich
+// result instead of being just styled HTML. See events.astro for the same
+// JSON-LD pattern applied to Event markup.
+const careerFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: careerFaqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
 const resourceGroups = [
   {
     title: 'Plan Your Observing',
@@ -190,6 +207,7 @@ const careerLinks = [
   title="Learn Astronomy"
   description="Beginner-friendly astronomy resources from the Phoenix Astronomical Society — a kids' corner, answers about astronomy careers, and a curated set of links for observers of every level."
 >
+  <script type="application/ld+json" set:html={JSON.stringify(careerFaqSchema)} />
   <Hero
     image={heroPhoto}
     alt="A PAS member showing visitors a telescope setup at a daytime outreach event"
