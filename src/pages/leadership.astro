@@ -52,7 +52,7 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
       <div class="mt-10 grid gap-4 sm:grid-cols-2">
         {
           officers.map((officer) => (
-            <div class="card flex items-start gap-4">
+            <div class="card flex min-w-0 items-start gap-4">
               {officer.photo && (
                 // CMS uploads land in public/ as a plain URL string, which
                 // bypasses Astro's <Image> pipeline entirely — see
@@ -66,14 +66,14 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
                   />
                 </div>
               )}
-              <div>
+              <div class="min-w-0">
                 <p class="text-sm font-semibold tracking-wide text-nebula-teal uppercase">
                   {officer.role}
                 </p>
                 <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
                 <a
                   href={`mailto:${officer.email}`}
-                  class="text-sm text-ink-muted hover:text-nebula-teal"
+                  class="text-sm break-words text-ink-muted hover:text-nebula-teal"
                 >
                   {officer.email}
                 </a>
