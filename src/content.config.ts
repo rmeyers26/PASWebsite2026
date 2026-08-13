@@ -59,7 +59,7 @@ const text = z.string().trim().min(1, 'must not be empty');
 const optional = <T extends Parameters<typeof z.preprocess>[1]>(schema: T) =>
   z.preprocess(
     (value) => (typeof value === 'string' && value.trim() === '' ? undefined : value),
-    z.optional(schema),
+    z.optional(schema)
   );
 
 /**
@@ -84,7 +84,10 @@ const publicPath = z
 const pdfPath = z
   .string()
   .trim()
-  .regex(/^\/[^\s].*\.pdf$/i, "must start with '/' and end in .pdf, e.g. /newsletters/PAStimes August 2026.pdf");
+  .regex(
+    /^\/[^\s].*\.pdf$/i,
+    "must start with '/' and end in .pdf, e.g. /newsletters/PAStimes August 2026.pdf"
+  );
 
 /**
  * A full external link. The protocol allowlist matters: these values are
@@ -155,12 +158,12 @@ const pastPresidents = defineCollection({
             .trim()
             .regex(
               /^\d{4}( ?[-–] ?(\d{4}|[Pp]resent))?$/,
-              "must be a year, a range, or an open range — e.g. '1948', '1950 - 1959', '2021 - Present'",
+              "must be a year, a range, or an open range — e.g. '1948', '1950 - 1959', '2021 - Present'"
             ),
           name: text,
           current: z.boolean().optional(),
           org: z.enum(['POA', 'PAS']),
-        }),
+        })
       )
       // The leadership page highlights the sitting president off this flag, so
       // two of them (or none) is a content error the page cannot show.
@@ -177,7 +180,7 @@ const careerFaqs = defineCollection({
       z.object({
         question: text,
         answer: text,
-      }),
+      })
     ),
   }),
 });
@@ -189,7 +192,7 @@ const bsigBooks = defineCollection({
       z.object({
         title: text,
         author: text,
-      }),
+      })
     ),
   }),
 });
@@ -223,7 +226,7 @@ const skyTargets = defineCollection({
           'November',
           'December',
         ]),
-      }),
+      })
     ),
   }),
 });
@@ -291,7 +294,10 @@ const specialInterestGroups = defineCollection({
     // Internal page (e.g. '/asig') or an external URL for a group without
     // its own page yet. Goes straight into an href on the home page.
     url: z.union([
-      z.string().trim().regex(/^\/[^\s]*$/, "internal link must start with '/'"),
+      z
+        .string()
+        .trim()
+        .regex(/^\/[^\s]*$/, "internal link must start with '/'"),
       externalUrl,
     ]),
     // Lets an officer take a group off the home page / nav without
@@ -313,7 +319,7 @@ const loanerScopes = defineCollection({
         photo: optional(publicPath),
         // Link back to the manufacturer's product page for this item.
         manufacturerUrl: optional(externalUrl),
-      }),
+      })
     ),
   }),
 });
@@ -323,7 +329,10 @@ const scholarshipWinners = defineCollection({
   schema: z.object({
     // Groups winners for the scholarship page and drives sort order (most
     // recent year first) — one file per year, not one per winner.
-    year: z.string().trim().regex(/^\d{4}$/, 'must be a four-digit year, e.g. 2026'),
+    year: z
+      .string()
+      .trim()
+      .regex(/^\d{4}$/, 'must be a four-digit year, e.g. 2026'),
     winners: z
       .array(
         z.object({
@@ -332,7 +341,7 @@ const scholarshipWinners = defineCollection({
           amount: optional(text),
           description: optional(text),
           photo: optional(publicPath),
-        }),
+        })
       )
       .min(1, 'needs at least one winner')
       .max(3, 'at most 3 winners per year'),
@@ -345,7 +354,10 @@ const siteSettings = defineCollection({
     orgName: text,
     alternateName: text,
     // Published as schema.org foundingDate in the page head.
-    foundingYear: z.string().trim().regex(/^\d{4}$/, 'must be a four-digit year, e.g. 1948'),
+    foundingYear: z
+      .string()
+      .trim()
+      .regex(/^\d{4}$/, 'must be a four-digit year, e.g. 1948'),
     description: text,
     logo: publicPath,
     email: z.email('must be a valid email address'),
@@ -378,7 +390,7 @@ const membership = defineCollection({
         // at most one tier; the join page just highlights whichever it finds
         // first if more than one is checked.
         featured: z.boolean().optional(),
-      }),
+      })
     ),
     addOns: z.array(
       z.object({
@@ -388,7 +400,7 @@ const membership = defineCollection({
         // item on the join page. Plain string path, not image() — see the
         // officers.photo comment above for why.
         photo: optional(publicPath),
-      }),
+      })
     ),
   }),
 });

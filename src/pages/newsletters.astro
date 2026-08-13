@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 import PdfArchiveList from '../components/PdfArchiveList.astro';
 import PdfArchiveItem from '../components/PdfArchiveItem.astro';
 import ArchiveEmptyState from '../components/ArchiveEmptyState.astro';
@@ -28,13 +27,14 @@ const latest = latestIssues[0];
 >
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
-      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
       Newsletters
     </span>
     <h1 class="font-display text-d2 tracking-tight text-ink-primary">Newsletters</h1>
     <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
-      The Phoenix Astronomical Society's monthly newsletter — club news, upcoming events, and member updates.
-      Every issue is posted here as a PDF you can read or download, along with the full historical archive.
+      The Phoenix Astronomical Society's monthly newsletter — club news, upcoming events, and member
+      updates. Every issue is posted here as a PDF you can read or download, along with the full
+      historical archive.
     </p>
   </section>
 
@@ -79,9 +79,5 @@ const latest = latestIssues[0];
         )
       }
     </div>
-  </section>
-
-  <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote label="Newsletter issues are managed from the CMS (Content > Newsletters) — add a new issue there each month, and older issues can be uploaded to build out the historical archive. Remove this note once the archive is populated." />
   </section>
 </BaseLayout>

@@ -23,11 +23,10 @@ function revealScrollSections() {
 
   targets.forEach((el) => el.classList.add('reveal'));
 
-  window.__pasReveal = observeOnce(
-    targets,
-    (el) => el.classList.add('is-revealed'),
-    { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
-  );
+  window.__pasReveal = observeOnce(targets, (el) => el.classList.add('is-revealed'), {
+    rootMargin: '0px 0px -12% 0px',
+    threshold: 0.05,
+  });
 
   // Belt and braces: anything already on screen is revealed synchronously,
   // so a transition that arms the observer mid-layout can never strand

@@ -3,7 +3,9 @@ import { onPageReady } from './utils/lifecycle';
 declare global {
   interface Window {
     paypal?: {
-      HostedButtons: (options: { hostedButtonId: string }) => { render: (selector: string) => void };
+      HostedButtons: (options: { hostedButtonId: string }) => {
+        render: (selector: string) => void;
+      };
     };
   }
 }

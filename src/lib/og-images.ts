@@ -18,8 +18,7 @@ export interface OgPageEntry {
 export const ogPages: Record<string, OgPageEntry> = {
   index: {
     title: 'Phoenix Astronomical Society',
-    description:
-      'A 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona since 1948.',
+    description: 'A 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona since 1948.',
     bgImage: './src/assets/images/gallery/kris-mlak-milky-way.jpg',
   },
   about: {
@@ -39,7 +38,8 @@ export const ogPages: Record<string, OgPageEntry> = {
   },
   events: {
     title: 'Events',
-    description: 'Upcoming PAS meetings, public star parties, and observing nights in the Phoenix area.',
+    description:
+      'Upcoming PAS meetings, public star parties, and observing nights in the Phoenix area.',
     bgImage: './src/assets/images/star-tours-corporate-event.jpg',
   },
   learn: {
@@ -83,7 +83,7 @@ export const ogPages: Record<string, OgPageEntry> = {
   history: {
     title: 'History',
     description:
-      "The history of the Phoenix Astronomical Society, from its 1948 founding as the Phoenix Observatory Association to today.",
+      'The history of the Phoenix Astronomical Society, from its 1948 founding as the Phoenix Observatory Association to today.',
     bgImage: './src/assets/images/history/hoff-24in-telescope-1957.jpg',
   },
   'loaner-scopes': {
@@ -107,15 +107,18 @@ export const ogPages: Record<string, OgPageEntry> = {
   },
   'lecture-videos': {
     title: 'Previous Lectures',
-    description: "Recordings of past guest lecturer talks from the Phoenix Astronomical Society's Monthly Lecture Series.",
+    description:
+      "Recordings of past guest lecturer talks from the Phoenix Astronomical Society's Monthly Lecture Series.",
   },
   'press-releases': {
     title: 'Press Releases',
-    description: 'Official press releases from the Phoenix Astronomical Society, available to read and download as PDFs.',
+    description:
+      'Official press releases from the Phoenix Astronomical Society, available to read and download as PDFs.',
   },
   newsletters: {
     title: 'Newsletters',
-    description: "Read the Phoenix Astronomical Society's monthly newsletter and browse the historical archive of past issues.",
+    description:
+      "Read the Phoenix Astronomical Society's monthly newsletter and browse the historical archive of past issues.",
   },
   exoplanets: {
     title: 'Exoplanets',
