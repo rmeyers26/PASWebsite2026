@@ -48,19 +48,19 @@ const kidsResources = [
     body: "NASA's site built for elementary-age kids — games, hands-on craft activities, and plain-language answers about planets, stars, and space technology.",
   },
   {
-    name: 'NASA Kids\' Club',
+    name: "NASA Kids' Club",
     url: 'https://www.nasa.gov/learning-resources/nasa-kids-club/',
-    body: "Games and activities for younger kids straight from NASA, covering rockets, astronauts, and life in space.",
+    body: 'Games and activities for younger kids straight from NASA, covering rockets, astronauts, and life in space.',
   },
   {
     name: 'NASA Learning Resources',
     url: 'https://www.nasa.gov/learning-resources/',
-    body: 'NASA\'s full hub of lessons, activities, and materials for students and families, organized by grade level and topic.',
+    body: "NASA's full hub of lessons, activities, and materials for students and families, organized by grade level and topic.",
   },
   {
     name: 'ESA Kids',
     url: 'https://www.esa.int/kids/en/home',
-    body: 'The European Space Agency\'s children\'s site, with stories and activities about the solar system, the universe, and life as an astronaut.',
+    body: "The European Space Agency's children's site, with stories and activities about the solar system, the universe, and life as an astronaut.",
   },
   {
     name: 'Interactive Sky Chart',
@@ -85,27 +85,64 @@ const resourceGroups = [
     title: 'Plan Your Observing',
     accent: 'text-nebula-teal',
     links: [
-      { name: 'Stellarium', url: 'https://stellarium.org/', note: 'Free desktop planetarium software' },
-      { name: 'Heavens-Above', url: 'https://heavens-above.com/', note: 'Satellite passes and ISS predictions' },
-      { name: 'Sky Conditions & Observing Sites', url: '/sky-conditions', note: 'Our Phoenix-area forecast and dark-sky site list', internal: true },
+      {
+        name: 'Stellarium',
+        url: 'https://stellarium.org/',
+        note: 'Free desktop planetarium software',
+      },
+      {
+        name: 'Heavens-Above',
+        url: 'https://heavens-above.com/',
+        note: 'Satellite passes and ISS predictions',
+      },
+      {
+        name: 'Sky Conditions & Observing Sites',
+        url: '/sky-conditions',
+        note: 'Our Phoenix-area forecast and dark-sky site list',
+        internal: true,
+      },
     ],
   },
   {
     title: 'News & Magazines',
     accent: 'text-nebula-violet',
     links: [
-      { name: 'Sky & Telescope', url: 'https://skyandtelescope.org/', note: 'Observing guides and monthly sky highlights' },
-      { name: 'Astronomy Magazine', url: 'https://www.astronomy.com/', note: 'News, equipment reviews, and beginner guides' },
-      { name: 'EarthSky', url: 'https://earthsky.org/', note: 'Daily "what to look for tonight" posts' },
+      {
+        name: 'Sky & Telescope',
+        url: 'https://skyandtelescope.org/',
+        note: 'Observing guides and monthly sky highlights',
+      },
+      {
+        name: 'Astronomy Magazine',
+        url: 'https://www.astronomy.com/',
+        note: 'News, equipment reviews, and beginner guides',
+      },
+      {
+        name: 'EarthSky',
+        url: 'https://earthsky.org/',
+        note: 'Daily "what to look for tonight" posts',
+      },
     ],
   },
   {
     title: 'Organizations',
     accent: 'text-nebula-amber',
     links: [
-      { name: 'Astronomical League', url: 'https://www.astroleague.org/', note: 'Structured observing programs and awards' },
-      { name: 'DarkSky International', url: 'https://darksky.org/', note: 'Light pollution advocacy and resources' },
-      { name: 'AAVSO', url: 'https://www.aavso.org/', note: 'Variable star observing for amateurs' },
+      {
+        name: 'Astronomical League',
+        url: 'https://www.astroleague.org/',
+        note: 'Structured observing programs and awards',
+      },
+      {
+        name: 'DarkSky International',
+        url: 'https://darksky.org/',
+        note: 'Light pollution advocacy and resources',
+      },
+      {
+        name: 'AAVSO',
+        url: 'https://www.aavso.org/',
+        note: 'Variable star observing for amateurs',
+      },
     ],
   },
   {
@@ -113,16 +150,32 @@ const resourceGroups = [
     accent: 'text-nebula-teal',
     links: [
       { name: 'NASA', url: 'https://www.nasa.gov/', note: 'Missions, news, and image libraries' },
-      { name: 'Astronomy Picture of the Day', url: 'https://apod.nasa.gov/apod/astropix.html', note: 'A new astronomical image daily since 1995' },
-      { name: 'European Space Agency', url: 'https://www.esa.int/', note: "Europe's missions and science results" },
+      {
+        name: 'Astronomy Picture of the Day',
+        url: 'https://apod.nasa.gov/apod/astropix.html',
+        note: 'A new astronomical image daily since 1995',
+      },
+      {
+        name: 'European Space Agency',
+        url: 'https://www.esa.int/',
+        note: "Europe's missions and science results",
+      },
     ],
   },
   {
     title: 'Contribute to Real Science',
     accent: 'text-nebula-violet',
     links: [
-      { name: 'Zooniverse', url: 'https://www.zooniverse.org/', note: 'Citizen science projects, including galaxy classification' },
-      { name: 'NASA Citizen Science', url: 'https://science.nasa.gov/citizen-science/', note: 'Official NASA-affiliated volunteer projects' },
+      {
+        name: 'Zooniverse',
+        url: 'https://www.zooniverse.org/',
+        note: 'Citizen science projects, including galaxy classification',
+      },
+      {
+        name: 'NASA Citizen Science',
+        url: 'https://science.nasa.gov/citizen-science/',
+        note: 'Official NASA-affiliated volunteer projects',
+      },
     ],
   },
 ];
@@ -146,10 +199,11 @@ const careerLinks = [
     focalPoint="30% 15%"
   />
 
-  <section id="start-here" class="scroll-mt-24 mx-auto max-w-6xl px-6 py-20">
+  <section id="start-here" class="mx-auto max-w-6xl scroll-mt-24 px-6 py-20">
     <h2 class="section-heading">Start Here</h2>
     <p class="mt-4 max-w-2xl text-ink-muted">
-      Four steps from "curious" to "part of the club" — in order, though nothing stops you from skipping ahead.
+      Four steps from "curious" to "part of the club" — in order, though nothing stops you from
+      skipping ahead.
     </p>
     <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {
@@ -169,11 +223,11 @@ const careerLinks = [
     </ol>
   </section>
 
-  <section class="border-t border-subtle mx-auto max-w-5xl px-6 py-20">
+  <section class="mx-auto max-w-5xl border-t border-subtle px-6 py-20">
     <h2 class="section-heading">Kids Corner</h2>
     <p class="mt-4 max-w-2xl text-ink-muted">
-      Astronomy is one of the few sciences where a curious kid and a professional researcher can look at the same
-      sky on the same night. These are good places for young astronomers to start.
+      Astronomy is one of the few sciences where a curious kid and a professional researcher can
+      look at the same sky on the same night. These are good places for young astronomers to start.
     </p>
     <div class="mt-10 grid gap-6 sm:grid-cols-2">
       {
@@ -192,8 +246,9 @@ const careerLinks = [
       }
     </div>
     <p class="mt-8 text-ink-muted">
-      Kids are welcome at every PAS public star party, and looking through a real telescope beats any website.
-      See <a href="/events" class="text-nebula-teal hover:underline">upcoming events</a> to find the next one.
+      Kids are welcome at every PAS public star party, and looking through a real telescope beats
+      any website. See <a href="/events" class="text-nebula-teal hover:underline">upcoming events</a
+      > to find the next one.
     </p>
   </section>
 
@@ -201,8 +256,9 @@ const careerLinks = [
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">FAQ: Astronomy Careers</h2>
       <p class="mt-4 max-w-2xl text-ink-muted">
-        Questions we hear from students and parents at outreach events, answered generally — a professional
-        astronomer or a school counselor can give you advice specific to your situation.
+        Questions we hear from students and parents at outreach events, answered generally — a
+        professional astronomer or a school counselor can give you advice specific to your
+        situation.
       </p>
       <dl class="mt-10 space-y-8">
         {
@@ -239,7 +295,8 @@ const careerLinks = [
   <section class="mx-auto max-w-5xl px-6 py-20">
     <h2 class="section-heading">Astronomy Resources</h2>
     <p class="mt-4 max-w-2xl text-ink-muted">
-      Sites PAS members actually use — for planning a night out, keeping up with the field, and going deeper.
+      Sites PAS members actually use — for planning a night out, keeping up with the field, and
+      going deeper.
     </p>
     <div class="mt-10 space-y-10">
       {
@@ -274,8 +331,8 @@ const careerLinks = [
     title="Learn Alongside Other Observers"
   >
     <p>
-      Reading about the sky is a good start; sharing an eyepiece with someone who knows it well is better. PAS
-      runs free telescope workshops and public star parties throughout the year.
+      Reading about the sky is a good start; sharing an eyepiece with someone who knows it well is
+      better. PAS runs free telescope workshops and public star parties throughout the year.
     </p>
     <div class="flex flex-wrap gap-4 pt-2">
       <a href="/telescope-workshops" class="btn-primary">Telescope Workshops</a>
@@ -285,8 +342,9 @@ const careerLinks = [
 
   <section class="mx-auto max-w-4xl px-6 py-16">
     <p class="text-sm text-ink-muted">
-      External resources on this page are third-party sites chosen as generally recognized starting points, not
-      PAS endorsements, and the careers answers are general guidance rather than club-authored advice.
+      External resources on this page are third-party sites chosen as generally recognized starting
+      points, not PAS endorsements, and the careers answers are general guidance rather than
+      club-authored advice.
     </p>
   </section>
 </BaseLayout>

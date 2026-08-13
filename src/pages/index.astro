@@ -14,10 +14,30 @@ import ldn541 from '../assets/images/gallery/caleb-sexton-ldn-541.png';
 const siteSettings = (await getEntry('site-settings', 'data'))!.data;
 
 const galleryTeaser = [
-  { src: milkyWay, alt: 'The Milky Way arching over a desert mountain silhouette', caption: 'The Milky Way — Kris Mlak', color: true },
-  { src: soulNebula, alt: 'IC 1848, the Soul Nebula, in red and teal emission gas', caption: 'The Soul Nebula — Richard Sauerbrun', color: true },
-  { src: theSun, alt: 'A hydrogen-alpha close-up of a solar prominence', caption: 'The Sun — Mark Johnston', color: true },
-  { src: ldn541, alt: 'LDN 541, a dark nebula in Cepheus threading a dense star field', caption: 'LDN 541 — Caleb Sexton', color: true },
+  {
+    src: milkyWay,
+    alt: 'The Milky Way arching over a desert mountain silhouette',
+    caption: 'The Milky Way — Kris Mlak',
+    color: true,
+  },
+  {
+    src: soulNebula,
+    alt: 'IC 1848, the Soul Nebula, in red and teal emission gas',
+    caption: 'The Soul Nebula — Richard Sauerbrun',
+    color: true,
+  },
+  {
+    src: theSun,
+    alt: 'A hydrogen-alpha close-up of a solar prominence',
+    caption: 'The Sun — Mark Johnston',
+    color: true,
+  },
+  {
+    src: ldn541,
+    alt: 'LDN 541, a dark nebula in Cepheus threading a dense star field',
+    caption: 'LDN 541 — Caleb Sexton',
+    color: true,
+  },
 ];
 
 const benefits = [
@@ -35,7 +55,7 @@ const benefits = [
   {
     title: 'Telescope Workshops',
     accent: 'text-nebula-amber',
-    body: "Free, hands-on help choosing, setting up, and getting the most out of your own telescope.",
+    body: 'Free, hands-on help choosing, setting up, and getting the most out of your own telescope.',
   },
   {
     title: 'Star Tours Outreach',
@@ -99,20 +119,26 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
     <div class="mt-10 flex flex-wrap justify-center gap-4">
       <a href="/join" class="btn-primary">Join PAS</a>
       <a href="/events" class="btn-secondary">Upcoming Events</a>
-      {siteSettings.donationsEnabled && <a href="/scholarship#donate" class="btn-secondary">Donate</a>}
+      {
+        siteSettings.donationsEnabled && (
+          <a href="/scholarship#donate" class="btn-secondary">
+            Donate
+          </a>
+        )
+      }
     </div>
   </SpaceHero>
 
   <section class="mx-auto max-w-3xl px-6 py-24 sm:py-28">
-    <p class="font-display text-3xl leading-[1.15] tracking-tight text-ink-primary sm:text-4xl">
-      Phoenix has been looking up since <span class="text-nebula-amber">1948</span>. And for nearly eight
-      decades, whenever someone paused to wonder what was shining overhead, a member of this club was there
-      beside a telescope, ready to explain what they were seeing and inspire the next generation of
-      skywatchers.
+    <p class="leading-1.15 font-display text-3xl tracking-tight text-ink-primary sm:text-4xl">
+      Phoenix has been looking up since <span class="text-nebula-amber">1948</span>. And for nearly
+      eight decades, whenever someone paused to wonder what was shining overhead, a member of this
+      club was there beside a telescope, ready to explain what they were seeing and inspire the next
+      generation of skywatchers.
     </p>
     <p class="mt-8 text-lg text-ink-muted">
-      We're a 501(c)(3) nonprofit of beginners, backyard observers, astrophotographers, and lifelong amateurs.
-      The telescopes are a means to an end; the point is the people around them.
+      We're a 501(c)(3) nonprofit of beginners, backyard observers, astrophotographers, and lifelong
+      amateurs. The telescopes are a means to an end; the point is the people around them.
     </p>
   </section>
 
@@ -122,8 +148,8 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
     <div class="mx-auto max-w-6xl px-6 py-20">
       <h2 class="section-heading">What Our Members See</h2>
       <p class="mt-3 max-w-2xl text-ink-muted">
-        NASA isn't the only one with a picture of the day — PAS members shoot the Milky Way, nebulae, and the
-        Sun from right here in Arizona.
+        NASA isn't the only one with a picture of the day — PAS members shoot the Milky Way,
+        nebulae, and the Sun from right here in Arizona.
       </p>
       <div class="mt-10">
         <PhotoGrid photos={galleryTeaser} />
@@ -156,13 +182,13 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
     </div>
   </section>
 
-  <section class="relative isolate flex min-h-[26rem] items-end overflow-hidden sm:min-h-[32rem]">
+  <section class="relative isolate flex min-h-104 items-end overflow-hidden sm:min-h-128">
     <Image
       src={outreachPhoto}
       alt="A PAS member holding out a meteorite for visitors to touch at an outreach event"
       widths={[768, 1280, 1800]}
       sizes="100vw"
-      class="band-parallax absolute inset-0 -z-10 h-full w-full object-cover"
+      class="band-parallax absolute inset-0 -z-10 size-full object-cover"
     />
     <!-- Two scrims: the vertical one seats the band into the page, the horizontal
          one keeps the text column legible regardless of what's behind it. -->
@@ -177,13 +203,17 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
     >
     </div>
     <div class="mx-auto w-full max-w-6xl px-6 py-16">
-      <h2 class="max-w-2xl font-display text-4xl leading-tight tracking-tight text-ink-primary sm:text-5xl">
-        A PAS Star Tour is more than a look through a telescope—it's a guided journey through the night sky.
+      <h2
+        class="max-w-2xl font-display text-4xl leading-tight tracking-tight text-ink-primary sm:text-5xl"
+      >
+        A PAS Star Tour is more than a look through a telescope—it's a guided journey through the
+        night sky.
       </h2>
       <p class="mt-6 max-w-2xl text-lg text-ink-muted">
-        Every telescope is staffed by a knowledgeable PAS volunteer who helps visitors discover planets, galaxies,
-        nebulae, and star clusters while explaining what they're seeing. If clouds roll in, our meteorites,
-        displays, and presenters ensure there's still plenty to explore and enjoy.
+        Every telescope is staffed by a knowledgeable PAS volunteer who helps visitors discover
+        planets, galaxies, nebulae, and star clusters while explaining what they're seeing. If
+        clouds roll in, our meteorites, displays, and presenters ensure there's still plenty to
+        explore and enjoy.
       </p>
       <a href="/star-tours" class="btn-primary mt-8">Bring PAS to Your Group</a>
     </div>
@@ -202,17 +232,21 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
               <div class="card card-featured flex flex-col justify-between sm:col-span-2 lg:row-span-2">
                 <div>
                   <span class="glass-badge">Start here</span>
-                  <h3 class={`mt-5 font-display text-2xl sm:text-3xl ${benefit.accent}`}>{benefit.title}</h3>
+                  <h3 class={`mt-5 font-display text-2xl sm:text-3xl ${benefit.accent}`}>
+                    {benefit.title}
+                  </h3>
                   <p class="mt-4 text-lg text-ink-muted">{benefit.body}</p>
                 </div>
-                <a href="/events" class="btn-secondary mt-8 self-start">Find the Next One</a>
+                <a href="/events" class="btn-secondary mt-8 self-start">
+                  Find the Next One
+                </a>
               </div>
             ) : (
               <div class="card">
                 <h3 class={`font-display text-lg ${benefit.accent}`}>{benefit.title}</h3>
                 <p class="mt-3 text-ink-muted">{benefit.body}</p>
               </div>
-            ),
+            )
           )
         }
       </div>
@@ -227,12 +261,12 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
 
   {
     specialInterestGroups.length > 0 && (
-      <section id="special-interest-groups" class="scroll-mt-[4.5rem] border-t border-subtle">
+      <section id="special-interest-groups" class="scroll-mt-18 border-t border-subtle">
         <div class="mx-auto max-w-5xl px-6 py-20">
           <h2 class="section-heading">Special Interest Groups</h2>
           <p class="mt-3 max-w-2xl text-ink-muted">
-            Smaller member-run groups that go deep on one corner of the hobby, meeting outside the main monthly
-            calendar.
+            Smaller member-run groups that go deep on one corner of the hobby, meeting outside the
+            main monthly calendar.
           </p>
           <div class="mt-10 grid gap-6 sm:grid-cols-2">
             {specialInterestGroups.map(({ data: group }) => (
@@ -245,11 +279,16 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
             ))}
           </div>
           <p class="mt-8 text-ink-muted">
-            <span aria-hidden="true">*</span> PAS membership is required to take part in a special interest group.
+            <span aria-hidden="true">*</span> PAS membership is required to take part in a special
+            interest group.
           </p>
           <div class="mt-8 flex flex-wrap gap-4">
-            <a href="/join" class="btn-primary">Become a Member</a>
-            <a href="/contact" class="btn-secondary">Ask About a Group</a>
+            <a href="/join" class="btn-primary">
+              Become a Member
+            </a>
+            <a href="/contact" class="btn-secondary">
+              Ask About a Group
+            </a>
           </div>
         </div>
       </section>

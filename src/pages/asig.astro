@@ -91,7 +91,11 @@ const asigMeetingSchemas = upcomingAsigMeetings.map((meeting) => ({
     ? 'https://schema.org/OnlineEventAttendanceMode'
     : 'https://schema.org/OfflineEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',
-  organizer: { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' },
+  organizer: {
+    '@type': 'Organization',
+    name: 'Phoenix Astronomical Society',
+    url: 'https://pasaz.org',
+  },
   location: meeting.location ? { '@type': 'Place', name: meeting.location } : undefined,
   url: meeting.url,
 }));
@@ -166,7 +170,15 @@ const whatWeDo = [
   },
   {
     title: '9. Imaging Challenges',
-    items: ['Galaxies', 'Nebulae', 'Moon', 'Planetary', 'Wide-field Milky Way', 'Constellations', 'Comets'],
+    items: [
+      'Galaxies',
+      'Nebulae',
+      'Moon',
+      'Planetary',
+      'Wide-field Milky Way',
+      'Constellations',
+      'Comets',
+    ],
     note: 'Optional monthly themes.',
   },
   {
@@ -226,20 +238,22 @@ const whatYoullGain = [
   title="Astro Imaging Special Interest Group"
   description="PAS ASIG: a members-only group for learning, practicing, and mastering astronomical imaging, meeting monthly at PVCC."
 >
-  {asigMeetingSchemas.map((schema) => (
-    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-  ))}
+  {
+    asigMeetingSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))
+  }
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
-      <span class="h-1.5 w-1.5 rounded-full bg-nebula-violet shadow-glow-violet" />
+      <span class="size-1.5 rounded-full bg-nebula-violet shadow-glow-violet"></span>
       Special Interest Group
     </span>
     <h1 class="font-display text-d2 tracking-tight text-ink-primary">
       Astro Imaging Special Interest Group <span class="text-ink-muted">(ASIG)</span>
     </h1>
     <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
-      To help members learn, practice, and master the art and science of astronomical imaging through
-      education, collaboration, and hands-on experience.
+      To help members learn, practice, and master the art and science of astronomical imaging
+      through education, collaboration, and hands-on experience.
     </p>
   </section>
 
@@ -247,77 +261,82 @@ const whatYoullGain = [
     <div class="mx-auto max-w-4xl px-6 py-16">
       <h2 class="section-heading">Meetings</h2>
       <p class="mt-4 text-ink-muted">
-        Held on the <strong class="font-semibold text-ink-primary">4th Monday of every month</strong> at{' '}
-        <strong class="font-semibold text-ink-primary">7:00 pm</strong>, at Paradise Valley Community College:
+        Held on the <strong class="font-semibold text-ink-primary">4th Monday of every month</strong
+        > at{' '}
+        <strong class="font-semibold text-ink-primary">7:00 pm</strong>, at Paradise Valley
+        Community College:
       </p>
-      <address class="mt-4 not-italic text-ink-primary">
+      <address class="mt-4 text-ink-primary not-italic">
         PVCC Building Q — Conference Center, Classroom 120A<br />
         17811 North 32nd Street<br />
         Phoenix, AZ 85032
       </address>
 
-      {upcomingAsigMeetings.length > 0 && (
-        <div class="card mt-6">
-          <p class="text-sm font-semibold uppercase tracking-wide text-nebula-violet">Upcoming Meetings</p>
-          <ul class="mt-4 divide-y divide-subtle">
-            {upcomingAsigMeetings.map((meeting, index) => (
-              <li class:list={['py-4 first:pt-0 last:pb-0']}>
-                <p class="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-lg text-ink-primary">
-                  {meeting.start.toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric',
-                    timeZone: 'America/Phoenix',
-                  })}
-                  {!meeting.allDay && (
-                    <>
-                      {' at '}
-                      {meeting.start.toLocaleTimeString('en-US', {
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        timeZone: 'America/Phoenix',
-                      })}
-                    </>
-                  )}
-                  {index === 0 && (
-                    <span class="rounded-full bg-nebula-violet/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-nebula-violet">
-                      Next
-                    </span>
-                  )}
-                </p>
-                {meeting.summary && <p class="mt-1 text-ink-muted">{meeting.summary}</p>}
-                {meeting.location && (
-                  <p class="mt-2 text-sm text-ink-muted">
-                    📍 {meeting.location}
-                    {meeting.location.toLowerCase().includes('zoom') && ' — online, not at PVCC'}
+      {
+        upcomingAsigMeetings.length > 0 && (
+          <div class="card mt-6">
+            <p class="text-sm font-semibold tracking-wide text-nebula-violet uppercase">
+              Upcoming Meetings
+            </p>
+            <ul class="mt-4 divide-y divide-subtle">
+              {upcomingAsigMeetings.map((meeting, index) => (
+                <li class:list={['py-4 first:pt-0 last:pb-0']}>
+                  <p class="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-lg text-ink-primary">
+                    {meeting.start.toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                      timeZone: 'America/Phoenix',
+                    })}
+                    {!meeting.allDay && (
+                      <>
+                        {' at '}
+                        {meeting.start.toLocaleTimeString('en-US', {
+                          hour: 'numeric',
+                          minute: '2-digit',
+                          timeZone: 'America/Phoenix',
+                        })}
+                      </>
+                    )}
+                    {index === 0 && (
+                      <span class="rounded-full bg-nebula-violet/15 px-2.5 py-0.5 text-xs font-semibold tracking-wide text-nebula-violet uppercase">
+                        Next
+                      </span>
+                    )}
                   </p>
-                )}
-                {meeting.url && (
-                  <p class="mt-2">
-                    <a
-                      href={meeting.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm font-semibold text-nebula-teal hover:underline"
-                    >
-                      Sign up on Bookwhen →
-                    </a>
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+                  {meeting.summary && <p class="mt-1 text-ink-muted">{meeting.summary}</p>}
+                  {meeting.location && (
+                    <p class="mt-2 text-sm text-ink-muted">
+                      📍 {meeting.location}
+                      {meeting.location.toLowerCase().includes('zoom') && ' — online, not at PVCC'}
+                    </p>
+                  )}
+                  {meeting.url && (
+                    <p class="mt-2">
+                      <a
+                        href={meeting.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-nebula-teal hover:underline"
+                      >
+                        Sign up on Bookwhen →
+                      </a>
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
 
       <div class="mt-6 overflow-hidden rounded-lg border border-subtle">
         <iframe
           src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
           title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
-          class="block h-[320px] w-full border-0"
+          class="block h-80 w-full border-0"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <p class="mt-6 text-ink-muted">
         Meetings feature presentations, demonstrations, member image sharing, and plenty of time for
@@ -360,7 +379,10 @@ const whatYoullGain = [
         {
           whoShouldJoin.map((item) => (
             <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
+              <span
+                class="mt-2 size-2 flex-none rounded-full bg-nebula-violet"
+                aria-hidden="true"
+              />
               {item}
             </li>
           ))
@@ -375,7 +397,7 @@ const whatYoullGain = [
       {
         whatYoullGain.map((item) => (
           <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
-            <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
+            <span class="mt-2 size-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
             {item}
           </li>
         ))
@@ -386,7 +408,7 @@ const whatYoullGain = [
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-3xl px-6 py-24 text-center">
       <span class="glass-badge mb-6">
-        <span class="h-1.5 w-1.5 rounded-full bg-nebula-violet shadow-glow-violet" />
+        <span class="size-1.5 rounded-full bg-nebula-violet shadow-glow-violet"></span>
         Our Philosophy
       </span>
       <p class="font-display text-d3 tracking-tight text-ink-primary">
@@ -394,12 +416,16 @@ const whatYoullGain = [
       </p>
       <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
         Whether you're taking your very first image of the Moon with a smart telescope or creating a
-        multi-night deep-sky mosaic with advanced equipment, ASIG offers a welcoming community where members
-        learn together, solve challenges together, and celebrate each other's achievements. Join us on the
-        4th Monday of every month at 7:00 pm at PVCC and discover just how rewarding astrophotography can be.
+        multi-night deep-sky mosaic with advanced equipment, ASIG offers a welcoming community where
+        members learn together, solve challenges together, and celebrate each other's achievements.
+        Join us on the 4th Monday of every month at 7:00 pm at PVCC and discover just how rewarding
+        astrophotography can be.
       </p>
       <p class="mx-auto mt-4 max-w-2xl text-ink-muted">
-        See what ASIG members have already captured in the <a href="/gallery" class="text-nebula-teal hover:underline">member gallery</a>.
+        See what ASIG members have already captured in the <a
+          href="/gallery"
+          class="text-nebula-teal hover:underline">member gallery</a
+        >.
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-4">
         <a href="/join" class="btn-primary">Join PAS</a>

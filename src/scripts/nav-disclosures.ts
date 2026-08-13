@@ -5,7 +5,9 @@ function close(details: HTMLDetailsElement) {
   details.querySelector('summary')?.setAttribute('aria-expanded', 'false');
 }
 
-const currentDisclosures = () => [...document.querySelectorAll<HTMLDetailsElement>('.nav-disclosure')];
+const currentDisclosures = () => [
+  ...document.querySelectorAll<HTMLDetailsElement>('.nav-disclosure'),
+];
 
 // Per-element wiring has to be redone whenever the header is swapped in.
 function bindDisclosures() {

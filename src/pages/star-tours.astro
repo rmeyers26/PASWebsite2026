@@ -41,9 +41,21 @@ const presentations = [
 ];
 
 const samplePhotos = [
-  { src: sampleHelixNebula, alt: 'The Helix Nebula, a colorful planetary nebula', caption: 'The Helix Nebula' },
-  { src: sampleWhirlpoolGalaxy, alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
-  { src: sampleComet, alt: 'A green comet with a long tail against a starfield', caption: 'A comet, tail streaming' },
+  {
+    src: sampleHelixNebula,
+    alt: 'The Helix Nebula, a colorful planetary nebula',
+    caption: 'The Helix Nebula',
+  },
+  {
+    src: sampleWhirlpoolGalaxy,
+    alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy',
+    caption: 'The Whirlpool Galaxy',
+  },
+  {
+    src: sampleComet,
+    alt: 'A green comet with a long tail against a starfield',
+    caption: 'A comet, tail streaming',
+  },
 ];
 
 const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' });
@@ -54,8 +66,18 @@ const currentMonthName = new Date().toLocaleString('en-US', { month: 'long' });
 // the template below (unchanged) still gets one entry per month, in month
 // order, including months with no targets yet.
 const monthOrder = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 const skyTargetsEntry = (await getEntry('sky-targets', 'data'))!;
 const monthlyDsoTargets = monthOrder.map((month) => ({
@@ -81,21 +103,24 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
       width={1600}
       loading="eager"
       fetchpriority="high"
-      class="absolute inset-0 h-full w-full object-cover opacity-60"
+      class="absolute inset-0 size-full object-cover opacity-60"
     />
-    <div class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-space-base via-space-base/70 to-space-base/20"
+    >
+    </div>
     <div class="relative mx-auto max-w-4xl px-6 py-32 text-center sm:py-40">
       <span class="glass-badge mb-6">
-        <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+        <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
         Star Tours
       </span>
-      <h1 class="font-display text-d1 leading-[1.05] tracking-tight text-ink-primary">
+      <h1 class="leading-1.05 font-display text-d1 tracking-tight text-ink-primary">
         What Can Star Tours Do for You?
       </h1>
       <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted">
-        PAS performs community outreach for public and private groups alike — star parties, educational events,
-        celebrations, and corporate events — brought to you by amateur astronomers with excellent telescope
-        operation and presentation skills.
+        PAS performs community outreach for public and private groups alike — star parties,
+        educational events, celebrations, and corporate events — brought to you by amateur
+        astronomers with excellent telescope operation and presentation skills.
       </p>
       <a href="#book-an-event" class="btn-primary mt-10 inline-flex">Book an Event</a>
     </div>
@@ -103,23 +128,32 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
 
   <section class="mx-auto max-w-4xl px-6 py-20">
     <p class="text-ink-muted">
-      These events are offered for a fee based on the type of event, the number of operators/presenters, and the
-      duration of the event. A standardized Star Tours event is two hours, but longer events are welcomed. Our
-      team provides their own telescopes, observing equipment, and materials; larger groups may occasionally
-      require some power or A/V support at the venue.
+      These events are offered for a fee based on the type of event, the number of
+      operators/presenters, and the duration of the event. A standardized Star Tours event is two
+      hours, but longer events are welcomed. Our team provides their own telescopes, observing
+      equipment, and materials; larger groups may occasionally require some power or A/V support at
+      the venue.
     </p>
 
     <div class="mt-10 grid gap-6 sm:grid-cols-3">
       {
         samplePhotos.map((photo) => (
           <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
-            <Image src={photo.src} alt={photo.alt} width={500} loading="lazy" class="h-40 w-full object-cover" />
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              width={500}
+              loading="lazy"
+              class="h-40 w-full object-cover"
+            />
             <figcaption class="px-3 py-2 text-xs text-ink-muted">{photo.caption}</figcaption>
           </figure>
         ))
       }
     </div>
-    <p class="mt-3 text-sm text-ink-muted">A few examples of what guests may see through the eyepiece or on-screen.</p>
+    <p class="mt-3 text-sm text-ink-muted">
+      A few examples of what guests may see through the eyepiece or on-screen.
+    </p>
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">
@@ -129,18 +163,20 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
         <div class="card">
           <h3 class="font-display text-xl text-nebula-teal">A Visual Telescope Operator</h3>
           <p class="mt-2 text-sm text-ink-muted">
-            The personal connection of viewing one-on-one through the eyepiece — an inky black sky covered in
-            shimmering stars, like diamonds on velvet.
+            The personal connection of viewing one-on-one through the eyepiece — an inky black sky
+            covered in shimmering stars, like diamonds on velvet.
           </p>
           <ul class="mt-4 space-y-3 text-sm text-ink-muted">
             {visualPoints.map((point) => <li>• {point}</li>)}
           </ul>
         </div>
         <div class="card">
-          <h3 class="font-display text-xl text-nebula-violet">An Electronically Assisted (EAA) Operator</h3>
+          <h3 class="font-display text-xl text-nebula-violet">
+            An Electronically Assisted (EAA) Operator
+          </h3>
           <p class="mt-2 text-sm text-ink-muted">
-            Everyone views at once, easy for young and old alike — with more color and more detail on fainter
-            objects than the eye alone can see.
+            Everyone views at once, easy for young and old alike — with more color and more detail
+            on fainter objects than the eye alone can see.
           </p>
           <ul class="mt-4 space-y-3 text-sm text-ink-muted">
             {eaaPoints.map((point) => <li>• {point}</li>)}
@@ -208,17 +244,20 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Sample Targets by Month</h2>
       <p class="mt-4 text-ink-muted">
-        The night sky's deep-sky objects — nebulae, star clusters, galaxies, and double stars — return to the same
-        part of the sky every year, so here's a sense of what a Star Tours event might show depending on the
-        season. (Planets and comets aren't included here since their visibility shifts from year to year.) Rise
-        and set times are approximate for the early-to-mid part of each month and will drift by a few minutes a
-        day as the month goes on.
+        The night sky's deep-sky objects — nebulae, star clusters, galaxies, and double stars —
+        return to the same part of the sky every year, so here's a sense of what a Star Tours event
+        might show depending on the season. (Planets and comets aren't included here since their
+        visibility shifts from year to year.) Rise and set times are approximate for the
+        early-to-mid part of each month and will drift by a few minutes a day as the month goes on.
       </p>
       <div class="mt-8 space-y-3">
         {
           monthlyDsoTargets.map((entry) => (
-            <details class="group rounded-xl border border-subtle bg-space-card" open={entry.month === currentMonthName}>
-              <summary class="flex cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 font-display text-lg text-ink-primary marker:content-none">
+            <details
+              class="group rounded-xl border border-subtle bg-space-card"
+              open={entry.month === currentMonthName}
+            >
+              <summary class="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-display text-lg text-ink-primary select-none marker:content-none">
                 <span>{entry.month}</span>
                 {entry.targets.length > 0 && (
                   <button
@@ -232,12 +271,14 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
               </summary>
               <div class="border-t border-subtle px-5 py-4">
                 {entry.targets.length === 0 ? (
-                  <p class="text-sm italic text-ink-muted">Target list coming soon for this month.</p>
+                  <p class="text-sm text-ink-muted italic">
+                    Target list coming soon for this month.
+                  </p>
                 ) : (
                   <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-ink-muted">
                       <thead>
-                        <tr class="border-b border-subtle text-xs uppercase tracking-wide text-ink-muted">
+                        <tr class="border-b border-subtle text-xs tracking-wide text-ink-muted uppercase">
                           <th class="py-2 pr-4 font-medium">Name</th>
                           <th class="py-2 pr-4 font-medium">Type</th>
                           <th class="py-2 pr-4 font-medium">Constellation</th>
@@ -279,22 +320,26 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
   <section class="mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Astronomy Topic Presentations</h2>
     <p class="mt-4 text-ink-muted">
-      Various astronomy-related presentations are available that may not require a telescope operator.
+      Various astronomy-related presentations are available that may not require a telescope
+      operator.
     </p>
     <ul class="mt-6 grid gap-3 sm:grid-cols-2">
       {
         presentations.map((item) => (
-          <li class="rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">{item}</li>
+          <li class="rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
+            {item}
+          </li>
         ))
       }
     </ul>
     <p class="mt-6 text-ink-muted">
-      Have you ever held a rock that floated through the solar system for billions of years? In addition to
-      superb telescope viewing, PAS also brings large, stunning photos of deep sky objects from the Hubble and
-      James Webb telescopes, along with a collection of meteorites found from locations around the globe. We
-      encourage questions and conversation on any astronomical topic — come find out why the North Star never
-      changes position, why the Moon is covered in impact craters while Earth has so few, and how new stars are
-      born from the remnants of supernovae, leaving us all made of stardust. There's something for any age group.
+      Have you ever held a rock that floated through the solar system for billions of years? In
+      addition to superb telescope viewing, PAS also brings large, stunning photos of deep sky
+      objects from the Hubble and James Webb telescopes, along with a collection of meteorites found
+      from locations around the globe. We encourage questions and conversation on any astronomical
+      topic — come find out why the North Star never changes position, why the Moon is covered in
+      impact craters while Earth has so few, and how new stars are born from the remnants of
+      supernovae, leaving us all made of stardust. There's something for any age group.
     </p>
     <div class="mt-8 grid gap-6 sm:grid-cols-2">
       <figure class="overflow-hidden rounded-xl border border-subtle bg-space-card">
@@ -328,9 +373,10 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Volunteer as an Operator</h2>
       <p class="mt-4 text-ink-muted">
-        Do you own a telescope? PAS has a team of telescope owners who visit schools, scout troops, and community
-        events to demonstrate how a telescope works, show guests specific objects in the sky, and share basic
-        terminology and facts about the cosmos — and operators are paid for their demonstrations.
+        Do you own a telescope? PAS has a team of telescope owners who visit schools, scout troops,
+        and community events to demonstrate how a telescope works, show guests specific objects in
+        the sky, and share basic terminology and facts about the cosmos — and operators are paid for
+        their demonstrations.
       </p>
       <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
         <Image
@@ -352,40 +398,67 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
     <div class="mx-auto max-w-2xl px-6 py-20">
       <h2 class="section-heading">Book an Event</h2>
       <p class="mt-4 text-ink-muted">
-        If your organization, business, school, or scout troop is interested in scheduling a private event, send
-        us the details below and we'll follow up to confirm availability and pricing.
+        If your organization, business, school, or scout troop is interested in scheduling a private
+        event, send us the details below and we'll follow up to confirm availability and pricing.
       </p>
 
       <p
         id="star-tours-success-banner"
-        class:list={['mt-8 rounded-lg border border-nebula-teal/40 bg-nebula-teal/10 px-4 py-3 text-center text-nebula-teal', { hidden: !submitted }]}
+        class:list={[
+          'mt-8 rounded-lg border border-nebula-teal/40 bg-nebula-teal/10 px-4 py-3 text-center text-nebula-teal',
+          { hidden: !submitted },
+        ]}
         role="status"
       >
         Thanks — your request has been sent. We'll be in touch soon.
       </p>
 
-      <form id="star-tours-form" action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4">
+      <form
+        id="star-tours-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        class="mt-8 grid gap-4"
+      >
         <input type="hidden" name="access_key" value="30186d30-d264-4905-8091-05ff22111402" />
-        <input type="hidden" name="subject" value="New Star Tours booking request from the PAS website" />
+        <input
+          type="hidden"
+          name="subject"
+          value="New Star Tours booking request from the PAS website"
+        />
         <input type="hidden" name="from_name" value="PAS Website Star Tours Request Form" />
         <input type="hidden" name="redirect" value={redirectURL} />
         <!-- Honeypot: real visitors never see or fill this in; bots that
              autofill every field do, and Web3Forms silently drops the
              submission. See https://docs.web3forms.com for the "botcheck"
              convention. -->
-        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off" />
+        <input
+          type="checkbox"
+          name="botcheck"
+          class="hidden"
+          style="display: none;"
+          tabindex="-1"
+          autocomplete="off"
+        />
 
         <div>
-          <label for="st-sponsor" class="text-sm text-ink-muted">Event Sponsor / Organization</label>
+          <label for="st-sponsor" class="text-sm text-ink-muted">Event Sponsor / Organization</label
+          >
           <input id="st-sponsor" name="sponsor" type="text" required class="form-input mt-1" />
         </div>
         <div>
           <label for="st-event-name" class="text-sm text-ink-muted">Name of Event</label>
-          <input id="st-event-name" name="event_name" type="text" required class="form-input mt-1" />
+          <input
+            id="st-event-name"
+            name="event_name"
+            type="text"
+            required
+            class="form-input mt-1"
+          />
         </div>
         <div>
           <label for="st-description" class="text-sm text-ink-muted">Brief Description</label>
-          <textarea id="st-description" name="description" rows="3" required class="form-input mt-1"></textarea>
+          <textarea id="st-description" name="description" rows="3" required class="form-input mt-1"
+          ></textarea>
         </div>
         <div class="grid gap-4 sm:grid-cols-3">
           <div>
@@ -394,7 +467,13 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
           </div>
           <div>
             <label for="st-start-time" class="text-sm text-ink-muted">Start Time</label>
-            <input id="st-start-time" name="start_time" type="time" required class="form-input mt-1" />
+            <input
+              id="st-start-time"
+              name="start_time"
+              type="time"
+              required
+              class="form-input mt-1"
+            />
           </div>
           <div>
             <label for="st-end-time" class="text-sm text-ink-muted">End Time</label>
@@ -407,11 +486,22 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
         </div>
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
-            <label for="st-telescopes" class="text-sm text-ink-muted">Number of Telescopes Desired</label>
-            <input id="st-telescopes" name="telescopes_desired" type="number" min="1" required class="form-input mt-1" />
+            <label for="st-telescopes" class="text-sm text-ink-muted"
+              >Number of Telescopes Desired</label
+            >
+            <input
+              id="st-telescopes"
+              name="telescopes_desired"
+              type="number"
+              min="1"
+              required
+              class="form-input mt-1"
+            />
           </div>
           <div>
-            <label for="st-presenters" class="text-sm text-ink-muted">Additional Presenters Desired</label>
+            <label for="st-presenters" class="text-sm text-ink-muted"
+              >Additional Presenters Desired</label
+            >
             <input
               id="st-presenters"
               name="presenters_desired"
@@ -424,15 +514,36 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
         <div class="grid gap-4 sm:grid-cols-3">
           <div>
             <label for="st-contact-name" class="text-sm text-ink-muted">Contact Name</label>
-            <input id="st-contact-name" name="name" type="text" autocomplete="name" required class="form-input mt-1" />
+            <input
+              id="st-contact-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              class="form-input mt-1"
+            />
           </div>
           <div>
             <label for="st-contact-email" class="text-sm text-ink-muted">Contact Email</label>
-            <input id="st-contact-email" name="email" type="email" autocomplete="email" required class="form-input mt-1" />
+            <input
+              id="st-contact-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="form-input mt-1"
+            />
           </div>
           <div>
             <label for="st-contact-phone" class="text-sm text-ink-muted">Contact Phone</label>
-            <input id="st-contact-phone" name="phone" type="tel" autocomplete="tel" required class="form-input mt-1" />
+            <input
+              id="st-contact-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              required
+              class="form-input mt-1"
+            />
           </div>
         </div>
 
@@ -443,7 +554,9 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
 
       <p class="mt-4 text-sm text-ink-muted">
         Prefer email? Reach us directly at{' '}
-        <a href="mailto:startours@pasaz.org" class="text-nebula-teal hover:underline">startours@pasaz.org</a>.
+        <a href="mailto:startours@pasaz.org" class="text-nebula-teal hover:underline"
+          >startours@pasaz.org</a
+        >.
       </p>
     </div>
   </section>

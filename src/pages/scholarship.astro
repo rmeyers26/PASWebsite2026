@@ -80,7 +80,9 @@ const highlights = [
       </p>
       {
         winnersByYear.length === 0 ? (
-          <p class="mt-6 text-ink-muted">Winners will be posted here as scholarships are awarded.</p>
+          <p class="mt-6 text-ink-muted">
+            Winners will be posted here as scholarships are awarded.
+          </p>
         ) : (
           <div class="mt-10 space-y-14">
             {winnersByYear.map(({ year, winners }) => (
@@ -94,7 +96,7 @@ const highlights = [
                           src={winner.photo}
                           alt={winner.name}
                           loading="lazy"
-                          class="h-28 w-28 rounded-full object-cover"
+                          class="size-28 rounded-full object-cover"
                         />
                       )}
                       <p class="mt-4 font-display text-ink-primary">{winner.name}</p>
@@ -116,7 +118,7 @@ const highlights = [
     </div>
   </section>
 
-  <section id="donate" class="scroll-mt-[4.5rem] border-t border-subtle bg-space-card/40">
+  <section id="donate" class="scroll-mt-18 border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-4xl px-6 py-20 text-center">
       <h2 class="section-heading">Make a Contribution</h2>
       <p class="mx-auto mt-4 max-w-xl text-ink-muted">
@@ -126,7 +128,10 @@ const highlights = [
         </a>
         . As a 501(c)(3) non-profit organization, we'll send you a receipt for your contribution.
       </p>
-      <a href={`mailto:${siteSettings.email}?subject=Sam Insana Scholarship Fund Contribution`} class="btn-primary mt-8">
+      <a
+        href={`mailto:${siteSettings.email}?subject=Sam Insana Scholarship Fund Contribution`}
+        class="btn-primary mt-8"
+      >
         Email {siteSettings.email}
       </a>
 

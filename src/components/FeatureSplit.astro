@@ -20,14 +20,19 @@ const { image, alt, eyebrow, title, reverse = false } = Astro.props;
 
 <section class="border-t border-subtle">
   <div class="grid lg:grid-cols-2">
-    <div class:list={['relative min-h-[20rem] lg:min-h-[28rem]', reverse ? 'lg:order-2' : 'lg:order-1']}>
+    <div
+      class:list={[
+        'relative min-h-[20rem] lg:min-h-[28rem]',
+        reverse ? 'lg:order-2' : 'lg:order-1',
+      ]}
+    >
       <Image
         src={image}
         alt={alt}
         widths={[480, 800, 1200]}
         sizes="(min-width: 1024px) 50vw, 100vw"
         loading="lazy"
-        class="absolute inset-0 h-full w-full object-cover"
+        class="absolute inset-0 size-full object-cover"
       />
     </div>
     <div
@@ -39,7 +44,7 @@ const { image, alt, eyebrow, title, reverse = false } = Astro.props;
       {
         eyebrow && (
           <span class="glass-badge mb-6 self-start">
-            <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+            <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
             {eyebrow}
           </span>
         )

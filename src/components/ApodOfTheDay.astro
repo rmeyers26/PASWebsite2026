@@ -57,7 +57,10 @@ function stripHtml(html: string): string {
   const withoutLabel = withoutMedia.replace(/<b>\s*Explanation:\s*<\/b>/i, '');
   const textOnly = withoutLabel.replace(/<[^>]+>/g, ' ');
   const decoded = textOnly.replace(/&[a-z#0-9]+;/gi, (entity) => HTML_ENTITIES[entity] ?? entity);
-  return decoded.replace(/\s+/g, ' ').replace(/\s+([.,;:])/g, '$1').trim();
+  return decoded
+    .replace(/\s+/g, ' ')
+    .replace(/\s+([.,;:])/g, '$1')
+    .trim();
 }
 
 function parseFirstItem(rss: string): Apod | null {
@@ -76,12 +79,14 @@ function parseFirstItem(rss: string): Apod | null {
   const iframeMatch = contentEncoded.match(/<iframe[^>]+src="([^"]+)"/i);
   const enclosureMatch = item.match(/<enclosure\s+url="([^"]+)"/);
 
-  const creators = [...item.matchAll(/<dc:creator>([\s\S]*?)<\/dc:creator>/g)].map((m) => m[1].trim());
+  const creators = [...item.matchAll(/<dc:creator>([\s\S]*?)<\/dc:creator>/g)].map((m) =>
+    m[1].trim()
+  );
 
   return {
     title,
     explanation: stripHtml(contentEncoded),
-    url: iframeMatch ? iframeMatch[1] : enclosureMatch?.[1] ?? link,
+    url: iframeMatch ? iframeMatch[1] : (enclosureMatch?.[1] ?? link),
     media_type: iframeMatch ? 'video' : 'image',
     date,
     permalink: link,
@@ -195,7 +200,8 @@ function readImageSize(buffer: Uint8Array): { width: number; height: number } | 
       continue;
     }
     const marker = buffer[offset + 1];
-    const isSof = marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
+    const isSof =
+      marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
     if (isSof) {
       return { width: view.getUint16(offset + 7), height: view.getUint16(offset + 5) };
     }
@@ -225,7 +231,7 @@ if (apod?.media_type === 'image') {
         <div class="card mt-8">
           <p class="text-ink-muted">APOD unavailable — check back tomorrow.</p>
           {showDebug && (
-            <pre class="mt-4 overflow-x-auto whitespace-pre-wrap text-left text-xs text-ink-muted/70">
+            <pre class="mt-4 overflow-x-auto text-left text-xs whitespace-pre-wrap text-ink-muted/70">
               {debugMessages.join('\n')}
             </pre>
           )}
@@ -282,17 +288,12 @@ if (apod?.media_type === 'image') {
             </a>
           ) : (
             <div class="aspect-video w-full overflow-hidden rounded-lg border border-subtle">
-              <iframe
-                src={apod.url}
-                title={apod.title}
-                class="h-full w-full"
-                allowfullscreen
-              />
+              <iframe src={apod.url} title={apod.title} class="size-full" allowfullscreen />
             </div>
           )}
           <div>
-            <p class="text-sm tabular-nums text-ink-muted">{apod.date}</p>
-            <h3 class="font-display mt-1 text-xl text-nebula-teal">{apod.title}</h3>
+            <p class="text-sm text-ink-muted tabular-nums">{apod.date}</p>
+            <h3 class="mt-1 font-display text-xl text-nebula-teal">{apod.title}</h3>
             <p class="mt-3 line-clamp-3 text-ink-muted">{apod.explanation}</p>
             <a
               href={apod.permalink}
@@ -302,9 +303,7 @@ if (apod?.media_type === 'image') {
             >
               Read the full description on APOD ↗
             </a>
-            {apod.copyright && (
-              <p class="mt-4 text-sm text-ink-muted">© {apod.copyright}</p>
-            )}
+            {apod.copyright && <p class="mt-4 text-sm text-ink-muted">© {apod.copyright}</p>}
           </div>
         </div>
       </div>

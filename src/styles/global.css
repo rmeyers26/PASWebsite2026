@@ -181,7 +181,6 @@
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(120deg, #f1f3f8 15%, #8b5cf6 55%, #2dd4bf 90%);
   }
-
 }
 
 /* Scroll reveal. `.reveal` is only ever added by script, so a no-JS visitor
