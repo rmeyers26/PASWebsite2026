@@ -6,7 +6,11 @@ import telescopesAtDusk from '../assets/images/star-tours-corporate-event.jpg';
 import lectureMeeting from '../assets/images/events-lecture-meeting.jpg';
 import lowellObservatoryTour from '../assets/images/events-lowell-observatory-tour.jpg';
 
-const organizer = { '@type': 'Organization', name: 'Phoenix Astronomical Society', url: 'https://pasaz.org' };
+const organizer = {
+  '@type': 'Organization',
+  name: 'Phoenix Astronomical Society',
+  url: 'https://pasaz.org',
+};
 
 // The Lecture Series has a fixed, page-published rule ("1st Thursday of
 // every month, 7:00 pm"), so it's encoded exactly via eventSchedule's
@@ -22,7 +26,8 @@ const lectureSeriesSchema = {
   '@context': 'https://schema.org',
   '@type': 'Event',
   name: 'PAS Monthly Lecture Series',
-  description: 'Guest speakers and member talks on observing, astrophotography, and current research.',
+  description:
+    'Guest speakers and member talks on observing, astrophotography, and current research.',
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
   eventStatus: 'https://schema.org/EventScheduled',
   organizer,
@@ -92,10 +97,16 @@ const starPartySchema = {
   <section class="mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Upcoming Events</h2>
     <p class="mt-4 text-ink-muted">
-      Our full events calendar — meetings, public star parties, and observing nights — is kept up to date on
-      Bookwhen. Browse and reserve a spot below, or{' '}
-      <a href="https://bookwhen.com/pas-event-calendar#focus=ev-s4pyi-20260701000000" target="_blank" rel="noopener noreferrer" class="underline decoration-nebula-teal underline-offset-4">
-        open the calendar in a new tab</a>.
+      Our full events calendar — meetings, public star parties, and observing nights — is kept up to
+      date on Bookwhen. Browse and reserve a spot below, or{' '}
+      <a
+        href="https://bookwhen.com/pas-event-calendar#focus=ev-s4pyi-20260701000000"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline decoration-nebula-teal underline-offset-4"
+      >
+        open the calendar in a new tab</a
+      >.
     </p>
     <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
       <Image
@@ -114,14 +125,12 @@ const starPartySchema = {
         data-embed-src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
         data-embed-group="bookwhen"
         title="PAS Events Calendar"
-        class="block min-h-[400px] w-full border-0"
-      ></iframe>
+        class="block min-h-100 w-full border-0"></iframe>
       <noscript>
         <iframe
           src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
           title="PAS Events Calendar"
-          class="block min-h-[400px] w-full border-0"
-        ></iframe>
+          class="block min-h-100 w-full border-0"></iframe>
       </noscript>
     </div>
   </section>
@@ -130,16 +139,19 @@ const starPartySchema = {
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Where We Meet</h2>
 
-      <h3 class="font-display mt-8 text-lg text-nebula-teal">Monthly Lecture Series</h3>
+      <h3 class="mt-8 font-display text-lg text-nebula-teal">Monthly Lecture Series</h3>
       <p class="mt-3 text-ink-muted">
-        Held on the <strong class="font-semibold text-ink-primary">1st Thursday of every month</strong> at{' '}
-        <strong class="font-semibold text-ink-primary">7:00 pm</strong>, at Paradise Valley Community College:
+        Held on the <strong class="font-semibold text-ink-primary"
+          >1st Thursday of every month</strong
+        > at{' '}
+        <strong class="font-semibold text-ink-primary">7:00 pm</strong>, at Paradise Valley
+        Community College:
       </p>
       <p class="mt-3 text-ink-muted">
         Missed a talk? Browse recordings of past speakers on our{' '}
         <a href="/lecture-videos" class="text-nebula-teal hover:underline">Previous Lectures</a> page.
       </p>
-      <address class="mt-4 not-italic text-ink-primary">
+      <address class="mt-4 text-ink-primary not-italic">
         PVCC Building Q — Conference Center, Classroom 120A<br />
         17811 North 32nd Street<br />
         Phoenix, AZ 85032
@@ -148,30 +160,30 @@ const starPartySchema = {
         <iframe
           data-embed-src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
           title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
-          class="block h-[320px] w-full border-0"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+          class="block h-80 w-full border-0"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
         <noscript>
           <iframe
             src="https://maps.google.com/maps?q=17811+North+32nd+Street,+Phoenix,+AZ+85032&output=embed"
             title="Map showing PVCC Building Q, 17811 North 32nd Street, Phoenix, AZ 85032"
-            class="block h-[320px] w-full border-0"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+            class="block h-80 w-full border-0"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </noscript>
       </div>
 
-      <h3 class="font-display mt-12 text-lg text-nebula-violet">Public Star Parties</h3>
-      <p class="mt-3 text-ink-muted">Held at Apache Wash Trailhead, away from city light pollution:</p>
-      <address class="mt-4 not-italic text-ink-primary">
+      <h3 class="mt-12 font-display text-lg text-nebula-violet">Public Star Parties</h3>
+      <p class="mt-3 text-ink-muted">
+        Held at Apache Wash Trailhead, away from city light pollution:
+      </p>
+      <address class="mt-4 text-ink-primary not-italic">
         Apache Wash Trailhead<br />
         1600 E Sonoran Desert Dr<br />
         Phoenix, AZ 85085
       </address>
       <p class="mt-4 text-ink-muted">
-        <strong class="font-semibold text-ink-primary">Gate closes at 7:00 pm</strong> — no entry after that
-        time, though you can exit anytime until 11:00 pm. Parking is paved; restrooms are rustic, with no
-        running water, so bring your own water, snacks, and a chair.
+        <strong class="font-semibold text-ink-primary">Gate closes at 7:00 pm</strong> — no entry after
+        that time, though you can exit anytime until 11:00 pm. Parking is paved; restrooms are rustic,
+        with no running water, so bring your own water, snacks, and a chair.
       </p>
       <p class="mt-4 text-sm text-ink-muted">
         Check each star party on the calendar above for its exact date and time.
@@ -180,16 +192,14 @@ const starPartySchema = {
         <iframe
           data-embed-src="https://maps.google.com/maps?q=Apache+Wash+Trailhead,+1600+E+Sonoran+Desert+Dr,+Phoenix,+AZ+85085&output=embed"
           title="Map showing Apache Wash Trailhead, 1600 E Sonoran Desert Dr, Phoenix, AZ 85085"
-          class="block h-[320px] w-full border-0"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+          class="block h-80 w-full border-0"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
         <noscript>
           <iframe
             src="https://maps.google.com/maps?q=Apache+Wash+Trailhead,+1600+E+Sonoran+Desert+Dr,+Phoenix,+AZ+85085&output=embed"
             title="Map showing Apache Wash Trailhead, 1600 E Sonoran Desert Dr, Phoenix, AZ 85085"
-            class="block h-[320px] w-full border-0"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+            class="block h-80 w-full border-0"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </noscript>
       </div>
     </div>
@@ -217,10 +227,15 @@ const starPartySchema = {
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">What to Bring</h2>
       <ul class="mt-6 list-disc space-y-3 pl-5 text-ink-muted">
-        <li>A red flashlight (preserves night vision — white light is discouraged at star parties)</li>
+        <li>
+          A red flashlight (preserves night vision — white light is discouraged at star parties)
+        </li>
         <li>Warm layers — desert nights get cold, even in summer</li>
         <li>A folding chair for comfortable viewing</li>
-        <li>Your own telescope or binoculars, if you have them — not required, PAS members bring plenty</li>
+        <li>
+          Your own telescope or binoculars, if you have them — not required, PAS members bring
+          plenty
+        </li>
       </ul>
     </div>
   </section>
@@ -229,26 +244,36 @@ const starPartySchema = {
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Star Party Etiquette</h2>
       <p class="mt-4 text-ink-muted">
-        A few courtesies, mostly common sense, that keep a star party enjoyable for everyone observing
-        alongside you:
+        A few courtesies, mostly common sense, that keep a star party enjoyable for everyone
+        observing alongside you:
       </p>
       <ul class="mt-6 list-disc space-y-3 pl-5 text-ink-muted">
-        <li>Skip white light — use red light, and sparingly. If you must use white light, warn people first.</li>
-        <li>Dim your phone or tablet screen; it's brighter than you think once your eyes adjust.</li>
         <li>
-          Mind your car — no backup or interior lights near the observing area, and park so you can leave
-          without using your headlights.
+          Skip white light — use red light, and sparingly. If you must use white light, warn people
+          first.
+        </li>
+        <li>
+          Dim your phone or tablet screen; it's brighter than you think once your eyes adjust.
+        </li>
+        <li>
+          Mind your car — no backup or interior lights near the observing area, and park so you can
+          leave without using your headlights.
         </li>
         <li>No telescope? Park a bit farther out so there's room for those hauling heavy gear.</li>
         <li>Drive slowly to keep the dust down.</li>
-        <li>Never touch someone else's equipment — especially glass optics — without asking first.</li>
+        <li>
+          Never touch someone else's equipment — especially glass optics — without asking first.
+        </li>
         <li>Watch your step (without a flashlight), and mind any power cords on the ground.</li>
         <li>Don't litter.</li>
         <li>
-          New to this? Let the astronomers enjoy the sky rather than monopolizing their time — except at
-          events built specifically for beginners and the public.
+          New to this? Let the astronomers enjoy the sky rather than monopolizing their time —
+          except at events built specifically for beginners and the public.
         </li>
-        <li>Give astrophotographers extra space and quiet; a stray light or bump can ruin a long exposure.</li>
+        <li>
+          Give astrophotographers extra space and quiet; a stray light or bump can ruin a long
+          exposure.
+        </li>
         <li>Keep your voice down — astronomy is a quiet, peaceful hobby.</li>
         <li>Bringing kids or pets? Keep them quiet and under control, and pets on a leash.</li>
         <li>Music, if it's welcome at all, is a headphones-only affair for most people's taste.</li>
@@ -261,8 +286,8 @@ const starPartySchema = {
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">Telescope Workshops</h2>
       <p class="mt-4 text-ink-muted">
-        Can't find anything in your telescope, or need help picking one out? PAS members run free, public
-        telescope workshops throughout the year.
+        Can't find anything in your telescope, or need help picking one out? PAS members run free,
+        public telescope workshops throughout the year.
       </p>
       <a href="/telescope-workshops" class="btn-secondary mt-6">Learn More</a>
     </div>
@@ -271,9 +296,9 @@ const starPartySchema = {
   <section class="mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Special Events</h2>
     <p class="mt-4 text-ink-muted">
-      Beyond our regular meetings and star parties, PAS members take part in special trips and events throughout
-      the year — like a private group tour of Lowell Observatory's Richard F. Caris Dark Sky Planetarium in
-      Flagstaff.
+      Beyond our regular meetings and star parties, PAS members take part in special trips and
+      events throughout the year — like a private group tour of Lowell Observatory's Richard F.
+      Caris Dark Sky Planetarium in Flagstaff.
     </p>
     <figure class="mt-8 overflow-hidden rounded-xl border border-subtle bg-space-card">
       <Image
@@ -293,8 +318,8 @@ const starPartySchema = {
     <div class="mx-auto max-w-4xl px-6 py-20">
       <h2 class="section-heading">School & Scout Group Visits</h2>
       <p class="mt-4 text-ink-muted">
-        PAS brings telescopes and presenters to schools, scout troops, and community organizations for hands-on
-        astronomy outreach, through our Star Tours program.
+        PAS brings telescopes and presenters to schools, scout troops, and community organizations
+        for hands-on astronomy outreach, through our Star Tours program.
       </p>
       <a href="/star-tours#book-an-event" class="btn-secondary mt-6">Request a Star Tours Event</a>
     </div>

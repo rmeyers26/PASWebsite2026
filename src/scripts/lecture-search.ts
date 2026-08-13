@@ -97,12 +97,15 @@ function bindLectureSearch() {
     const sortBy = sortSelect!.value;
 
     let filtered = lectures.filter(
-      (l) => !query || `${l.title} ${l.speaker} ${l.affiliation ?? ''}`.toLowerCase().includes(query),
+      (l) =>
+        !query || `${l.title} ${l.speaker} ${l.affiliation ?? ''}`.toLowerCase().includes(query)
     );
 
     if (sortBy === 'oldest') filtered = [...filtered].sort((a, b) => a.date.localeCompare(b.date));
-    else if (sortBy === 'speaker') filtered = [...filtered].sort((a, b) => a.speaker.localeCompare(b.speaker));
-    else if (sortBy === 'title') filtered = [...filtered].sort((a, b) => a.title.localeCompare(b.title));
+    else if (sortBy === 'speaker')
+      filtered = [...filtered].sort((a, b) => a.speaker.localeCompare(b.speaker));
+    else if (sortBy === 'title')
+      filtered = [...filtered].sort((a, b) => a.title.localeCompare(b.title));
     else filtered = [...filtered].sort((a, b) => b.date.localeCompare(a.date));
 
     countEl!.textContent = `${filtered.length} lecture${filtered.length === 1 ? '' : 's'}`;

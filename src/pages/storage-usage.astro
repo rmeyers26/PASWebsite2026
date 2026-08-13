@@ -13,13 +13,14 @@ import { getStorageUsageReport, type ImageCollectionRef } from '../lib/storageUs
 // press-releases/newsletters override the CMS's default media_folder — see
 // public/orion/config.yml), so the Images row needs these photo/image
 // fields to attribute files back to the collection that uploaded them.
-const [galleryEntries, officerEntries, scholarshipEntries, loanerScopes, membership] = await Promise.all([
-  getCollection('gallery'),
-  getCollection('officers'),
-  getCollection('scholarship-winners'),
-  getEntry('loaner-scopes', 'data'),
-  getEntry('membership', 'data'),
-]);
+const [galleryEntries, officerEntries, scholarshipEntries, loanerScopes, membership] =
+  await Promise.all([
+    getCollection('gallery'),
+    getCollection('officers'),
+    getCollection('scholarship-winners'),
+    getEntry('loaner-scopes', 'data'),
+    getEntry('membership', 'data'),
+  ]);
 
 const imageCollectionRefs: ImageCollectionRef[] = [
   { label: 'Member Gallery', paths: galleryEntries.map((entry) => entry.data.photo) },
@@ -28,8 +29,14 @@ const imageCollectionRefs: ImageCollectionRef[] = [
     label: 'Scholarship Winners',
     paths: scholarshipEntries.flatMap((entry) => entry.data.winners.map((winner) => winner.photo)),
   },
-  { label: 'Telescope Loan Program', paths: (loanerScopes?.data.equipment ?? []).map((item) => item.photo) },
-  { label: 'Membership Add-Ons', paths: (membership?.data.addOns ?? []).map((addOn) => addOn.photo) },
+  {
+    label: 'Telescope Loan Program',
+    paths: (loanerScopes?.data.equipment ?? []).map((item) => item.photo),
+  },
+  {
+    label: 'Membership Add-Ons',
+    paths: (membership?.data.addOns ?? []).map((addOn) => addOn.photo),
+  },
 ];
 
 const report = getStorageUsageReport(imageCollectionRefs);
@@ -41,7 +48,7 @@ const report = getStorageUsageReport(imageCollectionRefs);
 >
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
-      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
       Internal tool
     </span>
     <h1 class="font-display text-d2 tracking-tight text-ink-primary">Storage Usage</h1>
@@ -51,7 +58,7 @@ const report = getStorageUsageReport(imageCollectionRefs);
         class="text-nebula-teal hover:underline">/orion</a
       >) are using, as of the last deploy.
     </p>
-    <p class="mx-auto mt-4 text-d4 font-display text-ink-primary">{report.totalSize} total</p>
+    <p class="mx-auto mt-4 font-display text-d4 text-ink-primary">{report.totalSize} total</p>
   </section>
 
   <section class="border-t border-subtle bg-space-card/40">

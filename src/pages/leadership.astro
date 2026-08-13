@@ -7,7 +7,9 @@ import officerAwardTelescope from '../assets/images/about-officer-award-telescop
 // Content lives in src/content/officers/ (one JSON file per officer, managed
 // via the Sveltia CMS) — see src/content.config.ts for the schema.
 const officerEntries = await getCollection('officers');
-const officers = officerEntries.sort((a, b) => a.data.order - b.data.order).map((entry) => entry.data);
+const officers = officerEntries
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((entry) => entry.data);
 
 // Content lives in src/content/past-presidents/past-presidents.json (managed
 // via the Sveltia CMS) — see src/content.config.ts for the schema.
@@ -22,13 +24,13 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
 >
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
-      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+      <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
       Club Leadership
     </span>
     <h1 class="font-display text-d2 tracking-tight text-ink-primary">Club Leadership</h1>
     <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
-      PAS is run entirely by volunteer members, including officers overseeing membership, events, and community
-      outreach. Stu Brackney is our current president.
+      PAS is run entirely by volunteer members, including officers overseeing membership, events,
+      and community outreach. Stu Brackney is our current president.
     </p>
   </section>
 
@@ -55,19 +57,24 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
                 // CMS uploads land in public/ as a plain URL string, which
                 // bypasses Astro's <Image> pipeline entirely — see
                 // src/content.config.ts for why this field is a plain string.
-                <div class="h-16 w-16 flex-none overflow-hidden rounded-full border border-subtle bg-space-card">
+                <div class="size-16 flex-none overflow-hidden rounded-full border border-subtle bg-space-card">
                   <img
                     src={officer.photo}
-                    alt={`Photo of ${officer.name}`}
-                    class="h-full w-full object-cover"
+                    alt={officer.name}
+                    class="size-full object-cover"
                     loading="lazy"
                   />
                 </div>
               )}
               <div>
-                <p class="text-sm font-semibold uppercase tracking-wide text-nebula-teal">{officer.role}</p>
+                <p class="text-sm font-semibold tracking-wide text-nebula-teal uppercase">
+                  {officer.role}
+                </p>
                 <p class="mt-1 font-display text-ink-primary">{officer.name}</p>
-                <a href={`mailto:${officer.email}`} class="text-sm text-ink-muted hover:text-nebula-teal">
+                <a
+                  href={`mailto:${officer.email}`}
+                  class="text-sm text-ink-muted hover:text-nebula-teal"
+                >
                   {officer.email}
                 </a>
               </div>
@@ -85,10 +92,16 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
         <table class="w-full border-collapse text-left">
           <thead>
             <tr class="border-b border-subtle">
-              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              <th
+                scope="col"
+                class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+              >
                 President
               </th>
-              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              <th
+                scope="col"
+                class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+              >
                 Years
               </th>
             </tr>
@@ -115,10 +128,16 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
         <table class="w-full border-collapse text-left">
           <thead>
             <tr class="border-b border-subtle">
-              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              <th
+                scope="col"
+                class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+              >
                 President
               </th>
-              <th scope="col" class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">
+              <th
+                scope="col"
+                class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+              >
                 Years
               </th>
             </tr>
@@ -135,7 +154,7 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
                   <td class="px-5 py-3 font-display text-ink-primary">
                     {president.name}
                     {president.current && (
-                      <span class="ml-2 text-xs font-semibold uppercase tracking-wide text-nebula-teal">
+                      <span class="ml-2 text-xs font-semibold tracking-wide text-nebula-teal uppercase">
                         Current
                       </span>
                     )}
@@ -147,7 +166,9 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
           </tbody>
         </table>
       </div>
-      <p class="mt-8 text-sm text-ink-muted">Presidents assume office in May of the listed year(s).</p>
+      <p class="mt-8 text-sm text-ink-muted">
+        Presidents assume office in May of the listed year(s).
+      </p>
     </div>
   </section>
 

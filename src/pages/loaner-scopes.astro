@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
@@ -33,9 +32,9 @@ const requestFields = [
   <section class="mx-auto max-w-4xl px-6 py-20">
     <h2 class="section-heading">Overview</h2>
     <p class="mt-4 text-ink-muted">
-      Members can borrow from the full PAS telescope inventory. Equipment ranges from beginner-friendly setups
-      to higher-value imaging systems, offering opportunities to explore different observing and imaging
-      techniques.
+      Members can borrow from the full PAS telescope inventory. Equipment ranges from
+      beginner-friendly setups to higher-value imaging systems, offering opportunities to explore
+      different observing and imaging techniques.
     </p>
   </section>
 
@@ -53,11 +52,14 @@ const requestFields = [
                 <img
                   src={item.photo}
                   alt=""
-                  class="h-24 w-24 flex-none rounded object-cover"
+                  class="size-24 flex-none rounded object-cover"
                   loading="lazy"
                 />
               ) : (
-                <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
+                <span
+                  class="mt-2 size-2 flex-none rounded-full bg-nebula-violet"
+                  aria-hidden="true"
+                />
               )}
               <span>
                 {item.name}
@@ -85,8 +87,14 @@ const requestFields = [
         <h2 class="section-heading">Check-Out Requirements</h2>
         <ul class="mt-4 space-y-2 text-ink-muted">
           <li>Some telescopes require completion of a short training program before use.</li>
-          <li>Higher-value equipment may require credit card information as a security measure against loss or damage.</li>
-          <li>An accessory kit (eyepieces and supporting gear) is available for all loaner telescopes when needed.</li>
+          <li>
+            Higher-value equipment may require credit card information as a security measure against
+            loss or damage.
+          </li>
+          <li>
+            An accessory kit (eyepieces and supporting gear) is available for all loaner telescopes
+            when needed.
+          </li>
         </ul>
       </div>
       <div>
@@ -109,14 +117,16 @@ const requestFields = [
       <h2 class="section-heading">How to Request a Telescope</h2>
       <p class="mx-auto mt-4 max-w-xl text-ink-muted">
         To check out a telescope, email
-        <a href="mailto:telescope@pasaz.org" class="text-nebula-teal hover:underline">telescope@pasaz.org</a>
+        <a href="mailto:telescope@pasaz.org" class="text-nebula-teal hover:underline"
+          >telescope@pasaz.org</a
+        >
         with the following information:
       </p>
       <ul class="mx-auto mt-6 max-w-md space-y-2 text-left text-ink-muted">
         {
           requestFields.map((field) => (
             <li class="flex items-start gap-3">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
+              <span class="mt-2 size-2 flex-none rounded-full bg-nebula-teal" aria-hidden="true" />
               {field}
             </li>
           ))
@@ -126,8 +136,8 @@ const requestFields = [
         Email telescope@pasaz.org
       </a>
       <p class="mt-6 text-sm text-ink-muted">
-        Not a member yet? <a href="/join" class="text-nebula-teal hover:underline">Join PAS</a> to become eligible
-        for the telescope loan program and other member benefits.
+        Not a member yet? <a href="/join" class="text-nebula-teal hover:underline">Join PAS</a> to become
+        eligible for the telescope loan program and other member benefits.
       </p>
     </div>
   </section>

@@ -49,49 +49,55 @@ const textBlockClass =
 ---
 
 <section data-hero class="relative overflow-hidden border-b border-subtle">
-  {typeof image === 'string' ? (
-    <img
-      src={image}
-      alt={alt}
-      class={`absolute inset-0 h-full w-full object-cover ${imageOpacityClass}`}
-      style={objectPositionStyle}
-      loading="eager"
-    />
-  ) : (
-    <Image
-      src={image}
-      alt={alt}
-      width={1440}
-      widths={[640, 1024, 1440]}
-      sizes="100vw"
-      quality={52}
-      class={`absolute inset-0 h-full w-full object-cover ${imageOpacityClass}`}
-      style={objectPositionStyle}
-      loading="eager"
-      fetchpriority="high"
-    />
-  )}
+  {
+    typeof image === 'string' ? (
+      <img
+        src={image}
+        alt={alt}
+        class={`absolute inset-0 size-full object-cover ${imageOpacityClass}`}
+        style={objectPositionStyle}
+        loading="eager"
+      />
+    ) : (
+      <Image
+        src={image}
+        alt={alt}
+        width={1440}
+        widths={[640, 1024, 1440]}
+        sizes="100vw"
+        quality={52}
+        class={`absolute inset-0 size-full object-cover ${imageOpacityClass}`}
+        style={objectPositionStyle}
+        loading="eager"
+        fetchpriority="high"
+      />
+    )
+  }
   <div class={`absolute inset-0 ${scrimClass}`}></div>
   <div class={textBlockClass}>
-    {eyebrow && (
-      <span class="glass-badge mb-6">
-        <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
-        {eyebrow}
-      </span>
-    )}
+    {
+      eyebrow && (
+        <span class="glass-badge mb-6">
+          <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+          {eyebrow}
+        </span>
+      )
+    }
     <!-- Solid ink, not .text-gradient: this hero sits over photography, where the
          gradient's violet midpoint lands on unpredictable local backgrounds. -->
-    <h1 class="font-display text-d1 leading-[1.05] tracking-tight text-ink-primary">{title}</h1>
-    {subtitle && (
-      <p
-        class:list={[
-          'mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted',
-          align === 'left' ? '' : 'mx-auto',
-        ]}
-      >
-        {subtitle}
-      </p>
-    )}
+    <h1 class="leading-1.05 font-display text-d1 tracking-tight text-ink-primary">{title}</h1>
+    {
+      subtitle && (
+        <p
+          class:list={[
+            'mt-7 max-w-2xl text-lg leading-relaxed text-ink-muted',
+            align === 'left' ? '' : 'mx-auto',
+          ]}
+        >
+          {subtitle}
+        </p>
+      )
+    }
     <slot />
   </div>
 </section>
