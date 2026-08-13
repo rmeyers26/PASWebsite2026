@@ -21,13 +21,34 @@ const nearStars = makeLayer(38, 0.4);
 const twinkleStars = makeLayer(10, 0.55);
 ---
 
-<div class="starfield-root pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-space-base" aria-hidden="true">
-  <div class="ambient-orb ambient-orb-violet absolute -left-[10%] -top-[15%] h-[50vw] w-[50vw] max-w-[720px] rounded-full bg-nebula-violet/20 blur-[120px]"></div>
-  <div class="ambient-orb ambient-orb-blue absolute -right-[15%] top-[20%] h-[45vw] w-[45vw] max-w-[640px] rounded-full bg-sky-500/15 blur-[120px]"></div>
-  <div class="starfield-layer absolute h-px w-px rounded-full" style={`box-shadow: ${farStars};`}></div>
-  <div class="starfield-layer absolute h-[1.5px] w-[1.5px] rounded-full" style={`box-shadow: ${nearStars};`}></div>
-  <div class="starfield-twinkle absolute h-[2px] w-[2px] rounded-full" style={`box-shadow: ${twinkleStars};`}></div>
-  <div class="starfield-drift absolute inset-x-0 top-1/3 h-1/3 bg-gradient-to-r from-transparent via-nebula-violet/5 to-transparent blur-3xl"></div>
+<div
+  class="starfield-root pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-space-base"
+  aria-hidden="true"
+>
+  <div
+    class="ambient-orb ambient-orb-violet absolute top-[-15%] left-[-10%] size-[50vw] max-w-180 rounded-full bg-nebula-violet/20 blur-[120px]"
+  >
+  </div>
+  <div
+    class="ambient-orb ambient-orb-blue absolute top-[20%] right-[-15%] size-[45vw] max-w-160 rounded-full bg-sky-500/15 blur-[120px]"
+  >
+  </div>
+  <div class="starfield-layer absolute size-px rounded-full" style={`box-shadow: ${farStars};`}>
+  </div>
+  <div
+    class="starfield-layer absolute size-[1.5px] rounded-full"
+    style={`box-shadow: ${nearStars};`}
+  >
+  </div>
+  <div
+    class="starfield-twinkle absolute size-[2px] rounded-full"
+    style={`box-shadow: ${twinkleStars};`}
+  >
+  </div>
+  <div
+    class="starfield-drift absolute inset-x-0 top-1/3 h-1/3 bg-gradient-to-r from-transparent via-nebula-violet/5 to-transparent blur-3xl"
+  >
+  </div>
 </div>
 
 <style>

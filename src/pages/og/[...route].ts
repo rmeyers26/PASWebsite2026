@@ -15,10 +15,12 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     bgImage: page.bgImage ? { path: page.bgImage, fit: 'cover' } : undefined,
     // Matches --color-space-base / --color-space-modal in global.css, for
     // pages with no hero photo to composite over.
-    bgGradient: page.bgImage ? undefined : [
-      [10, 14, 23],
-      [24, 35, 61],
-    ],
+    bgGradient: page.bgImage
+      ? undefined
+      : [
+          [10, 14, 23],
+          [24, 35, 61],
+        ],
     border: { color: [45, 212, 191], width: 6 }, // --color-nebula-teal
     padding: 64,
     font: {

@@ -36,7 +36,9 @@ function fileSize(file: string, warnContext: string): string | undefined {
       ? `${(bytes / (1024 * 1024)).toFixed(1)} MB`
       : `${Math.max(1, Math.round(bytes / 1024))} KB`;
   } catch {
-    console.warn(`[${warnContext}] No file at public${file} — check the path in src/pages/${warnContext}.astro`);
+    console.warn(
+      `[${warnContext}] No file at public${file} — check the path in src/pages/${warnContext}.astro`
+    );
     return undefined;
   }
 }
@@ -45,7 +47,7 @@ function fileSize(file: string, warnContext: string): string | undefined {
 // come out descending without a separately maintained list of years.
 export function groupPdfArchiveByYear(
   entries: PdfArchiveEntry[],
-  warnContext: string,
+  warnContext: string
 ): [string, PdfArchiveListEntry[]][] {
   const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date));
 

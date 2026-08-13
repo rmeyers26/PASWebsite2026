@@ -3,7 +3,12 @@ import { join } from 'node:path';
 
 export type StorageFile = { path: string; bytes: number };
 
-export type StorageBreakdownEntry = { label: string; fileCount: number; bytes: number; size: string };
+export type StorageBreakdownEntry = {
+  label: string;
+  fileCount: number;
+  bytes: number;
+  size: string;
+};
 
 export type StorageFolderReport = {
   label: string;
@@ -79,7 +84,10 @@ function walk(dir: string, publicPath: string): StorageFile[] {
 // treat one path as belonging to one entry. A file uploaded but not yet
 // referenced by any entry's photo field — a curated asset, or an in-progress
 // CMS edit — falls into "Unreferenced".
-function buildImageBreakdown(files: StorageFile[], refs: ImageCollectionRef[]): StorageBreakdownEntry[] {
+function buildImageBreakdown(
+  files: StorageFile[],
+  refs: ImageCollectionRef[]
+): StorageBreakdownEntry[] {
   const labelByPath = new Map<string, string>();
   for (const ref of refs) {
     for (const path of ref.paths) {
@@ -101,7 +109,9 @@ function buildImageBreakdown(files: StorageFile[], refs: ImageCollectionRef[]): 
     .sort((a, b) => b.bytes - a.bytes);
 }
 
-export function getStorageUsageReport(imageCollectionRefs: ImageCollectionRef[] = []): StorageUsageReport {
+export function getStorageUsageReport(
+  imageCollectionRefs: ImageCollectionRef[] = []
+): StorageUsageReport {
   const allFiles: StorageFile[] = [];
 
   const folders = TRACKED_FOLDERS.map(({ label, publicPath }) => {
@@ -109,8 +119,17 @@ export function getStorageUsageReport(imageCollectionRefs: ImageCollectionRef[] 
     allFiles.push(...files);
     const bytes = files.reduce((sum, file) => sum + file.bytes, 0);
     const breakdown =
-      publicPath === IMAGES_PUBLIC_PATH ? buildImageBreakdown(files, imageCollectionRefs) : undefined;
-    return { label, publicPath, fileCount: files.length, bytes, size: formatBytes(bytes), breakdown };
+      publicPath === IMAGES_PUBLIC_PATH
+        ? buildImageBreakdown(files, imageCollectionRefs)
+        : undefined;
+    return {
+      label,
+      publicPath,
+      fileCount: files.length,
+      bytes,
+      size: formatBytes(bytes),
+      breakdown,
+    };
   });
 
   const totalBytes = folders.reduce((sum, folder) => sum + folder.bytes, 0);
