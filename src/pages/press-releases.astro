@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 import PdfArchiveList from '../components/PdfArchiveList.astro';
 import ArchiveEmptyState from '../components/ArchiveEmptyState.astro';
 import { groupPdfArchiveByYear, type PdfArchiveEntry } from '../lib/pdfArchive';
@@ -57,11 +56,5 @@ const years = groupPdfArchiveByYear(releases, 'press-releases');
         )
       }
     </div>
-  </section>
-
-  <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote
-      label="Every release from the club's Drive archive is listed here, but the PDF files themselves still need to be added under public/press-releases/<year>/ (the Drive folders have downloads disabled), and each entry needs its real headline and a short summary. Remove this note once both are done."
-    />
   </section>
 </BaseLayout>

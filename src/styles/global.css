@@ -182,12 +182,6 @@
     background-image: linear-gradient(120deg, #f1f3f8 15%, #8b5cf6 55%, #2dd4bf 90%);
   }
 
-  .placeholder-note {
-    @apply rounded-lg border border-dashed px-4 py-3 text-sm;
-    border-color: color-mix(in srgb, var(--color-nebula-amber) 60%, transparent);
-    background-color: color-mix(in srgb, var(--color-nebula-amber) 10%, transparent);
-    color: var(--color-nebula-amber);
-  }
 }
 
 /* Scroll reveal. `.reveal` is only ever added by script, so a no-JS visitor

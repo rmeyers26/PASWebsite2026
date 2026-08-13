@@ -5,7 +5,6 @@ import Hero from '../components/Hero.astro';
 import FeatureSplit from '../components/FeatureSplit.astro';
 import heroPhoto from '../assets/images/star-tours-eaa-day.jpg';
 import visualChild from '../assets/images/star-tours-visual-child.jpg';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 
 // The individual pieces below (Kids Corner, the resource links, telescope
 // workshops) already existed as good, disconnected content — this sequence
@@ -285,8 +284,9 @@ const careerLinks = [
   </FeatureSplit>
 
   <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote
-      label="External resources on this page are third-party sites chosen as generally recognized starting points, not PAS endorsements, and the careers answers are general guidance rather than club-authored advice — both are worth a club review before launch. If PAS has its own beginner handouts, youth program, or recommended reading list, they should replace or supplement these."
-    />
+    <p class="text-sm text-ink-muted">
+      External resources on this page are third-party sites chosen as generally recognized starting points, not
+      PAS endorsements, and the careers answers are general guidance rather than club-authored advice.
+    </p>
   </section>
 </BaseLayout>

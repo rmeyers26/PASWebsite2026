@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 
 type Lecture = {
   date: string;
@@ -184,10 +183,4 @@ const lectureDataJson = JSON.stringify(displayLectures).replace(/<\/script/gi, '
     import { initLectureSearch } from '../scripts/lecture-search';
     initLectureSearch();
   </script>
-
-  <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote
-      label="Seasons 2020-2021 through 2023-2024 are listed here from the club's prior lecture archive, with recording links carried over for every lecture where one existed on the old site. Four talks never had a recording posted (Sept 2020, Feb 2022, Sept 2023, Nov 2023) — add their links via the CMS if they turn up. The 2024-2025 and later seasons also still need to be added. Remove this note once the archive is current."
-    />
-  </section>
 </BaseLayout>
