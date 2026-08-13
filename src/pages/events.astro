@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 import telescopesAtDusk from '../assets/images/star-tours-corporate-event.jpg';
 import lectureMeeting from '../assets/images/events-lecture-meeting.jpg';
 import lowellObservatoryTour from '../assets/images/events-lowell-observatory-tour.jpg';
@@ -297,10 +296,7 @@ const starPartySchema = {
         PAS brings telescopes and presenters to schools, scout troops, and community organizations for hands-on
         astronomy outreach, through our Star Tours program.
       </p>
-      <div class="mt-6">
-        <PlaceholderNote label="A self-serve online request form is planned for a future phase. Until then, Star Tours events are booked by email." />
-      </div>
-      <a href="/star-tours" class="btn-secondary mt-6">See Star Tours Details</a>
+      <a href="/star-tours#book-an-event" class="btn-secondary mt-6">Request a Star Tours Event</a>
     </div>
   </section>
 </BaseLayout>

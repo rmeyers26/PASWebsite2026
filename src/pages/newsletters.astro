@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 import PdfArchiveList from '../components/PdfArchiveList.astro';
 import PdfArchiveItem from '../components/PdfArchiveItem.astro';
 import ArchiveEmptyState from '../components/ArchiveEmptyState.astro';
@@ -79,9 +78,5 @@ const latest = latestIssues[0];
         )
       }
     </div>
-  </section>
-
-  <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote label="Newsletter issues are managed from the CMS (Content > Newsletters) — add a new issue there each month, and older issues can be uploaded to build out the historical archive. Remove this note once the archive is populated." />
   </section>
 </BaseLayout>

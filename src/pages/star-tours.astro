@@ -40,18 +40,6 @@ const presentations = [
   'The history of our universe',
 ];
 
-const bookingInfo = [
-  'Event sponsor',
-  'Name of event',
-  'Brief description of the event',
-  'Date',
-  'Times (start & end)',
-  'Location address',
-  'Number of telescopes (operators) desired',
-  'Additional presenters (e.g. meteorites) desired',
-  "Contact's name, email, and telephone",
-];
-
 const samplePhotos = [
   { src: sampleHelixNebula, alt: 'The Helix Nebula, a colorful planetary nebula', caption: 'The Helix Nebula' },
   { src: sampleWhirlpoolGalaxy, alt: 'The Whirlpool Galaxy, a spiral galaxy with a companion galaxy', caption: 'The Whirlpool Galaxy' },
@@ -74,6 +62,12 @@ const monthlyDsoTargets = monthOrder.map((month) => ({
   month,
   targets: skyTargetsEntry.data.targets.filter((t) => t.month === month),
 }));
+
+// Web3Forms posts back to this same URL with ?submitted=true (see the hidden
+// "redirect" field below) when JavaScript is unavailable, so the confirmation
+// still works without the fetch-based enhancement in star-tours-form.ts.
+const submitted = Astro.url.searchParams.get('submitted') === 'true';
+const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.site).toString();
 ---
 
 <BaseLayout
@@ -103,7 +97,7 @@ const monthlyDsoTargets = monthOrder.map((month) => ({
         celebrations, and corporate events — brought to you by amateur astronomers with excellent telescope
         operation and presentation skills.
       </p>
-      <a href="mailto:startours@pasaz.org" class="btn-primary mt-10 inline-flex">Book an Event</a>
+      <a href="#book-an-event" class="btn-primary mt-10 inline-flex">Book an Event</a>
     </div>
   </section>
 
@@ -354,22 +348,123 @@ const monthlyDsoTargets = monthOrder.map((month) => ({
     </div>
   </section>
 
-  <section class="border-t border-subtle">
-    <div class="mx-auto max-w-4xl px-6 py-20">
+  <section id="book-an-event" class="border-t border-subtle">
+    <div class="mx-auto max-w-2xl px-6 py-20">
       <h2 class="section-heading">Book an Event</h2>
       <p class="mt-4 text-ink-muted">
-        If your organization, business, school, or scout troop is interested in scheduling a private event,
-        contact us at <a href="mailto:startours@pasaz.org" class="text-nebula-teal hover:underline">startours@pasaz.org</a> and
-        include the following:
+        If your organization, business, school, or scout troop is interested in scheduling a private event, send
+        us the details below and we'll follow up to confirm availability and pricing.
       </p>
-      <ul class="mt-6 grid gap-3 sm:grid-cols-2">
-        {
-          bookingInfo.map((item) => (
-            <li class="rounded-lg border border-subtle bg-space-card px-5 py-4 text-sm text-ink-muted">{item}</li>
-          ))
-        }
-      </ul>
-      <a href="mailto:startours@pasaz.org" class="btn-primary mt-8">Email startours@pasaz.org</a>
+
+      <p
+        id="star-tours-success-banner"
+        class:list={['mt-8 rounded-lg border border-nebula-teal/40 bg-nebula-teal/10 px-4 py-3 text-center text-nebula-teal', { hidden: !submitted }]}
+        role="status"
+      >
+        Thanks — your request has been sent. We'll be in touch soon.
+      </p>
+
+      <form id="star-tours-form" action="https://api.web3forms.com/submit" method="POST" class="mt-8 grid gap-4">
+        <input type="hidden" name="access_key" value="30186d30-d264-4905-8091-05ff22111402" />
+        <input type="hidden" name="subject" value="New Star Tours booking request from the PAS website" />
+        <input type="hidden" name="from_name" value="PAS Website Star Tours Request Form" />
+        <input type="hidden" name="redirect" value={redirectURL} />
+        <!-- Honeypot: real visitors never see or fill this in; bots that
+             autofill every field do, and Web3Forms silently drops the
+             submission. See https://docs.web3forms.com for the "botcheck"
+             convention. -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off" />
+
+        <div>
+          <label for="st-sponsor" class="text-sm text-ink-muted">Event Sponsor / Organization</label>
+          <input id="st-sponsor" name="sponsor" type="text" required class="form-input mt-1" />
+        </div>
+        <div>
+          <label for="st-event-name" class="text-sm text-ink-muted">Name of Event</label>
+          <input id="st-event-name" name="event_name" type="text" required class="form-input mt-1" />
+        </div>
+        <div>
+          <label for="st-description" class="text-sm text-ink-muted">Brief Description</label>
+          <textarea id="st-description" name="description" rows="3" required class="form-input mt-1"></textarea>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <label for="st-date" class="text-sm text-ink-muted">Date</label>
+            <input id="st-date" name="date" type="date" required class="form-input mt-1" />
+          </div>
+          <div>
+            <label for="st-start-time" class="text-sm text-ink-muted">Start Time</label>
+            <input id="st-start-time" name="start_time" type="time" required class="form-input mt-1" />
+          </div>
+          <div>
+            <label for="st-end-time" class="text-sm text-ink-muted">End Time</label>
+            <input id="st-end-time" name="end_time" type="time" required class="form-input mt-1" />
+          </div>
+        </div>
+        <div>
+          <label for="st-location" class="text-sm text-ink-muted">Location Address</label>
+          <input id="st-location" name="location" type="text" required class="form-input mt-1" />
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="st-telescopes" class="text-sm text-ink-muted">Number of Telescopes Desired</label>
+            <input id="st-telescopes" name="telescopes_desired" type="number" min="1" required class="form-input mt-1" />
+          </div>
+          <div>
+            <label for="st-presenters" class="text-sm text-ink-muted">Additional Presenters Desired</label>
+            <input
+              id="st-presenters"
+              name="presenters_desired"
+              type="text"
+              placeholder="e.g. meteorites, none"
+              class="form-input mt-1"
+            />
+          </div>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <label for="st-contact-name" class="text-sm text-ink-muted">Contact Name</label>
+            <input id="st-contact-name" name="name" type="text" autocomplete="name" required class="form-input mt-1" />
+          </div>
+          <div>
+            <label for="st-contact-email" class="text-sm text-ink-muted">Contact Email</label>
+            <input id="st-contact-email" name="email" type="email" autocomplete="email" required class="form-input mt-1" />
+          </div>
+          <div>
+            <label for="st-contact-phone" class="text-sm text-ink-muted">Contact Phone</label>
+            <input id="st-contact-phone" name="phone" type="tel" autocomplete="tel" required class="form-input mt-1" />
+          </div>
+        </div>
+
+        <p id="star-tours-form-status" class="hidden text-sm" role="status"></p>
+
+        <button type="submit" class="btn-primary mt-2">Send Request</button>
+      </form>
+
+      <p class="mt-4 text-sm text-ink-muted">
+        Prefer email? Reach us directly at{' '}
+        <a href="mailto:startours@pasaz.org" class="text-nebula-teal hover:underline">startours@pasaz.org</a>.
+      </p>
     </div>
   </section>
+
+  <script>
+    import { initStarToursForm } from '../scripts/star-tours-form';
+    initStarToursForm();
+  </script>
 </BaseLayout>
+
+<style>
+  .form-input {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border-subtle, #3a3a4a);
+    background-color: transparent;
+    padding: 0.55rem 0.75rem;
+    color: inherit;
+  }
+  .form-input:focus {
+    outline: 2px solid var(--color-nebula-teal, #2dd4bf);
+    outline-offset: 1px;
+  }
+</style>
