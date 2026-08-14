@@ -10,7 +10,7 @@ const { tiers: membershipTiers, addOns } = (await getEntry('membership', 'data')
 // Membership" — the club's own published list, lightly tightened for a
 // scannable card grid.
 const benefits = [
-  "Help PAS carry out its mission of astronomy outreach and education",
+  'Help PAS carry out its mission of astronomy outreach and education',
   "Support the Society's college scholarships for astronomy students",
   'Join the members-only email list and get PAStimes, our monthly newsletter',
   'Borrow from the PAS telescope loaner program',
@@ -27,10 +27,7 @@ const benefits = [
 const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : price.toFixed(2)}`;
 ---
 
-<BaseLayout
-  title="Join"
-  description="Become a member of the Phoenix Astronomical Society."
->
+<BaseLayout title="Join" description="Become a member of the Phoenix Astronomical Society.">
   <Hero
     image={heroPhoto}
     alt="PAS members and guests gathered around a telescope at dusk, with string lights and desert cactus around them"
@@ -47,7 +44,7 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
       {
         benefits.map((benefit) => (
           <li class="flex items-start gap-3 rounded-lg border border-subtle bg-space-card px-5 py-4 text-ink-muted">
-            <span class="mt-2 h-2 w-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
+            <span class="mt-2 size-2 flex-none rounded-full bg-nebula-violet" aria-hidden="true" />
             {benefit}
           </li>
         ))
@@ -72,7 +69,7 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
         }
       </div>
 
-      <h3 class="font-display mt-10 text-lg text-ink-primary">Optional Add-Ons</h3>
+      <h3 class="mt-10 font-display text-lg text-ink-primary">Optional Add-Ons</h3>
       <div class="mt-4 grid gap-4 sm:grid-cols-2">
         {
           addOns.map((item) => (
@@ -89,8 +86,8 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
         }
       </div>
 
-      <h3 class="font-display mt-10 text-lg text-ink-primary">Apply for Membership</h3>
-      <div class="mt-4" data-paperform-id="pasazmembership" />
+      <h3 class="mt-10 font-display text-lg text-ink-primary">Apply for Membership</h3>
+      <div class="mt-4" data-paperform-id="pasazmembership"></div>
     </div>
   </section>
 
@@ -98,10 +95,12 @@ const formatPrice = (price: number) => `$${Number.isInteger(price) ? price : pri
     <div class="mx-auto max-w-4xl px-6 py-20 text-center">
       <h2 class="section-heading">Ready to Join?</h2>
       <p class="mx-auto mt-4 max-w-xl text-ink-muted">
-        We now offer a year-round membership, which means you can join at any time with no enrollment
-        deadlines, and you'll receive a full 12 months of benefits. If you have any questions, our Membership
-        Manager is happy to help at{' '}
-        <a href="mailto:membership@pasaz.org" class="text-nebula-teal hover:underline">membership@pasaz.org</a>.
+        We now offer a year-round membership, which means you can join at any time with no
+        enrollment deadlines, and you'll receive a full 12 months of benefits. If you have any
+        questions, our Membership Manager is happy to help at{' '}
+        <a href="mailto:membership@pasaz.org" class="text-nebula-teal hover:underline"
+          >membership@pasaz.org</a
+        >.
       </p>
       <a href="mailto:membership@pasaz.org" class="btn-primary mt-8">Email membership@pasaz.org</a>
     </div>

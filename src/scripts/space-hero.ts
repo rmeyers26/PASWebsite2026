@@ -90,10 +90,14 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
     WebGLRenderer,
   } = await import('three');
 
-
   let renderer: T.WebGLRenderer;
   try {
-    renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+    renderer = new WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'low-power',
+    });
   } catch {
     return; // No WebGL — the CSS gradient fallback behind the canvas stands on its own.
   }
@@ -131,7 +135,16 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
     el.width = size;
     el.height = size;
     const ctx = el.getContext('2d')!;
-    const bands = ['#e8d9b5', '#dfc9a0', '#e3d3ab', '#cbb182', '#e6d8b8', '#d4bd90', '#ecdfc0', '#d8c497'];
+    const bands = [
+      '#e8d9b5',
+      '#dfc9a0',
+      '#e3d3ab',
+      '#cbb182',
+      '#e6d8b8',
+      '#d4bd90',
+      '#ecdfc0',
+      '#d8c497',
+    ];
     const bandHeight = size / bands.length;
     bands.forEach((color, i) => {
       ctx.fillStyle = color;
@@ -186,7 +199,7 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
         30 + Math.random() * 50,
         Math.random() * Math.PI,
         0,
-        Math.PI * 2,
+        Math.PI * 2
       );
       ctx.fill();
     }
@@ -338,7 +351,8 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
       const r = Math.pow(Math.random(), 1.5) * radius;
       const spinAngle = r * spin;
       const branchAngle = ((i % branches) / branches) * Math.PI * 2;
-      const rand = () => Math.pow(Math.random(), randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * randomness * r;
+      const rand = () =>
+        Math.pow(Math.random(), randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * randomness * r;
 
       positions[i3] = Math.cos(branchAngle + spinAngle) * r + rand();
       positions[i3 + 1] = rand() * 0.12; // a thin disk, flattened further by the tilt below
@@ -389,7 +403,7 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
       opacity: 0.8,
       blending: AdditiveBlending,
       depthWrite: false,
-    }),
+    })
   );
   galaxyCoreGlow.scale.setScalar(6.5);
   galaxyGroup.add(galaxyCoreGlow);
@@ -408,7 +422,7 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
         opacity: 0.55,
         blending: AdditiveBlending,
         depthWrite: false,
-      }),
+      })
     );
     satellite.position.set(x, y, z);
     satellite.scale.setScalar(scale);
@@ -436,13 +450,13 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
       .replace(
         '#include <common>',
         `#include <common>
-         varying vec3 vViewPosition_ld;`,
+         varying vec3 vViewPosition_ld;`
       )
       .replace(
         '#include <dithering_fragment>',
         `#include <dithering_fragment>
          float ndv = clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0);
-         gl_FragColor.rgb *= mix(0.35, 1.0, pow(ndv, 0.55));`,
+         gl_FragColor.rgb *= mix(0.35, 1.0, pow(ndv, 0.55));`
       );
   };
 
@@ -469,7 +483,7 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
       side: DoubleSide,
       transparent: true,
       opacity: 0.92,
-    }),
+    })
   );
   ringMesh.rotation.x = Math.PI / 2 - 0.35;
   saturnGroup.add(ringMesh);
@@ -480,7 +494,12 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
   const moonTexture = makeMoonTexture();
   const moonMesh = new Mesh(
     new SphereGeometry(0.85, 40, 40),
-    new MeshStandardMaterial({ map: moonTexture, bumpMap: moonTexture, bumpScale: 0.04, roughness: 1 }),
+    new MeshStandardMaterial({
+      map: moonTexture,
+      bumpMap: moonTexture,
+      bumpScale: 0.04,
+      roughness: 1,
+    })
   );
   scene.add(moonMesh);
 
@@ -523,14 +542,14 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
     galaxyGroup.position.set(
       galaxyFrustum.halfWidth * layout.galaxy.x,
       galaxyFrustum.halfHeight * layout.galaxy.y,
-      GALAXY_DEPTH,
+      GALAXY_DEPTH
     );
 
     const saturnFrustum = frustumAt(SATURN_DEPTH);
     saturnGroup.position.set(
       saturnFrustum.halfWidth * layout.saturn.x,
       saturnFrustum.halfHeight * layout.saturn.y,
-      SATURN_DEPTH,
+      SATURN_DEPTH
     );
     saturnGroup.scale.setScalar(layout.saturn.scale);
 
@@ -538,7 +557,7 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
     moonMesh.position.set(
       moonFrustum.halfWidth * layout.moon.x,
       moonFrustum.halfHeight * layout.moon.y,
-      MOON_DEPTH,
+      MOON_DEPTH
     );
     moonMesh.scale.setScalar(layout.moon.scale);
   };
@@ -553,7 +572,14 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
     const length = 3 + Math.random() * 2;
     const dir = new Vector3(1, -0.55, 0).normalize();
 
-    const positions = new Float32Array([0, 0, 0, -dir.x * length, -dir.y * length, -dir.z * length]);
+    const positions = new Float32Array([
+      0,
+      0,
+      0,
+      -dir.x * length,
+      -dir.y * length,
+      -dir.z * length,
+    ]);
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(positions, 3));
     const material = new LineBasicMaterial({ color: 0xf1f3f8, transparent: true, opacity: 0 });
@@ -601,7 +627,9 @@ async function renderScene(section: HTMLElement, canvas: HTMLCanvasElement) {
   }
 
   let visible = true;
-  const observer = new IntersectionObserver((entries) => (visible = entries[0].isIntersecting), { threshold: 0 });
+  const observer = new IntersectionObserver((entries) => (visible = entries[0].isIntersecting), {
+    threshold: 0,
+  });
   observer.observe(section);
 
   let resizeRaf = 0;

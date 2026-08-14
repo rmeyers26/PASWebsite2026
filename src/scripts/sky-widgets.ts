@@ -25,10 +25,10 @@ function updateMoonPhase() {
   if (!iconEl || !nameEl || !illumEl) return;
 
   const ageDays = ((Date.now() - KNOWN_NEW_MOON_UTC) / 86_400_000) % LUNAR_MONTH_DAYS;
-  const fraction = ((ageDays % LUNAR_MONTH_DAYS) + LUNAR_MONTH_DAYS) / LUNAR_MONTH_DAYS % 1;
+  const fraction = (((ageDays % LUNAR_MONTH_DAYS) + LUNAR_MONTH_DAYS) / LUNAR_MONTH_DAYS) % 1;
   // Fraction of the disc lit — exact for a circular orbit approximation,
   // which is what a decorative widget like this needs, not an almanac.
-  const illumination = Math.round((1 - Math.cos(2 * Math.PI * fraction)) / 2 * 100);
+  const illumination = Math.round(((1 - Math.cos(2 * Math.PI * fraction)) / 2) * 100);
   const phase = MOON_PHASES.find((p) => fraction <= p.max) ?? MOON_PHASES[0];
 
   iconEl.textContent = phase.icon;
@@ -54,7 +54,11 @@ function updateMeteorShowers() {
 
     const dateEl = item.querySelector('.shower-date');
     if (dateEl) {
-      const withYear = next.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      const withYear = next.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      });
       dateEl.textContent = `Peaks ${withYear}`;
     }
 

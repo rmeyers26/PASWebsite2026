@@ -22,7 +22,7 @@ const redirectURL = new URL('/contact?submitted=true', Astro.site).toString();
 <BaseLayout title="Contact" description="Get in touch with the Phoenix Astronomical Society.">
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
-      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal" />
+      <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
       Contact
     </span>
     <h1 class="font-display text-d2 tracking-tight text-ink-primary">Get in Touch</h1>
@@ -39,13 +39,21 @@ const redirectURL = new URL('/contact?submitted=true', Astro.site).toString();
     <div class="mx-auto max-w-2xl px-6 py-16">
       <p
         id="contact-success-banner"
-        class:list={['mb-8 rounded-lg border border-nebula-teal/40 bg-nebula-teal/10 px-4 py-3 text-center text-nebula-teal', { hidden: !submitted }]}
+        class:list={[
+          'mb-8 rounded-lg border border-nebula-teal/40 bg-nebula-teal/10 px-4 py-3 text-center text-nebula-teal',
+          { hidden: !submitted },
+        ]}
         role="status"
       >
         Thanks — your message has been sent. We'll be in touch soon.
       </p>
 
-      <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="grid gap-4">
+      <form
+        id="contact-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        class="grid gap-4"
+      >
         <input type="hidden" name="access_key" value="30186d30-d264-4905-8091-05ff22111402" />
         <input type="hidden" name="subject" value="New message from the PAS website contact form" />
         <input type="hidden" name="from_name" value="PAS Website Contact Form" />
@@ -54,15 +62,36 @@ const redirectURL = new URL('/contact?submitted=true', Astro.site).toString();
              autofill every field do, and Web3Forms silently drops the
              submission. See https://docs.web3forms.com for the "botcheck"
              convention. -->
-        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off" />
+        <input
+          type="checkbox"
+          name="botcheck"
+          class="hidden"
+          style="display: none;"
+          tabindex="-1"
+          autocomplete="off"
+        />
 
         <div>
           <label for="name" class="text-sm text-ink-muted">Name</label>
-          <input id="name" name="name" type="text" autocomplete="name" required class="form-input mt-1" />
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            class="form-input mt-1"
+          />
         </div>
         <div>
           <label for="email" class="text-sm text-ink-muted">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required class="form-input mt-1" />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+            class="form-input mt-1"
+          />
         </div>
         <div>
           <label for="reason" class="text-sm text-ink-muted">What's this about?</label>
@@ -73,7 +102,8 @@ const redirectURL = new URL('/contact?submitted=true', Astro.site).toString();
         </div>
         <div>
           <label for="message" class="text-sm text-ink-muted">Message</label>
-          <textarea id="message" name="message" rows="5" required class="form-input mt-1"></textarea>
+          <textarea id="message" name="message" rows="5" required class="form-input mt-1"
+          ></textarea>
         </div>
 
         <p id="contact-form-status" class="hidden text-sm" role="status"></p>
