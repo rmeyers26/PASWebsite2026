@@ -13,7 +13,10 @@ function loadPaperformEmbed() {
 
 function bindPaperformEmbed() {
   const targets = document.querySelectorAll<HTMLElement>('[data-paperform-id]');
-  observeOnce(targets, loadPaperformEmbed, { rootMargin: '300px 0px', onUnsupported: loadPaperformEmbed });
+  observeOnce(targets, loadPaperformEmbed, {
+    rootMargin: '300px 0px',
+    onUnsupported: loadPaperformEmbed,
+  });
 }
 
 export function initJoinPaperformEmbed(): void {

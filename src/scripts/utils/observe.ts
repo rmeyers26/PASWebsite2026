@@ -12,7 +12,7 @@ interface ObserveOnceOptions<T extends Element> extends IntersectionObserverInit
 export function observeOnce<T extends Element>(
   targets: T[] | NodeListOf<T>,
   onIntersect: (target: T) => void,
-  { onUnsupported, ...init }: ObserveOnceOptions<T> = {},
+  { onUnsupported, ...init }: ObserveOnceOptions<T> = {}
 ): IntersectionObserver | undefined {
   const list = Array.from(targets);
   if (!list.length) return undefined;

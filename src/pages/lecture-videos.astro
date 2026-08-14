@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PlaceholderNote from '../components/PlaceholderNote.astro';
 
 type Lecture = {
   date: string;
@@ -73,13 +72,15 @@ const lectureDataJson = JSON.stringify(displayLectures).replace(/<\/script/gi, '
 >
   <section class="mx-auto max-w-4xl px-6 py-24 text-center">
     <span class="glass-badge mb-6">
-      <span class="h-1.5 w-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
+      <span class="size-1.5 rounded-full bg-nebula-teal shadow-glow-teal"></span>
       Lecture Series
     </span>
     <h1 class="font-display text-d2 tracking-tight text-ink-primary">Previous Lectures</h1>
     <p class="mx-auto mt-6 max-w-2xl text-ink-muted">
       Recordings of past guest speakers and member talks from our{' '}
-      <a href="/events#where-we-meet" class="text-nebula-teal hover:underline">Monthly Lecture Series</a>{' '}
+      <a href="/events#where-we-meet" class="text-nebula-teal hover:underline"
+        >Monthly Lecture Series</a
+      >{' '}
       — astrophotography, planetary science, and current research from PAS members and visiting researchers.
     </p>
   </section>
@@ -89,7 +90,8 @@ const lectureDataJson = JSON.stringify(displayLectures).replace(/<\/script/gi, '
       {
         seasons.length === 0 ? (
           <p class="text-ink-muted">
-            Lecture recordings will be posted here as they become available. In the meantime, see our{' '}
+            Lecture recordings will be posted here as they become available. In the meantime, see
+            our{' '}
             <a href="/events" class="text-nebula-teal hover:underline">
               upcoming events
             </a>{' '}
@@ -166,7 +168,9 @@ const lectureDataJson = JSON.stringify(displayLectures).replace(/<\/script/gi, '
                         </p>
                         {lecture.summary && <p class="mt-2 text-ink-muted">{lecture.summary}</p>}
                         {!lecture.videoUrl && (
-                          <p class="mt-2 text-sm italic text-ink-muted">Recording link coming soon.</p>
+                          <p class="mt-2 text-sm text-ink-muted italic">
+                            Recording link coming soon.
+                          </p>
                         )}
                       </li>
                     ))}
@@ -184,10 +188,4 @@ const lectureDataJson = JSON.stringify(displayLectures).replace(/<\/script/gi, '
     import { initLectureSearch } from '../scripts/lecture-search';
     initLectureSearch();
   </script>
-
-  <section class="mx-auto max-w-4xl px-6 py-16">
-    <PlaceholderNote
-      label="Seasons 2020-2021 through 2023-2024 are listed here from the club's prior lecture archive, with recording links carried over for every lecture where one existed on the old site. Four talks never had a recording posted (Sept 2020, Feb 2022, Sept 2023, Nov 2023) — add their links via the CMS if they turn up. The 2024-2025 and later seasons also still need to be added. Remove this note once the archive is current."
-    />
-  </section>
 </BaseLayout>

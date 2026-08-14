@@ -7,20 +7,39 @@ interface Props {
 }
 
 const { entry, titleClass = 'font-semibold text-ink-primary hover:text-nebula-teal' } = Astro.props;
+
+// groupPdfArchiveByYear only leaves `size` undefined when it couldn't stat the
+// file on disk — i.e. the PDF hasn't been uploaded yet. Linking to it anyway
+// would just 404, so fall back to plain text instead of a link in that case.
+const available = entry.size !== undefined;
 ---
 
 <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-  {/* Same-origin document, so no new tab and no ↗ — this
+  {
+    /* Same-origin document, so no new tab and no ↗ — this
       site reserves both for links that leave it. The file
       type and size sit in the link text so the label is
-      honest about what following it does. */}
-  <a href={entry.file} type="application/pdf" class={titleClass}>
-    {entry.title ?? <time datetime={entry.date}>{entry.displayDate}</time>}
-  </a>
-  <span class="text-sm text-ink-muted">PDF{entry.size ? ` · ${entry.size}` : ''}</span>
+      honest about what following it does. */
+  }
+  {
+    available ? (
+      <a href={entry.file} type="application/pdf" class={titleClass}>
+        {entry.title ?? <time datetime={entry.date}>{entry.displayDate}</time>}
+      </a>
+    ) : (
+      <span class={titleClass}>
+        {entry.title ?? <time datetime={entry.date}>{entry.displayDate}</time>}
+      </span>
+    )
+  }
+  <span class="text-sm text-ink-muted"
+    >{available ? `PDF${entry.size ? ` · ${entry.size}` : ''}` : 'PDF coming soon'}</span
+  >
 </div>
-{/* Only a second line when the link text is the headline —
-    otherwise the date would be printed twice. */}
+{
+  /* Only a second line when the link text is the headline —
+    otherwise the date would be printed twice. */
+}
 {
   entry.title && (
     <time datetime={entry.date} class="mt-1 block text-sm text-nebula-teal">

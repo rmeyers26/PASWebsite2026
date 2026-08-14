@@ -5,19 +5,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Page Not Found" description="This page doesn't exist.">
   <section class="mx-auto max-w-2xl px-6 py-32 text-center">
     <span class="glass-badge">
-      <span class="h-1.5 w-1.5 rounded-full bg-nebula-amber shadow-glow-amber" />
+      <span class="size-1.5 rounded-full bg-nebula-amber shadow-glow-amber"></span>
       404
     </span>
     <h1 class="mt-6 font-display text-d2 tracking-tight text-ink-primary">Lost in Space</h1>
-    <p class="mt-4 text-ink-muted">We couldn't find that page. Let's get you back to clearer skies.</p>
+    <p class="mt-4 text-ink-muted">
+      We couldn't find that page. Let's get you back to clearer skies.
+    </p>
     <a href="/" class="btn-primary mt-8">Back to Home</a>
     <nav aria-label="Popular pages" class="mt-10">
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Popular pages</p>
+      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Popular pages</p>
       <ul class="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2">
         <li><a href="/" class="text-nebula-teal hover:underline">Home</a></li>
         <li><a href="/events" class="text-nebula-teal hover:underline">Events</a></li>
         <li><a href="/join" class="text-nebula-teal hover:underline">Join</a></li>
-        <li><a href="/sky-conditions" class="text-nebula-teal hover:underline">Sky Conditions</a></li>
+        <li>
+          <a href="/sky-conditions" class="text-nebula-teal hover:underline">Sky Conditions</a>
+        </li>
       </ul>
     </nav>
   </section>

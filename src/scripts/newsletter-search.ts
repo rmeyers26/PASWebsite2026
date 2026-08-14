@@ -97,7 +97,7 @@ function bindNewsletterSearch() {
     const sortBy = sortSelect!.value;
 
     let filtered = issues.filter(
-      (i) => !query || `${i.title ?? ''} ${i.summary ?? ''}`.toLowerCase().includes(query),
+      (i) => !query || `${i.title ?? ''} ${i.summary ?? ''}`.toLowerCase().includes(query)
     );
 
     if (sortBy === 'oldest') filtered = [...filtered].sort((a, b) => a.date.localeCompare(b.date));
