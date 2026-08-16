@@ -135,6 +135,7 @@ const officers = defineCollection({
     email: z.email('must be a valid email address, e.g. president@pasaz.org'),
     // Sorts the officer cards; the CMS field is value_type: int.
     order: z.number().int('must be a whole number').nonnegative('must not be negative'),
+    bio: optional(text),
     // Astro resolves an image()-typed field for every entry, even ones
     // where the actual value is a CMS-uploaded public/ URL string — a
     // union with image() doesn't fall back gracefully per-entry, it just

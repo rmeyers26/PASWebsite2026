@@ -89,6 +89,7 @@ collections:
       - { label: "Email", name: email, widget: string }
       - { label: "Display Order", name: order, widget: number, value_type: int, hint: "Controls the order officer cards appear in on the About page." }
       - { label: "Photo", name: photo, widget: image, required: false }
+      - { label: "Bio", name: bio, widget: text, required: false, hint: "A short biography shown on the Club Leadership page." }
 
   - name: gallery
     label: "Member Gallery"
