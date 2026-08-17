@@ -40,6 +40,7 @@ collections:
     format: json
     create: true
     slug: "{{date}}-press-release"
+    summary: "{{title}} — {{date | date('MMM D, YYYY')}}"
     fields:
       - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Title", name: title, widget: string, required: false, hint: "Leave blank for older releases without a known headline yet." }
