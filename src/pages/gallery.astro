@@ -59,6 +59,32 @@ const firstPhoto = allPhotos.at(0);
     focalPoint="50% 40%"
   />
 
+  <!-- Two sections is enough to make jumping past 14+ astrophotos to reach
+       the club-event snapshots (or back) worth a shortcut. Matches the
+       in-page nav pattern on /sky-conditions: sticky directly beneath the
+       site header, horizontally scrollable so it never wraps on mobile. -->
+  {
+    eventPhotos.length > 0 && (
+      <nav
+        aria-label="On this page"
+        class="sticky top-17 z-30 border-b border-subtle bg-space-base/90 backdrop-blur-xl"
+      >
+        <ul class="mx-auto flex max-w-5xl gap-6 overflow-x-auto px-6 py-3 text-sm whitespace-nowrap">
+          <li>
+            <a href="#member-images" class="text-ink-muted transition hover:text-nebula-teal">
+              Member Images
+            </a>
+          </li>
+          <li>
+            <a href="#club-events" class="text-ink-muted transition hover:text-nebula-teal">
+              Club Events
+            </a>
+          </li>
+        </ul>
+      </nav>
+    )
+  }
+
   <section class="mx-auto max-w-3xl px-6 py-16 text-center">
     <p class="text-ink-muted">
       Every image below was shot and processed by a PAS member — many of them regulars at our public
@@ -69,7 +95,7 @@ const firstPhoto = allPhotos.at(0);
     </p>
   </section>
 
-  <section class="border-t border-subtle">
+  <section id="member-images" class="scroll-mt-32 border-t border-subtle">
     <div class="mx-auto max-w-4xl px-6 py-16">
       {
         photos.length === 0 ? (
@@ -121,7 +147,7 @@ const firstPhoto = allPhotos.at(0);
 
   {
     eventPhotos.length > 0 && (
-      <section class="border-t border-subtle">
+      <section id="club-events" class="scroll-mt-32 border-t border-subtle">
         <div class="mx-auto max-w-4xl px-6 py-16">
           <h2 class="section-heading text-center">Club Events</h2>
           <p class="mx-auto mt-4 max-w-xl text-center text-ink-muted">
