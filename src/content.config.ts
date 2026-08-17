@@ -100,6 +100,25 @@ const externalUrl = z.url({
   error: 'must be a full http(s) link, e.g. https://example.org/page',
 });
 
+const announcements = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/announcements' }),
+  schema: z
+    .object({
+      // Shown in the homepage banner (AnnouncementBanner.astro), which
+      // visually clamps this to 5 lines regardless of how much is entered.
+      message: text,
+      // ISO 'YYYY-MM-DD'. The banner shows only while today falls within
+      // [startDate, endDate] inclusive — see AnnouncementBanner.astro for
+      // the comparison, and its build-time-only caveat.
+      startDate: isoDate,
+      endDate: isoDate,
+    })
+    .refine((entry) => entry.endDate >= entry.startDate, {
+      message: 'End Date must be on or after Start Date',
+      path: ['endDate'],
+    }),
+});
+
 const pressReleases = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/press-releases' }),
   schema: z.object({
@@ -465,6 +484,7 @@ const membership = defineCollection({
 });
 
 export const collections = {
+  announcements,
   'press-releases': pressReleases,
   newsletters,
   'newsletter-archive': newsletterArchive,

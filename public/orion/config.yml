@@ -33,6 +33,19 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+  - name: announcements
+    label: "📢 Announcements"
+    description: "Add or remove as needed. Shown in a banner at the top of the homepage only between the Start and End Date — hidden the rest of the time. Note: the banner updates when the site next rebuilds (usually right after a CMS save), so it may not disappear the instant the End Date passes if nothing else is saved that day."
+    folder: "src/content/announcements"
+    format: json
+    create: true
+    slug: "{{fields.startDate}}-announcement"
+    summary: "{{fields.startDate}} → {{fields.endDate}} — {{fields.message}}"
+    fields:
+      - { label: "Message", name: message, widget: text, hint: "Keep it brief — about 5 lines will display on the homepage banner; anything longer is cut off." }
+      - { label: "Start Date", name: startDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, hint: "The banner appears on this date." }
+      - { label: "End Date", name: endDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, hint: "The banner stops appearing after this date." }
+
   - name: press-releases
     label: "🗓️ Press Releases"
     description: "Update monthly."
