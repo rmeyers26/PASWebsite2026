@@ -80,21 +80,6 @@ collections:
       - { label: "Summary", name: summary, widget: text, required: false }
       - { label: "Video URL", name: videoUrl, widget: string, required: false, hint: "Full link to the recording (Google Drive, YouTube, etc). Leave blank until a link is available." }
 
-  - name: officers
-    label: "Officers"
-    description: "Update annually."
-    folder: "src/content/officers"
-    format: json
-    create: true
-    slug: "{{fields.email}}"
-    fields:
-      - { label: "Role", name: role, widget: string }
-      - { label: "Name", name: name, widget: string }
-      - { label: "Email", name: email, widget: string }
-      - { label: "Display Order", name: order, widget: number, value_type: int, hint: "Controls the order officer cards appear in on the About page." }
-      - { label: "Photo", name: photo, widget: image, required: false }
-      - { label: "Bio", name: bio, widget: text, required: false, hint: "A short biography shown on the Club Leadership page." }
-
   - name: gallery
     label: "Member Gallery"
     description: "Update monthly."
@@ -126,6 +111,86 @@ collections:
               - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
               - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of this telescope/accessory shown on the Telescope Loan Program page." }
               - { label: "Manufacturer Link", name: manufacturerUrl, widget: string, required: false, hint: "Full link to the manufacturer's product page, e.g. https://www.orionoptics.com/product/xt10 — optional." }
+
+  - name: officers
+    label: "Officers"
+    description: "Update annually."
+    folder: "src/content/officers"
+    format: json
+    create: true
+    slug: "{{fields.email}}"
+    fields:
+      - { label: "Role", name: role, widget: string }
+      - { label: "Name", name: name, widget: string }
+      - { label: "Email", name: email, widget: string }
+      - { label: "Display Order", name: order, widget: number, value_type: int, hint: "Controls the order officer cards appear in on the About page." }
+      - { label: "Photo", name: photo, widget: image, required: false }
+      - { label: "Bio", name: bio, widget: text, required: false, hint: "A short biography shown on the Club Leadership page." }
+
+  - name: past-presidents
+    label: "Past Presidents"
+    description: "Update annually."
+    files:
+      - name: list
+        label: "Past Presidents List"
+        file: "src/content/past-presidents/past-presidents.json"
+        fields:
+          - name: presidents
+            label: "Presidents"
+            widget: list
+            summary: "{{fields.years}} — {{fields.name}}"
+            fields:
+              - { label: "Years", name: years, widget: string }
+              - { label: "Name", name: name, widget: string }
+              - { label: "Currently in Office?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting president." }
+              - { label: "Organization", name: org, widget: select, options: ["POA", "PAS"], hint: "POA = Phoenix Observatory Association (pre-1974). PAS = Phoenix Astronomical Society (1974–present)." }
+
+  - name: membership
+    label: "Membership Pricing"
+    description: "Update annually."
+    files:
+      - name: pricing
+        label: "Membership Pricing"
+        file: "src/content/membership/membership.json"
+        fields:
+          - name: tiers
+            label: "Membership Tiers"
+            widget: list
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Individual Membership'" }
+              - { label: "Annual Price ($)", name: price, widget: number, value_type: float, min: 0 }
+              - { label: "Most Common (badge)", name: featured, widget: boolean, required: false, default: false, hint: "Highlights this tier with a 'Most Common' badge on the Join page. Should be true on at most one tier." }
+          - name: addOns
+            label: "Optional Add-Ons"
+            widget: list
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Name Badge'" }
+              - { label: "Price ($)", name: price, widget: number, value_type: float, min: 0 }
+              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of the add-on shown on the Join page." }
+
+  - name: scholarship-winners
+    label: "Scholarship Winners"
+    description: "Update annually."
+    folder: "src/content/scholarship-winners"
+    format: json
+    create: true
+    slug: "{{fields.year}}-scholarship-winners"
+    fields:
+      - { label: "Year", name: year, widget: string, hint: "Four-digit year, e.g. 2026" }
+      - name: winners
+        label: "Winners"
+        widget: list
+        min: 1
+        max: 3
+        summary: "{{fields.name}}"
+        fields:
+          - { label: "Student Name", name: name, widget: string }
+          - { label: "School / College", name: school, widget: string }
+          - { label: "Scholarship Amount", name: amount, widget: string, required: false, hint: "e.g. \"$1,000\" — optional" }
+          - { label: "Description / Accomplishment", name: description, widget: text, required: false }
+          - { label: "Photo", name: photo, widget: image, required: false }
 
   - name: sky-targets
     label: "Sky Targets"
@@ -195,71 +260,6 @@ collections:
       - { label: "Description", name: body, widget: text }
       - { label: "Link", name: url, widget: string, hint: "Internal page (e.g. /asig) or an external URL if the group doesn't have its own page yet." }
       - { label: "Display Order", name: order, widget: number, value_type: int }
-
-  - name: past-presidents
-    label: "Past Presidents"
-    description: "Update annually."
-    files:
-      - name: list
-        label: "Past Presidents List"
-        file: "src/content/past-presidents/past-presidents.json"
-        fields:
-          - name: presidents
-            label: "Presidents"
-            widget: list
-            summary: "{{fields.years}} — {{fields.name}}"
-            fields:
-              - { label: "Years", name: years, widget: string }
-              - { label: "Name", name: name, widget: string }
-              - { label: "Currently in Office?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting president." }
-              - { label: "Organization", name: org, widget: select, options: ["POA", "PAS"], hint: "POA = Phoenix Observatory Association (pre-1974). PAS = Phoenix Astronomical Society (1974–present)." }
-
-  - name: membership
-    label: "Membership Pricing"
-    description: "Update annually."
-    files:
-      - name: pricing
-        label: "Membership Pricing"
-        file: "src/content/membership/membership.json"
-        fields:
-          - name: tiers
-            label: "Membership Tiers"
-            widget: list
-            summary: "{{fields.name}} — ${{fields.price}}"
-            fields:
-              - { label: "Name", name: name, widget: string, hint: "e.g. 'Individual Membership'" }
-              - { label: "Annual Price ($)", name: price, widget: number, value_type: float, min: 0 }
-              - { label: "Most Common (badge)", name: featured, widget: boolean, required: false, default: false, hint: "Highlights this tier with a 'Most Common' badge on the Join page. Should be true on at most one tier." }
-          - name: addOns
-            label: "Optional Add-Ons"
-            widget: list
-            summary: "{{fields.name}} — ${{fields.price}}"
-            fields:
-              - { label: "Name", name: name, widget: string, hint: "e.g. 'Name Badge'" }
-              - { label: "Price ($)", name: price, widget: number, value_type: float, min: 0 }
-              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of the add-on shown on the Join page." }
-
-  - name: scholarship-winners
-    label: "Scholarship Winners"
-    description: "Update annually."
-    folder: "src/content/scholarship-winners"
-    format: json
-    create: true
-    slug: "{{fields.year}}-scholarship-winners"
-    fields:
-      - { label: "Year", name: year, widget: string, hint: "Four-digit year, e.g. 2026" }
-      - name: winners
-        label: "Winners"
-        widget: list
-        min: 1
-        max: 3
-        summary: "{{fields.name}}"
-        fields:
-          - { label: "Student Name", name: name, widget: string }
-          - { label: "School / College", name: school, widget: string }
-          - { label: "Scholarship Amount", name: amount, widget: string, required: false, hint: "e.g. \"$1,000\" — optional" }
-          - { label: "Description / Accomplishment", name: description, widget: text, required: false }
-          - { label: "Photo", name: photo, widget: image, required: false }
 
   - name: site-settings
     label: "Site Settings"
