@@ -35,7 +35,7 @@ public_folder: "/images/uploads"
 collections:
   - name: announcements
     label: "📢 Announcements"
-    description: "Add or remove as needed. Shown in a banner at the top of the homepage only between the Start and End Date — hidden the rest of the time. Note: the banner updates when the site next rebuilds (usually right after a CMS save), so it may not disappear the instant the End Date passes if nothing else is saved that day."
+    description: "Add or remove as needed. Shown in a banner at the top of the homepage only between the Start and End Date — hidden the rest of the time, and appears/disappears automatically on those dates without needing a new save."
     folder: "src/content/announcements"
     format: json
     create: true

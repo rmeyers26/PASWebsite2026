@@ -1,37 +1,71 @@
 ---
 import { getCollection } from 'astro:content';
 
-// Static build — "today" is resolved once at deploy time, the same
+// Build-time baseline — "today" is resolved once at deploy time, the same
 // tradeoff ApodOfTheDay and the ASIG calendar already accept on this site:
-// accurate as of the last deploy, not live for the visitor. A Sveltia CMS
-// save triggers a Netlify rebuild, so adding or removing an announcement
-// takes effect immediately; one that simply reaches its End Date with no
-// other site activity that day stays visible until the next rebuild.
+// accurate as of the last deploy, not live for the visitor. The inline
+// script below (src/scripts/announcement-banner.ts) then corrects this
+// using the visitor's own clock on every page load, so the banner still
+// appears/disappears exactly on schedule between deploys. Without JS,
+// visitors just see this build-time state, same as before — progressive
+// enhancement, matching lecture-search.ts's approach elsewhere on the site.
 //
 // Compared as 'YYYY-MM-DD' strings in the club's home timezone (matches
 // the eventSchedule timezone on /events) rather than via `new Date()`, so
 // a visitor elsewhere doesn't see the banner drop a day early or late
 // relative to the date an officer picked in the CMS.
-const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Phoenix' }).format(new Date());
+const buildDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Phoenix' }).format(
+  new Date()
+);
 
-const announcement = (await getCollection('announcements'))
-  .filter((entry) => entry.data.startDate <= today && entry.data.endDate >= today)
+// Prefiltered to drop anything whose End Date has already passed as of
+// this build — a date only moves forward, so an entry that's expired now
+// can never become active again without a CMS edit, which would itself
+// trigger a fresh build. Keeps years of un-deleted old announcements from
+// being embedded in every homepage load forever. Everything that survives
+// ships to the client (hidden if not currently active) so the script can
+// also handle a *future*-dated announcement arriving without a rebuild.
+const candidates = (await getCollection('announcements'))
+  .filter((entry) => entry.data.endDate >= buildDay)
+  .map((entry) => ({
+    message: entry.data.message,
+    startDate: entry.data.startDate,
+    endDate: entry.data.endDate,
+  }))
   // Only one slot on the homepage — if more than one is active at once, the
-  // one that started most recently wins.
-  .sort((a, b) => (a.data.startDate < b.data.startDate ? 1 : -1))
-  .at(0);
+  // one that started most recently wins. Same order the client script uses.
+  .sort((a, b) => (a.startDate < b.startDate ? 1 : -1));
+
+const buildTimeActive = candidates.find(
+  (entry) => entry.startDate <= buildDay && entry.endDate >= buildDay
+);
+
+const candidatesJson = JSON.stringify(candidates).replace(/<\/script/gi, '<\\/script');
 ---
 
 {
-  announcement && (
-    <div
-      role="region"
-      aria-label="Announcement"
-      class="border-b border-subtle bg-space-card/60 backdrop-blur-xl"
-    >
-      <p class="mx-auto line-clamp-5 max-w-4xl px-6 py-3 text-center text-sm text-ink-primary sm:text-base">
-        {announcement.data.message}
-      </p>
-    </div>
+  candidates.length > 0 && (
+    <>
+      <script type="application/json" id="announcement-data" set:html={candidatesJson} />
+      <div
+        id="announcement-banner"
+        role="region"
+        aria-label="Announcement"
+        class="border-b border-subtle bg-space-card/60 backdrop-blur-xl"
+        hidden={!buildTimeActive}
+      >
+        <p
+          id="announcement-text"
+          class="mx-auto line-clamp-5 max-w-4xl px-6 py-3 text-center text-sm text-ink-primary sm:text-base"
+        >
+          {buildTimeActive?.message}
+        </p>
+      </div>
+    </>
   )
 }
+
+<script>
+  import { initAnnouncementBanner } from '../scripts/announcement-banner';
+  initAnnouncementBanner();
+</script>
