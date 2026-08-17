@@ -211,7 +211,7 @@ collections:
 
   - name: past-editors
     label: "⭐ Past Newsletter Editors"
-    description: "Shown on the Newsletters page. Update rarely."
+    description: "Shown on the Newsletters page. Update annually, when the editor changes."
     files:
       - name: list
         label: "Past Editors List"
@@ -221,6 +221,7 @@ collections:
             label: "Editors"
             widget: list
             summary: "{{fields.years}} — {{fields.name}}"
+            hint: "Use 'Add' below to add a new editor, or the trash icon on an entry to remove one. When a new editor takes over, add them, check their 'Currently Editor?' box, and uncheck it on the previous entry."
             fields:
               - { label: "Years", name: years, widget: string, hint: "e.g. \"2006 – 2023\" or \"Early 1990s – 2004\"" }
               - { label: "Name", name: name, widget: string }
