@@ -440,80 +440,9 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
           autocomplete="off"
         />
 
-        <div>
-          <label for="st-sponsor" class="text-sm text-ink-muted">Event Sponsor / Organization</label
-          >
-          <input id="st-sponsor" name="sponsor" type="text" required class="form-input mt-1" />
-        </div>
-        <div>
-          <label for="st-event-name" class="text-sm text-ink-muted">Name of Event</label>
-          <input
-            id="st-event-name"
-            name="event_name"
-            type="text"
-            required
-            class="form-input mt-1"
-          />
-        </div>
-        <div>
-          <label for="st-description" class="text-sm text-ink-muted">Brief Description</label>
-          <textarea id="st-description" name="description" rows="3" required class="form-input mt-1"
-          ></textarea>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-3">
-          <div>
-            <label for="st-date" class="text-sm text-ink-muted">Date</label>
-            <input id="st-date" name="date" type="date" required class="form-input mt-1" />
-          </div>
-          <div>
-            <label for="st-start-time" class="text-sm text-ink-muted">Start Time</label>
-            <input
-              id="st-start-time"
-              name="start_time"
-              type="time"
-              required
-              class="form-input mt-1"
-            />
-          </div>
-          <div>
-            <label for="st-end-time" class="text-sm text-ink-muted">End Time</label>
-            <input id="st-end-time" name="end_time" type="time" required class="form-input mt-1" />
-          </div>
-        </div>
-        <div>
-          <label for="st-location" class="text-sm text-ink-muted">Location Address</label>
-          <input id="st-location" name="location" type="text" required class="form-input mt-1" />
-        </div>
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
-            <label for="st-telescopes" class="text-sm text-ink-muted"
-              >Number of Telescopes Desired</label
-            >
-            <input
-              id="st-telescopes"
-              name="telescopes_desired"
-              type="number"
-              min="1"
-              required
-              class="form-input mt-1"
-            />
-          </div>
-          <div>
-            <label for="st-presenters" class="text-sm text-ink-muted"
-              >Additional Presenters Desired</label
-            >
-            <input
-              id="st-presenters"
-              name="presenters_desired"
-              type="text"
-              placeholder="e.g. meteorites, none"
-              class="form-input mt-1"
-            />
-          </div>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-3">
-          <div>
-            <label for="st-contact-name" class="text-sm text-ink-muted">Contact Name</label>
+            <label for="st-contact-name" class="text-sm text-ink-muted">Name</label>
             <input
               id="st-contact-name"
               name="name"
@@ -524,7 +453,7 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
             />
           </div>
           <div>
-            <label for="st-contact-email" class="text-sm text-ink-muted">Contact Email</label>
+            <label for="st-contact-email" class="text-sm text-ink-muted">Email</label>
             <input
               id="st-contact-email"
               name="email"
@@ -534,17 +463,28 @@ const redirectURL = new URL('/star-tours?submitted=true#book-an-event', Astro.si
               class="form-input mt-1"
             />
           </div>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
           <div>
-            <label for="st-contact-phone" class="text-sm text-ink-muted">Contact Phone</label>
-            <input
-              id="st-contact-phone"
-              name="phone"
-              type="tel"
-              autocomplete="tel"
-              required
-              class="form-input mt-1"
-            />
+            <label for="st-event-type" class="text-sm text-ink-muted">Event Type</label>
+            <select id="st-event-type" name="event_type" required class="form-input mt-1">
+              <option value="" disabled selected>Select an event type</option>
+              <option value="School Night">School Night</option>
+              <option value="STEM">STEM</option>
+              <option value="Boy Scouts/Girl Scouts">Boy Scouts/Girl Scouts</option>
+              <option value="Corporate">Corporate</option>
+              <option value="Private Party">Private Party</option>
+            </select>
           </div>
+          <div>
+            <label for="st-date" class="text-sm text-ink-muted">Date</label>
+            <input id="st-date" name="date" type="date" required class="form-input mt-1" />
+          </div>
+        </div>
+        <div>
+          <label for="st-description" class="text-sm text-ink-muted">Message</label>
+          <textarea id="st-description" name="message" rows="4" required class="form-input mt-1"
+          ></textarea>
         </div>
 
         <p id="star-tours-form-status" class="hidden text-sm" role="status"></p>
