@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "status": "go",
-  "note": ""
+  "note": "Demo — visible for PR review. Flip back off (or set the real status) before merging."
 }
