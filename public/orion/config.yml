@@ -95,6 +95,22 @@ collections:
       - { label: "Note", name: note, widget: text }
       - { label: "Display Order", name: order, widget: number, value_type: int }
 
+  - name: bsig-books
+    label: "BSIG Book List"
+    description: "Update monthly."
+    files:
+      - name: list
+        label: "Book List"
+        file: "src/content/bsig-books/bsig-books.json"
+        fields:
+          - name: books
+            label: "Books"
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: title, widget: string }
+              - { label: "Author", name: author, widget: string }
+
   - name: loaner-scopes
     label: "Telescope Loan Program"
     description: "Update quarterly."
@@ -111,6 +127,31 @@ collections:
               - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
               - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of this telescope/accessory shown on the Telescope Loan Program page." }
               - { label: "Manufacturer Link", name: manufacturerUrl, widget: string, required: false, hint: "Full link to the manufacturer's product page, e.g. https://www.orionoptics.com/product/xt10 — optional." }
+
+  - name: sky-targets
+    label: "Sky Targets"
+    description: "Update quarterly."
+    files:
+      - name: list
+        label: "Sky Targets List"
+        file: "src/content/sky-targets/sky-targets.json"
+        fields:
+          - name: targets
+            label: "Targets"
+            widget: list
+            summary: "{{fields.month}} — {{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string }
+              - { label: "Type", name: type, widget: string }
+              - { label: "Constellation", name: constellation, widget: string }
+              - { label: "Magnitude", name: magnitude, widget: string, hint: "Free text — some entries list two values, e.g. '6.9 & 8.4'." }
+              - { label: "Apparent Size", name: size, widget: string }
+              - { label: "Rise", name: rise, widget: string }
+              - { label: "Set", name: set, widget: string }
+              - label: "Month"
+                name: month
+                widget: select
+                options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   - name: officers
     label: "Officers"
@@ -191,45 +232,6 @@ collections:
           - { label: "Scholarship Amount", name: amount, widget: string, required: false, hint: "e.g. \"$1,000\" — optional" }
           - { label: "Description / Accomplishment", name: description, widget: text, required: false }
           - { label: "Photo", name: photo, widget: image, required: false }
-
-  - name: sky-targets
-    label: "Sky Targets"
-    files:
-      - name: list
-        label: "Sky Targets List"
-        file: "src/content/sky-targets/sky-targets.json"
-        fields:
-          - name: targets
-            label: "Targets"
-            widget: list
-            summary: "{{fields.month}} — {{fields.name}}"
-            fields:
-              - { label: "Name", name: name, widget: string }
-              - { label: "Type", name: type, widget: string }
-              - { label: "Constellation", name: constellation, widget: string }
-              - { label: "Magnitude", name: magnitude, widget: string, hint: "Free text — some entries list two values, e.g. '6.9 & 8.4'." }
-              - { label: "Apparent Size", name: size, widget: string }
-              - { label: "Rise", name: rise, widget: string }
-              - { label: "Set", name: set, widget: string }
-              - label: "Month"
-                name: month
-                widget: select
-                options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
-  - name: bsig-books
-    label: "BSIG Book List"
-    files:
-      - name: list
-        label: "Book List"
-        file: "src/content/bsig-books/bsig-books.json"
-        fields:
-          - name: books
-            label: "Books"
-            widget: list
-            summary: "{{fields.title}}"
-            fields:
-              - { label: "Title", name: title, widget: string }
-              - { label: "Author", name: author, widget: string }
 
   - name: career-faqs
     label: "Career FAQs"
