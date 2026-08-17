@@ -313,6 +313,11 @@ const firstPhoto = allPhotos.at(0);
     background-color: var(--color-space-modal, #18233d);
     padding: 0;
     color: inherit;
+    /* Only .gallery-lightbox-inner should scroll — without this, the
+       dialog element and its inner wrapper both end up independently
+       scrollable at the same max-height, and the browser draws a native
+       scrollbar for each (visible as two side-by-side scrollbars). */
+    overflow: hidden;
   }
 
   .gallery-lightbox-inner {
