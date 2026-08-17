@@ -174,6 +174,22 @@ const pastPresidents = defineCollection({
   }),
 });
 
+const timeline = defineCollection({
+  loader: singleton('src/content/timeline/timeline.json'),
+  schema: z.object({
+    entries: z.array(
+      z.object({
+        // Free text rather than isoDate — most entries are a bare year
+        // ("1948"), some are "Month YYYY" ("August 2022").
+        date: text,
+        organization: optional(text),
+        location: optional(text),
+        notes: text,
+      })
+    ),
+  }),
+});
+
 const careerFaqs = defineCollection({
   loader: singleton('src/content/career-faqs/career-faqs.json'),
   schema: z.object({
@@ -414,6 +430,7 @@ export const collections = {
   'lecture-videos': lectureVideos,
   officers,
   'past-presidents': pastPresidents,
+  timeline,
   'career-faqs': careerFaqs,
   'bsig-books': bsigBooks,
   'sky-targets': skyTargets,
