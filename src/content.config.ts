@@ -113,17 +113,28 @@ const pressReleases = defineCollection({
   }),
 });
 
+const newsletterEntrySchema = z.object({
+  // ISO 'YYYY-MM-DD'. Drives sort order, year grouping, displayed date, and
+  // the <time datetime> attribute.
+  date: isoDate,
+  title: optional(text),
+  summary: optional(text),
+  // Path under public/, so it is also the live URL of the file.
+  pdf: pdfPath,
+});
+
 const newsletters = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/newsletters' }),
-  schema: z.object({
-    // ISO 'YYYY-MM-DD'. Drives sort order, year grouping, displayed date, and
-    // the <time datetime> attribute.
-    date: isoDate,
-    title: optional(text),
-    summary: optional(text),
-    // Path under public/, so it is also the live URL of the file.
-    pdf: pdfPath,
-  }),
+  schema: newsletterEntrySchema,
+});
+
+// Split from `newsletters` so the CMS's small, frequently-touched collection
+// (this month's issue) isn't buried under 100+ historical scans that are
+// edited essentially never — see src/pages/newsletters.astro, which reads
+// both collections and merges them for display.
+const newsletterArchive = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/newsletter-archive' }),
+  schema: newsletterEntrySchema,
 });
 
 const officers = defineCollection({
@@ -427,6 +438,7 @@ const membership = defineCollection({
 export const collections = {
   'press-releases': pressReleases,
   newsletters,
+  'newsletter-archive': newsletterArchive,
   'lecture-videos': lectureVideos,
   officers,
   'past-presidents': pastPresidents,

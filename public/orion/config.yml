@@ -255,6 +255,19 @@ collections:
           - { label: "Description / Accomplishment", name: description, widget: text, required: false }
           - { label: "Photo", name: photo, widget: image, required: false }
 
+  - name: newsletter-archive
+    label: "⭐ Newsletter Archive"
+    description: "Update annually. Historical issues before 2015."
+    folder: "src/content/newsletter-archive"
+    format: json
+    create: true
+    slug: "{{date}}-newsletter"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Title", name: title, widget: string, required: false, hint: "Leave blank for older issues without a known title yet." }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      - { label: "PDF", name: pdf, widget: file, media_folder: "/public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
+
   - name: career-faqs
     label: "Career FAQs"
     files:
