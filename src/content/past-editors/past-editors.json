@@ -1,6 +1,9 @@
 {
   "editors": [
-    { "years": "Early 1990s – 2004", "name": "Terri Finch" },
+    { "years": "1985 – 1987", "name": "Steve Lewis" },
+    { "years": "1987 – 1989", "name": "Keith Parizek" },
+    { "years": "1989 – 2004", "name": "Terri Finch" },
+    { "years": "2003 – 2005", "name": "Matt Kohl", "role": "Assistant Editor" },
     { "years": "2005 – 2006", "name": "Dan Heim" },
     { "years": "2006 – 2023", "name": "Don Boyd" },
     { "years": "2023 – 2024", "name": "Pete Turner" },

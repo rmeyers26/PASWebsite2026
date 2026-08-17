@@ -231,6 +231,10 @@ const pastEditors = defineCollection({
           years: text,
           name: text,
           current: z.boolean().optional(),
+          // Blank for the main Editor — set only to distinguish a co-editor
+          // or assistant editor serving alongside the main one, e.g. Matt
+          // Kohl assisting Terri Finch from 2003-2005.
+          role: optional(text),
         })
       )
       // The newsletters page highlights the sitting editor off this flag, so
