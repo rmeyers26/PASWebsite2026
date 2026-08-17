@@ -4,6 +4,8 @@ import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SpaceHero from '../components/SpaceHero.astro';
 import ApodOfTheDay from '../components/ApodOfTheDay.astro';
+import AnnouncementBanner from '../components/AnnouncementBanner.astro';
+import StarPartyStatus from '../components/StarPartyStatus.astro';
 import PhotoGrid from '../components/PhotoGrid.astro';
 import outreachPhoto from '../assets/images/star-tours-touch-meteorite.jpg';
 import milkyWay from '../assets/images/gallery/kris-mlak-milky-way.jpg';
@@ -110,6 +112,9 @@ const specialInterestGroups = (await getCollection('special-interest-groups'))
   title="Home"
   description="The Phoenix Astronomical Society is a 501(c)(3) nonprofit astronomy club serving Phoenix, Arizona since 1948."
 >
+  <StarPartyStatus />
+  <AnnouncementBanner />
+
   <SpaceHero
     eyebrow="Phoenix Astronomical Society"
     title="Explore the Universe"
