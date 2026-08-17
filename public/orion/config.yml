@@ -112,6 +112,7 @@ collections:
 
   - name: loaner-scopes
     label: "Telescope Loan Program"
+    description: "Update quarterly."
     files:
       - name: list
         label: "Loaner Equipment"
@@ -197,6 +198,7 @@ collections:
 
   - name: past-presidents
     label: "Past Presidents"
+    description: "Update annually."
     files:
       - name: list
         label: "Past Presidents List"
@@ -214,6 +216,7 @@ collections:
 
   - name: membership
     label: "Membership Pricing"
+    description: "Update annually."
     files:
       - name: pricing
         label: "Membership Pricing"
