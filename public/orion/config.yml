@@ -160,6 +160,7 @@ collections:
     format: json
     create: true
     slug: "{{fields.email}}"
+    summary: "{{name}} — {{role}}"
     fields:
       - { label: "Role", name: role, widget: string }
       - { label: "Name", name: name, widget: string }
