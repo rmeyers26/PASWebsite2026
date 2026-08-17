@@ -5,6 +5,9 @@ export type PdfArchiveEntry = {
   date: string;
   title?: string;
   summary?: string;
+  // Free text as printed on the issue's cover, e.g. "Vol. 77, Issue 2".
+  // Newsletter-only — press releases never set this.
+  volume?: string;
   file: string;
 };
 

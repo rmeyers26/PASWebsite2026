@@ -10,6 +10,7 @@ type Issue = {
   date: string;
   title?: string;
   summary?: string;
+  volume?: string;
   file: string;
   size?: string;
   displayDate: string;
@@ -61,11 +62,16 @@ function bindNewsletterSearch() {
     // Only a second line when the link text is the headline — otherwise
     // the date would be printed twice.
     if (issue.title) {
+      const dateLine = document.createElement('p');
+      dateLine.className = 'mt-1 text-sm text-nebula-teal';
       const time = document.createElement('time');
       time.dateTime = issue.date;
-      time.className = 'mt-1 block text-sm text-nebula-teal';
       time.textContent = issue.displayDate;
-      li.appendChild(time);
+      dateLine.appendChild(time);
+      if (issue.volume) {
+        dateLine.append(` · ${issue.volume}`);
+      }
+      li.appendChild(dateLine);
     }
 
     if (issue.summary) {
