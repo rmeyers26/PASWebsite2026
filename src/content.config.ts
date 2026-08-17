@@ -301,6 +301,10 @@ const gallery = defineCollection({
         subject: text,
         note: text,
         order: z.number().int('must be a whole number').nonnegative('must not be negative'),
+        // Splits gallery.astro into two sections: member astrophotography
+        // (the default, and everything pre-dating this field) vs. club-event
+        // snapshots (star parties, giveaways, guest speakers).
+        category: z.enum(['astrophoto', 'event']).default('astrophoto'),
       })
       // gallery.astro renders `photo ?? image`, so an entry carrying neither
       // is an <img> with no source at all.
