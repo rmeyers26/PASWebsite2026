@@ -2,5 +2,6 @@
   "role": "Webmaster",
   "name": "Ed Skinner",
   "email": "webmaster@pasaz.org",
-  "order": 11
+  "order": 11,
+  "photo": "/images/bio/ed-skinner.jpg"
 }
