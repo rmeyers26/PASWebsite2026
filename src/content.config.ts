@@ -191,15 +191,22 @@ const pastPresidents = defineCollection({
 const pastEditors = defineCollection({
   loader: singleton('src/content/past-editors/past-editors.json'),
   schema: z.object({
-    editors: z.array(
-      z.object({
-        // Free text rather than a strict year range, since some editors'
-        // start dates are only approximately known — e.g. "Early 1990s –
-        // 2004".
-        years: text,
-        name: text,
-      })
-    ),
+    editors: z
+      .array(
+        z.object({
+          // Free text rather than a strict year range, since some editors'
+          // start dates are only approximately known — e.g. "Early 1990s –
+          // 2004".
+          years: text,
+          name: text,
+          current: z.boolean().optional(),
+        })
+      )
+      // The newsletters page highlights the sitting editor off this flag, so
+      // two of them (or none) is a content error the page cannot show.
+      .refine((editors) => editors.filter((editor) => editor.current).length === 1, {
+        message: "exactly one editor must have 'Currently Editor?' checked",
+      }),
   }),
 });
 

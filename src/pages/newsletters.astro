@@ -149,7 +149,7 @@ const pastEditors = (await getEntry('past-editors', 'data'))!.data.editors;
     pastEditors.length > 0 && (
       <section class="border-t border-subtle bg-space-card/40">
         <div class="mx-auto max-w-3xl px-6 py-16">
-          <h2 class="section-heading">Previous Editors</h2>
+          <h2 class="section-heading">Newsletter Editors</h2>
           <p class="mt-4 text-ink-muted">
             PAStimes has been shaped over the years by a handful of dedicated volunteer editors.
           </p>
@@ -173,8 +173,20 @@ const pastEditors = (await getEntry('past-editors', 'data'))!.data.editors;
               </thead>
               <tbody>
                 {pastEditors.map((editor) => (
-                  <tr class="border-b border-subtle last:border-b-0">
-                    <td class="px-5 py-3 font-display text-ink-primary">{editor.name}</td>
+                  <tr
+                    class:list={[
+                      'border-b border-subtle last:border-b-0',
+                      editor.current && 'bg-nebula-teal/5',
+                    ]}
+                  >
+                    <td class="px-5 py-3 font-display text-ink-primary">
+                      {editor.name}
+                      {editor.current && (
+                        <span class="ml-2 text-xs font-semibold tracking-wide text-nebula-teal uppercase">
+                          Current
+                        </span>
+                      )}
+                    </td>
                     <td class="px-5 py-3 text-sm text-ink-muted">{editor.years}</td>
                   </tr>
                 ))}

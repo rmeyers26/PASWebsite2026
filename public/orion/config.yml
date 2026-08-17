@@ -224,6 +224,7 @@ collections:
             fields:
               - { label: "Years", name: years, widget: string, hint: "e.g. \"2006 – 2023\" or \"Early 1990s – 2004\"" }
               - { label: "Name", name: name, widget: string }
+              - { label: "Currently Editor?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting editor." }
 
   - name: membership
     label: "⭐ Membership Pricing"
