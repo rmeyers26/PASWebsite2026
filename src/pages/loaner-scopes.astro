@@ -73,6 +73,16 @@ const requestFields = [
                     Manufacturer site
                   </a>
                 )}
+                {item.dateAdded && (
+                  <span class="mt-1 block text-sm text-ink-muted/70">
+                    Added{' '}
+                    {new Date(`${item.dateAdded}T00:00:00`).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                )}
               </span>
             </li>
           ))
