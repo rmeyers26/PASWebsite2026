@@ -96,6 +96,7 @@ collections:
       - { label: "Subject", name: subject, widget: string }
       - { label: "Note", name: note, widget: text }
       - { label: "Display Order", name: order, widget: number, value_type: int }
+      - { label: "Category", name: category, widget: select, options: [{ label: "Astrophotography", value: astrophoto }, { label: "Club Event", value: event }], default: astrophoto }
 
   - name: bsig-books
     label: "🗓️ BSIG Book List"
