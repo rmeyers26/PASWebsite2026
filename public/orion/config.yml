@@ -172,6 +172,24 @@ collections:
       - { label: "Photo", name: photo, widget: image, required: false }
       - { label: "Bio", name: bio, widget: text, required: false, hint: "A short biography shown on the Club Leadership page." }
 
+  - name: timeline
+    label: "⭐ Club Timeline"
+    description: "Update annually."
+    files:
+      - name: list
+        label: "Timeline"
+        file: "src/content/timeline/timeline.json"
+        fields:
+          - name: entries
+            label: "Entries"
+            widget: list
+            summary: "{{fields.date}} — {{fields.notes}}"
+            fields:
+              - { label: "Date", name: date, widget: string, hint: "A year or 'Month YYYY', e.g. '1948' or 'August 2022'." }
+              - { label: "Organization", name: organization, widget: string, required: false, hint: "e.g. 'Phoenix Astronomical Society' — optional." }
+              - { label: "Location", name: location, widget: string, required: false }
+              - { label: "Notes", name: notes, widget: text }
+
   - name: past-presidents
     label: "⭐ Past Presidents"
     description: "Update annually."
