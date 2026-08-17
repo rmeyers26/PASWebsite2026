@@ -34,7 +34,8 @@ public_folder: "/images/uploads"
 
 collections:
   - name: press-releases
-    label: "Press Releases"
+    label: "🗓️ Press Releases"
+    description: "Update monthly."
     folder: "src/content/press-releases"
     format: json
     create: true
@@ -49,7 +50,8 @@ collections:
       - { label: "PDF", name: pdf, widget: file, media_folder: "/public/press-releases", public_folder: "/press-releases", hint: "Upload into the correct /YYYY subfolder to match the site's existing URL structure." }
 
   - name: newsletters
-    label: "Newsletters"
+    label: "🗓️ Newsletters"
+    description: "Update monthly."
     folder: "src/content/newsletters"
     format: json
     create: true
@@ -64,7 +66,8 @@ collections:
       - { label: "PDF", name: pdf, widget: file, media_folder: "/public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
 
   - name: lecture-videos
-    label: "Previous Lectures"
+    label: "🗓️ Previous Lectures"
+    description: "Update monthly."
     folder: "src/content/lecture-videos"
     format: json
     create: true
@@ -77,22 +80,9 @@ collections:
       - { label: "Summary", name: summary, widget: text, required: false }
       - { label: "Video URL", name: videoUrl, widget: string, required: false, hint: "Full link to the recording (Google Drive, YouTube, etc). Leave blank until a link is available." }
 
-  - name: officers
-    label: "Officers"
-    folder: "src/content/officers"
-    format: json
-    create: true
-    slug: "{{fields.email}}"
-    fields:
-      - { label: "Role", name: role, widget: string }
-      - { label: "Name", name: name, widget: string }
-      - { label: "Email", name: email, widget: string }
-      - { label: "Display Order", name: order, widget: number, value_type: int, hint: "Controls the order officer cards appear in on the About page." }
-      - { label: "Photo", name: photo, widget: image, required: false }
-      - { label: "Bio", name: bio, widget: text, required: false, hint: "A short biography shown on the Club Leadership page." }
-
   - name: gallery
-    label: "Member Gallery"
+    label: "🗓️ Member Gallery"
+    description: "Update monthly."
     folder: "src/content/gallery"
     format: json
     create: true
@@ -105,40 +95,9 @@ collections:
       - { label: "Note", name: note, widget: text }
       - { label: "Display Order", name: order, widget: number, value_type: int }
 
-  - name: past-presidents
-    label: "Past Presidents"
-    files:
-      - name: list
-        label: "Past Presidents List"
-        file: "src/content/past-presidents/past-presidents.json"
-        fields:
-          - name: presidents
-            label: "Presidents"
-            widget: list
-            summary: "{{fields.years}} — {{fields.name}}"
-            fields:
-              - { label: "Years", name: years, widget: string }
-              - { label: "Name", name: name, widget: string }
-              - { label: "Currently in Office?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting president." }
-              - { label: "Organization", name: org, widget: select, options: ["POA", "PAS"], hint: "POA = Phoenix Observatory Association (pre-1974). PAS = Phoenix Astronomical Society (1974–present)." }
-
-  - name: career-faqs
-    label: "Career FAQs"
-    files:
-      - name: list
-        label: "Career FAQs List"
-        file: "src/content/career-faqs/career-faqs.json"
-        fields:
-          - name: faqs
-            label: "FAQs"
-            widget: list
-            summary: "{{fields.question}}"
-            fields:
-              - { label: "Question", name: question, widget: string }
-              - { label: "Answer", name: answer, widget: text }
-
   - name: bsig-books
-    label: "BSIG Book List"
+    label: "🗓️ BSIG Book List"
+    description: "Update monthly."
     files:
       - name: list
         label: "Book List"
@@ -152,8 +111,26 @@ collections:
               - { label: "Title", name: title, widget: string }
               - { label: "Author", name: author, widget: string }
 
+  - name: loaner-scopes
+    label: "🔁 Telescope Loan Program"
+    description: "Update quarterly."
+    files:
+      - name: list
+        label: "Loaner Equipment"
+        file: "src/content/loaner-scopes/loaner-scopes.json"
+        fields:
+          - name: equipment
+            label: "Equipment"
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
+              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of this telescope/accessory shown on the Telescope Loan Program page." }
+              - { label: "Manufacturer Link", name: manufacturerUrl, widget: string, required: false, hint: "Full link to the manufacturer's product page, e.g. https://www.orionoptics.com/product/xt10 — optional." }
+
   - name: sky-targets
-    label: "Sky Targets"
+    label: "🔁 Sky Targets"
+    description: "Update quarterly."
     files:
       - name: list
         label: "Sky Targets List"
@@ -176,39 +153,42 @@ collections:
                 widget: select
                 options: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-  - name: special-interest-groups
-    label: "Special Interest Groups"
-    folder: "src/content/special-interest-groups"
+  - name: officers
+    label: "⭐ Officers"
+    description: "Update annually."
+    folder: "src/content/officers"
     format: json
     create: true
-    slug: "{{fields.abbr}}"
+    slug: "{{fields.email}}"
     fields:
-      - { label: "Enabled", name: enabled, widget: boolean, default: true, hint: "Turn off to hide this group from the home page and nav menu without deleting it." }
-      - { label: "Title", name: title, widget: string }
-      - { label: "Abbreviation", name: abbr, widget: string, hint: "e.g. ASIG" }
-      - { label: "Accent Color", name: accent, widget: select, options: ["violet", "teal", "amber"] }
-      - { label: "Description", name: body, widget: text }
-      - { label: "Link", name: url, widget: string, hint: "Internal page (e.g. /asig) or an external URL if the group doesn't have its own page yet." }
-      - { label: "Display Order", name: order, widget: number, value_type: int }
+      - { label: "Role", name: role, widget: string }
+      - { label: "Name", name: name, widget: string }
+      - { label: "Email", name: email, widget: string }
+      - { label: "Display Order", name: order, widget: number, value_type: int, hint: "Controls the order officer cards appear in on the About page." }
+      - { label: "Photo", name: photo, widget: image, required: false }
+      - { label: "Bio", name: bio, widget: text, required: false, hint: "A short biography shown on the Club Leadership page." }
 
-  - name: loaner-scopes
-    label: "Telescope Loan Program"
+  - name: past-presidents
+    label: "⭐ Past Presidents"
+    description: "Update annually."
     files:
       - name: list
-        label: "Loaner Equipment"
-        file: "src/content/loaner-scopes/loaner-scopes.json"
+        label: "Past Presidents List"
+        file: "src/content/past-presidents/past-presidents.json"
         fields:
-          - name: equipment
-            label: "Equipment"
+          - name: presidents
+            label: "Presidents"
             widget: list
-            summary: "{{fields.name}}"
+            summary: "{{fields.years}} — {{fields.name}}"
             fields:
-              - { label: "Name", name: name, widget: string, hint: "e.g. 'Orion SkyQuest XT-10 — 10\" Dobsonian'" }
-              - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of this telescope/accessory shown on the Telescope Loan Program page." }
-              - { label: "Manufacturer Link", name: manufacturerUrl, widget: string, required: false, hint: "Full link to the manufacturer's product page, e.g. https://www.orionoptics.com/product/xt10 — optional." }
+              - { label: "Years", name: years, widget: string }
+              - { label: "Name", name: name, widget: string }
+              - { label: "Currently in Office?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting president." }
+              - { label: "Organization", name: org, widget: select, options: ["POA", "PAS"], hint: "POA = Phoenix Observatory Association (pre-1974). PAS = Phoenix Astronomical Society (1974–present)." }
 
   - name: membership
-    label: "Membership Pricing"
+    label: "⭐ Membership Pricing"
+    description: "Update annually."
     files:
       - name: pricing
         label: "Membership Pricing"
@@ -232,7 +212,8 @@ collections:
               - { label: "Photo", name: photo, widget: image, required: false, hint: "Photo of the add-on shown on the Join page." }
 
   - name: scholarship-winners
-    label: "Scholarship Winners"
+    label: "⭐ Scholarship Winners"
+    description: "Update annually."
     folder: "src/content/scholarship-winners"
     format: json
     create: true
@@ -251,6 +232,36 @@ collections:
           - { label: "Scholarship Amount", name: amount, widget: string, required: false, hint: "e.g. \"$1,000\" — optional" }
           - { label: "Description / Accomplishment", name: description, widget: text, required: false }
           - { label: "Photo", name: photo, widget: image, required: false }
+
+  - name: career-faqs
+    label: "Career FAQs"
+    files:
+      - name: list
+        label: "Career FAQs List"
+        file: "src/content/career-faqs/career-faqs.json"
+        fields:
+          - name: faqs
+            label: "FAQs"
+            widget: list
+            summary: "{{fields.question}}"
+            fields:
+              - { label: "Question", name: question, widget: string }
+              - { label: "Answer", name: answer, widget: text }
+
+  - name: special-interest-groups
+    label: "Special Interest Groups"
+    folder: "src/content/special-interest-groups"
+    format: json
+    create: true
+    slug: "{{fields.abbr}}"
+    fields:
+      - { label: "Enabled", name: enabled, widget: boolean, default: true, hint: "Turn off to hide this group from the home page and nav menu without deleting it." }
+      - { label: "Title", name: title, widget: string }
+      - { label: "Abbreviation", name: abbr, widget: string, hint: "e.g. ASIG" }
+      - { label: "Accent Color", name: accent, widget: select, options: ["violet", "teal", "amber"] }
+      - { label: "Description", name: body, widget: text }
+      - { label: "Link", name: url, widget: string, hint: "Internal page (e.g. /asig) or an external URL if the group doesn't have its own page yet." }
+      - { label: "Display Order", name: order, widget: number, value_type: int }
 
   - name: site-settings
     label: "Site Settings"
