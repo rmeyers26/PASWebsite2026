@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PdfArchiveList from '../components/PdfArchiveList.astro';
 import PdfArchiveItem from '../components/PdfArchiveItem.astro';
@@ -40,6 +40,10 @@ const archiveEntries = years.flatMap(([year, entries], yearIndex) =>
 // re-derived in JS. Escaped so a title/summary containing "</script>"
 // can't break out of the embedding tag.
 const archiveDataJson = JSON.stringify(archiveEntries).replace(/<\/script/gi, '<\\/script');
+
+// Content lives in src/content/past-editors/past-editors.json (managed via
+// the Sveltia CMS) — see src/content.config.ts for the schema.
+const pastEditors = (await getEntry('past-editors', 'data'))!.data.editors;
 ---
 
 <BaseLayout
@@ -58,6 +62,79 @@ const archiveDataJson = JSON.stringify(archiveEntries).replace(/<\/script/gi, '<
       historical archive.
     </p>
   </section>
+
+  {
+    pastEditors.length > 0 && (
+      <section class="border-t border-subtle">
+        <div class="mx-auto max-w-4xl px-6 py-10">
+          <details class="editor-history card p-0">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+              <span class="font-display text-lg tracking-wide text-ink-primary">
+                Newsletter Editors
+              </span>
+              <svg
+                class="editor-chevron size-4 flex-none text-nebula-teal transition-transform"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </summary>
+            <div class="border-t border-subtle px-5 py-4">
+              <p class="text-sm text-ink-muted">
+                PAStimes has been shaped over the years by a handful of dedicated volunteer editors.
+              </p>
+              <div class="mt-4 overflow-x-auto rounded-lg border border-subtle">
+                <table class="w-full border-collapse text-left">
+                  <thead>
+                    <tr class="border-b border-subtle">
+                      <th
+                        scope="col"
+                        class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+                      >
+                        Editor
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+                      >
+                        Years
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pastEditors.map((editor) => (
+                      <tr
+                        class:list={[
+                          'border-b border-subtle last:border-b-0',
+                          editor.current && 'bg-nebula-teal/5',
+                        ]}
+                      >
+                        <td class="px-5 py-3 font-display text-ink-primary">
+                          {editor.name}
+                          {editor.current && (
+                            <span class="ml-2 text-xs font-semibold tracking-wide text-nebula-teal uppercase">
+                              Current
+                            </span>
+                          )}
+                        </td>
+                        <td class="px-5 py-3 text-sm text-ink-muted">{editor.years}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+    )
+  }
 
   {
     latest && (
@@ -146,3 +223,9 @@ const archiveDataJson = JSON.stringify(archiveEntries).replace(/<\/script/gi, '<
     initNewsletterSearch();
   </script>
 </BaseLayout>
+
+<style>
+  .editor-history[open] .editor-chevron {
+    transform: rotate(180deg);
+  }
+</style>
