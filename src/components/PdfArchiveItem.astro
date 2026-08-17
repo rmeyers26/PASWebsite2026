@@ -42,9 +42,10 @@ const available = entry.size !== undefined;
 }
 {
   entry.title && (
-    <time datetime={entry.date} class="mt-1 block text-sm text-nebula-teal">
-      {entry.displayDate}
-    </time>
+    <p class="mt-1 text-sm text-nebula-teal">
+      <time datetime={entry.date}>{entry.displayDate}</time>
+      {entry.volume && ` · ${entry.volume}`}
+    </p>
   )
 }
 {entry.summary && <p class="mt-2 text-ink-muted">{entry.summary}</p>}
