@@ -16,7 +16,7 @@ import Hero from '../components/Hero.astro';
 // would fight a fixed-height treatment, and these are the club's best work,
 // not archival thumbnails (see PhotoGrid for that treatment on /history).
 const galleryEntries = await getCollection('gallery');
-const photos = galleryEntries
+const allPhotos = galleryEntries
   .sort((a, b) => a.data.order - b.data.order)
   // `photo` (CMS upload) wins over `image` (developer-curated) when both
   // are somehow set; entries missing both are dropped rather than crashing.
@@ -30,13 +30,19 @@ const photos = galleryEntries
             photographer: entry.data.photographer,
             subject: entry.data.subject,
             note: entry.data.note,
+            category: entry.data.category,
           },
         ]
       : [];
   });
+// Astrophotography is the gallery's main draw and stays the primary section;
+// club-event snapshots (giveaways, guest speakers, star parties) get their
+// own section below rather than being interleaved by `order`.
+const photos = allPhotos.filter((photo) => photo.category === 'astrophoto');
+const eventPhotos = allPhotos.filter((photo) => photo.category === 'event');
 // Gallery entries are CMS-editable now, so an all-deleted collection is a
 // real (if unlikely) state to handle, not a hypothetical.
-const firstPhoto = photos.at(0);
+const firstPhoto = allPhotos.at(0);
 ---
 
 <BaseLayout
@@ -112,6 +118,48 @@ const firstPhoto = photos.at(0);
       }
     </div>
   </section>
+
+  {
+    eventPhotos.length > 0 && (
+      <section class="border-t border-subtle">
+        <div class="mx-auto max-w-4xl px-6 py-16">
+          <h2 class="section-heading text-center">Club Events</h2>
+          <p class="mx-auto mt-4 max-w-xl text-center text-ink-muted">
+            Star parties, guest speakers, and other moments from PAS gatherings.
+          </p>
+          <div class="mt-12 space-y-16">
+            {eventPhotos.map((photo) => (
+              <figure class="overflow-hidden rounded-2xl border border-subtle bg-space-card">
+                {typeof photo.src === 'string' ? (
+                  <img src={photo.src} alt={photo.alt} loading="lazy" class="w-full" />
+                ) : (
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={1600}
+                    widths={[640, 1080, 1600]}
+                    sizes="(min-width: 896px) 850px, 100vw"
+                    quality={80}
+                    loading="lazy"
+                    class="w-full"
+                  />
+                )}
+                <figcaption class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-5">
+                  <div>
+                    <p class="font-display text-lg text-nebula-teal">{photo.subject}</p>
+                    <p class="mt-1 text-sm text-ink-muted">{photo.note}</p>
+                  </div>
+                  <p class="flex-none text-sm font-semibold text-ink-primary">
+                    © {photo.photographer}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <section class="border-t border-subtle bg-space-card/40">
     <div class="mx-auto max-w-3xl px-6 py-20 text-center">
