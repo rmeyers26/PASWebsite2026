@@ -66,6 +66,19 @@ collections:
       # and landed in src/content/newsletters/public/.
       - { label: "PDF", name: pdf, widget: file, media_folder: "/public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
 
+  - name: newsletter-archive
+    label: "🗄️ Newsletter Archive"
+    description: "Historical issues before 2015 — rarely updated."
+    folder: "src/content/newsletter-archive"
+    format: json
+    create: true
+    slug: "{{date}}-newsletter"
+    fields:
+      - { label: "Date", name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Title", name: title, widget: string, required: false, hint: "Leave blank for older issues without a known title yet." }
+      - { label: "Summary", name: summary, widget: text, required: false }
+      - { label: "PDF", name: pdf, widget: file, media_folder: "/public/newsletters", public_folder: "/newsletters", hint: "Upload the newsletter PDF." }
+
   - name: lecture-videos
     label: "🗓️ Previous Lectures"
     description: "Update monthly."

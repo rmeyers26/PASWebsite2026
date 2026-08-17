@@ -6,9 +6,15 @@ import PdfArchiveItem from '../components/PdfArchiveItem.astro';
 import ArchiveEmptyState from '../components/ArchiveEmptyState.astro';
 import { groupPdfArchiveByYear, type PdfArchiveEntry } from '../lib/pdfArchive';
 
-// Content lives in src/content/newsletters/ (one JSON file per issue,
-// managed via the Sveltia CMS) — see src/content.config.ts for the schema.
-const issueEntries = await getCollection('newsletters');
+// Content lives in src/content/newsletters/ (recent issues) and
+// src/content/newsletter-archive/ (pre-2015 scans), split so the CMS's
+// small, frequently-touched collection isn't buried under 100+ historical
+// entries — both are managed via the Sveltia CMS and merged here for
+// display. See src/content.config.ts for the schema.
+const issueEntries = [
+  ...(await getCollection('newsletters')),
+  ...(await getCollection('newsletter-archive')),
+];
 const issues: PdfArchiveEntry[] = issueEntries.map((entry) => ({
   date: entry.data.date,
   title: entry.data.title,
