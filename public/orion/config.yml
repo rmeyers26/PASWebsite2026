@@ -35,6 +35,7 @@ public_folder: "/images/uploads"
 collections:
   - name: press-releases
     label: "Press Releases"
+    description: "Update monthly."
     folder: "src/content/press-releases"
     format: json
     create: true
@@ -50,6 +51,7 @@ collections:
 
   - name: newsletters
     label: "Newsletters"
+    description: "Update monthly."
     folder: "src/content/newsletters"
     format: json
     create: true
@@ -65,6 +67,7 @@ collections:
 
   - name: lecture-videos
     label: "Previous Lectures"
+    description: "Update monthly."
     folder: "src/content/lecture-videos"
     format: json
     create: true
@@ -79,6 +82,7 @@ collections:
 
   - name: officers
     label: "Officers"
+    description: "Update annually."
     folder: "src/content/officers"
     format: json
     create: true
@@ -93,6 +97,7 @@ collections:
 
   - name: gallery
     label: "Member Gallery"
+    description: "Update monthly."
     folder: "src/content/gallery"
     format: json
     create: true
@@ -233,6 +238,7 @@ collections:
 
   - name: scholarship-winners
     label: "Scholarship Winners"
+    description: "Update annually."
     folder: "src/content/scholarship-winners"
     format: json
     create: true
