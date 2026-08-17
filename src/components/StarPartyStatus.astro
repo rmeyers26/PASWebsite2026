@@ -1,0 +1,69 @@
+---
+import { getEntry } from 'astro:content';
+
+interface Props {
+  /** 'banner': full-bleed bar for the top of the homepage (matches
+   *  AnnouncementBanner). 'inline': a bordered card for embedding inside a
+   *  content column, e.g. next to the Public Star Party details on /events. */
+  variant?: 'banner' | 'inline';
+}
+
+const { variant = 'banner' } = Astro.props;
+
+// Singleton, like site-settings/membership — always present on disk (see
+// src/content/star-party-status/star-party-status.json), so this follows
+// the same non-null pattern index.astro already uses for site-settings.
+const status = (await getEntry('star-party-status', 'data'))!.data;
+
+const statusMeta = {
+  go: {
+    label: 'Go',
+    dot: 'bg-nebula-green',
+    text: 'text-nebula-green',
+    detail: 'The star party is on — see you there.',
+  },
+  standby: {
+    label: 'Standby',
+    dot: 'bg-nebula-amber',
+    text: 'text-nebula-amber',
+    detail: 'Checking the weather — check back before you head out.',
+  },
+  cancelled: {
+    label: 'Cancelled',
+    dot: 'bg-nebula-red',
+    text: 'text-nebula-red',
+    detail: 'This star party is cancelled.',
+  },
+} as const;
+
+const meta = statusMeta[status.status];
+---
+
+{
+  status.enabled && (
+    <div
+      role="region"
+      aria-label="Star party status"
+      class:list={[
+        variant === 'banner'
+          ? 'border-b border-subtle bg-space-card/60 backdrop-blur-xl'
+          : 'card mt-4',
+      ]}
+    >
+      <div
+        class:list={[
+          'mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center',
+          variant === 'banner' ? 'px-6 py-3' : 'justify-start text-left',
+        ]}
+      >
+        <span class="inline-flex items-center gap-2">
+          <span class={`size-2.5 flex-none rounded-full ${meta.dot}`} aria-hidden="true" />
+          <span class={`font-display text-sm font-semibold tracking-wide uppercase ${meta.text}`}>
+            Star Party: {meta.label}
+          </span>
+        </span>
+        <span class="text-sm text-ink-muted">{status.note || meta.detail}</span>
+      </div>
+    </div>
+  )
+}

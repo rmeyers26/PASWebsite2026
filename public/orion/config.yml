@@ -46,6 +46,25 @@ collections:
       - { label: "Start Date", name: startDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, hint: "The banner appears on this date." }
       - { label: "End Date", name: endDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, hint: "The banner stops appearing after this date." }
 
+  - name: star-party-status
+    label: "🚦 Star Party Status"
+    description: "Turn on shortly before a star party and set the light as conditions change; turn off again afterward so visitors never see a stale status. Shown at the top of the homepage and next to the Public Star Party details on the Events page."
+    files:
+      - name: status
+        label: "Star Party Status"
+        file: "src/content/star-party-status/star-party-status.json"
+        fields:
+          - { label: "Show Status Light", name: enabled, widget: boolean, default: false, hint: "Off by default. Turn on to display the light; turn off when there's no star party coming up." }
+          - label: "Status"
+            name: status
+            widget: select
+            default: go
+            options:
+              - { label: "🟢 Go — star party is happening", value: go }
+              - { label: "🟡 Standby — checking weather", value: standby }
+              - { label: "🔴 Cancelled", value: cancelled }
+          - { label: "Note", name: note, widget: text, required: false, hint: "Optional extra detail, e.g. \"Decision by 5pm\" or \"Clouds clearing after 9pm\" — shown next to the light. Leave blank for a generic default message." }
+
   - name: press-releases
     label: "🗓️ Press Releases"
     description: "Update monthly."

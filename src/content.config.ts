@@ -119,6 +119,18 @@ const announcements = defineCollection({
     }),
 });
 
+const starPartyStatus = defineCollection({
+  loader: singleton('src/content/star-party-status/star-party-status.json'),
+  schema: z.object({
+    // Officers toggle this on shortly before a star party and off again
+    // afterward — see StarPartyStatus.astro, which renders nothing at all
+    // while this is false, so a stale status never lingers on its own.
+    enabled: z.boolean().default(false),
+    status: z.enum(['go', 'standby', 'cancelled']),
+    note: optional(text),
+  }),
+});
+
 const pressReleases = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/press-releases' }),
   schema: z.object({
@@ -485,6 +497,7 @@ const membership = defineCollection({
 
 export const collections = {
   announcements,
+  'star-party-status': starPartyStatus,
   'press-releases': pressReleases,
   newsletters,
   'newsletter-archive': newsletterArchive,
