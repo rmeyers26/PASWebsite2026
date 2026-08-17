@@ -320,6 +320,8 @@ const loanerScopes = defineCollection({
         photo: optional(publicPath),
         // Link back to the manufacturer's product page for this item.
         manufacturerUrl: optional(externalUrl),
+        // When this item joined the loaner inventory.
+        dateAdded: optional(isoDate),
       })
     ),
   }),
