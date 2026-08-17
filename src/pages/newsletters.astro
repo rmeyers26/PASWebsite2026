@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PdfArchiveList from '../components/PdfArchiveList.astro';
 import PdfArchiveItem from '../components/PdfArchiveItem.astro';
@@ -40,6 +40,10 @@ const archiveEntries = years.flatMap(([year, entries], yearIndex) =>
 // re-derived in JS. Escaped so a title/summary containing "</script>"
 // can't break out of the embedding tag.
 const archiveDataJson = JSON.stringify(archiveEntries).replace(/<\/script/gi, '<\\/script');
+
+// Content lives in src/content/past-editors/past-editors.json (managed via
+// the Sveltia CMS) — see src/content.config.ts for the schema.
+const pastEditors = (await getEntry('past-editors', 'data'))!.data.editors;
 ---
 
 <BaseLayout
@@ -140,6 +144,47 @@ const archiveDataJson = JSON.stringify(archiveEntries).replace(/<\/script/gi, '<
       }
     </div>
   </section>
+
+  {
+    pastEditors.length > 0 && (
+      <section class="border-t border-subtle bg-space-card/40">
+        <div class="mx-auto max-w-3xl px-6 py-16">
+          <h2 class="section-heading">Previous Editors</h2>
+          <p class="mt-4 text-ink-muted">
+            PAStimes has been shaped over the years by a handful of dedicated volunteer editors.
+          </p>
+          <div class="mt-8 overflow-x-auto rounded-lg border border-subtle">
+            <table class="w-full border-collapse text-left">
+              <thead>
+                <tr class="border-b border-subtle">
+                  <th
+                    scope="col"
+                    class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+                  >
+                    Editor
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-5 py-3 text-xs font-semibold tracking-wide text-ink-muted uppercase"
+                  >
+                    Years
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {pastEditors.map((editor) => (
+                  <tr class="border-b border-subtle last:border-b-0">
+                    <td class="px-5 py-3 font-display text-ink-primary">{editor.name}</td>
+                    <td class="px-5 py-3 text-sm text-ink-muted">{editor.years}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <script>
     import { initNewsletterSearch } from '../scripts/newsletter-search';

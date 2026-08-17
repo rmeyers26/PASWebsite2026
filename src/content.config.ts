@@ -188,6 +188,21 @@ const pastPresidents = defineCollection({
   }),
 });
 
+const pastEditors = defineCollection({
+  loader: singleton('src/content/past-editors/past-editors.json'),
+  schema: z.object({
+    editors: z.array(
+      z.object({
+        // Free text rather than a strict year range, since some editors'
+        // start dates are only approximately known — e.g. "Early 1990s –
+        // 2004".
+        years: text,
+        name: text,
+      })
+    ),
+  }),
+});
+
 const timeline = defineCollection({
   loader: singleton('src/content/timeline/timeline.json'),
   schema: z.object({
@@ -449,6 +464,7 @@ export const collections = {
   'lecture-videos': lectureVideos,
   officers,
   'past-presidents': pastPresidents,
+  'past-editors': pastEditors,
   timeline,
   'career-faqs': careerFaqs,
   'bsig-books': bsigBooks,

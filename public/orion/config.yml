@@ -209,6 +209,22 @@ collections:
               - { label: "Currently in Office?", name: current, widget: boolean, required: false, default: false, hint: "Should be true on exactly one entry — the sitting president." }
               - { label: "Organization", name: org, widget: select, options: ["POA", "PAS"], hint: "POA = Phoenix Observatory Association (pre-1974). PAS = Phoenix Astronomical Society (1974–present)." }
 
+  - name: past-editors
+    label: "⭐ Past Newsletter Editors"
+    description: "Shown on the Newsletters page. Update rarely."
+    files:
+      - name: list
+        label: "Past Editors List"
+        file: "src/content/past-editors/past-editors.json"
+        fields:
+          - name: editors
+            label: "Editors"
+            widget: list
+            summary: "{{fields.years}} — {{fields.name}}"
+            fields:
+              - { label: "Years", name: years, widget: string, hint: "e.g. \"2006 – 2023\" or \"Early 1990s – 2004\"" }
+              - { label: "Name", name: name, widget: string }
+
   - name: membership
     label: "⭐ Membership Pricing"
     description: "Update annually."
