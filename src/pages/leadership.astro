@@ -77,6 +77,7 @@ const pasPresidents = pastPresidents.data.presidents.filter((p) => p.org === 'PA
                 >
                   {officer.email}
                 </a>
+                {officer.bio && <p class="mt-2 text-sm text-ink-muted">{officer.bio}</p>}
               </div>
             </div>
           ))
