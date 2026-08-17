@@ -1,5 +1,5 @@
 {
-  "enabled": true,
-  "status": "cancelled",
+  "enabled": false,
+  "status": "go",
   "note": ""
 }
