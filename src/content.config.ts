@@ -119,6 +119,9 @@ const newsletterEntrySchema = z.object({
   date: isoDate,
   title: optional(text),
   summary: optional(text),
+  // Free text as printed on the issue's cover, e.g. "Vol. 77, Issue 2" — not
+  // every issue prints one, and older scans haven't been back-filled with it.
+  volume: optional(text),
   // Path under public/, so it is also the live URL of the file.
   pdf: pdfPath,
 });
