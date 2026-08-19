@@ -1,18 +1,16 @@
 backend:
   name: github
-  repo: rmeyers26/paswebsite2026
+  repo: EditorPAS/PASAZ2026
   branch: main
-  # Temporary: this site is currently deploying via Netlify (see the PR's
-  # deploy-preview checks), so login uses Netlify's built-in GitHub OAuth
-  # proxy — no separate service to deploy. Requires a GitHub OAuth App
-  # (callback URL https://api.netlify.com/auth/done) with its Client
-  # ID/Secret entered in the Netlify site dashboard's OAuth settings.
+  # Hosting is on Cloudflare Pages; login goes through a self-hosted
+  # `sveltia-cms-auth` Cloudflare Worker instead of Netlify's OAuth proxy.
+  # Requires a GitHub OAuth App (under the EditorPAS account) with its
+  # callback URL set to https://<your-sveltia-cms-auth-worker>.workers.dev/callback
+  # and Client ID/Secret entered as the Worker's secrets — see
+  # workers/sveltia-cms-auth/README.md for deploy steps.
   #
-  # When hosting moves to Cloudflare Pages, swap this block for a
-  # self-hosted `sveltia-cms-auth` Cloudflare Worker instead:
-  #   base_url: https://<your-sveltia-cms-auth-worker>.workers.dev
-  #   auth_endpoint: auth
-  base_url: https://api.netlify.com
+  # TODO: replace with the real Worker subdomain once it's deployed.
+  base_url: https://<your-sveltia-cms-auth-worker>.workers.dev
   auth_endpoint: auth
 
 # Branding for the CMS admin UI itself (not site content) — shows on the

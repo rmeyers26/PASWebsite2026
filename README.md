@@ -86,7 +86,7 @@ If you find a security issue in this site, please report it privately to a PAS o
 
 ## Deployment
 
-The site currently builds and deploys via Netlify (see the CMS OAuth notes in `public/orion/config.yml`), which also serves the GitHub OAuth proxy Sveltia CMS uses for editor login. A future move to Cloudflare Pages is anticipated — see the comments in `public/orion/config.yml` for the corresponding auth-worker swap.
+The site builds and deploys via Cloudflare Pages, connected to the `EditorPAS/PASAZ2026` GitHub repo. Build command is `npm run build`, output directory is `dist`. Editor login for Sveltia CMS at `/orion` no longer goes through Netlify's OAuth proxy — it uses a self-hosted `sveltia-cms-auth` Cloudflare Worker instead (see `workers/sveltia-cms-auth/README.md` for deploy steps, and `public/orion/config.yml` for the backend config).
 
 ## Further reading
 
