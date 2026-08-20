@@ -16,8 +16,8 @@ const organizer = {
 // Same build-time ICS fetch pattern as /asig — fresh as of the last deploy,
 // not live for the visitor, but this is a static site with no backend to
 // proxy a client-side fetch through, and Bookwhen's feed doesn't advertise
-// CORS headers anyway. Falls back to an empty list (the page still has the
-// live Bookwhen iframe below) on any failure.
+// CORS headers anyway. Falls back to an empty list on any failure — visitors
+// can still use the "open the calendar in a new tab" link above.
 const EVENTS_ICS_FEED = 'https://feeds.bookwhen.com/ical/i10eo6xdwmd8/ftkgq0/public.ics';
 
 interface CalendarEvent {
@@ -275,19 +275,6 @@ const starPartySchema = {
         Members gather before a monthly Lecture Series meeting.
       </figcaption>
     </figure>
-    <div class="mt-8 overflow-hidden rounded-lg border border-subtle">
-      <iframe
-        data-embed-src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
-        data-embed-group="bookwhen"
-        title="PAS Events Calendar"
-        class="block min-h-100 w-full border-0"></iframe>
-      <noscript>
-        <iframe
-          src="https://bookwhen.com/pas-event-calendar/iframe#focus=ev-s4pyi-20260701000000"
-          title="PAS Events Calendar"
-          class="block min-h-100 w-full border-0"></iframe>
-      </noscript>
-    </div>
   </section>
 
   <section id="where-we-meet" class="border-t border-subtle">
@@ -362,19 +349,11 @@ const starPartySchema = {
   </section>
 
   <script>
-    // All three third-party embeds (the Bookwhen calendar iframe, its two
-    // Google Maps neighbors, and the Bookwhen resizer script that makes the
-    // calendar iframe auto-height) are deferred behind IntersectionObserver
-    // rather than the browser's native loading="lazy" — native lazy-loading
-    // uses a large "near viewport" heuristic (traditionally over 1000px) that
-    // this page's embeds, sitting close to the top of a mostly-text page,
-    // clear almost immediately after load anyway. The resizer <script> in
-    // particular had no equivalent at all before this: loading="lazy" only
-    // applies to iframes/images, and a plain <script src> with neither defer
-    // nor async blocks HTML parsing at that point in the document until it
-    // finishes downloading and executing — a classic render-blocking
-    // third-party request, and the one piece of this page an audit would
-    // actually flag.
+    // Both Google Maps embeds are deferred behind IntersectionObserver rather
+    // than the browser's native loading="lazy" — native lazy-loading uses a
+    // large "near viewport" heuristic (traditionally over 1000px) that this
+    // page's embeds, sitting close to the top of a mostly-text page, clear
+    // almost immediately after load anyway.
     import { initLazyEmbeds } from '../scripts/events-lazy-embeds';
     initLazyEmbeds();
   </script>
