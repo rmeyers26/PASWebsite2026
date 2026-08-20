@@ -305,7 +305,7 @@ const observingSites = [
   <section id="forecast" class="mx-auto max-w-6xl px-6 py-20">
     <h2 class="section-heading">Tonight's Forecast</h2>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <div class="card">
         <p class="text-sm font-semibold tracking-wide text-nebula-teal uppercase">Moon Tonight</p>
         <p class="mt-3 font-display text-2xl text-ink-primary">
@@ -340,6 +340,18 @@ const observingSites = [
             ))
           }
         </ul>
+      </div>
+      <div class="card" data-visible-planets data-lat={astrosphericLat} data-lng={astrosphericLng}>
+        <p class="text-sm font-semibold tracking-wide text-nebula-violet uppercase">
+          Visible Planets
+        </p>
+        <ul id="visible-planets-list" class="mt-3 space-y-2 text-sm text-ink-primary"></ul>
+        <p class="mt-1 hidden text-sm text-ink-muted" id="visible-planets-empty">
+          No naked-eye planets are up right now.
+        </p>
+        <noscript>
+          <p class="mt-1 text-sm text-ink-muted">Requires JavaScript to compute what's up now.</p>
+        </noscript>
       </div>
     </div>
 
@@ -403,7 +415,9 @@ const observingSites = [
 
   <script>
     import { initSkyWidgets } from '../scripts/sky-widgets';
+    import { initVisiblePlanets } from '../scripts/visible-planets';
     initSkyWidgets();
+    initVisiblePlanets();
   </script>
 
   <section id="telescopes" class="mx-auto max-w-5xl border-t border-subtle px-6 py-20">
