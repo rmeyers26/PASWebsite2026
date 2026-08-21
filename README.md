@@ -88,6 +88,10 @@ If you find a security issue in this site, please report it privately to a PAS o
 
 The site currently builds and deploys via Netlify (see the CMS OAuth notes in `public/orion/config.yml`), which also serves the GitHub OAuth proxy Sveltia CMS uses for editor login. A future move to Cloudflare Pages is anticipated — see the comments in `public/orion/config.yml` for the corresponding auth-worker swap.
 
+## License
+
+All rights reserved — see [`LICENSE`](./LICENSE). This repository and its contents are not open source.
+
 ## Further reading
 
 - `docs/IMPLEMENTATION-MASTER-PLAN.md` — the phased build plan for the 2026 rebuild.
