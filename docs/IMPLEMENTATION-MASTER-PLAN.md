@@ -400,7 +400,7 @@ Astro 7 + Tailwind 4 + static output remains the right call. Do not migrate to N
 
 ### Hosting
 
-No indication of current host in the repo; whatever is running today (Vercel/Netlify/Cloudflare Pages are all reasonable for a static Astro site) should stay unless there's a specific reason to move. If a CMS with git-based auth is adopted, Netlify's built-in identity/Git Gateway integration is the path of least resistance if hosted there; otherwise Decap/Sveltia's GitHub OAuth backend works standalone regardless of host.
+The site is hosted on Cloudflare Pages (migrated from Netlify), connected to the `EditorPAS/PASAZ2026` GitHub repo. Since Cloudflare Pages has no built-in git-based CMS auth equivalent to Netlify's identity/Git Gateway, Sveltia's GitHub OAuth backend is used with a self-hosted `sveltia-cms-auth` Cloudflare Worker (see `workers/sveltia-cms-auth/`).
 
 ### Search
 
